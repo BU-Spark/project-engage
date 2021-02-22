@@ -5,14 +5,13 @@ import "firebase/firestore";
 import "firebase/functions";
 
 const config = {
-  apiKey: "AIzaSyCdAklMPvZRewUm0XOX8oYme7CCCgNHcAg",
-  authDomain: "project-engage-spark.firebaseapp.com",
-  databaseURL: "https://project-engage-spark.firebaseio.com",
-  projectId: "project-engage-spark",
-  storageBucket: "project-engage-spark.appspot.com",
-  messagingSenderId: "946907875873",
-  appId: "1:946907875873:web:e1dc8cb8901f5e28827160",
-  measurementId: "G-XSD1KGG06J"
+  apiKey: "AIzaSyCXJTXAGxz8zp7Z_n2f7ljYXg9wbIG4Xgg",
+  authDomain: "spark-project-engage.firebaseapp.com",
+  projectId: "spark-project-engage",
+  storageBucket: "spark-project-engage.appspot.com",
+  messagingSenderId: "95521899365",
+  appId: "1:95521899365:web:a63fa08c219e4495f8178c",
+  measurementId: "G-NM9Q44FTET"
 };
 
 const app = firebase.initializeApp(config);
@@ -24,9 +23,6 @@ const authUI = new firebaseui.auth.AuthUI(auth);
 const authUIConfig = {
   signInSuccessUrl: "/",
   signInOptions: [
-    {
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    },
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       customParameters: {
