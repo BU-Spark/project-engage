@@ -16,6 +16,7 @@ jobs:
           name: dist
           path: dist
   preview:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
