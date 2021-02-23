@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+      - name: Download Dependencies for Cloud Functions
+        run: cd functions && npm install && cd ..
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
