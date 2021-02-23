@@ -4,7 +4,7 @@ name: Staging Workflow
     branches:
       - master
 jobs:
-  build:
+  staging_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -13,8 +13,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-  deploy:
-    needs: build
+  staging_deploy:
+    needs: staging_build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
