@@ -33,4 +33,4 @@ jobs:
         with:
           args: deploy
         env:
-          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SPARK_PROJECT_ENGAGE }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
