@@ -1,7 +1,7 @@
 name: PR Workflow
 'on': pull_request
 jobs:
-  build:
+  pr_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -16,7 +16,7 @@ jobs:
           name: dist
           path: dist
   preview:
-    needs: build
+    needs: pr_build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo

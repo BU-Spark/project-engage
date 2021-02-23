@@ -4,7 +4,7 @@ name: Prod Workflow
     branches:
       - prod
 jobs:
-  build:
+  prod_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -18,8 +18,8 @@ jobs:
         with:
           name: dist
           path: dist
-  deploy:
-    needs: build
+  prod_deploy:
+    needs: prod_build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
