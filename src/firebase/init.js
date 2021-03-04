@@ -6,7 +6,7 @@ import "firebase/functions";
 
 const config = {
   apiKey: "AIzaSyCXJTXAGxz8zp7Z_n2f7ljYXg9wbIG4Xgg",
-  authDomain: "spark-project-engage.firebaseapp.com",
+  authDomain: "auth.buspark.app",
   projectId: "spark-project-engage",
   storageBucket: "spark-project-engage.appspot.com",
   messagingSenderId: "95521899365",
