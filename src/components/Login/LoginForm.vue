@@ -2,26 +2,10 @@
   <div>
     <h3>Login</h3>
     <form>
+      <Button> Student Login </Button>
       <div>
-        <input
-          v-model="email"
-          type="text"
-          label="Email"
-          placeholder="jane@example.com"
-        />
+        <Button> Admin Login </Button>
       </div>
-      <div>
-        <input
-          v-model="password"
-          type="password"
-          label="Password"
-          placeholder="********"
-        />
-      </div>
-      <div>
-        <button color="info white--text" @click="login">Login</button>
-      </div>
-      <Button> Login with Google </Button>
     </form>
   </div>
 </template>
@@ -71,3 +55,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+button {
+  margin-top: 10px;
+}
+</style>
