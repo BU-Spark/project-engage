@@ -2,7 +2,7 @@
   <div>
     <h3>Login</h3>
     <form>
-      <Button> Student Login </Button>
+      <Button v-on:click="login"> Student Login </Button>
       <div>
         <Button> Admin Login </Button>
       </div>
@@ -40,17 +40,11 @@ export default {
         });
     },
     async login() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push("/");
-        })
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorMessage = error.message;
-          alert(errorMessage);
-        });
+      console.log("here");
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().useDeviceLanguage();
+      firebase.auth().signInWithRedirect(provider);
+      // this.$router.push("/home");
     }
   }
 };
