@@ -19,6 +19,14 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+  },
+  {
+    path: "/pending",
+    name: "waitApproval",
+    component: () => import("@/views/WaitApproval.vue"),
+    meta: {
+      requiresAuth: false
+    }
   }
   // {
   //   path: "/about",

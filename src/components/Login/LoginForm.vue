@@ -1,51 +1,83 @@
 <template>
   <div>
     <h3>Login</h3>
-    <form>
-      <Button v-on:click="login"> Student Login </Button>
-      <div>
-        <Button> Admin Login </Button>
-      </div>
-    </form>
+    <Button @click="login"> Student Login </Button>
+    <div>
+      <Button @click="adminLogin"> Admin Login </Button>
+    </div>
+
+    <div>
+      <input
+        v-bind:value="addAdminEmail"
+        v-on:input="addAdminEmail = $event.target.value"
+      />
+      <Button @click="addAdmin()"> Admin add admin page </Button>
+    </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase/app";
+import { db, auth } from "@/firebase/init";
 
 export default {
   name: "LoginForm",
   data() {
     return {
       email: null,
-      password: null
+      password: null,
+      addAdminEmail: null
     };
   },
   components: {},
   methods: {
-    async forgetPW() {
-      var auth = firebase.auth();
-      var emailAddress = this.email;
-
-      auth
-        .sendPasswordResetEmail(emailAddress)
-        .then(function() {
-          var message =
-            "An email has been sent to help you reset your password.";
-          alert(message);
-        })
-        .catch(function(error) {
-          var errorMessage = error.message;
-          alert(errorMessage);
-        });
-    },
     async login() {
       console.log("here");
       var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().useDeviceLanguage();
-      firebase.auth().signInWithRedirect(provider);
-      // this.$router.push("/home");
+      provider.setCustomParameters({
+        hd: "bu.edu",
+        prompt: "select_account"
+      });
+      auth.useDeviceLanguage();
+      auth.signInWithRedirect(provider);
+    },
+    async adminLogin() {
+      console.log("here");
+      var provider = new firebase.auth.GoogleAuthProvider();
+      auth.useDeviceLanguage();
+      auth.signInWithRedirect(provider);
+
+      this.$router.push("/home");
+    },
+    async addAdmin() {
+      // alert("heelo"+this.addAdminEmail)
+      if (this.addAdminEmail != null) {
+        alert("Entered email: " + this.addAdminEmail);
+
+        await db
+          .collection("invites")
+          .doc("adminInvites")
+          .update({
+            inviteName: {
+              inviteeEmail: this.addAdminEmail,
+              invitorEmail: "invitorEmail@bu.edu"
+            }
+          })
+          .then(() => {
+            // this.$router.push("/");
+          });
+      } else {
+        alert("Please enter a email");
+      }
     }
+  },
+  mounted() {
+    auth.getRedirectResult().then(result => {
+      console.log(result);
+    });
+    auth.onAuthStateChanged(user => {
+      console.log(user);
+    });
   }
 };
 </script>
