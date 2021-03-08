@@ -28,7 +28,11 @@ export default new Vuex.Store({
       var raid = await mydb.get();
       if (!raid.exists) {
         await mydb.set({
-          email: user.email
+          displayName: user.displayName,
+          uid: user.uid,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: null
         });
         raid = await mydb.get();
         context.commit("setUser", raid.data());
@@ -37,12 +41,11 @@ export default new Vuex.Store({
       }
     },
     getUser: async context => {
-      // const user = firebase.auth().currentUser;
-      // if (!user) {
-      //   return;
-      // }
-      // const mydb = db.collection("users").doc(user.uid);
-      const mydb = db.collection("users").doc("iv5xcziDNIUhi0lMetim");
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        return;
+      }
+      const mydb = db.collection("users").doc(user.uid);
       var raid = await mydb.get();
       context.commit("setUser", raid.data());
     },

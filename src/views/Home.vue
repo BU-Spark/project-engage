@@ -38,8 +38,8 @@ export default {
     this.email = this.user.email;
     await store.dispatch("getPotentialAdmin");
     this.invitedAdminList = this.potentialAdminList.adminInviteList;
-    // console.log(this.email);
-    // console.log(this.invitedAdminList);
+    console.log(this.email);
+    console.log(this.potentialAdminList);
   }
 };
 </script>

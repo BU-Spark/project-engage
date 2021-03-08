@@ -34,6 +34,14 @@ export default {
     async login() {
       console.log("here");
       var provider = new firebase.auth.GoogleAuthProvider();
+      auth.useDeviceLanguage();
+      auth.signInWithRedirect(provider);
+
+      this.$router.push("/home");
+    },
+    async adminLogin() {
+      console.log("here");
+      var provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
         hd: "bu.edu",
         prompt: "select_account"
@@ -43,16 +51,7 @@ export default {
 
       this.$router.push("/home");
     },
-    async adminLogin() {
-      console.log("here");
-      var provider = new firebase.auth.GoogleAuthProvider();
-      auth.useDeviceLanguage();
-      auth.signInWithRedirect(provider);
-
-      this.$router.push("/home");
-    },
     async addAdmin() {
-      // alert("heelo"+this.addAdminEmail)
       if (this.addAdminEmail != null) {
         alert("Entered email: " + this.addAdminEmail);
 
