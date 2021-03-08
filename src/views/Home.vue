@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { db } from "@/firebase/init.js";
 import store from "../store";
 
 export default {
@@ -22,24 +23,25 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    potentialAdminList() {
-      return this.$store.state.potentialAdminList;
     }
   },
   data() {
     return {
       email: null,
-      invitedAdminList: null
+      potentialAdmin: false
     };
   },
   async mounted() {
     await store.dispatch("getUser");
     this.email = this.user.email;
-    await store.dispatch("getPotentialAdmin");
-    this.invitedAdminList = this.potentialAdminList.adminInviteList;
-    console.log(this.email);
-    console.log(this.potentialAdminList);
+    const usersRef = db.collection("invites");
+    const snapshot = await usersRef
+      .where("inviteeEmail", "==", this.email)
+      .get();
+    if (!snapshot.empty) {
+      this.potentialAdmin = true;
+    }
+    console.log(this.potentialAdmin);
   }
 };
 </script>

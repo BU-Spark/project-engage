@@ -57,12 +57,10 @@ export default {
 
         await db
           .collection("invites")
-          .doc("adminInvites")
-          .update({
-            inviteName: {
-              inviteeEmail: this.addAdminEmail,
-              invitorEmail: "invitorEmail@bu.edu"
-            }
+          .doc()
+          .set({
+            inviteeEmail: this.addAdminEmail,
+            invitorEmail: "invitorEmail@bu.edu"
           })
           .then(() => {
             // this.$router.push("/");
