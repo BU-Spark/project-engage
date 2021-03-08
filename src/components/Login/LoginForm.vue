@@ -40,6 +40,8 @@ export default {
       });
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
+
+      this.$router.push("/home");
     },
     async adminLogin() {
       console.log("here");

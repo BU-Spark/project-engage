@@ -1,31 +1,45 @@
 <template>
   <div>
     Welcome!
-    <Button @click="logOut"> Log Out</Button>
+
+    <h1>{{ this.email }}</h1>
+    <Button @click="signOut"> Log Out</Button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import firebase from "firebase/app";
-import { auth } from "@/firebase/init";
+import store from "../store";
 
 export default {
   name: "Home",
   components: {},
   methods: {
-    logOut() {
-      auth
-        .signOut()
-        .then(function() {})
-        .catch(function(error) {
-          console.log(error);
-        });
+    async signOut() {
+      await this.$store.dispatch("logOut");
       this.$router.push("/");
     }
   },
-  mounted() {
-    console.log(auth.currentUser);
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    potentialAdminList() {
+      return this.$store.state.potentialAdminList;
+    }
+  },
+  data() {
+    return {
+      email: null,
+      invitedAdminList: null
+    };
+  },
+  async mounted() {
+    await store.dispatch("getUser");
+    this.email = this.user.email;
+    await store.dispatch("getPotentialAdmin");
+    this.invitedAdminList = this.potentialAdminList.adminInviteList;
+    // console.log(this.email);
+    // console.log(this.invitedAdminList);
   }
 };
 </script>
