@@ -18,6 +18,7 @@
 
 <script>
 import firebase from "firebase/app";
+import store from "@/store";
 import { db, auth } from "@/firebase/init";
 
 export default {
@@ -34,18 +35,16 @@ export default {
     async login() {
       console.log("here");
       var provider = new firebase.auth.GoogleAuthProvider();
-      auth.useDeviceLanguage();
-      auth.signInWithRedirect(provider);
-
-      this.$router.push("/home");
-    },
-    async adminLogin() {
-      console.log("here");
-      var provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
         hd: "bu.edu",
         prompt: "select_account"
       });
+      auth.useDeviceLanguage();
+      auth.signInWithRedirect(provider);
+    },
+    async adminLogin() {
+      console.log("here");
+      var provider = new firebase.auth.GoogleAuthProvider();
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
 
@@ -70,12 +69,12 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     auth.getRedirectResult().then(result => {
-      console.log(result);
-    });
-    auth.onAuthStateChanged(user => {
-      console.log(user);
+      if (result.additionalUserInfo.profile.hd == "bu.edu") {
+        store.dispatch("setUser");
+        this.$router.push("/home");
+      }
     });
   }
 };
