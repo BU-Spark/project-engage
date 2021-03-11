@@ -72,8 +72,12 @@ export default {
   async mounted() {
     auth.getRedirectResult().then(result => {
       if (result.additionalUserInfo.profile.hd == "bu.edu") {
-        store.dispatch("setUser");
+        console.log("login page first");
+        store.dispatch("setUser", "student");
         this.$router.push("/home");
+      } else {
+        this.$store.dispatch("logOut");
+        this.$router.push("/pending");
       }
     });
   }

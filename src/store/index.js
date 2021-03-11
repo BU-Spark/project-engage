@@ -15,7 +15,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setUser: async context => {
+    async setUser(context, role) {
       const user = firebase.auth().currentUser;
       if (!user) {
         return;
@@ -28,7 +28,7 @@ export default new Vuex.Store({
           uid: user.uid,
           email: user.email,
           photoURL: user.photoURL,
-          role: null
+          role: role
         });
         raid = await mydb.get();
         context.commit("setUser", raid.data());

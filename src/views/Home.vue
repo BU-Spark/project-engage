@@ -9,7 +9,6 @@
 
 <script>
 import { db } from "@/firebase/init.js";
-import store from "../store";
 
 export default {
   name: "Home",
@@ -32,7 +31,6 @@ export default {
     };
   },
   async mounted() {
-    await store.dispatch("getUser");
     this.email = this.user.email;
     const usersRef = db.collection("invites");
     const snapshot = await usersRef

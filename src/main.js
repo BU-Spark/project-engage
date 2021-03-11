@@ -11,7 +11,8 @@ Vue.config.productionTip = false;
 var app = null;
 firebase.auth().onAuthStateChanged(async () => {
   if (!app) {
-    await store.dispatch("setUser");
+    console.log("app first");
+    await store.dispatch("getUser");
     new Vue({
       router,
       store,
