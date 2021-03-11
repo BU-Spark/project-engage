@@ -31,6 +31,7 @@ export default {
     };
   },
   async mounted() {
+    await this.store.dispatch("getUser");
     this.email = this.user.email;
     const usersRef = db.collection("invites");
     const snapshot = await usersRef
