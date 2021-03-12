@@ -7,11 +7,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    adminValidation: null
   },
   mutations: {
     setUser: (state, data) => {
       state.user = data;
+    },
+    setAdminValidation: (state, data) => {
+      state.adminValidation = data;
     }
   },
   actions: {
@@ -48,6 +52,17 @@ export default new Vuex.Store({
     logOut: async context => {
       await firebase.auth().signOut();
       context.commit("setUser", null);
+    },
+    validateAdmin: async context => {
+      const usersRef = db.collection("invites");
+      const snapshot = await usersRef
+        .where("inviteeEmail", "==", this.email)
+        .get();
+      if (!snapshot.empty) {
+        context.commit("setAdminValidation", true);
+      } else {
+        context.commit("setAdminValidation", false);
+      }
     }
   }
 });
