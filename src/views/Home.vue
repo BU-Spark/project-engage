@@ -3,8 +3,8 @@
     Welcome!
 
     <h1>{{ this.email }}</h1>
-    <h1 v-if="!this.potentialAdmin">Please wait for verification</h1>
-    <h1 v-if="this.potentialAdmin">Successfully logged in as admin</h1>
+    <!-- <h1 v-if="!this.potentialAdmin">Please wait for verification</h1>
+    <h1 v-if="this.potentialAdmin">Successfully logged in as admin</h1> -->
     <Button @click="signOut"> Log Out</Button>
   </div>
 </template>
@@ -30,6 +30,8 @@ export default {
       potentialAdmin: false
     };
   },
-  async mounted() {}
+  async mounted() {
+    this.email = this.user.email;
+  }
 };
 </script>
