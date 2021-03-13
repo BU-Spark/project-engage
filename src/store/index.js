@@ -15,7 +15,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async setUser(context, role) {
+    setUser: async (context, role) => {
       const user = firebase.auth().currentUser;
       if (!user) {
         return;

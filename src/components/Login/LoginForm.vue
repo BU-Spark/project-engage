@@ -27,13 +27,14 @@ export default {
     return {
       email: null,
       password: null,
-      addAdminEmail: null
+      addAdminEmail: null,
+      student: false
     };
   },
   components: {},
   methods: {
     async login() {
-      console.log("here");
+      // this.student = true;
       var provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
         hd: "bu.edu",
@@ -43,12 +44,9 @@ export default {
       auth.signInWithRedirect(provider);
     },
     async adminLogin() {
-      console.log("here");
       var provider = new firebase.auth.GoogleAuthProvider();
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
-
-      this.$router.push("/home");
     },
     async addAdmin() {
       if (this.addAdminEmail != null) {
@@ -70,14 +68,70 @@ export default {
     }
   },
   async mounted() {
-    auth.getRedirectResult().then(result => {
-      if (result.additionalUserInfo.profile.hd == "bu.edu") {
-        console.log(result);
-        store.dispatch("setUser", "student");
-        this.$router.push("/home");
-      } else {
-        this.$store.dispatch("logOut");
-        this.$router.push("/pending");
+    // idk how to change this.admin to true ??????????????????
+    // document.addEventListener("click", e => {
+    //   let m = `x: ${e.clientX} | y: ${e.clientY}`;
+    //   console.log(m);
+    // })
+    // console.log(this.$el.addEventListener('click', this.onClickVue))
+
+    await auth.getRedirectResult().then(result => {
+      // if it's a bu email && if the user clicks on "Student Login"
+      if (result.additionalUserInfo.profile.hd == "bu.edu" && !this.student) {
+        db.collection("users")
+          .doc(auth.currentUser.uid)
+          .get()
+          .then(doc => {
+            // if user already saved to firestore, pushed to home directly
+            if (doc.exists) {
+              this.$router.push("/home");
+            } else {
+              this.$store.dispatch("setUser", "student");
+              this.$router.push("/home");
+            }
+          });
+      }
+      // otherwise, the user either clicks on "Student Login" but not with bu email,
+      // or clicked on "Admin Login"
+      else {
+        if (this.student) {
+          this.$store.dispatch("logOut");
+        } else {
+          db.collection("users")
+            .doc(auth.currentUser.uid)
+            .get()
+            .then(doc => {
+              if (doc.exists) {
+                this.$router.push("/home");
+              } else {
+                // check if admin is in the invites collection
+                const snapshot = db
+                  .collection("invites")
+                  .where(
+                    "inviteeEmail",
+                    "==",
+                    result.additionalUserInfo.profile.email
+                  )
+                  .get();
+                if (!snapshot.empty) {
+                  this.potentialAdmin = true;
+                }
+                if (this.potentialAdmin) {
+                  snapshot.forEach(doc => {
+                    console.log(doc.id, "=>", doc.data());
+                    db.collection("invites")
+                      .doc(doc.id)
+                      .delete();
+                  });
+                  store.dispatch("setUser", "admin");
+                  this.$router.push("/home");
+                } else {
+                  this.$router.push("/pending");
+                  this.$store.dispatch("logOut");
+                }
+              }
+            });
+        }
       }
     });
   }
