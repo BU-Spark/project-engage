@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-alert dense outlined type="error" v-if="studentError">
-      Student account must be created with <strong>BU Email</strong> only!
+    <v-alert dark v-if="errorMsg">
+      {{ errorMsg }}
     </v-alert>
-    <h3>Login</h3>
-    <Button @click="login"> Student Login </Button>
-    <div>
-      <Button @click="adminLogin"> Admin Login </Button>
-    </div>
+    <h3>Log</h3>
+    <v-btn class="ma-2" @click="login"> Student Login </v-btn>
+    <div><v-btn class="ma-2" @click="adminLogin"> Admin Login </v-btn></div>
 
     <div>
-      <input
+      <v-text-field
+        outlined
         v-bind:value="addAdminEmail"
         v-on:input="addAdminEmail = $event.target.value"
-      />
+      >
+      </v-text-field>
       <Button @click="addAdmin()"> Admin add admin page </Button>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default {
       password: null,
       addAdminEmail: null,
       student: false,
-      studentError: false
+      errorMsg: null
     };
   },
   components: {},
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     async login() {
-      // this.student = true;
+      this.student = true;
       var provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
         hd: "bu.edu",
@@ -86,29 +86,55 @@ export default {
     //   console.log(m);
     // })
     // console.log(this.$el.addEventListener('click', this.onClickVue))
-
     await auth.getRedirectResult().then(async result => {
-      // if it's a bu email && if the user clicks on "Student Login"
-      if (result.additionalUserInfo.profile.hd == "bu.edu" && !this.student) {
-        // db.collection("users")
-        //   .doc(auth.currentUser.uid)
-        //   .get()
-        //   .then(doc => {
-        //     // if user already saved to firestore, pushed to home directly
-        //     if (doc.exists) {
-        //       this.$router.push("/home");
-        //     } else {
-        //       this.$store.dispatch("setUser", "student");
-        //       this.$router.push("/home");
-        //     }
-        //   });
+      // if the user clicks on "Student Login"
+      // if (this.student) {
+      // db.collection("users")
+      //   .doc(auth.currentUser.uid)
+      //   .get()
+      //   .then(doc => {
+      //     // if user already saved to firestore, pushed to home directly
+      //     if (doc.exists) {
+      //       this.$router.push("/home");
+      //     } else {
+      //       this.$store.dispatch("setUser", "student");
+      //       this.$router.push("/home");
+      //     }
+      //   });
+      if (result.additionalUserInfo.profile.hd == "bu.edu") {
+        //if this is a BU email
         if (!this.user) {
           await this.$store.dispatch("setUser", "student");
         }
         this.$router.push("/home");
       } else {
-        this.studentError = true;
+        //if it is not a BU email
+        this.errorMsg =
+          "You can only sign up for student accounts using BU accounts";
+        setTimeout(() => {
+          this.$store.dispatch("logOut");
+        }, 1000);
       }
+      // } else {
+      //   if (!this.user) {
+      //     await this.$store.dispatch(
+      //       "validateAdmin",
+      //       result.additionalUserInfo.profile.email
+      //     );
+      //     if (this.adminValidation) {
+      //       await this.$store.dispatch("setUser", "admin");
+      //       this.$router.push("/home");
+      //     } else {
+      //       this.errorMsg =
+      //         "You can only proceed with admin account creation when it is approved!";
+      //       setTimeout(() => {
+      //         this.$store.dispatch("logOut");
+      //       }, 1000);
+      //     }
+      //   } else {
+      //     this.$router.push("/home");
+      //   }
+      // }
       // otherwise, the user either clicks on "Student Login" but not with bu email,
       // or clicked on "Admin Login"
       // else {
@@ -158,5 +184,8 @@ export default {
 <style scoped>
 button {
   margin-top: 10px;
+}
+v-text-field {
+  width: 200;
 }
 </style>
