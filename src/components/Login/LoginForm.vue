@@ -32,6 +32,11 @@ export default {
     };
   },
   components: {},
+  computed: {
+    adminValidation() {
+      return this.$store.state.adminValidation;
+    }
+  },
   methods: {
     async login() {
       // this.student = true;
@@ -133,6 +138,18 @@ export default {
             });
         }
       }
+
+      // if (result) {
+      //   console.log(result);
+      //   store.dispatch("setAdminValidation");
+      //   if (this.adminValidation) {
+      //     store.dispatch("setUser", "admin");
+      //     this.$router.push("/home");
+      //   } else {
+      //     this.$store.dispatch("logOut");
+      //     this.$router.push("/pending");
+      //   }
+      // }
     });
   }
 };
