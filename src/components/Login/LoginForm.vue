@@ -73,7 +73,7 @@ export default {
     }
   },
   async mounted() {
-    // idk how to change this.admin to true ??????????????????
+    // ?????????????????? idk how to change this.admin to true ??????????????????
     // document.addEventListener("click", e => {
     //   let m = `x: ${e.clientX} | y: ${e.clientY}`;
     //   console.log(m);
@@ -123,7 +123,6 @@ export default {
                 }
                 if (this.potentialAdmin) {
                   snapshot.forEach(doc => {
-                    console.log(doc.id, "=>", doc.data());
                     db.collection("invites")
                       .doc(doc.id)
                       .delete();
@@ -131,25 +130,13 @@ export default {
                   store.dispatch("setUser", "admin");
                   this.$router.push("/home");
                 } else {
-                  this.$router.push("/pending");
                   this.$store.dispatch("logOut");
+                  this.$router.push("/pending");
                 }
               }
             });
         }
       }
-
-      // if (result) {
-      //   console.log(result);
-      //   store.dispatch("setAdminValidation");
-      //   if (this.adminValidation) {
-      //     store.dispatch("setUser", "admin");
-      //     this.$router.push("/home");
-      //   } else {
-      //     this.$store.dispatch("logOut");
-      //     this.$router.push("/pending");
-      //   }
-      // }
     });
   }
 };
