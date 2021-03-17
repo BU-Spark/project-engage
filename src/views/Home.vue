@@ -3,13 +3,13 @@
     Welcome!
 
     <h1>{{ this.email }}</h1>
+    <!-- <h1 v-if="!this.potentialAdmin">Please wait for verification</h1>
+    <h1 v-if="this.potentialAdmin">Successfully logged in as admin</h1> -->
     <Button @click="signOut"> Log Out</Button>
   </div>
 </template>
 
 <script>
-import { db } from "@/firebase/init.js";
-
 export default {
   name: "Home",
   components: {},
@@ -31,16 +31,7 @@ export default {
     };
   },
   async mounted() {
-    await this.store.dispatch("getUser");
     this.email = this.user.email;
-    const usersRef = db.collection("invites");
-    const snapshot = await usersRef
-      .where("inviteeEmail", "==", this.email)
-      .get();
-    if (!snapshot.empty) {
-      this.potentialAdmin = true;
-    }
-    console.log(this.potentialAdmin);
   }
 };
 </script>

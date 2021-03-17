@@ -19,7 +19,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async setUser(context, role) {
+    setUser: async (context, role) => {
       const user = firebase.auth().currentUser;
       if (!user) {
         return;
@@ -53,11 +53,9 @@ export default new Vuex.Store({
       await firebase.auth().signOut();
       context.commit("setUser", null);
     },
-    validateAdmin: async context => {
+    validateAdmin: async (context, email) => {
       const usersRef = db.collection("invites");
-      const snapshot = await usersRef
-        .where("inviteeEmail", "==", this.email)
-        .get();
+      const snapshot = await usersRef.where("inviteeEmail", "==", email).get();
       if (!snapshot.empty) {
         context.commit("setAdminValidation", true);
       } else {
