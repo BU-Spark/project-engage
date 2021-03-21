@@ -21,6 +21,14 @@ const routes = [
     }
   },
   {
+    path: "/GoogleLogin",
+    name: "googleLogin",
+    component: () => import("@/views/GoogleLogin.vue"),
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: "/",
     name: "Login",
     component: () => import("@/views/Login.vue"),

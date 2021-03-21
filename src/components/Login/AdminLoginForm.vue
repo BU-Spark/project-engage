@@ -33,7 +33,7 @@ export default {
         if (this.$store.state.adminValidation) {
           // await this.$store.dispatch("setUser", "admin");
           alert("user has been invited as admin!");
-          this.$router.push("/adminLogin");
+          this.$router.push("/googleLogin");
         } else {
           this.errorMsg =
             "You can only proceed with admin account creation when it is approved!";
