@@ -11,6 +11,7 @@
 <script>
 import firebase from "firebase/app";
 import { auth } from "@/firebase/init";
+import store from "@/store";
 export default {
   name: "GoogleLoginForm",
   data() {
@@ -24,6 +25,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    adminValidation() {
+      return this.$store.state.adminValidation;
     }
   },
   methods: {
@@ -33,7 +37,32 @@ export default {
       auth.signInWithRedirect(provider);
     }
   },
-  async mounted() {}
+  async mounted() {
+    auth.getRedirectResult().then(async result => {
+      //   console.log(result.profile.email)
+      await store.dispatch(
+        "validateAdmin",
+        result.additionalUserInfo.profile.email
+      );
+      if (
+        this.$store.state.adminValidation ||
+        result.additionalUserInfo.profile.hd == "bu.edu"
+      ) {
+        //if this is a BU email
+        if (!this.user) {
+          await this.$store.dispatch("setUser");
+        }
+        this.$router.push("/home");
+      } else {
+        //if it is not a BU email
+        this.errorMsg =
+          "You can only sign up for student accounts using BU accounts";
+        setTimeout(() => {
+          this.$store.dispatch("logOut");
+        }, 1000);
+      }
+    });
+  }
 };
 </script>
 

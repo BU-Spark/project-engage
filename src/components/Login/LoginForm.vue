@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     student() {
-      this.$router.push("/StudentLogin");
+      this.$router.push("/GoogleLogin");
     },
     admin() {
       this.$router.push("/AdminLogin");

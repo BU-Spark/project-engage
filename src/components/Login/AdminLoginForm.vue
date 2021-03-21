@@ -37,9 +37,9 @@ export default {
         } else {
           this.errorMsg =
             "You can only proceed with admin account creation when it is approved!";
-          setTimeout(() => {
-            this.$store.dispatch("logOut");
-          }, 1000);
+          // setTimeout(() => {
+          //   this.$store.dispatch("logOut");
+          // }, 1000);
         }
       } else {
         alert("please input an email");
