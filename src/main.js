@@ -3,13 +3,22 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import vuetify from "./plugins/vuetify";
+import firebase from "firebase";
+import "firebase/auth";
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount("#app");
+var app = null;
+firebase.auth().onAuthStateChanged(async () => {
+  if (!app) {
+    console.log("app first");
+    await store.dispatch("getUser");
+    new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount("#app");
+  }
+});
+
+export const db = firebase.firestore();

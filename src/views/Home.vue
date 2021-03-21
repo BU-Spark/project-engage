@@ -1,18 +1,37 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    Welcome!
+
+    <h1>{{ this.email }}</h1>
+    <!-- <h1 v-if="!this.potentialAdmin">Please wait for verification</h1>
+    <h1 v-if="this.potentialAdmin">Successfully logged in as admin</h1> -->
+    <Button @click="signOut"> Log Out</Button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
   name: "Home",
-  components: {
-    HelloWorld
+  components: {},
+  methods: {
+    async signOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/");
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
+  data() {
+    return {
+      email: null,
+      potentialAdmin: false
+    };
+  },
+  async mounted() {
+    this.email = this.user.email;
   }
 };
 </script>

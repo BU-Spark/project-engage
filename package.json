@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase": "^8.2.10",
+    "firebase-admin": "^9.5.0",
     "firebaseui": "^4.7.3",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
