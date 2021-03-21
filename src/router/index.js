@@ -5,14 +5,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/StudentLogin",
-    name: "studentLogin",
-    component: () => import("@/views/StudentLogin.vue"),
-    meta: {
-      requiresAuth: false
-    }
-  },
-  {
     path: "/AdminLogin",
     name: "adminLogin",
     component: () => import("@/views/AdminLogin.vue"),
