@@ -13,15 +13,28 @@ module.exports.processSignUp = functions.auth.user().onCreate(async user => {
       admin: true
     };
     admin.auth().setCustomUserClaims(user.uid, customClaims);
+    createFirestoreUser(user);
     //if user is not invited but has a BU email, set up admin claim to be false(student)
   } else if (user.email && user.email.endsWith("@bu.edu")) {
     customClaims = {
       admin: false
     };
     admin.auth().setCustomUserClaims(user.uid, customClaims);
+    createFirestoreUser(user);
     //else delete the account
   } else {
     admin.auth().deleteUser(user.uid);
   }
   return;
 });
+
+function createFirestoreUser(user) {
+  db.collection("users")
+    .doc(user.uid)
+    .set({
+      displayName: user.displayName,
+      uid: user.uid,
+      email: user.email,
+      photoURL: user.photoURL
+    });
+}

@@ -24,10 +24,10 @@ export default {
   components: {},
   computed: {
     user() {
-      return this.$store.state.user;
+      return store.state.user;
     },
     adminValidation() {
-      return this.$store.state.adminValidation;
+      return store.state.adminValidation;
     }
   },
   methods: {
@@ -37,29 +37,32 @@ export default {
       auth.signInWithRedirect(provider);
     }
   },
-  async mounted() {
+  mounted() {
+    if (this.user) {
+      this.$router.push("/home");
+    }
     auth.getRedirectResult().then(async result => {
-      //   console.log(result.profile.email)
-      await store.dispatch(
-        "validateAdmin",
-        result.additionalUserInfo.profile.email
-      );
-      if (
-        this.$store.state.adminValidation ||
-        result.additionalUserInfo.profile.hd == "bu.edu"
-      ) {
-        //if this is a BU email
-        if (!this.user) {
-          await this.$store.dispatch("setUser");
+      if (result.user != null) {
+        await store.dispatch(
+          "validateAdmin",
+          result.additionalUserInfo.profile.email
+        );
+        if (
+          store.state.adminValidation ||
+          result.additionalUserInfo.profile.hd == "bu.edu"
+        ) {
+          //if this is a BU email or the user is a validated admin
+          if (!this.user) {
+            await store.dispatch("setUser");
+          }
+        } else {
+          //if it is not a BU email
+          this.errorMsg =
+            "You can only sign up for student accounts using BU accounts";
+          setTimeout(() => {
+            store.dispatch("logOut");
+          }, 1000);
         }
-        this.$router.push("/home");
-      } else {
-        //if it is not a BU email
-        this.errorMsg =
-          "You can only sign up for student accounts using BU accounts";
-        setTimeout(() => {
-          this.$store.dispatch("logOut");
-        }, 1000);
       }
     });
   }

@@ -1,13 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import firebase from "firebase/app";
-import { db } from "@/firebase/init.js";
+import router from "@/router";
+import { db, auth } from "@/firebase/init.js";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     user: null,
+    isAdmin: null,
     adminValidation: null
   },
   mutations: {
@@ -16,40 +17,45 @@ export default new Vuex.Store({
     },
     setAdminValidation: (state, data) => {
       state.adminValidation = data;
+    },
+    setAdmin: (state, data) => {
+      state.isAdmin = data;
     }
   },
   actions: {
     setUser: async context => {
-      const user = firebase.auth().currentUser;
+      const user = auth.currentUser;
       if (!user) {
         return;
       }
-      const mydb = db.collection("users").doc(user.uid);
-      var raid = await mydb.get();
-      if (!raid.exists) {
-        await mydb.set({
-          displayName: user.displayName,
-          uid: user.uid,
-          email: user.email,
-          photoURL: user.photoURL
+      db.collection("users")
+        .doc(user.uid)
+        .onSnapshot(snapshot => {
+          user.getIdTokenResult(true).then(result => {
+            if (result.claims.admin) {
+              context.commit("setAdmin", result.claims.admin);
+            }
+          });
+          context.commit("setUser", snapshot.data());
+          router.push("/home");
         });
-        raid = await mydb.get();
-        context.commit("setUser", raid.data());
-      } else {
-        context.commit("setUser", raid.data());
-      }
     },
     getUser: async context => {
-      const user = firebase.auth().currentUser;
+      const user = auth.currentUser;
       if (!user) {
         return;
       }
       const mydb = db.collection("users").doc(user.uid);
       var raid = await mydb.get();
+      user.getIdTokenResult(true).then(result => {
+        if (result.claims.admin) {
+          context.commit("setAdmin", result.claims.admin);
+        }
+      });
       context.commit("setUser", raid.data());
     },
     logOut: async context => {
-      await firebase.auth().signOut();
+      await auth.signOut();
       context.commit("setUser", null);
     },
     validateAdmin: async (context, email) => {
