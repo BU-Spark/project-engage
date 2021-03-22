@@ -18,9 +18,6 @@ const routes = [
     component: () => import("@/views/GoogleLogin.vue"),
     meta: {
       requiresAuth: false
-    },
-    props: {
-      isStudent: true
     }
   },
   {

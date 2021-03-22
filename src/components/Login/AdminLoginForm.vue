@@ -23,14 +23,14 @@ export default {
   },
   computed: {
     adminValidation() {
-      return this.$store.state.adminValidation;
+      return store.state.adminValidation;
     }
   },
   methods: {
     async checkEmail() {
       await store.dispatch("validateAdmin", this.emailEntered);
       if (this.emailEntered != null && this.emailEntered != "") {
-        if (this.$store.state.adminValidation) {
+        if (store.state.adminValidation) {
           // await this.$store.dispatch("setUser", "admin");
           alert("user has been invited as admin!");
           this.$router.push("/googleLogin");
