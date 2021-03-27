@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     user: null,
     isAdmin: null,
-    adminValidation: null
+    adminValidation: null,
+    errorMsg: null
   },
   mutations: {
     setUser: (state, data) => {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     },
     setAdmin: (state, data) => {
       state.isAdmin = data;
+    },
+    setErrorMsg: (state, data) => {
+      state.errorMsg = data;
     }
   },
   actions: {

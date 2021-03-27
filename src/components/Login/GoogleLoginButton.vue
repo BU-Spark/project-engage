@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-alert dark v-if="errorMsg">
-      {{ errorMsg }}
-    </v-alert>
-    <h3>Google Login</h3>
-    <v-btn class="ma-2" @click="googleLogin"> Google Login </v-btn>
+    <v-btn class="ma-2" @click="googleLogin"> {{ buttonLabel }} </v-btn>
   </div>
 </template>
 
@@ -13,11 +9,10 @@ import firebase from "firebase/app";
 import { auth } from "@/firebase/init";
 import store from "@/store";
 export default {
-  name: "GoogleLoginForm",
+  name: "GoogleLoginButton",
+  props: ["buttonLabel"],
   data() {
     return {
-      email: null,
-      password: null,
       errorMsg: null
     };
   },
@@ -59,6 +54,7 @@ export default {
           //if it is not a BU email
           this.errorMsg =
             "You can only sign up for student accounts using BU accounts";
+          store.commit("setErrorMsg", this.errorMsg);
           setTimeout(() => {
             store.dispatch("logOut");
           }, 1000);
