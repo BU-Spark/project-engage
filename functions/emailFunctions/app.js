@@ -1,10 +1,11 @@
 // const nodemailer = require('nodemailer')
 const { google } = require("googleapis");
+const functions = require('firebase-functions');
 
-const CLIENT_ID = "";
-const CLIENT_SECRET = "";
+const CLIENT_ID = functions.config().authinfo.id;
+const CLIENT_SECRET = functions.config().authinfo.secret;
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-const REFRESH_TOKEN = "";
+const REFRESH_TOKEN = functions.config().authinfo.refreshtoken;
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
@@ -19,7 +20,7 @@ async function doSomething() {
   const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString("base64")}?=`;
   const messageParts = [
     "From: BU Spark <buspark@bu.edu>",
-    "To: Rishab Nayak <rishab@bu.edu>",
+    "To: Jane Feng <jyfeng@bu.edu>",
     "Content-Type: text/html; charset=utf-8",
     "MIME-Version: 1.0",
     `Subject: ${utf8Subject}`,
