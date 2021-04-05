@@ -17,6 +17,8 @@
 <script>
 import { db } from "@/firebase/init";
 import store from "@/store";
+// const admin = require("firebase-admin");
+// admin.initializeApp({ projectId: "spark-project-engage" });
 
 export default {
   name: "Home",
@@ -54,9 +56,21 @@ export default {
               invitorEmail: this.user.email
             })
             .then(() => {});
+
+          // admin.auth().getUserByEmail(this.addAdminEmail).then((user) => {
+          //   console.log("here")
+          //   const currentCustomClaims = user.customClaims;
+          //   if (currentCustomClaims['admin']) {
+          //     return admin.auth().setCustomUserClaims(user.uid, { admin: true });
+          //   }
+          // })
+          // .catch((error) => {
+          //   console.log(error);
+          // });
+
           alert("Invited: " + this.addAdminEmail);
         } else {
-          alert("This email has already been invited to sign up as admin");
+          alert("This email had already been invited to sign up as admin");
         }
         this.addAdminEmail = "";
       } else {
