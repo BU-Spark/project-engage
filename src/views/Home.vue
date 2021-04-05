@@ -7,7 +7,7 @@
       <p>Successfully logged in as admin</p>
       <div>
         <v-text-field outlined v-model="addAdminEmail"> </v-text-field>
-        <Button @click="addAdmin()"> Admin add admin page </Button>
+        <Button @click="addAdmin()"> Invite Admin </Button>
       </div>
     </div>
     <Button @click="signOut"> Log Out</Button>
@@ -16,6 +16,8 @@
 
 <script>
 import { db } from "@/firebase/init";
+import store from "@/store";
+
 export default {
   name: "Home",
   components: {},
@@ -25,6 +27,9 @@ export default {
     },
     isAdmin() {
       return this.$store.state.isAdmin;
+    },
+    adminValidation() {
+      return store.state.adminValidation;
     }
   },
   data() {
@@ -39,17 +44,21 @@ export default {
     },
     async addAdmin() {
       if (this.addAdminEmail != null) {
-        alert("Invited: " + this.addAdminEmail);
-        await db
-          .collection("invites")
-          .doc()
-          .set({
-            inviteeEmail: this.addAdminEmail,
-            invitorEmail: this.user.email
-          })
-          .then(() => {
-            // this.$router.push("/");
-          });
+        await store.dispatch("validateAdmin", this.addAdminEmail);
+        if (!(await this.adminValidation)) {
+          await db
+            .collection("invites")
+            .doc()
+            .set({
+              inviteeEmail: this.addAdminEmail,
+              invitorEmail: this.user.email
+            })
+            .then(() => {});
+          alert("Invited: " + this.addAdminEmail);
+        } else {
+          alert("This email has already been invited to sign up as admin");
+        }
+        this.addAdminEmail = "";
       } else {
         alert("Please enter a email");
       }
