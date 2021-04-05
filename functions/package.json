@@ -14,7 +14,10 @@
   "main": "index.js",
   "dependencies": {
     "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0"
+    "firebase-functions": "^3.11.0",
+    "glob": "^7.1.6",
+    "googleapis": "^68.0.0",
+    "shelljs": "^0.8.4"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"
