@@ -5,7 +5,11 @@
         {{ errorMsg }}
       </v-alert>
       <v-text-field outlined v-model="emailEntered"> </v-text-field>
-      <div><v-btn class="ma-2" @click="checkEmail()"> Check Email </v-btn></div>
+      <div>
+        <v-btn v-if="!this.adminVal" class="ma-2" @click="checkEmail()">
+          Check Email
+        </v-btn>
+      </div>
       <GoogleLoginButton
         v-if="adminValidation"
         class="ma-2"
@@ -26,7 +30,8 @@ export default {
   data() {
     return {
       errorMsg: null,
-      emailEntered: null
+      emailEntered: null,
+      adminVal: false
     };
   },
   computed: {
@@ -48,6 +53,7 @@ export default {
       } else {
         this.errorMsg = "Please enter an email";
       }
+      this.adminVal = true;
     }
   },
   async mounted() {
