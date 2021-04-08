@@ -6,16 +6,34 @@
     <div v-if="this.isAdmin">
       <p>Successfully logged in as admin</p>
       <div>
-        <v-text-field outlined v-model="addAdminEmail"> </v-text-field>
-        <Button @click="addAdmin()"> Invite Admin </Button>
+        <v-text-field
+          outlined
+          v-model="addAdminEmail"
+          :rules="emailRules"
+          @change="checkEmail"
+        >
+        </v-text-field>
+        <v-btn
+          elevation="2"
+          outlined
+          plain
+          raised
+          class="ma-2"
+          @click="addAdmin()"
+          :disabled="!emailValidated"
+        >
+          Invite Admin
+        </v-btn>
       </div>
     </div>
-    <Button @click="signOut"> Log Out</Button>
+    <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
+      Log Out</v-btn
+    >
   </div>
 </template>
 
 <script>
-import { db } from "@/firebase/init";
+import { functions, db } from "@/firebase/init";
 import store from "@/store";
 // const admin = require("firebase-admin");
 // admin.initializeApp({ projectId: "spark-project-engage" });
@@ -36,13 +54,31 @@ export default {
   },
   data() {
     return {
-      addAdminEmail: null
+      addAdminEmail: null,
+      emailValidated: false,
+      emailRules: [
+        v =>
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            v
+          ) || "Please enter a valid email"
+      ]
     };
   },
   methods: {
     async signOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/");
+    },
+    checkEmail() {
+      if (
+        !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          this.email
+        )
+      ) {
+        this.emailValidated = true;
+        return;
+      }
+      this.emailValidated = false;
     },
     async addAdmin() {
       if (this.addAdminEmail != null) {
@@ -54,21 +90,11 @@ export default {
             .set({
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
-            })
-            .then(() => {});
-
-          // admin.auth().getUserByEmail(this.addAdminEmail).then((user) => {
-          //   console.log("here")
-          //   const currentCustomClaims = user.customClaims;
-          //   if (currentCustomClaims['admin']) {
-          //     return admin.auth().setCustomUserClaims(user.uid, { admin: true });
-          //   }
-          // })
-          // .catch((error) => {
-          //   console.log(error);
-          // });
-
+            });
           alert("Invited: " + this.addAdminEmail);
+          await functions.httpsCallable("sendInviteEmails")({
+            email: this.addAdminEmail
+          });
         } else {
           alert("This email had already been invited to sign up as admin");
         }
