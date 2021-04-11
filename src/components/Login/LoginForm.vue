@@ -49,7 +49,9 @@
 
             <center>
               <h4>
-                <v-btn class="ma-4" @click="admin"> Admin SignUp </v-btn>
+                <v-btn class="ma-4" @click="admin" rounded>
+                  Admin SignUp
+                </v-btn>
                 <GoogleLoginButton class="ma-2" buttonLabel="Student Sign Up" />
               </h4>
             </center>
@@ -116,9 +118,7 @@ li {
 v-btn {
   color: #36bd90;
 }
-h2 {
-  margin: 110px 0 0;
-  text-indent: 10px 0 0;
-  padding-left: 180px;
+h3 {
+  margin: 30px 0 0;
 }
 </style>
