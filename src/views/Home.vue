@@ -25,6 +25,7 @@
           Invite Admin
         </v-btn>
       </div>
+      <EmailUI />
     </div>
     <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
       Log Out</v-btn
@@ -35,12 +36,15 @@
 <script>
 import { functions, db } from "@/firebase/init";
 import store from "@/store";
+import EmailUI from "@/components/EmailUI.vue";
 // const admin = require("firebase-admin");
 // admin.initializeApp({ projectId: "spark-project-engage" });
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    EmailUI
+  },
   computed: {
     user() {
       return this.$store.state.user;
@@ -93,7 +97,8 @@ export default {
             });
           alert("Invited: " + this.addAdminEmail);
           await functions.httpsCallable("sendInviteEmails")({
-            email: this.addAdminEmail
+            email: this.addAdminEmail,
+            name: this.user.displayName
           });
         } else {
           alert("This email had already been invited to sign up as admin");

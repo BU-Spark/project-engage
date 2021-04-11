@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn class="ma-2" @click="googleLogin"> {{ buttonLabel }} </v-btn>
+    <v-btn color="#228B22" class="ma-2" @click="googleLogin">
+      {{ buttonLabel }}
+    </v-btn>
   </div>
 </template>
 

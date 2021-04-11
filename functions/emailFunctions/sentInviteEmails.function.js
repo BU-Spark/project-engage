@@ -19,19 +19,20 @@ module.exports.sendInviteEmails = functions.https.onCall(
     if (!context.auth) {
       return { message: "Authentication Required!", code: 401 };
     }
-    const subject = "🤘 Hello 🤘";
+    const subject = "You are Invited to Be an Spark Admin!";
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString(
       "base64"
     )}?=`;
     const messageParts = [
       "From: BU Spark <buspark@bu.edu>",
-      "To: Jane Feng <" + data.email + ">",
+      "To: " + data.name + " <" + data.email + ">",
       "Content-Type: text/html; charset=utf-8",
       "MIME-Version: 1.0",
       `Subject: ${utf8Subject}`,
       "",
-      "This is a message just to say hello.",
-      "So... <b>Hello!</b>  🤘❤️😎"
+      "Create your Spark Admin Account by Clicking on the link below!",
+      "So... what are you waiting for? 🤘❤️😎",
+      "<br/> <a href='http://localhost:8080/home'> Spark Central Portal </a>"
     ];
     const message = messageParts.join("\n");
 
