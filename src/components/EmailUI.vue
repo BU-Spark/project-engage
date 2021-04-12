@@ -1,244 +1,196 @@
 <template>
   <v-layout justify-center pa-5>
     <v-flex xs12 sm12 md12>
-      <v-tabs centered color="blue" v-model="active_tab" dark icons-and-text>
-        <v-tabs-slider color="yellow"></v-tabs-slider>
-        <v-tab>
-          Send Email
-          <v-icon>email</v-icon>
-        </v-tab>
-        <v-tab>
-          View Logs
-          <v-icon>receipt</v-icon>
-        </v-tab>
-        <v-tab-item>
-          <v-card>
-            <v-card-text>
-              <v-form ref="form" v-model="valid">
-                <v-combobox
-                  v-model="from"
-                  :rules="emailRules"
-                  :items="fromList"
-                  :return-object="false"
-                  chips
-                  item-value="email"
-                  required
-                  label="From"
+      <v-card>
+        <v-card-text>
+          <v-form ref="form" v-model="valid">
+            <v-combobox
+              v-model="from"
+              :rules="emailRules"
+              :items="fromList"
+              :return-object="false"
+              chips
+              item-value="email"
+              required
+              label="From"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  :selected="data.selected"
+                  :disabled="data.disabled"
+                  class="v-chip--select-multi"
+                  @input="data.parent.selectItem(data.item)"
+                  >{{ data.item }}</v-chip
                 >
-                  <template v-slot:selection="data">
-                    <v-chip
-                      :key="JSON.stringify(data.item)"
-                      :selected="data.selected"
-                      :disabled="data.disabled"
-                      class="v-chip--select-multi"
-                      @input="data.parent.selectItem(data.item)"
-                      >{{ data.item }}</v-chip
-                    >
-                  </template>
-                  <template v-slot:item="data">
-                    <v-list-tile-content>
-                      <v-list-tile-title
-                        v-html="data.item.name"
-                      ></v-list-tile-title>
-                      <v-list-tile-sub-title
-                        v-html="data.item.email"
-                      ></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </template>
-                </v-combobox>
-                <v-combobox
-                  v-model="to"
-                  :rules="emailRules"
-                  :items="recepients"
-                  :return-object="false"
-                  label="To"
-                  chips
-                  item-value="email"
-                  multiple
-                  required
-                >
-                  <template v-slot:selection="data">
-                    <v-chip
-                      :key="JSON.stringify(data.item)"
-                      :selected="data.selected"
-                      :disabled="data.disabled"
-                      class="v-chip--select-multi"
-                      @input="data.parent.selectItem(data.item)"
-                      >{{ data.item }}</v-chip
-                    >
-                  </template>
-                  <template v-slot:item="data">
-                    <v-list-tile-content>
-                      <v-list-tile-title
-                        v-html="data.item.name"
-                      ></v-list-tile-title>
-                      <v-list-tile-sub-title
-                        v-html="data.item.affiliation"
-                      ></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </template>
-                </v-combobox>
-                <v-combobox
-                  v-model="cc"
-                  :rules="ccRules"
-                  :items="recepients"
-                  :return-object="false"
-                  label="Cc"
-                  chips
-                  item-value="email"
-                  multiple
-                >
-                  <template v-slot:selection="data">
-                    <v-chip
-                      :key="JSON.stringify(data.item)"
-                      :selected="data.selected"
-                      :disabled="data.disabled"
-                      class="v-chip--select-multi"
-                      @input="data.parent.selectItem(data.item)"
-                      >{{ data.item }}</v-chip
-                    >
-                  </template>
-                  <template v-slot:item="data">
-                    <v-list-tile-content>
-                      <v-list-tile-title
-                        v-html="data.item.name"
-                      ></v-list-tile-title>
-                      <v-list-tile-sub-title
-                        v-html="data.item.affiliation"
-                      ></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </template>
-                </v-combobox>
-                <v-combobox
-                  v-model="bcc"
-                  :rules="ccRules"
-                  :items="recepients"
-                  :return-object="false"
-                  label="Bcc"
-                  chips
-                  item-value="email"
-                  multiple
-                >
-                  <template v-slot:selection="data">
-                    <v-chip
-                      :key="JSON.stringify(data.item)"
-                      :selected="data.selected"
-                      :disabled="data.disabled"
-                      class="v-chip--select-multi"
-                      @input="data.parent.selectItem(data.item)"
-                      >{{ data.item }}</v-chip
-                    >
-                  </template>
-                  <template v-slot:item="data">
-                    <v-list-tile-content>
-                      <v-list-tile-title
-                        v-html="data.item.name"
-                      ></v-list-tile-title>
-                      <v-list-tile-sub-title
-                        v-html="data.item.affiliation"
-                      ></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </template>
-                </v-combobox>
-                <v-text-field
-                  v-model="subject"
-                  :rules="notEmptyRules"
-                  label="Subject"
-                  required
-                ></v-text-field>
-                <v-textarea
-                  v-model="message"
-                  :rules="notEmptyRules"
-                  label="Message"
-                  auto-grow
-                  required
-                ></v-textarea>
-                <v-flex>
-                  <v-checkbox
-                    v-model="tracking"
-                    label="Enable Tracking"
-                  ></v-checkbox>
-                </v-flex>
-                <v-flex>
-                  <v-checkbox
-                    v-model="clicktracking"
-                    label="Enable Click Tracking"
-                  ></v-checkbox>
-                </v-flex>
-                <v-flex>
-                  <v-checkbox
-                    v-model="opentracking"
-                    label="Enable Open Tracking"
-                  ></v-checkbox>
-                </v-flex>
-                <v-btn
-                  :disabled="dialog || success || fail"
-                  :loading="dialog || success || fail"
-                  @click="send"
-                  >Send</v-btn
-                >
-                <v-dialog v-model="dialog" hide-overlay persistent width="300">
-                  <v-card color="primary" dark>
-                    <v-card-text>
-                      Sending Email
-                      <v-progress-linear
-                        indeterminate
-                        color="white"
-                        class="mb-0"
-                      ></v-progress-linear>
-                    </v-card-text>
-                  </v-card>
-                </v-dialog>
-                <v-dialog v-model="success" hide-overlay persistent width="300">
-                  <v-card color="green" dark>
-                    <v-card-text>Email Sent Successfully</v-card-text>
-                  </v-card>
-                </v-dialog>
-                <v-dialog v-model="fail" hide-overlay persistent width="300">
-                  <v-card color="red" dark>
-                    <v-card-text>Unable To Send Email</v-card-text>
-                  </v-card>
-                </v-dialog>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card>
-            <v-list two-line>
-              <template v-for="log in logs">
-                <v-list-tile :key="log.id">
-                  <v-list-tile-avatar>
-                    <v-icon v-if="log.event == 'delivered'">done</v-icon>
-                    <v-icon
-                      v-if="log.event == 'opened' || log.event == 'clicked'"
-                      >done_all</v-icon
-                    >
-                    <v-icon
-                      v-if="log.event == 'failed' || log.event == 'rejected'"
-                      >error</v-icon
-                    >
-                    <v-icon
-                      v-if="
-                        log.event == 'unsubscribed' || log.event == 'complained'
-                      "
-                      >highlight_off</v-icon
-                    >
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title
-                      v-html="log.message.headers.subject"
-                    ></v-list-tile-title>
-                    <v-list-tile-sub-title
-                      v-html="log.recipient"
-                    ></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
               </template>
-            </v-list>
-          </v-card>
-        </v-tab-item>
-      </v-tabs>
+              <template v-slot:item="data">
+                <v-list-tile-content>
+                  <v-list-tile-title
+                    v-html="data.item.name"
+                  ></v-list-tile-title>
+                  <v-list-tile-sub-title
+                    v-html="data.item.email"
+                  ></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </template>
+            </v-combobox>
+            <v-combobox
+              v-model="to"
+              :rules="emailRules"
+              :items="recepients"
+              :return-object="false"
+              label="To"
+              chips
+              item-value="email"
+              multiple
+              required
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  :selected="data.selected"
+                  :disabled="data.disabled"
+                  class="v-chip--select-multi"
+                  @input="data.parent.selectItem(data.item)"
+                  >{{ data.item }}</v-chip
+                >
+              </template>
+              <template v-slot:item="data">
+                <v-list-tile-content>
+                  <v-list-tile-title
+                    v-html="data.item.name"
+                  ></v-list-tile-title>
+                  <v-list-tile-sub-title
+                    v-html="data.item.affiliation"
+                  ></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </template>
+            </v-combobox>
+            <v-combobox
+              v-model="cc"
+              :rules="ccRules"
+              :items="recepients"
+              :return-object="false"
+              label="Cc"
+              chips
+              item-value="email"
+              multiple
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  :selected="data.selected"
+                  :disabled="data.disabled"
+                  class="v-chip--select-multi"
+                  @input="data.parent.selectItem(data.item)"
+                  >{{ data.item }}</v-chip
+                >
+              </template>
+              <template v-slot:item="data">
+                <v-list-tile-content>
+                  <v-list-tile-title
+                    v-html="data.item.name"
+                  ></v-list-tile-title>
+                  <v-list-tile-sub-title
+                    v-html="data.item.affiliation"
+                  ></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </template>
+            </v-combobox>
+            <v-combobox
+              v-model="bcc"
+              :rules="ccRules"
+              :items="recepients"
+              :return-object="false"
+              label="Bcc"
+              chips
+              item-value="email"
+              multiple
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  :selected="data.selected"
+                  :disabled="data.disabled"
+                  class="v-chip--select-multi"
+                  @input="data.parent.selectItem(data.item)"
+                  >{{ data.item }}</v-chip
+                >
+              </template>
+              <template v-slot:item="data">
+                <v-list-tile-content>
+                  <v-list-tile-title
+                    v-html="data.item.name"
+                  ></v-list-tile-title>
+                  <v-list-tile-sub-title
+                    v-html="data.item.affiliation"
+                  ></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </template>
+            </v-combobox>
+            <v-text-field
+              v-model="subject"
+              :rules="notEmptyRules"
+              label="Subject"
+              required
+            ></v-text-field>
+            <v-textarea
+              v-model="message"
+              :rules="notEmptyRules"
+              label="Message"
+              auto-grow
+              required
+            ></v-textarea>
+            <v-flex>
+              <v-checkbox
+                v-model="tracking"
+                label="Enable Tracking"
+              ></v-checkbox>
+            </v-flex>
+            <v-flex>
+              <v-checkbox
+                v-model="clicktracking"
+                label="Enable Click Tracking"
+              ></v-checkbox>
+            </v-flex>
+            <v-flex>
+              <v-checkbox
+                v-model="opentracking"
+                label="Enable Open Tracking"
+              ></v-checkbox>
+            </v-flex>
+            <v-btn
+              :disabled="dialog || success || fail"
+              :loading="dialog || success || fail"
+              @click="send"
+              >Send</v-btn
+            >
+            <v-dialog v-model="dialog" hide-overlay persistent width="300">
+              <v-card color="primary" dark>
+                <v-card-text>
+                  Sending Email
+                  <v-progress-linear
+                    indeterminate
+                    color="white"
+                    class="mb-0"
+                  ></v-progress-linear>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="success" hide-overlay persistent width="300">
+              <v-card color="green" dark>
+                <v-card-text>Email Sent Successfully</v-card-text>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="fail" hide-overlay persistent width="300">
+              <v-card color="red" dark>
+                <v-card-text>Unable To Send Email</v-card-text>
+              </v-card>
+            </v-dialog>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -324,40 +276,5 @@ export default {
       }
     }
   }
-  //   watch: {
-  //     success(val) {
-  //       if (!val) return;
-  //       setTimeout(() => {
-  //         this.success = false;
-  //         this.$router.go();
-  //       }, 2000);
-  //     },
-  //     fail(val) {
-  //       if (!val) return;
-  //       setTimeout(() => {
-  //         this.fail = false;
-  //         this.$router.go();
-  //       }, 2000);
-  //     }
-  //   },
-  //   mounted() {
-  //     db.collection("users")
-  //       .get()
-  //       .then(docs => {
-  //         docs.docs.forEach(doc => {
-  //           this.recepients.push({
-  //             name: doc.data().displayName,
-  //             email: doc.data().email,
-  //             affiliation: doc.data().companyName + ", " + doc.data().email
-  //           });
-  //         });
-  //       });
-  //     firebase
-  //       .functions()
-  //       .httpsCallable("getMailgunLogs")("getData")
-  //       .then(data => {
-  //         this.logs = data.data.items;
-  //       });
-  //   }
 };
 </script>
