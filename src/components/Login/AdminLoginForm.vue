@@ -13,6 +13,7 @@
       <GoogleLoginButton
         v-if="adminValidation"
         class="ma-2"
+        :email="emailEntered"
         buttonLabel="Admin Google Sign Up"
       />
     </div>
