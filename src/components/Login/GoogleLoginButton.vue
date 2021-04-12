@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn color="#228B22" class="ma-2" @click="googleLogin">
+    <v-btn color="#36bd90" class="ma-2" @click="googleLogin" rounded>
       {{ buttonLabel }}
     </v-btn>
   </div>
@@ -73,5 +73,9 @@ button {
 }
 v-text-field {
   width: 200;
+}
+
+v-btn {
+  color: #36bd90;
 }
 </style>
