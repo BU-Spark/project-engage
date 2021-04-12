@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn class="ma-2" @click="googleLogin"> {{ buttonLabel }} </v-btn>
+    <v-btn color="#228B22" class="ma-2" @click="googleLogin">
+      {{ buttonLabel }}
+    </v-btn>
   </div>
 </template>
 
@@ -10,7 +12,7 @@ import { auth } from "@/firebase/init";
 import store from "@/store";
 export default {
   name: "GoogleLoginButton",
-  props: ["buttonLabel"],
+  props: ["buttonLabel", "email"],
   data() {
     return {
       errorMsg: null
@@ -28,6 +30,10 @@ export default {
   methods: {
     async googleLogin() {
       var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: "select_account",
+        login_hint: this.email
+      });
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
     }
