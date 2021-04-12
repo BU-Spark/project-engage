@@ -4,37 +4,14 @@
       <v-card>
         <v-card-text>
           <v-form ref="form" v-model="valid">
-            <v-combobox
-              v-model="from"
-              :rules="emailRules"
-              :items="fromList"
-              :return-object="false"
-              chips
-              item-value="email"
-              required
-              label="From"
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  :key="JSON.stringify(data.item)"
-                  :selected="data.selected"
-                  :disabled="data.disabled"
-                  class="v-chip--select-multi"
-                  @input="data.parent.selectItem(data.item)"
-                  >{{ data.item }}</v-chip
-                >
-              </template>
-              <template v-slot:item="data">
-                <v-list-tile-content>
-                  <v-list-tile-title
-                    v-html="data.item.name"
-                  ></v-list-tile-title>
-                  <v-list-tile-sub-title
-                    v-html="data.item.email"
-                  ></v-list-tile-sub-title>
-                </v-list-tile-content>
-              </template>
-            </v-combobox>
+            <template v-slot:item="data">
+              <v-list-tile-content>
+                <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                <v-list-tile-sub-title
+                  v-html="data.item.email"
+                ></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </template>
             <v-combobox
               v-model="to"
               :rules="emailRules"
@@ -210,14 +187,12 @@ export default {
       fail: false,
       dialog: false,
       valid: false,
-      from: null,
       to: null,
       cc: null,
       bcc: null,
       subject: null,
       message: null,
-      recepients: [],
-      fromList: [{ name: "Contact", email: "contact@bostonhacks.io" }]
+      recepients: []
     };
   },
   computed: {
@@ -230,23 +205,12 @@ export default {
       if (this.$refs.form.validate()) {
         this.toEmail = this.to.join();
         let message = {
-          from: this.from,
           to: this.toEmail,
           subject: this.subject,
           text: this.message
         };
         this.dialog = true;
-        functions
-          .httpsCallable("sendEmail")(message)
-          .then(out => {
-            if (out.data.message == "Queued. Thank you.") {
-              this.dialog = false;
-              this.success = true;
-            } else {
-              this.dialog = false;
-              this.fail = true;
-            }
-          });
+        functions.httpsCallable("sendEmail")(message);
       }
     }
   }

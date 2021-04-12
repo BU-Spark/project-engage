@@ -25,7 +25,9 @@
           Invite Admin
         </v-btn>
       </div>
-      <EmailUI />
+      <v-container>
+        <EmailUI />
+      </v-container>
     </div>
     <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
       Log Out</v-btn
