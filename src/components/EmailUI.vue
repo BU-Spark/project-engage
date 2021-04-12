@@ -205,12 +205,23 @@ export default {
       if (this.$refs.form.validate()) {
         this.toEmail = this.to.join();
         let message = {
-          to: this.toEmail,
+          email: this.toEmail,
           subject: this.subject,
-          text: this.message
+          text: this.message,
+          cc: this.recepients
         };
         this.dialog = true;
-        functions.httpsCallable("sendEmail")(message);
+        functions
+          .httpsCallable("sendEmail")(message)
+          .then(() => {
+            this.dialog = false;
+            this.success = true;
+          })
+          .catch(error => {
+            console.log(error);
+            this.dialog = false;
+            this.fail = true;
+          });
       }
     }
   }
