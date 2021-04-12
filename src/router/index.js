@@ -13,14 +13,6 @@ const routes = [
     }
   },
   {
-    path: "/GoogleLogin",
-    name: "googleLogin",
-    component: () => import("@/views/GoogleLogin.vue"),
-    meta: {
-      requiresAuth: false
-    }
-  },
-  {
     path: "/",
     name: "Login",
     component: () => import("@/views/Login.vue"),
@@ -32,14 +24,6 @@ const routes = [
     path: "/home",
     name: "home",
     component: () => import("@/views/Home.vue"),
-    meta: {
-      requiresAuth: false
-    }
-  },
-  {
-    path: "/pending",
-    name: "waitApproval",
-    component: () => import("@/views/WaitApproval.vue"),
     meta: {
       requiresAuth: false
     }
