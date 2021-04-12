@@ -26,7 +26,7 @@
               <template v-slot:selection="data">
                 <v-chip
                   :key="JSON.stringify(data.item)"
-                  :selected="data.selected"
+                  :input-value="data.selected"
                   :disabled="data.disabled"
                   class="v-chip--select-multi"
                   @input="data.parent.selectItem(data.item)"
@@ -57,7 +57,7 @@
               <template v-slot:selection="data">
                 <v-chip
                   :key="JSON.stringify(data.item)"
-                  :selected="data.selected"
+                  :input-value="data.selected"
                   :disabled="data.disabled"
                   class="v-chip--select-multi"
                   @input="data.parent.selectItem(data.item)"
@@ -88,7 +88,7 @@
               <template v-slot:selection="data">
                 <v-chip
                   :key="JSON.stringify(data.item)"
-                  :selected="data.selected"
+                  :input-value="data.selected"
                   :disabled="data.disabled"
                   class="v-chip--select-multi"
                   @input="data.parent.selectItem(data.item)"
@@ -119,10 +119,7 @@
               auto-grow
               required
             ></v-textarea>
-            <v-btn
-              :disabled="dialog || success || fail"
-              :loading="!(success || fail)"
-              @click="send"
+            <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
             <!-- <v-dialog v-model="dialog" hide-overlay persistent width="300">
@@ -148,7 +145,9 @@
               </v-card>
             </v-dialog> -->
             <v-overlay v-if="dialog" absolute color="#036358">
-              <v-btn>Sending Email ...</v-btn>
+              <v-text v-if="success">Email Sent Successfully!</v-text>
+              <v-text v-else-if="fail">Unable To Send Email</v-text>
+              <v-text v-else>Sending Email ...</v-text>
             </v-overlay>
           </v-form>
         </v-card-text>
@@ -196,7 +195,8 @@ export default {
       subject: null,
       message: null,
       ccRecepients: [],
-      bccRecepients: []
+      bccRecepients: [],
+      recepients: []
     };
   },
   computed: {
@@ -216,18 +216,17 @@ export default {
           bcc: this.bccRecepients
         };
         this.dialog = true;
-        functions
+        await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
             console.log(result);
-            this.dialog = false;
             this.success = true;
           })
           .catch(error => {
             console.log(error);
-            this.dialog = false;
             this.fail = true;
           });
+        this.dialog = false;
       }
     }
   }

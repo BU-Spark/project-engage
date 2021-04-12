@@ -25,7 +25,7 @@ module.exports.sendInviteEmails = functions.https.onCall(
     )}?=`;
     const messageParts = [
       "From: BU Spark <buspark@bu.edu>",
-      "To: " + data.name + " <" + data.email + ">",
+      "To: <" + data.email + ">",
       "Content-Type: text/html; charset=utf-8",
       "MIME-Version: 1.0",
       `Subject: ${utf8Subject}`,
