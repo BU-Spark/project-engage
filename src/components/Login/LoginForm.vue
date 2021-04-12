@@ -1,20 +1,4 @@
 <template>
-  <!-- <v-container>
-    <v-alert dark v-if="this.errorMsg">
-      {{ this.errorMsg }}
-    </v-alert>
-    <div>
-      <GoogleLoginButton class="ma-2" buttonLabel="Login" />
-    </div>
-
-    <v-divider inset></v-divider>
-    <h3 class="my-4">Don't have an account? Sign up here!</h3>
-    <div>
-      <GoogleLoginButton class="ma-2" buttonLabel="Student Sign Up" />
-      <v-btn class="ma-4" @click="admin"> Admin SignUp </v-btn>
-    </div>
-  </v-container> -->
-
   <center>
     <v-container class="ma-14">
       <v-row no-gutters style="height: 300px;">
@@ -34,23 +18,25 @@
         <v-col>
           <v-card class="pa-2" outlined tile no-gutters>
             <center>
-              <h3>For Students</h3>
+              <h3>Login</h3>
             </center>
             <center>
               <h4>
-                <GoogleLoginButton class="ma-2" buttonLabel="Login" />
+                <GoogleLoginButton
+                  class="ma-2"
+                  buttonLabel="Login with Google"
+                />
               </h4>
             </center>
 
             <br />
             <center>
-              <h3>For Admins</h3>
+              <h3>Sign Up</h3>
             </center>
-
             <center>
               <h4>
-                <v-btn class="ma-4" @click="admin"> Admin SignUp </v-btn>
-                <GoogleLoginButton class="ma-2" buttonLabel="Student Sign Up" />
+                <v-btn class="ma-2" @click="admin"> Admin Signup </v-btn>
+                <GoogleLoginButton class="ma-2" buttonLabel="Student Signup" />
               </h4>
             </center>
           </v-card>
