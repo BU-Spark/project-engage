@@ -95,7 +95,9 @@ export default {
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
             });
+
           alert("Invited: " + this.addAdminEmail);
+          await functions.httpsCallable("processChangeRole")();
           await functions.httpsCallable("sendInviteEmails")({
             email: this.addAdminEmail,
             name: this.user.displayName
