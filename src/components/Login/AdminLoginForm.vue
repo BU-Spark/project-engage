@@ -55,6 +55,7 @@ export default {
       } else {
         this.errorMsg = "Please enter an email";
       }
+      this.adminVal = true;
     }
   },
   async mounted() {
