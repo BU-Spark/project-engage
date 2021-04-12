@@ -49,11 +49,12 @@ export default {
         if (!this.adminValidation) {
           this.errorMsg =
             "You can only proceed with admin account creation when it is approved!";
+        } else {
+          this.adminVal = true;
         }
       } else {
         this.errorMsg = "Please enter an email";
       }
-      this.adminVal = true;
     }
   },
   async mounted() {
