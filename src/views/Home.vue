@@ -97,7 +97,21 @@ export default {
             });
 
           alert("Invited: " + this.addAdminEmail);
-          await functions.httpsCallable("processChangeRole")();
+          const snapshot = await db
+            .collection("users")
+            .where("email", "==", this.addAdminEmail)
+            .get();
+          if (snapshot.empty) {
+            console.log("No matching documents.");
+          } else {
+            snapshot.forEach(doc => {
+              functions.httpsCallable("processChangeRole")({
+                id: doc.id
+              });
+              // console.log(doc.id, '=>', doc.data());
+            });
+          }
+
           await functions.httpsCallable("sendInviteEmails")({
             email: this.addAdminEmail,
             name: this.user.displayName
