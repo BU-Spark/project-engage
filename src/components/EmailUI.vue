@@ -142,24 +142,6 @@
               auto-grow
               required
             ></v-textarea>
-            <v-flex>
-              <v-checkbox
-                v-model="tracking"
-                label="Enable Tracking"
-              ></v-checkbox>
-            </v-flex>
-            <v-flex>
-              <v-checkbox
-                v-model="clicktracking"
-                label="Enable Click Tracking"
-              ></v-checkbox>
-            </v-flex>
-            <v-flex>
-              <v-checkbox
-                v-model="opentracking"
-                label="Enable Open Tracking"
-              ></v-checkbox>
-            </v-flex>
             <v-btn
               :disabled="dialog || success || fail"
               :loading="dialog || success || fail"
@@ -196,22 +178,22 @@
 </template>
 
 <script>
-//import { db } from "../firebase/init";
-import firebase from "firebase/app";
+import { functions } from "../firebase/init";
 import "@firebase/functions";
 export default {
   name: "EmailUI",
   data() {
     return {
-      active_tab: 0,
       ccRules: [
         v => {
           if (v == null) {
             return true;
           } else {
-            /^[\W]*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4}[\W]*,{1}[\W]*)*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4})[\W]*$/.test(
-              v
-            ) || "E-mail must be valid";
+            return (
+              /^[\W]*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4}[\W]*,{1}[\W]*)*([\w+\-.%]+@[\w\-.]+\.[A-Za-z]{2,4})[\W]*$/.test(
+                v
+              ) || "E-mail must be valid"
+            );
           }
         }
       ],
@@ -227,10 +209,6 @@ export default {
       toEmail: "",
       fail: false,
       dialog: false,
-      tracking: false,
-      clicktracking: false,
-      opentracking: false,
-      logs: null,
       valid: false,
       from: null,
       to: null,
@@ -255,14 +233,10 @@ export default {
           from: this.from,
           to: this.toEmail,
           subject: this.subject,
-          text: this.message,
-          tracking: this.tracking,
-          clicktracking: this.clicktracking,
-          opentracking: this.opentracking
+          text: this.message
         };
         this.dialog = true;
-        firebase
-          .functions()
+        functions
           .httpsCallable("sendEmail")(message)
           .then(out => {
             if (out.data.message == "Queued. Thank you.") {
