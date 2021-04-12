@@ -47,7 +47,7 @@
             <v-combobox
               v-model="cc"
               :rules="ccRules"
-              :items="recepients"
+              :items="ccRecepients"
               :return-object="false"
               label="Cc"
               chips
@@ -78,7 +78,7 @@
             <v-combobox
               v-model="bcc"
               :rules="ccRules"
-              :items="recepients"
+              :items="bccRecepients"
               :return-object="false"
               label="Bcc"
               chips
@@ -121,11 +121,11 @@
             ></v-textarea>
             <v-btn
               :disabled="dialog || success || fail"
-              :loading="dialog || success || fail"
+              :loading="!(success || fail)"
               @click="send"
               >Send</v-btn
             >
-            <v-dialog v-model="dialog" hide-overlay persistent width="300">
+            <!-- <v-dialog v-model="dialog" hide-overlay persistent width="300">
               <v-card color="primary" dark>
                 <v-card-text>
                   Sending Email
@@ -136,8 +136,8 @@
                   ></v-progress-linear>
                 </v-card-text>
               </v-card>
-            </v-dialog>
-            <v-dialog v-model="success" hide-overlay persistent width="300">
+            </v-dialog> -->
+            <!-- <v-dialog v-model="success" hide-overlay persistent width="300">
               <v-card color="green" dark>
                 <v-card-text>Email Sent Successfully</v-card-text>
               </v-card>
@@ -146,7 +146,10 @@
               <v-card color="red" dark>
                 <v-card-text>Unable To Send Email</v-card-text>
               </v-card>
-            </v-dialog>
+            </v-dialog> -->
+            <v-overlay v-if="dialog" absolute color="#036358">
+              <v-btn>Sending Email ...</v-btn>
+            </v-overlay>
           </v-form>
         </v-card-text>
       </v-card>
@@ -192,7 +195,8 @@ export default {
       bcc: null,
       subject: null,
       message: null,
-      recepients: []
+      ccRecepients: [],
+      bccRecepients: []
     };
   },
   computed: {
@@ -208,12 +212,14 @@ export default {
           email: this.toEmail,
           subject: this.subject,
           text: this.message,
-          cc: this.recepients
+          cc: this.ccRecepients,
+          bcc: this.bccRecepients
         };
         this.dialog = true;
         functions
           .httpsCallable("sendEmail")(message)
-          .then(() => {
+          .then(result => {
+            console.log(result);
             this.dialog = false;
             this.success = true;
           })
