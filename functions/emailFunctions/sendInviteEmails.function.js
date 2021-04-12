@@ -19,7 +19,7 @@ module.exports.sendInviteEmails = functions.https.onCall(
     if (!context.auth) {
       return { message: "Authentication Required!", code: 401 };
     }
-    const subject = "You are Invited to Be an Spark Admin!";
+    const subject = "You are Invited to be a Spark Admin!";
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString(
       "base64"
     )}?=`;
