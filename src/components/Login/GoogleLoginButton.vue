@@ -30,31 +30,32 @@ export default {
   methods: {
     async googleLogin() {
       var provider = new firebase.auth.GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: "select_account",
-        login_hint: this.email
-      });
+      if (this.email) {
+        provider.setCustomParameters({
+          prompt: "select_account",
+          login_hint: this.email
+        });
+      }
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
     }
   },
   mounted() {
-    if (this.user) {
-      this.$router.push("/home");
-    }
     auth.getRedirectResult().then(async result => {
       if (result.user != null) {
         await store.dispatch(
           "validateAdmin",
           result.additionalUserInfo.profile.email
         );
+        console.log(this.adminValidation);
         if (
-          store.state.adminValidation ||
+          this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
+          //console.log("here");
           //if this is a BU email or the user is a validated admin
-          if (!this.user) {
-            await store.dispatch("setUser");
+          if (this.user) {
+            this.$router.push("/home");
           }
         } else {
           //if it is not a BU email
@@ -68,6 +69,14 @@ export default {
       }
     });
   }
+  // watch: {
+  //   user: function(newUser) {
+  //     console.log(newUser);
+  //     if (newUser) {
+  //       this.$router.push("/home");
+  //     }
+  //   }
+  // }
 };
 </script>
 

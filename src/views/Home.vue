@@ -102,16 +102,17 @@ export default {
             .collection("users")
             .where("email", "==", this.addAdminEmail)
             .get();
-          if (snapshot.empty) {
-            console.log("No matching documents.");
-            await functions.httpsCallable("sendInviteEmails")({
-              email: this.addAdminEmail
-            });
-          } else {
+          if (snapshot.size > 0) {
             snapshot.forEach(doc => {
+              console.log("changed role");
               functions.httpsCallable("processChangeRole")({
                 id: doc.id
               });
+            });
+          } else {
+            console.log("invite email");
+            await functions.httpsCallable("sendInviteEmails")({
+              email: this.addAdminEmail
             });
           }
         } else {
