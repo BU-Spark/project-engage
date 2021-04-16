@@ -69,14 +69,6 @@ export default {
       }
     });
   }
-  // watch: {
-  //   user: function(newUser) {
-  //     console.log(newUser);
-  //     if (newUser) {
-  //       this.$router.push("/home");
-  //     }
-  //   }
-  // }
 };
 </script>
 

@@ -54,11 +54,6 @@ export default {
         this.errorMsg = "Please enter an email";
       }
     }
-  },
-  async mounted() {
-    // if (this.user) {
-    //   this.$router.push("/home");
-    // }
   }
 };
 </script>
