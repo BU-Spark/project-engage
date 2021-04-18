@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-btn color="#36bd90" class="ma-2" @click="googleLogin" rounded>
+    <v-btn color="#fffff" class="ma-2" @click="googleLogin">
+      <v-avatar>
+        <v-img src="../../assets/google.jpeg" height="20px" width="20px" />
+      </v-avatar>
       {{ buttonLabel }}
     </v-btn>
   </div>
@@ -81,5 +84,10 @@ v-text-field {
 
 v-btn {
   color: #36bd90;
+}
+
+v-avatar {
+  align-items: left;
+  margin-left: 10px;
 }
 </style>
