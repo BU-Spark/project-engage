@@ -22,7 +22,10 @@
             </center>
             <center>
               <h4>
-                <GoogleLoginButton class="ma-2" buttonLabel="Gmail Login" />
+                <GoogleLoginButton
+                  class="ma-2"
+                  buttonLabel="Sign in with Google"
+                />
               </h4>
             </center>
 
@@ -30,12 +33,16 @@
             <center>
               <h3>Sign Up</h3>
             </center>
+            <br />
             <center>
               <h4>
                 <v-btn color="#36bd90" class="ma-4" @click="admin" rounded>
                   Admin SignUp
                 </v-btn>
-                <GoogleLoginButton class="ma-4" buttonLabel="Student Sign Up" />
+                <GoogleLoginButton
+                  class="ma-4"
+                  buttonLabel="Sign up with Google"
+                />
               </h4>
             </center>
           </v-card>
