@@ -25,7 +25,9 @@
           Invite Admin
         </v-btn>
       </div>
-      <EmailUI />
+      <v-container>
+        <EmailUI />
+      </v-container>
     </div>
     <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
       Log Out</v-btn
@@ -95,27 +97,24 @@ export default {
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
             });
-
           alert("Invited: " + this.addAdminEmail);
           const snapshot = await db
             .collection("users")
             .where("email", "==", this.addAdminEmail)
             .get();
-          if (snapshot.empty) {
-            console.log("No matching documents.");
-          } else {
+          if (snapshot.size > 0) {
             snapshot.forEach(doc => {
+              console.log("changed role");
               functions.httpsCallable("processChangeRole")({
                 id: doc.id
               });
-              // console.log(doc.id, '=>', doc.data());
+            });
+          } else {
+            console.log("invite email");
+            await functions.httpsCallable("sendInviteEmails")({
+              email: this.addAdminEmail
             });
           }
-
-          await functions.httpsCallable("sendInviteEmails")({
-            email: this.addAdminEmail,
-            name: this.user.displayName
-          });
         } else {
           alert("This email had already been invited to sign up as admin");
         }

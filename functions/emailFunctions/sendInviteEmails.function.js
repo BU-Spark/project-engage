@@ -25,14 +25,14 @@ module.exports.sendInviteEmails = functions.https.onCall(
     )}?=`;
     const messageParts = [
       "From: BU Spark <buspark@bu.edu>",
-      "To: " + data.name + " <" + data.email + ">",
+      "To: <" + data.email + ">",
       "Content-Type: text/html; charset=utf-8",
       "MIME-Version: 1.0",
       `Subject: ${utf8Subject}`,
       "",
       "Create your Spark Admin Account by Clicking on the link below!",
       "So... what are you waiting for? 🤘❤️😎",
-      "<br/> <a href='http://localhost:8080/home'> Spark Central Portal </a>"
+      "<br/> <a href='https://buspark.app/AdminLogin'> Spark Central Portal </a>"
     ];
     const message = messageParts.join("\n");
 

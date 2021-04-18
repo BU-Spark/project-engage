@@ -1,6 +1,7 @@
 <template>
   <center>
     <v-container class="ma-14">
+      <v-alert v-if="errorMsg"> {{ errorMsg }}</v-alert>
       <v-row no-gutters style="height: 300px;">
         <v-col order="last" no-gutters>
           <v-card class="pa-14" outlined tile>
@@ -53,8 +54,6 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import { auth } from "@/firebase/init";
 import store from "@/store";
 import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
 export default {
@@ -74,11 +73,6 @@ export default {
     return {};
   },
   methods: {
-    async login() {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      auth.useDeviceLanguage();
-      auth.signInWithRedirect(provider);
-    },
     admin() {
       this.$router.push("/AdminLogin");
     }
