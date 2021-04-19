@@ -118,7 +118,6 @@ export default {
             "email",
             this.addAdminEmail
           ]);
-          console.log(this.snapshot);
           if (this.snapshot.size > 0) {
             this.adminExists = true;
           } else {
