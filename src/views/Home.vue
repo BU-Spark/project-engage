@@ -126,7 +126,8 @@ export default {
             this.adminExists = true;
           } else {
             await functions.httpsCallable("sendInviteEmails")({
-              email: this.addAdminEmail
+              email: this.addAdminEmail,
+              message: "So... what are you waiting for? 🤘❤️😎"
             });
             this.addAdminEmail = "";
             alert("invited email");
@@ -140,6 +141,10 @@ export default {
     },
     async changeRole() {
       this.snapshot.forEach(doc => {
+        functions.httpsCallable("sendInviteEmails")({
+          email: this.addAdminEmail,
+          message: "Your account has been assigned as an admin email! ✨"
+        });
         functions.httpsCallable("processChangeRole")({
           id: doc.id
         });
