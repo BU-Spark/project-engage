@@ -21,8 +21,20 @@
           class="ma-2"
           @click="addAdmin()"
           :disabled="!emailValidated"
+          v-if="!this.adminExists"
         >
           Invite Admin
+        </v-btn>
+        <v-btn
+          elevation="2"
+          outlined
+          plain
+          raised
+          class="ma-2"
+          @click="changeRole()"
+          v-if="this.adminExists"
+        >
+          Change Role
         </v-btn>
       </div>
       <v-container>
@@ -56,12 +68,16 @@ export default {
     },
     adminValidation() {
       return store.state.adminValidation;
+    },
+    snapshot() {
+      return store.state.snapshot;
     }
   },
   data() {
     return {
       addAdminEmail: null,
       emailValidated: false,
+      adminExists: false,
       emailRules: [
         v =>
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -97,31 +113,37 @@ export default {
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
             });
-          alert("Invited: " + this.addAdminEmail);
-          const snapshot = await db
-            .collection("users")
-            .where("email", "==", this.addAdminEmail)
-            .get();
-          if (snapshot.size > 0) {
-            snapshot.forEach(doc => {
-              console.log("changed role");
-              functions.httpsCallable("processChangeRole")({
-                id: doc.id
-              });
-            });
+          await store.dispatch("getSnapshot", [
+            "users",
+            "email",
+            this.addAdminEmail
+          ]);
+          console.log(this.snapshot);
+          if (this.snapshot.size > 0) {
+            this.adminExists = true;
           } else {
-            console.log("invite email");
             await functions.httpsCallable("sendInviteEmails")({
               email: this.addAdminEmail
             });
+            this.addAdminEmail = "";
+            alert("invited email");
           }
         } else {
           alert("This email had already been invited to sign up as admin");
         }
-        this.addAdminEmail = "";
       } else {
         alert("Please enter a email");
       }
+    },
+    async changeRole() {
+      this.snapshot.forEach(doc => {
+        functions.httpsCallable("processChangeRole")({
+          id: doc.id
+        });
+      });
+      this.adminExists = false;
+      this.addAdminEmail = "";
+      alert("changed role");
     }
   },
   async mounted() {}

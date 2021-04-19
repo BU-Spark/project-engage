@@ -16,7 +16,8 @@ export default new Vuex.Store({
     user: null,
     isAdmin: null,
     adminValidation: null,
-    errorMsg: null
+    errorMsg: null,
+    snapshot: null
   },
   mutations: {
     setUser: (state, data) => {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setErrorMsg: (state, data) => {
       state.errorMsg = data;
+    },
+    setSnapshot: (state, data) => {
+      state.snapshot = data;
     }
   },
   actions: {
@@ -66,6 +70,13 @@ export default new Vuex.Store({
       } else {
         context.commit("setAdminValidation", false);
       }
+    },
+    getSnapshot: async (context, [col, field, variable]) => {
+      const snap = await db
+        .collection(col)
+        .where(field, "==", variable)
+        .get();
+      context.commit("setSnapshot", snap);
     }
   }
 });
