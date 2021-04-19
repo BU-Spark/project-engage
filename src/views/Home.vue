@@ -25,6 +25,10 @@
         >
           Invite Admin
         </v-btn>
+        <v-alert dark v-if="this.adminExists">
+          This email is currently registered as a student account, please click
+          Change Role if you want to assign them admin permission
+        </v-alert>
         <v-btn
           elevation="2"
           outlined
