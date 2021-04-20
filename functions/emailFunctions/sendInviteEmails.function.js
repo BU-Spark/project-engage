@@ -30,9 +30,8 @@ module.exports.sendInviteEmails = functions.https.onCall(
       "MIME-Version: 1.0",
       `Subject: ${utf8Subject}`,
       "",
-      "Create your Spark Admin Account by Clicking on the link below!",
-      "So... what are you waiting for? 🤘❤️😎",
-      "<br/> <a href='http://localhost:8080/home'> Spark Central Portal </a>"
+      data.message,
+      "<br/> <a href='https://buspark.app/AdminLogin'> Spark Central Portal </a>"
     ];
     const message = messageParts.join("\n");
 
