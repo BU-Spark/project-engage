@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-btn color="#228B22" class="ma-2" @click="googleLogin">
+    <v-btn color="#fffff" class="ma-2" @click="googleLogin">
+      <v-avatar>
+        <v-img src="../../assets/google.jpeg" height="20px" width="20px" />
+      </v-avatar>
       {{ buttonLabel }}
     </v-btn>
   </div>
@@ -30,31 +33,32 @@ export default {
   methods: {
     async googleLogin() {
       var provider = new firebase.auth.GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: "select_account",
-        login_hint: this.email
-      });
+      if (this.email) {
+        provider.setCustomParameters({
+          prompt: "select_account",
+          login_hint: this.email
+        });
+      }
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
     }
   },
   mounted() {
-    if (this.user) {
-      this.$router.push("/home");
-    }
     auth.getRedirectResult().then(async result => {
       if (result.user != null) {
         await store.dispatch(
           "validateAdmin",
           result.additionalUserInfo.profile.email
         );
+        console.log(this.adminValidation);
         if (
-          store.state.adminValidation ||
+          this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
+          //console.log("here");
           //if this is a BU email or the user is a validated admin
-          if (!this.user) {
-            await store.dispatch("setUser");
+          if (this.user) {
+            this.$router.push("/home");
           }
         } else {
           //if it is not a BU email
@@ -77,5 +81,14 @@ button {
 }
 v-text-field {
   width: 200;
+}
+
+v-btn {
+  color: #36bd90;
+}
+
+v-avatar {
+  align-items: left;
+  margin-left: 10px;
 }
 </style>

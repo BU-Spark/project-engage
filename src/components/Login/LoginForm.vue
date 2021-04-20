@@ -1,6 +1,7 @@
 <template>
   <center>
     <v-container class="ma-14">
+      <v-alert v-if="errorMsg"> {{ errorMsg }}</v-alert>
       <v-row no-gutters style="height: 300px;">
         <v-col order="last" no-gutters>
           <v-card class="pa-14" outlined tile>
@@ -18,13 +19,13 @@
         <v-col>
           <v-card class="pa-2" outlined tile no-gutters>
             <center>
-              <h3>Login</h3>
+              <h3>Gmail Login</h3>
             </center>
             <center>
               <h4>
                 <GoogleLoginButton
                   class="ma-2"
-                  buttonLabel="Login with Google"
+                  buttonLabel="Sign in with Google"
                 />
               </h4>
             </center>
@@ -33,10 +34,16 @@
             <center>
               <h3>Sign Up</h3>
             </center>
+            <br />
             <center>
               <h4>
-                <v-btn class="ma-2" @click="admin"> Admin Signup </v-btn>
-                <GoogleLoginButton class="ma-2" buttonLabel="Student Signup" />
+                <v-btn color="#36bd90" class="ma-4" @click="admin" rounded>
+                  Admin SignUp
+                </v-btn>
+                <GoogleLoginButton
+                  class="ma-4"
+                  buttonLabel="Sign up with Google"
+                />
               </h4>
             </center>
           </v-card>
@@ -47,8 +54,6 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import { auth } from "@/firebase/init";
 import store from "@/store";
 import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
 export default {
@@ -68,11 +73,6 @@ export default {
     return {};
   },
   methods: {
-    async login() {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      auth.useDeviceLanguage();
-      auth.signInWithRedirect(provider);
-    },
     admin() {
       this.$router.push("/AdminLogin");
     }
@@ -102,9 +102,7 @@ li {
 v-btn {
   color: #36bd90;
 }
-h2 {
-  margin: 110px 0 0;
-  text-indent: 10px 0 0;
-  padding-left: 180px;
+h3 {
+  margin: 30px 0 0;
 }
 </style>
