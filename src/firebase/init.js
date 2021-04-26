@@ -6,13 +6,13 @@ import "firebase/performance";
 import "firebase/analytics";
 
 const config = {
-  apiKey: "AIzaSyCXJTXAGxz8zp7Z_n2f7ljYXg9wbIG4Xgg",
+  apiKey: "AIzaSyB46JWorhyNJDzG20J0dujbIY46zNudibc",
   authDomain: "auth.buspark.app",
   projectId: "spark-project-engage",
   storageBucket: "spark-project-engage.appspot.com",
   messagingSenderId: "95521899365",
-  appId: "1:95521899365:web:a63fa08c219e4495f8178c",
-  measurementId: "G-NM9Q44FTET"
+  appId: "1:95521899365:web:faf942f1ef49f28af8178c",
+  measurementId: "G-L9TYR85MP5"
 };
 
 const app = firebase.initializeApp(config);
