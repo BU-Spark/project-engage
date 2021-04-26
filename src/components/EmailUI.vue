@@ -185,7 +185,7 @@ export default {
       ],
       notEmptyRules: [v => !!v || "Field is required"],
       success: false,
-      toEmail: "",
+      toEmail: [],
       fail: false,
       dialog: false,
       valid: false,
@@ -207,15 +207,37 @@ export default {
   methods: {
     async send() {
       if (this.$refs.form.validate()) {
-        this.toEmail = this.to.join();
+        // this.toEmail = this.to.join();
+        const emailList = [];
+        var i;
+        if (!(this.to === null)) {
+          for (i = 0; i < this.to.length; i++) {
+            emailList.push("<" + this.to[i] + ">");
+          }
+        }
+        const ccList = [];
+        if (!(this.cc === null)) {
+          for (i = 0; i < this.cc.length; i++) {
+            ccList.push("<" + this.cc[i] + ">");
+          }
+        }
+        const bccList = [];
+        if (!(this.bcc === null)) {
+          for (i = 0; i < this.bcc.length; i++) {
+            bccList.push("<" + this.bcc[i] + ">");
+          }
+        }
+
         let message = {
-          email: this.toEmail,
+          email: emailList,
           subject: this.subject,
           text: this.message,
-          cc: this.ccRecepients,
-          bcc: this.bccRecepients
+          cc: ccList,
+          bcc: bccList
         };
+
         this.dialog = true;
+
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
