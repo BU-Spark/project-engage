@@ -114,7 +114,7 @@ export default {
       alert("changed role");
     },
     sendInviteEmail() {
-      functions.httpsCallable("sendInviteEmails")({
+      functions.httpsCallable("sendEmail")({
         to: this.addAdminEmail,
         message: this.inviteMessage,
         subject: "You are Invited to be a Spark Admin!"
