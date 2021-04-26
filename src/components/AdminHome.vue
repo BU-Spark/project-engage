@@ -1,31 +1,57 @@
 <template>
   <div>
-    Welcome!
-
-    <h1>{{ this.user.email }}</h1>
-    <div v-if="this.isAdmin">
-      <AdminHome />
+    <p>Successfully logged in as admin</p>
+    <div>
+      <v-text-field
+        outlined
+        v-model="addAdminEmail"
+        :rules="emailRules"
+        @change="checkEmail"
+      >
+      </v-text-field>
+      <v-btn
+        elevation="2"
+        outlined
+        plain
+        raised
+        class="ma-2"
+        @click="addAdmin()"
+        :disabled="!emailValidated"
+        v-if="!this.adminExists"
+      >
+        Invite Admin
+      </v-btn>
+      <v-alert dark v-if="this.adminExists">
+        This email is currently registered as a student account, please click
+        Change Role if you want to assign them admin permission
+      </v-alert>
+      <v-btn
+        elevation="2"
+        outlined
+        plain
+        raised
+        class="ma-2"
+        @click="changeRole()"
+        v-if="this.adminExists"
+      >
+        Change Role
+      </v-btn>
+      <v-container>
+        <EmailUI />
+      </v-container>
     </div>
-    <div v-if="!this.isAdmin">
-      <StudentHome />
-    </div>
-    <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
-      Log Out</v-btn
-    >
   </div>
 </template>
 
 <script>
 import { functions, db } from "@/firebase/init";
 import store from "@/store";
-import AdminHome from "@/components/AdminHome.vue";
-import StudentHome from "@/components/StudentHome.vue";
+import EmailUI from "@/components/EmailUI.vue";
 
 export default {
-  name: "Home",
+  name: "AdminHome",
   components: {
-    AdminHome,
-    StudentHome
+    EmailUI
   },
   computed: {
     user() {
@@ -55,10 +81,6 @@ export default {
     };
   },
   methods: {
-    async signOut() {
-      await this.$store.dispatch("logOut");
-      this.$router.push("/");
-    },
     checkEmail() {
       if (
         !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
