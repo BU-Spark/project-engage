@@ -82,6 +82,8 @@ export default {
       addAdminEmail: null,
       emailValidated: false,
       adminExists: false,
+      inviteMessage:
+        "So... what are you waiting for? 🤘❤️😎 <br/> <a href='https://buspark.app/AdminLogin'> Spark Central Portal </a>",
       emailRules: [
         v =>
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -125,10 +127,7 @@ export default {
           if (this.snapshot.size > 0) {
             this.adminExists = true;
           } else {
-            await functions.httpsCallable("sendInviteEmails")({
-              email: this.addAdminEmail,
-              message: "So... what are you waiting for? 🤘❤️😎"
-            });
+            await this.sendInviteEmail();
             this.addAdminEmail = "";
             alert("invited email");
           }
@@ -141,10 +140,7 @@ export default {
     },
     async changeRole() {
       this.snapshot.forEach(doc => {
-        functions.httpsCallable("sendInviteEmails")({
-          email: this.addAdminEmail,
-          message: "Your account has been assigned as an admin email! ✨"
-        });
+        this.sendInviteEmail();
         functions.httpsCallable("processChangeRole")({
           id: doc.id
         });
@@ -152,6 +148,13 @@ export default {
       this.adminExists = false;
       this.addAdminEmail = "";
       alert("changed role");
+    },
+    sendInviteEmail() {
+      functions.httpsCallable("sendInviteEmails")({
+        to: this.addAdminEmail,
+        message: this.inviteMessage,
+        subject: "You are Invited to be a Spark Admin!"
+      });
     }
   },
   async mounted() {}

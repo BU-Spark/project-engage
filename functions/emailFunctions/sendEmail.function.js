@@ -22,15 +22,19 @@ module.exports.sendEmail = functions.https.onCall(async (data, context) => {
   const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString("base64")}?=`;
   const messageParts = [
     "From: BU Spark <buspark@bu.edu>",
-    "To: " + data.email,
-    "Cc: " + data.cc,
-    "Bcc: " + data.bcc,
+    "To: " + data.to,
     "Content-Type: text/html; charset=utf-8",
     "MIME-Version: 1.0",
     `Subject: ${utf8Subject}`,
     "",
-    data.text
+    data.message
   ];
+  if (data.cc) {
+    messageParts.splice(2, 0, data.cc);
+  }
+  if (data.bcc) {
+    messageParts.splice(2, 0, data.bcc);
+  }
   const message = messageParts.join("\n");
 
   // The body needs to be base64url encoded.

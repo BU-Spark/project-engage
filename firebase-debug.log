@@ -1,0 +1,926 @@
+[debug] [2021-04-26T00:35:06.131Z] ----------------------------------------------------------------------
+[debug] [2021-04-26T00:35:06.134Z] Command:       /usr/local/Cellar/node/15.14.0/bin/node /usr/local/bin/firebase functions:shell
+[debug] [2021-04-26T00:35:06.134Z] CLI Version:   9.10.0
+[debug] [2021-04-26T00:35:06.134Z] Platform:      darwin
+[debug] [2021-04-26T00:35:06.134Z] Node Version:  v15.14.0
+[debug] [2021-04-26T00:35:06.135Z] Time:          Sun Apr 25 2021 20:35:06 GMT-0400 (Eastern Daylight Time)
+[debug] [2021-04-26T00:35:06.136Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-04-26T00:35:06.145Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-26T00:35:06.145Z] > authorizing via signed-in user (jyfeng@bu.edu)
+[debug] [2021-04-26T00:35:06.146Z] [iam] checking project spark-project-engage for permissions ["firebase.projects.get"]
+[debug] [2021-04-26T00:35:06.148Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-26T00:35:06.148Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T00:35:06.325Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Mon, 26 Apr 2021 00:35:07 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T00:35:06.353Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/spark-project-engage:testIamPermissions  
+ {"permissions":["firebase.projects.get"]}
+[debug] [2021-04-26T00:35:06.578Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 26 Apr 2021 00:35:07 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=131","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[warn] ⚠  Your requested "node" version "12" doesn't match your global version "15" {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"12\" doesn't match your global version \"15\""}}
+[debug] [2021-04-26T00:35:06.595Z] defaultcredentials: writing to file /Users/jane/.config/firebase/jyfeng_bu_edu_application_default_credentials.json
+[debug] [2021-04-26T00:35:06.597Z] DEBUG: Setting GAC to /Users/jane/.config/firebase/jyfeng_bu_edu_application_default_credentials.json
+[debug] [2021-04-26T00:35:06.598Z] > refreshing access token with scopes: []
+[debug] [2021-04-26T00:35:06.598Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T00:35:06.745Z] <<< HTTP RESPONSE 200 {"date":"Mon, 26 Apr 2021 00:35:08 GMT","pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T00:35:06.773Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/spark-project-engage/adminSdkConfig [none]
+[debug] [2021-04-26T00:35:07.107Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/spark-project-engage/adminSdkConfig 200
+[debug] [2021-04-26T00:35:07.107Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/spark-project-engage/adminSdkConfig {"projectId":"spark-project-engage","storageBucket":"spark-project-engage.appspot.com","locationId":"us-central"}
+[debug] [2021-04-26T00:35:07.139Z] [functions] Watching "/Users/jane/github/project-engage/functions" for Cloud Functions...
+[debug] [2021-04-26T00:35:07.153Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:35:07.154Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2021-04-26T00:35:07.155Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:35:07.156Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74579.sock
+[debug] [2021-04-26T00:35:07.156Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: BUSY
+[debug] [2021-04-26T00:35:07.507Z] DEBUG: [runtime-status] [74579] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:35:07.512Z] DEBUG: [runtime-status] [74579] Disabled runtime features: undefined
+[debug] [2021-04-26T00:35:07.520Z] DEBUG: [runtime-status] [74579] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:07.524Z] DEBUG: [runtime-status] [74579] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:07.533Z] DEBUG: [runtime-status] [74579] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:35:07.535Z] DEBUG: [runtime-status] [74579] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:07.536Z] DEBUG: [runtime-status] [74579] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:35:07.537Z] DEBUG: [runtime-status] [74579] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:07.618Z] DEBUG: [runtime-status] [74579] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:35:07.618Z] DEBUG: [runtime-status] [74579] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:35:07.619Z] DEBUG: [runtime-status] [74579] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:07.619Z] DEBUG: [runtime-status] [74579] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:07.620Z] DEBUG: [runtime-status] [74579] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:07.620Z] DEBUG: [runtime-status] [74579] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:35:07.669Z] DEBUG: [runtime-status] [74579] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[warn] ⚠  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production. {"metadata":{"emulator":{"name":"functions"},"message":"The Cloud Firestore emulator is not running, so calls to Firestore will affect production."}}
+[debug] [2021-04-26T00:35:08.935Z] [functions[sendEmail]] http function initialized (http://localhost:5001/spark-project-engage/us-central1/sendEmail).
+[debug] [2021-04-26T00:35:08.935Z] [functions[sendInviteEmails]] http function initialized (http://localhost:5001/spark-project-engage/us-central1/sendInviteEmails).
+[debug] [2021-04-26T00:35:08.936Z] [functions[processChangeRole]] http function initialized (http://localhost:5001/spark-project-engage/us-central1/processChangeRole).
+[debug] [2021-04-26T00:35:08.936Z] addAuthTrigger {"eventTrigger":{"resource":"projects/spark-project-engage","eventType":"providers/firebase.auth/eventTypes/user.create","service":"firebaseauth.googleapis.com"}}
+[debug] [2021-04-26T00:35:08.936Z] [functions[processSignUp]] auth function initialized.
+[info] i  functions: Loaded functions: sendEmail, sendInviteEmails, processChangeRole, processSignUp 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage 
+[debug] [2021-04-26T00:35:08.956Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: IDLE
+[debug] [2021-04-26T00:35:10.391Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendInviteEmails.function.js changed, reloading triggers
+[debug] [2021-04-26T00:35:11.393Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:35:11.393Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: FINISHING
+[debug] [2021-04-26T00:35:11.412Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:35:11.412Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:35:11.413Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:35:11.413Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74588.sock
+[debug] [2021-04-26T00:35:11.413Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: BUSY
+[debug] [2021-04-26T00:35:11.415Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: exited
+[debug] [2021-04-26T00:35:11.416Z] DEBUG: [worker-~diagnostic~-1c00b2d9-a9c7-4e5e-bdc2-b729fce5dab6]: FINISHED
+[debug] [2021-04-26T00:35:11.642Z] DEBUG: [runtime-status] [74588] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:35:11.644Z] DEBUG: [runtime-status] [74588] Disabled runtime features: undefined
+[debug] [2021-04-26T00:35:11.649Z] DEBUG: [runtime-status] [74588] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:11.651Z] DEBUG: [runtime-status] [74588] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:11.652Z] DEBUG: [runtime-status] [74588] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:35:11.653Z] DEBUG: [runtime-status] [74588] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:11.655Z] DEBUG: [runtime-status] [74588] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:35:11.655Z] DEBUG: [runtime-status] [74588] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:11.695Z] DEBUG: [runtime-status] [74588] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:35:11.695Z] DEBUG: [runtime-status] [74588] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:35:11.695Z] DEBUG: [runtime-status] [74588] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:11.696Z] DEBUG: [runtime-status] [74588] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:11.696Z] DEBUG: [runtime-status] [74588] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:11.697Z] DEBUG: [runtime-status] [74588] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:35:11.727Z] DEBUG: [runtime-status] [74588] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:35:12.529Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: IDLE
+[debug] [2021-04-26T00:35:47.510Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:35:47.511Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:35:47.511Z] Accepted request POST /spark-project-engage/us-central1/sendInviteEmails --> sendInviteEmails
+[debug] [2021-04-26T00:35:47.512Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:35:47.524Z] DEBUG: [worker-pool] addWorker(sendInviteEmails)
+[debug] [2021-04-26T00:35:47.525Z] DEBUG: [worker-pool] Adding worker with key sendInviteEmails, total=1
+[debug] [2021-04-26T00:35:47.525Z] DEBUG: [worker-pool] submitWork(triggerId=sendInviteEmails)
+[debug] [2021-04-26T00:35:47.525Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74596.sock
+[debug] [2021-04-26T00:35:47.526Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: BUSY
+[debug] [2021-04-26T00:35:47.862Z] DEBUG: [runtime-status] [74596] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:35:47.864Z] DEBUG: [runtime-status] [74596] Disabled runtime features: undefined
+[debug] [2021-04-26T00:35:47.868Z] DEBUG: [runtime-status] [74596] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:47.870Z] DEBUG: [runtime-status] [74596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:47.871Z] DEBUG: [runtime-status] [74596] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:35:47.872Z] DEBUG: [runtime-status] [74596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:47.874Z] DEBUG: [runtime-status] [74596] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:35:47.874Z] DEBUG: [runtime-status] [74596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:47.936Z] DEBUG: [runtime-status] [74596] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:35:47.936Z] DEBUG: [runtime-status] [74596] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:35:47.937Z] DEBUG: [runtime-status] [74596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:47.938Z] DEBUG: [runtime-status] [74596] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:35:47.938Z] DEBUG: [runtime-status] [74596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:35:47.938Z] DEBUG: [runtime-status] [74596] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:35:47.980Z] DEBUG: [runtime-status] [74596] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:35:49.265Z] DEBUG: [runtime-status] [74596] Trigger "sendInviteEmails" has been found, beginning invocation!
+[debug] [2021-04-26T00:35:49.265Z] [functions] Beginning execution of "sendInviteEmails"
+[debug] [2021-04-26T00:35:49.266Z] DEBUG: [runtime-status] [74596] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendInviteEmails","entryPoint":"sendInviteEmails"}
+[debug] [2021-04-26T00:35:49.266Z] DEBUG: [runtime-status] [74596] Running sendInviteEmails in mode HTTPS
+[debug] [2021-04-26T00:35:49.270Z] DEBUG: [runtime-status] [74596] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74596.sock
+[debug] [2021-04-26T00:35:49.274Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:35:49.275Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendInviteEmails, mapping to path=/
+[debug] [2021-04-26T00:35:49.297Z] DEBUG: [runtime-status] [74596] Ephemeral server handling POST request
+[info] >  {"severity":"WARNING","message":"Request body is missing data."} {"user":{"severity":"WARNING","message":"Request body is missing data."},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"WARNING\",\"message\":\"Request body is missing data.\"}"}}
+[info] >  {"severity":"ERROR","message":"Invalid request, unable to process."} {"user":{"severity":"ERROR","message":"Invalid request, unable to process."},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"ERROR\",\"message\":\"Invalid request, unable to process.\"}"}}
+[debug] [2021-04-26T00:35:49.307Z] DEBUG: [runtime-status] [74596] Ephemeral server survived.
+[debug] [2021-04-26T00:35:49.307Z] [functions] Finished "sendInviteEmails" in ~1s
+[debug] [2021-04-26T00:35:49.307Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: IDLE
+[debug] [2021-04-26T00:35:49.307Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:36:45.053Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:36:45.053Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:36:45.053Z] Accepted request POST /spark-project-engage/us-central1/sendInviteEmails --> sendInviteEmails
+[debug] [2021-04-26T00:36:45.054Z] DEBUG: [worker-pool] submitWork(triggerId=sendInviteEmails)
+[debug] [2021-04-26T00:36:45.054Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74596.sock
+[debug] [2021-04-26T00:36:45.054Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: BUSY
+[debug] [2021-04-26T00:36:45.055Z] DEBUG: [runtime-status] [74596] Trigger "sendInviteEmails" has been found, beginning invocation!
+[debug] [2021-04-26T00:36:45.055Z] [functions] Beginning execution of "sendInviteEmails"
+[debug] [2021-04-26T00:36:45.055Z] DEBUG: [runtime-status] [74596] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendInviteEmails","entryPoint":"sendInviteEmails"}
+[debug] [2021-04-26T00:36:45.055Z] DEBUG: [runtime-status] [74596] Running sendInviteEmails in mode HTTPS
+[debug] [2021-04-26T00:36:45.056Z] DEBUG: [runtime-status] [74596] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74596.sock
+[debug] [2021-04-26T00:36:45.057Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:36:45.057Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendInviteEmails, mapping to path=/
+[debug] [2021-04-26T00:36:45.062Z] DEBUG: [runtime-status] [74596] Ephemeral server handling POST request
+[debug] [2021-04-26T00:36:45.063Z] DEBUG: [runtime-status] [74596] No callable functions auth found
+[debug] [2021-04-26T00:36:45.065Z] DEBUG: [runtime-status] [74596] Ephemeral server survived.
+[debug] [2021-04-26T00:36:45.065Z] [functions] Finished "sendInviteEmails" in ~1s
+[debug] [2021-04-26T00:36:45.065Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: IDLE
+[debug] [2021-04-26T00:36:45.067Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:37:08.027Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendInviteEmails.function.js changed, reloading triggers
+[debug] [2021-04-26T00:37:09.028Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:37:09.029Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: FINISHING
+[debug] [2021-04-26T00:37:09.029Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendInviteEmails)
+[debug] [2021-04-26T00:37:09.031Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: FINISHING
+[debug] [2021-04-26T00:37:09.049Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:37:09.049Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:37:09.049Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:37:09.050Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74661.sock
+[debug] [2021-04-26T00:37:09.050Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: BUSY
+[debug] [2021-04-26T00:37:09.051Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: exited
+[debug] [2021-04-26T00:37:09.052Z] DEBUG: [worker-~diagnostic~-70ba1ec3-5f69-4308-a52b-11f7e2a626b5]: FINISHED
+[debug] [2021-04-26T00:37:09.053Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: exited
+[debug] [2021-04-26T00:37:09.054Z] DEBUG: [worker-sendInviteEmails-f1fe0efd-edd4-49a0-a1d6-fd5b6989ae40]: FINISHED
+[debug] [2021-04-26T00:37:09.365Z] DEBUG: [runtime-status] [74661] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:37:09.366Z] DEBUG: [runtime-status] [74661] Disabled runtime features: undefined
+[debug] [2021-04-26T00:37:09.374Z] DEBUG: [runtime-status] [74661] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:37:09.376Z] DEBUG: [runtime-status] [74661] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:09.379Z] DEBUG: [runtime-status] [74661] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:37:09.379Z] DEBUG: [runtime-status] [74661] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:09.381Z] DEBUG: [runtime-status] [74661] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:37:09.381Z] DEBUG: [runtime-status] [74661] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:09.449Z] DEBUG: [runtime-status] [74661] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:37:09.449Z] DEBUG: [runtime-status] [74661] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:37:09.449Z] DEBUG: [runtime-status] [74661] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:09.454Z] DEBUG: [runtime-status] [74661] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:37:09.454Z] DEBUG: [runtime-status] [74661] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:09.454Z] DEBUG: [runtime-status] [74661] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:37:09.490Z] DEBUG: [runtime-status] [74661] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:37:10.523Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:37:10.523Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:37:10.523Z] Accepted request POST /spark-project-engage/us-central1/sendInviteEmails --> sendInviteEmails
+[debug] [2021-04-26T00:37:10.523Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:37:10.523Z] DEBUG: [worker-pool] Cleaned up workers for sendInviteEmails: 1 --> 0
+[debug] [2021-04-26T00:37:10.539Z] DEBUG: [worker-pool] addWorker(sendInviteEmails)
+[debug] [2021-04-26T00:37:10.539Z] DEBUG: [worker-pool] Adding worker with key sendInviteEmails, total=1
+[debug] [2021-04-26T00:37:10.540Z] DEBUG: [worker-pool] submitWork(triggerId=sendInviteEmails)
+[debug] [2021-04-26T00:37:10.540Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74670.sock
+[debug] [2021-04-26T00:37:10.540Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: BUSY
+[debug] [2021-04-26T00:37:10.641Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: IDLE
+[debug] [2021-04-26T00:37:10.745Z] DEBUG: [runtime-status] [74670] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:37:10.747Z] DEBUG: [runtime-status] [74670] Disabled runtime features: undefined
+[debug] [2021-04-26T00:37:10.751Z] DEBUG: [runtime-status] [74670] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:37:10.752Z] DEBUG: [runtime-status] [74670] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:10.754Z] DEBUG: [runtime-status] [74670] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:37:10.754Z] DEBUG: [runtime-status] [74670] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:10.757Z] DEBUG: [runtime-status] [74670] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:37:10.757Z] DEBUG: [runtime-status] [74670] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:10.796Z] DEBUG: [runtime-status] [74670] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:37:10.796Z] DEBUG: [runtime-status] [74670] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:37:10.797Z] DEBUG: [runtime-status] [74670] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:10.798Z] DEBUG: [runtime-status] [74670] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:37:10.798Z] DEBUG: [runtime-status] [74670] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:37:10.798Z] DEBUG: [runtime-status] [74670] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:37:10.825Z] DEBUG: [runtime-status] [74670] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:37:11.602Z] DEBUG: [runtime-status] [74670] Trigger "sendInviteEmails" has been found, beginning invocation!
+[debug] [2021-04-26T00:37:11.602Z] [functions] Beginning execution of "sendInviteEmails"
+[debug] [2021-04-26T00:37:11.603Z] DEBUG: [runtime-status] [74670] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendInviteEmails","entryPoint":"sendInviteEmails"}
+[debug] [2021-04-26T00:37:11.603Z] DEBUG: [runtime-status] [74670] Running sendInviteEmails in mode HTTPS
+[debug] [2021-04-26T00:37:11.607Z] DEBUG: [runtime-status] [74670] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74670.sock
+[debug] [2021-04-26T00:37:11.612Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:37:11.612Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendInviteEmails, mapping to path=/
+[debug] [2021-04-26T00:37:11.631Z] DEBUG: [runtime-status] [74670] Ephemeral server handling POST request
+[debug] [2021-04-26T00:37:11.633Z] DEBUG: [runtime-status] [74670] No callable functions auth found
+[warn] ⚠  Google API requested!
+   - URL: "https://oauth2.googleapis.com/token"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"Google API requested!\n   - URL: \"https://oauth2.googleapis.com/token\"\n   - Be careful, this may be a production service."}}
+[debug] [2021-04-26T00:37:11.663Z] DEBUG: [runtime-status] [74670] Ephemeral server survived.
+[warn] ⚠  Google API requested!
+   - URL: "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"Google API requested!\n   - URL: \"https://gmail.googleapis.com/gmail/v1/users/me/messages/send\"\n   - Be careful, this may be a production service."}}
+[info] >  { {"user":"{","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m {"}}
+[info] >    id: '1790b9bd83e9371f', {"user":"  id: '1790b9bd83e9371f',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m   id: '1790b9bd83e9371f',"}}
+[info] >    threadId: '1790b9bd83e9371f', {"user":"  threadId: '1790b9bd83e9371f',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m   threadId: '1790b9bd83e9371f',"}}
+[info] >    labelIds: [ 'SENT' ] {"user":"  labelIds: [ 'SENT' ]","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m   labelIds: [ 'SENT' ]"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendInviteEmails"},"message":"\u001b[90m> \u001b[39m }"}}
+[debug] [2021-04-26T00:37:12.557Z] [functions] Finished "sendInviteEmails" in ~1s
+[debug] [2021-04-26T00:37:12.557Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: IDLE
+[debug] [2021-04-26T00:37:12.557Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:41:38.995Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendInviteEmails.function.js changed, reloading triggers
+[debug] [2021-04-26T00:41:40.003Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:41:40.003Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: FINISHING
+[debug] [2021-04-26T00:41:40.004Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendInviteEmails)
+[debug] [2021-04-26T00:41:40.007Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: FINISHING
+[debug] [2021-04-26T00:41:40.043Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:41:40.060Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:41:40.060Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:41:40.067Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74795.sock
+[debug] [2021-04-26T00:41:40.067Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: BUSY
+[debug] [2021-04-26T00:41:40.070Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: exited
+[debug] [2021-04-26T00:41:40.070Z] DEBUG: [worker-~diagnostic~-13437e53-b588-4610-8013-e8b37776b434]: FINISHED
+[debug] [2021-04-26T00:41:40.071Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: exited
+[debug] [2021-04-26T00:41:40.071Z] DEBUG: [worker-sendInviteEmails-8e132d06-4b71-4d2f-a944-e15a4e0dd77a]: FINISHED
+[debug] [2021-04-26T00:41:40.480Z] DEBUG: [runtime-status] [74795] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:41:40.484Z] DEBUG: [runtime-status] [74795] Disabled runtime features: undefined
+[debug] [2021-04-26T00:41:40.489Z] DEBUG: [runtime-status] [74795] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:41:40.492Z] DEBUG: [runtime-status] [74795] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:41:40.494Z] DEBUG: [runtime-status] [74795] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:41:40.496Z] DEBUG: [runtime-status] [74795] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:41:40.500Z] DEBUG: [runtime-status] [74795] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:41:40.500Z] DEBUG: [runtime-status] [74795] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:41:40.582Z] DEBUG: [runtime-status] [74795] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:41:40.582Z] DEBUG: [runtime-status] [74795] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:41:40.590Z] DEBUG: [runtime-status] [74795] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:41:40.591Z] DEBUG: [runtime-status] [74795] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:41:40.592Z] DEBUG: [runtime-status] [74795] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:41:40.594Z] DEBUG: [runtime-status] [74795] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:41:40.675Z] DEBUG: [runtime-status] [74795] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:41:42.133Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: IDLE
+[debug] [2021-04-26T00:42:43.643Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:42:44.647Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:42:44.648Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: FINISHING
+[debug] [2021-04-26T00:42:44.650Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:42:44.650Z] DEBUG: [worker-pool] Cleaned up workers for sendInviteEmails: 1 --> 0
+[debug] [2021-04-26T00:42:44.663Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:42:44.663Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:42:44.663Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:42:44.663Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74826.sock
+[debug] [2021-04-26T00:42:44.664Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: BUSY
+[debug] [2021-04-26T00:42:44.669Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: exited
+[debug] [2021-04-26T00:42:44.669Z] DEBUG: [worker-~diagnostic~-90ff5a5f-ecb9-4c96-9837-5304f60935a5]: FINISHED
+[debug] [2021-04-26T00:42:44.966Z] DEBUG: [runtime-status] [74826] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:42:44.968Z] DEBUG: [runtime-status] [74826] Disabled runtime features: undefined
+[debug] [2021-04-26T00:42:44.971Z] DEBUG: [runtime-status] [74826] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:42:44.975Z] DEBUG: [runtime-status] [74826] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:44.977Z] DEBUG: [runtime-status] [74826] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:42:44.978Z] DEBUG: [runtime-status] [74826] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:44.980Z] DEBUG: [runtime-status] [74826] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:42:44.981Z] DEBUG: [runtime-status] [74826] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:45.043Z] DEBUG: [runtime-status] [74826] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:42:45.045Z] DEBUG: [runtime-status] [74826] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:42:45.046Z] DEBUG: [runtime-status] [74826] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:45.047Z] DEBUG: [runtime-status] [74826] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:42:45.063Z] DEBUG: [runtime-status] [74826] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:45.063Z] DEBUG: [runtime-status] [74826] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:42:45.100Z] DEBUG: [runtime-status] [74826] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:42:46.327Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: IDLE
+[debug] [2021-04-26T00:42:53.096Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:42:53.097Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:42:53.097Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:42:53.097Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:42:53.110Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:42:53.110Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:42:53.110Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:42:53.112Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74835.sock
+[debug] [2021-04-26T00:42:53.112Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: BUSY
+[debug] [2021-04-26T00:42:53.300Z] DEBUG: [runtime-status] [74835] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:42:53.301Z] DEBUG: [runtime-status] [74835] Disabled runtime features: undefined
+[debug] [2021-04-26T00:42:53.305Z] DEBUG: [runtime-status] [74835] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:42:53.306Z] DEBUG: [runtime-status] [74835] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:53.308Z] DEBUG: [runtime-status] [74835] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:42:53.309Z] DEBUG: [runtime-status] [74835] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:53.310Z] DEBUG: [runtime-status] [74835] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:42:53.310Z] DEBUG: [runtime-status] [74835] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:53.346Z] DEBUG: [runtime-status] [74835] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:42:53.346Z] DEBUG: [runtime-status] [74835] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:42:53.350Z] DEBUG: [runtime-status] [74835] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:53.350Z] DEBUG: [runtime-status] [74835] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:42:53.350Z] DEBUG: [runtime-status] [74835] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:42:53.351Z] DEBUG: [runtime-status] [74835] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:42:53.375Z] DEBUG: [runtime-status] [74835] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:42:54.089Z] DEBUG: [runtime-status] [74835] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:42:54.089Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:42:54.089Z] DEBUG: [runtime-status] [74835] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:42:54.089Z] DEBUG: [runtime-status] [74835] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:42:54.093Z] DEBUG: [runtime-status] [74835] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74835.sock
+[debug] [2021-04-26T00:42:54.099Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:42:54.099Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:42:54.126Z] DEBUG: [runtime-status] [74835] Ephemeral server handling POST request
+[debug] [2021-04-26T00:42:54.128Z] DEBUG: [runtime-status] [74835] No callable functions auth found
+[info] >  {"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"} {"user":{"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"ERROR\",\"message\":\"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\\n    at new NodeError (node:internal/errors:329:5)\\n    at Function.from (node:buffer:323:9)\\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\\n  code: 'ERR_INVALID_ARG_TYPE'\\n}\"}"}}
+[debug] [2021-04-26T00:42:54.158Z] DEBUG: [runtime-status] [74835] Ephemeral server survived.
+[debug] [2021-04-26T00:42:54.186Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:42:54.187Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: IDLE
+[debug] [2021-04-26T00:42:54.187Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:43:23.636Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:43:24.640Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:43:24.641Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: FINISHING
+[debug] [2021-04-26T00:43:24.641Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:43:24.641Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: FINISHING
+[debug] [2021-04-26T00:43:24.668Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:43:24.668Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:43:24.669Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:43:24.669Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74860.sock
+[debug] [2021-04-26T00:43:24.669Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: BUSY
+[debug] [2021-04-26T00:43:24.670Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: exited
+[debug] [2021-04-26T00:43:24.670Z] DEBUG: [worker-~diagnostic~-b0de4276-912c-4d2e-99f2-c3500b98dcdd]: FINISHED
+[debug] [2021-04-26T00:43:24.671Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: exited
+[debug] [2021-04-26T00:43:24.671Z] DEBUG: [worker-sendEmail-4c6a3667-ab66-4b44-b959-02b0144096a7]: FINISHED
+[debug] [2021-04-26T00:43:25.034Z] DEBUG: [runtime-status] [74860] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:25.035Z] DEBUG: [runtime-status] [74860] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:25.038Z] DEBUG: [runtime-status] [74860] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:25.039Z] DEBUG: [runtime-status] [74860] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:25.048Z] DEBUG: [runtime-status] [74860] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:25.048Z] DEBUG: [runtime-status] [74860] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:25.049Z] DEBUG: [runtime-status] [74860] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:25.049Z] DEBUG: [runtime-status] [74860] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:25.109Z] DEBUG: [runtime-status] [74860] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:25.109Z] DEBUG: [runtime-status] [74860] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:25.110Z] DEBUG: [runtime-status] [74860] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:25.110Z] DEBUG: [runtime-status] [74860] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:25.112Z] DEBUG: [runtime-status] [74860] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:25.113Z] DEBUG: [runtime-status] [74860] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:25.165Z] DEBUG: [runtime-status] [74860] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:26.410Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: IDLE
+[debug] [2021-04-26T00:43:27.277Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:43:27.278Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:43:27.278Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:43:27.278Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:43:27.278Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:43:27.285Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:43:27.285Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:43:27.285Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:43:27.286Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74868.sock
+[debug] [2021-04-26T00:43:27.286Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: BUSY
+[debug] [2021-04-26T00:43:27.486Z] DEBUG: [runtime-status] [74868] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:27.488Z] DEBUG: [runtime-status] [74868] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:27.493Z] DEBUG: [runtime-status] [74868] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:27.493Z] DEBUG: [runtime-status] [74868] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:27.494Z] DEBUG: [runtime-status] [74868] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:27.494Z] DEBUG: [runtime-status] [74868] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:27.496Z] DEBUG: [runtime-status] [74868] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:27.497Z] DEBUG: [runtime-status] [74868] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:27.533Z] DEBUG: [runtime-status] [74868] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:27.533Z] DEBUG: [runtime-status] [74868] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:27.533Z] DEBUG: [runtime-status] [74868] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:27.534Z] DEBUG: [runtime-status] [74868] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:27.535Z] DEBUG: [runtime-status] [74868] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:27.535Z] DEBUG: [runtime-status] [74868] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:27.562Z] DEBUG: [runtime-status] [74868] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:28.298Z] DEBUG: [runtime-status] [74868] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:43:28.298Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:43:28.298Z] DEBUG: [runtime-status] [74868] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:43:28.298Z] DEBUG: [runtime-status] [74868] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:43:28.302Z] DEBUG: [runtime-status] [74868] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74868.sock
+[debug] [2021-04-26T00:43:28.309Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:43:28.309Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:43:28.343Z] DEBUG: [runtime-status] [74868] Ephemeral server handling POST request
+[debug] [2021-04-26T00:43:28.352Z] DEBUG: [runtime-status] [74868] No callable functions auth found
+[info] >  {"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"} {"user":{"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"ERROR\",\"message\":\"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\\n    at new NodeError (node:internal/errors:329:5)\\n    at Function.from (node:buffer:323:9)\\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\\n  code: 'ERR_INVALID_ARG_TYPE'\\n}\"}"}}
+[debug] [2021-04-26T00:43:28.354Z] DEBUG: [runtime-status] [74868] Ephemeral server survived.
+[debug] [2021-04-26T00:43:28.360Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:43:28.361Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: IDLE
+[debug] [2021-04-26T00:43:28.361Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:43:35.759Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:43:36.759Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:43:36.760Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: FINISHING
+[debug] [2021-04-26T00:43:36.760Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:43:36.760Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: FINISHING
+[debug] [2021-04-26T00:43:36.782Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:43:36.782Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:43:36.783Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:43:36.783Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74873.sock
+[debug] [2021-04-26T00:43:36.783Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: BUSY
+[debug] [2021-04-26T00:43:36.786Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: exited
+[debug] [2021-04-26T00:43:36.786Z] DEBUG: [worker-~diagnostic~-2b7f21f6-b29e-432d-a1d8-13b5f34073da]: FINISHED
+[debug] [2021-04-26T00:43:36.787Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: exited
+[debug] [2021-04-26T00:43:36.787Z] DEBUG: [worker-sendEmail-d443bc24-8d58-4686-bd29-583c39660f6c]: FINISHED
+[debug] [2021-04-26T00:43:37.070Z] DEBUG: [runtime-status] [74873] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:37.072Z] DEBUG: [runtime-status] [74873] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:37.075Z] DEBUG: [runtime-status] [74873] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:37.077Z] DEBUG: [runtime-status] [74873] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:37.079Z] DEBUG: [runtime-status] [74873] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:37.079Z] DEBUG: [runtime-status] [74873] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:37.082Z] DEBUG: [runtime-status] [74873] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:37.082Z] DEBUG: [runtime-status] [74873] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:37.119Z] DEBUG: [runtime-status] [74873] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:37.119Z] DEBUG: [runtime-status] [74873] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:37.120Z] DEBUG: [runtime-status] [74873] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:37.121Z] DEBUG: [runtime-status] [74873] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:37.121Z] DEBUG: [runtime-status] [74873] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:37.121Z] DEBUG: [runtime-status] [74873] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:37.148Z] DEBUG: [runtime-status] [74873] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:37.831Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: IDLE
+[debug] [2021-04-26T00:43:39.509Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:43:39.509Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:43:39.509Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:43:39.509Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:43:39.509Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:43:39.514Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:43:39.514Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:43:39.515Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:43:39.515Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74880.sock
+[debug] [2021-04-26T00:43:39.515Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: BUSY
+[debug] [2021-04-26T00:43:39.717Z] DEBUG: [runtime-status] [74880] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:39.718Z] DEBUG: [runtime-status] [74880] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:39.721Z] DEBUG: [runtime-status] [74880] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:39.723Z] DEBUG: [runtime-status] [74880] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:39.724Z] DEBUG: [runtime-status] [74880] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:39.725Z] DEBUG: [runtime-status] [74880] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:39.727Z] DEBUG: [runtime-status] [74880] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:39.727Z] DEBUG: [runtime-status] [74880] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:39.763Z] DEBUG: [runtime-status] [74880] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:39.763Z] DEBUG: [runtime-status] [74880] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:39.763Z] DEBUG: [runtime-status] [74880] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:39.764Z] DEBUG: [runtime-status] [74880] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:39.765Z] DEBUG: [runtime-status] [74880] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:39.765Z] DEBUG: [runtime-status] [74880] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:39.793Z] DEBUG: [runtime-status] [74880] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:40.482Z] DEBUG: [runtime-status] [74880] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:43:40.482Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:43:40.482Z] DEBUG: [runtime-status] [74880] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:43:40.482Z] DEBUG: [runtime-status] [74880] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:43:40.486Z] DEBUG: [runtime-status] [74880] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74880.sock
+[debug] [2021-04-26T00:43:40.491Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:43:40.491Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:43:40.511Z] DEBUG: [runtime-status] [74880] Ephemeral server handling POST request
+[debug] [2021-04-26T00:43:40.514Z] DEBUG: [runtime-status] [74880] No callable functions auth found
+[info] >  {"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"} {"user":{"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"ERROR\",\"message\":\"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\\n    at new NodeError (node:internal/errors:329:5)\\n    at Function.from (node:buffer:323:9)\\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\\n  code: 'ERR_INVALID_ARG_TYPE'\\n}\"}"}}
+[debug] [2021-04-26T00:43:40.525Z] DEBUG: [runtime-status] [74880] Ephemeral server survived.
+[debug] [2021-04-26T00:43:40.525Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:43:40.525Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: IDLE
+[debug] [2021-04-26T00:43:40.525Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:43:45.420Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:43:46.423Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:43:46.423Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: FINISHING
+[debug] [2021-04-26T00:43:46.424Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:43:46.424Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: FINISHING
+[debug] [2021-04-26T00:43:46.442Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:43:46.443Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:43:46.443Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:43:46.444Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74887.sock
+[debug] [2021-04-26T00:43:46.444Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: BUSY
+[debug] [2021-04-26T00:43:46.446Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: exited
+[debug] [2021-04-26T00:43:46.446Z] DEBUG: [worker-~diagnostic~-c96ff679-038b-4e33-af13-7ecba0b705a1]: FINISHED
+[debug] [2021-04-26T00:43:46.446Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: exited
+[debug] [2021-04-26T00:43:46.446Z] DEBUG: [worker-sendEmail-35fdf4dc-3249-4d10-a246-fa6d7074f640]: FINISHED
+[debug] [2021-04-26T00:43:46.675Z] DEBUG: [runtime-status] [74887] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:46.678Z] DEBUG: [runtime-status] [74887] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:46.683Z] DEBUG: [runtime-status] [74887] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:46.683Z] DEBUG: [runtime-status] [74887] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:46.685Z] DEBUG: [runtime-status] [74887] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:46.685Z] DEBUG: [runtime-status] [74887] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:46.689Z] DEBUG: [runtime-status] [74887] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:46.689Z] DEBUG: [runtime-status] [74887] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:46.725Z] DEBUG: [runtime-status] [74887] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:46.725Z] DEBUG: [runtime-status] [74887] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:46.726Z] DEBUG: [runtime-status] [74887] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:46.727Z] DEBUG: [runtime-status] [74887] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:46.727Z] DEBUG: [runtime-status] [74887] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:46.727Z] DEBUG: [runtime-status] [74887] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:46.754Z] DEBUG: [runtime-status] [74887] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:47.463Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: IDLE
+[debug] [2021-04-26T00:43:48.938Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:43:48.938Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:43:48.938Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:43:48.938Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:43:48.938Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:43:48.946Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:43:48.947Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:43:48.947Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:43:48.947Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74894.sock
+[debug] [2021-04-26T00:43:48.947Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: BUSY
+[debug] [2021-04-26T00:43:49.135Z] DEBUG: [runtime-status] [74894] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:43:49.137Z] DEBUG: [runtime-status] [74894] Disabled runtime features: undefined
+[debug] [2021-04-26T00:43:49.140Z] DEBUG: [runtime-status] [74894] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:49.141Z] DEBUG: [runtime-status] [74894] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:49.144Z] DEBUG: [runtime-status] [74894] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:43:49.144Z] DEBUG: [runtime-status] [74894] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:49.146Z] DEBUG: [runtime-status] [74894] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:43:49.147Z] DEBUG: [runtime-status] [74894] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:49.188Z] DEBUG: [runtime-status] [74894] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:43:49.188Z] DEBUG: [runtime-status] [74894] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:43:49.189Z] DEBUG: [runtime-status] [74894] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:49.190Z] DEBUG: [runtime-status] [74894] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:43:49.191Z] DEBUG: [runtime-status] [74894] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:43:49.191Z] DEBUG: [runtime-status] [74894] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:43:49.219Z] DEBUG: [runtime-status] [74894] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:43:49.927Z] DEBUG: [runtime-status] [74894] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:43:49.928Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:43:49.928Z] DEBUG: [runtime-status] [74894] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:43:49.928Z] DEBUG: [runtime-status] [74894] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:43:49.932Z] DEBUG: [runtime-status] [74894] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74894.sock
+[debug] [2021-04-26T00:43:49.939Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:43:49.939Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:43:49.958Z] DEBUG: [runtime-status] [74894] Ephemeral server handling POST request
+[debug] [2021-04-26T00:43:49.962Z] DEBUG: [runtime-status] [74894] No callable functions auth found
+[info] >  {"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"} {"user":{"severity":"ERROR","message":"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\n    at new NodeError (node:internal/errors:329:5)\n    at Function.from (node:buffer:323:9)\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\n  code: 'ERR_INVALID_ARG_TYPE'\n}"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {\"severity\":\"ERROR\",\"message\":\"Unhandled error TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined\\n    at new NodeError (node:internal/errors:329:5)\\n    at Function.from (node:buffer:323:9)\\n    at /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js:22:43\\n    at newHandler (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:286:16)\\n    at func (/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:273:32)\\n    at /Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/providers/https.js:293:44\\n    at cors (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:188:7)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:224:17\\n    at originCallback (/Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:214:15)\\n    at /Users/jane/github/project-engage/functions/node_modules/cors/lib/index.js:219:13 {\\n  code: 'ERR_INVALID_ARG_TYPE'\\n}\"}"}}
+[debug] [2021-04-26T00:43:49.978Z] DEBUG: [runtime-status] [74894] Ephemeral server survived.
+[debug] [2021-04-26T00:43:49.978Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:43:49.978Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: IDLE
+[debug] [2021-04-26T00:43:49.979Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:45:00.360Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:45:01.365Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:45:01.365Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: FINISHING
+[debug] [2021-04-26T00:45:01.365Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:45:01.367Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: FINISHING
+[debug] [2021-04-26T00:45:01.385Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:45:01.385Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:45:01.385Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:45:01.386Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74916.sock
+[debug] [2021-04-26T00:45:01.386Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: BUSY
+[debug] [2021-04-26T00:45:01.388Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: exited
+[debug] [2021-04-26T00:45:01.389Z] DEBUG: [worker-~diagnostic~-4b265b8b-9602-4a2b-af75-a90587b5780b]: FINISHED
+[debug] [2021-04-26T00:45:01.390Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: exited
+[debug] [2021-04-26T00:45:01.390Z] DEBUG: [worker-sendEmail-a32c8d3e-dec7-4da2-870b-4965a5becfad]: FINISHED
+[debug] [2021-04-26T00:45:01.676Z] DEBUG: [runtime-status] [74916] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:45:01.678Z] DEBUG: [runtime-status] [74916] Disabled runtime features: undefined
+[debug] [2021-04-26T00:45:01.681Z] DEBUG: [runtime-status] [74916] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:01.683Z] DEBUG: [runtime-status] [74916] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:01.684Z] DEBUG: [runtime-status] [74916] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:45:01.685Z] DEBUG: [runtime-status] [74916] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:01.687Z] DEBUG: [runtime-status] [74916] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:45:01.688Z] DEBUG: [runtime-status] [74916] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:01.753Z] DEBUG: [runtime-status] [74916] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:45:01.753Z] DEBUG: [runtime-status] [74916] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:45:01.754Z] DEBUG: [runtime-status] [74916] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:01.755Z] DEBUG: [runtime-status] [74916] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:01.755Z] DEBUG: [runtime-status] [74916] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:01.755Z] DEBUG: [runtime-status] [74916] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:45:01.801Z] DEBUG: [runtime-status] [74916] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:45:03.108Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: IDLE
+[debug] [2021-04-26T00:45:03.912Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:45:03.913Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:45:03.913Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:45:03.913Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:45:03.913Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:45:03.921Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:45:03.922Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:45:03.922Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:45:03.922Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74924.sock
+[debug] [2021-04-26T00:45:03.922Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: BUSY
+[debug] [2021-04-26T00:45:04.120Z] DEBUG: [runtime-status] [74924] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:45:04.123Z] DEBUG: [runtime-status] [74924] Disabled runtime features: undefined
+[debug] [2021-04-26T00:45:04.127Z] DEBUG: [runtime-status] [74924] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:04.128Z] DEBUG: [runtime-status] [74924] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:04.130Z] DEBUG: [runtime-status] [74924] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:45:04.131Z] DEBUG: [runtime-status] [74924] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:04.131Z] DEBUG: [runtime-status] [74924] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:45:04.131Z] DEBUG: [runtime-status] [74924] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:04.170Z] DEBUG: [runtime-status] [74924] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:45:04.171Z] DEBUG: [runtime-status] [74924] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:45:04.171Z] DEBUG: [runtime-status] [74924] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:04.172Z] DEBUG: [runtime-status] [74924] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:04.172Z] DEBUG: [runtime-status] [74924] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:04.173Z] DEBUG: [runtime-status] [74924] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:45:04.199Z] DEBUG: [runtime-status] [74924] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:45:04.960Z] DEBUG: [runtime-status] [74924] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:45:04.960Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:45:04.960Z] DEBUG: [runtime-status] [74924] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:45:04.961Z] DEBUG: [runtime-status] [74924] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:45:04.965Z] DEBUG: [runtime-status] [74924] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74924.sock
+[debug] [2021-04-26T00:45:04.969Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:45:04.970Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:45:05.002Z] DEBUG: [runtime-status] [74924] Ephemeral server handling POST request
+[debug] [2021-04-26T00:45:05.004Z] DEBUG: [runtime-status] [74924] No callable functions auth found
+[warn] ⚠  Google API requested!
+   - URL: "https://oauth2.googleapis.com/token"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://oauth2.googleapis.com/token\"\n   - Be careful, this may be a production service."}}
+[debug] [2021-04-26T00:45:05.035Z] DEBUG: [runtime-status] [74924] Ephemeral server survived.
+[warn] ⚠  Google API requested!
+   - URL: "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://gmail.googleapis.com/gmail/v1/users/me/messages/send\"\n   - Be careful, this may be a production service."}}
+[info] >  { {"user":"{","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {"}}
+[info] >    id: '1790ba31146c8a9f', {"user":"  id: '1790ba31146c8a9f',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   id: '1790ba31146c8a9f',"}}
+[info] >    threadId: '1790ba31146c8a9f', {"user":"  threadId: '1790ba31146c8a9f',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   threadId: '1790ba31146c8a9f',"}}
+[info] >    labelIds: [ 'SENT' ] {"user":"  labelIds: [ 'SENT' ]","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   labelIds: [ 'SENT' ]"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m }"}}
+[debug] [2021-04-26T00:45:05.753Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:45:05.754Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: IDLE
+[debug] [2021-04-26T00:45:05.756Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:45:31.279Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:45:32.284Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:45:32.284Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: FINISHING
+[debug] [2021-04-26T00:45:32.284Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:45:32.284Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: FINISHING
+[debug] [2021-04-26T00:45:32.303Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:45:32.305Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:45:32.305Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:45:32.305Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74930.sock
+[debug] [2021-04-26T00:45:32.306Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: BUSY
+[debug] [2021-04-26T00:45:32.307Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: exited
+[debug] [2021-04-26T00:45:32.307Z] DEBUG: [worker-~diagnostic~-07fe9073-c746-4178-910e-ffda6c209909]: FINISHED
+[debug] [2021-04-26T00:45:32.307Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: exited
+[debug] [2021-04-26T00:45:32.307Z] DEBUG: [worker-sendEmail-57b27f47-eb2d-40a7-9330-08fa4caf4daa]: FINISHED
+[debug] [2021-04-26T00:45:32.655Z] DEBUG: [runtime-status] [74930] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:45:32.657Z] DEBUG: [runtime-status] [74930] Disabled runtime features: undefined
+[debug] [2021-04-26T00:45:32.661Z] DEBUG: [runtime-status] [74930] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:32.670Z] DEBUG: [runtime-status] [74930] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:32.670Z] DEBUG: [runtime-status] [74930] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:45:32.670Z] DEBUG: [runtime-status] [74930] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:32.670Z] DEBUG: [runtime-status] [74930] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:45:32.670Z] DEBUG: [runtime-status] [74930] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:32.737Z] DEBUG: [runtime-status] [74930] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:45:32.737Z] DEBUG: [runtime-status] [74930] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:45:32.737Z] DEBUG: [runtime-status] [74930] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:32.738Z] DEBUG: [runtime-status] [74930] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:32.739Z] DEBUG: [runtime-status] [74930] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:32.739Z] DEBUG: [runtime-status] [74930] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:45:32.786Z] DEBUG: [runtime-status] [74930] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:45:34.017Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: IDLE
+[debug] [2021-04-26T00:45:34.979Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:45:34.979Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:45:34.979Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:45:34.979Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:45:34.979Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:45:34.983Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:45:34.983Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:45:34.983Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:45:34.984Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74937.sock
+[debug] [2021-04-26T00:45:34.984Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: BUSY
+[debug] [2021-04-26T00:45:35.179Z] DEBUG: [runtime-status] [74937] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:45:35.182Z] DEBUG: [runtime-status] [74937] Disabled runtime features: undefined
+[debug] [2021-04-26T00:45:35.186Z] DEBUG: [runtime-status] [74937] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:35.186Z] DEBUG: [runtime-status] [74937] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:35.188Z] DEBUG: [runtime-status] [74937] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:45:35.190Z] DEBUG: [runtime-status] [74937] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:35.190Z] DEBUG: [runtime-status] [74937] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:45:35.190Z] DEBUG: [runtime-status] [74937] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:35.228Z] DEBUG: [runtime-status] [74937] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:45:35.228Z] DEBUG: [runtime-status] [74937] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:45:35.228Z] DEBUG: [runtime-status] [74937] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:35.229Z] DEBUG: [runtime-status] [74937] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:45:35.230Z] DEBUG: [runtime-status] [74937] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:45:35.230Z] DEBUG: [runtime-status] [74937] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:45:35.257Z] DEBUG: [runtime-status] [74937] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:45:36.047Z] DEBUG: [runtime-status] [74937] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:45:36.047Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:45:36.047Z] DEBUG: [runtime-status] [74937] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:45:36.047Z] DEBUG: [runtime-status] [74937] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:45:36.053Z] DEBUG: [runtime-status] [74937] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74937.sock
+[debug] [2021-04-26T00:45:36.060Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:45:36.060Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:45:36.085Z] DEBUG: [runtime-status] [74937] Ephemeral server handling POST request
+[debug] [2021-04-26T00:45:36.087Z] DEBUG: [runtime-status] [74937] No callable functions auth found
+[warn] ⚠  Google API requested!
+   - URL: "https://oauth2.googleapis.com/token"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://oauth2.googleapis.com/token\"\n   - Be careful, this may be a production service."}}
+[debug] [2021-04-26T00:45:36.124Z] DEBUG: [runtime-status] [74937] Ephemeral server survived.
+[warn] ⚠  Google API requested!
+   - URL: "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://gmail.googleapis.com/gmail/v1/users/me/messages/send\"\n   - Be careful, this may be a production service."}}
+[info] >  { {"user":"{","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {"}}
+[info] >    id: '1790ba38a5710739', {"user":"  id: '1790ba38a5710739',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   id: '1790ba38a5710739',"}}
+[info] >    threadId: '1790ba38a5710739', {"user":"  threadId: '1790ba38a5710739',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   threadId: '1790ba38a5710739',"}}
+[info] >    labelIds: [ 'SENT' ] {"user":"  labelIds: [ 'SENT' ]","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   labelIds: [ 'SENT' ]"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m }"}}
+[debug] [2021-04-26T00:45:36.610Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:45:36.610Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: IDLE
+[debug] [2021-04-26T00:45:36.610Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T00:46:45.062Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:46:46.068Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:46:46.069Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: FINISHING
+[debug] [2021-04-26T00:46:46.070Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T00:46:46.070Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: FINISHING
+[debug] [2021-04-26T00:46:46.096Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:46:46.097Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:46:46.097Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:46:46.097Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74981.sock
+[debug] [2021-04-26T00:46:46.097Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: BUSY
+[debug] [2021-04-26T00:46:46.100Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: exited
+[debug] [2021-04-26T00:46:46.101Z] DEBUG: [worker-~diagnostic~-b1750f89-bd18-4baa-a534-d8759d01284b]: FINISHED
+[debug] [2021-04-26T00:46:46.101Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: exited
+[debug] [2021-04-26T00:46:46.101Z] DEBUG: [worker-sendEmail-3d7469d9-c0bf-43fe-87f5-ea312d0a4440]: FINISHED
+[debug] [2021-04-26T00:46:46.537Z] DEBUG: [runtime-status] [74981] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:46:46.541Z] DEBUG: [runtime-status] [74981] Disabled runtime features: undefined
+[debug] [2021-04-26T00:46:46.547Z] DEBUG: [runtime-status] [74981] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:46:46.549Z] DEBUG: [runtime-status] [74981] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:46:46.551Z] DEBUG: [runtime-status] [74981] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:46:46.553Z] DEBUG: [runtime-status] [74981] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:46:46.555Z] DEBUG: [runtime-status] [74981] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:46:46.556Z] DEBUG: [runtime-status] [74981] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:46:46.630Z] DEBUG: [runtime-status] [74981] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:46:46.631Z] DEBUG: [runtime-status] [74981] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:46:46.631Z] DEBUG: [runtime-status] [74981] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:46:46.632Z] DEBUG: [runtime-status] [74981] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:46:46.634Z] DEBUG: [runtime-status] [74981] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:46:46.634Z] DEBUG: [runtime-status] [74981] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:46:46.691Z] DEBUG: [runtime-status] [74981] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:46:48.352Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: IDLE
+[debug] [2021-04-26T00:47:01.723Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T00:47:02.725Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T00:47:02.726Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: FINISHING
+[debug] [2021-04-26T00:47:02.726Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:47:02.726Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T00:47:02.734Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T00:47:02.736Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T00:47:02.736Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T00:47:02.737Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_74994.sock
+[debug] [2021-04-26T00:47:02.737Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: BUSY
+[debug] [2021-04-26T00:47:02.747Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: exited
+[debug] [2021-04-26T00:47:02.747Z] DEBUG: [worker-~diagnostic~-f76bb39d-e023-4d9a-8f93-0492b021facc]: FINISHED
+[debug] [2021-04-26T00:47:03.062Z] DEBUG: [runtime-status] [74994] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:47:03.063Z] DEBUG: [runtime-status] [74994] Disabled runtime features: undefined
+[debug] [2021-04-26T00:47:03.065Z] DEBUG: [runtime-status] [74994] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:47:03.067Z] DEBUG: [runtime-status] [74994] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:03.070Z] DEBUG: [runtime-status] [74994] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:47:03.070Z] DEBUG: [runtime-status] [74994] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:03.071Z] DEBUG: [runtime-status] [74994] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:47:03.073Z] DEBUG: [runtime-status] [74994] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:03.140Z] DEBUG: [runtime-status] [74994] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:47:03.141Z] DEBUG: [runtime-status] [74994] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:47:03.141Z] DEBUG: [runtime-status] [74994] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:03.142Z] DEBUG: [runtime-status] [74994] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:47:03.142Z] DEBUG: [runtime-status] [74994] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:03.143Z] DEBUG: [runtime-status] [74994] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:47:03.181Z] DEBUG: [runtime-status] [74994] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:47:04.473Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: IDLE
+[debug] [2021-04-26T00:47:04.827Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2021-04-26T00:47:04.827Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2021-04-26T00:47:04.827Z] Accepted request POST /spark-project-engage/us-central1/sendEmail --> sendEmail
+[debug] [2021-04-26T00:47:04.828Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T00:47:04.834Z] DEBUG: [worker-pool] addWorker(sendEmail)
+[debug] [2021-04-26T00:47:04.835Z] DEBUG: [worker-pool] Adding worker with key sendEmail, total=1
+[debug] [2021-04-26T00:47:04.835Z] DEBUG: [worker-pool] submitWork(triggerId=sendEmail)
+[debug] [2021-04-26T00:47:04.835Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_75001.sock
+[debug] [2021-04-26T00:47:04.835Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: BUSY
+[debug] [2021-04-26T00:47:05.040Z] DEBUG: [runtime-status] [75001] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T00:47:05.041Z] DEBUG: [runtime-status] [75001] Disabled runtime features: undefined
+[debug] [2021-04-26T00:47:05.046Z] DEBUG: [runtime-status] [75001] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:47:05.046Z] DEBUG: [runtime-status] [75001] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:05.049Z] DEBUG: [runtime-status] [75001] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T00:47:05.049Z] DEBUG: [runtime-status] [75001] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:05.050Z] DEBUG: [runtime-status] [75001] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T00:47:05.050Z] DEBUG: [runtime-status] [75001] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:05.087Z] DEBUG: [runtime-status] [75001] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T00:47:05.087Z] DEBUG: [runtime-status] [75001] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T00:47:05.087Z] DEBUG: [runtime-status] [75001] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:05.088Z] DEBUG: [runtime-status] [75001] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T00:47:05.089Z] DEBUG: [runtime-status] [75001] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T00:47:05.089Z] DEBUG: [runtime-status] [75001] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T00:47:05.117Z] DEBUG: [runtime-status] [75001] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T00:47:05.883Z] DEBUG: [runtime-status] [75001] Trigger "sendEmail" has been found, beginning invocation!
+[debug] [2021-04-26T00:47:05.883Z] [functions] Beginning execution of "sendEmail"
+[debug] [2021-04-26T00:47:05.884Z] DEBUG: [runtime-status] [75001] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"sendEmail","entryPoint":"sendEmail"}
+[debug] [2021-04-26T00:47:05.884Z] DEBUG: [runtime-status] [75001] Running sendEmail in mode HTTPS
+[debug] [2021-04-26T00:47:05.888Z] DEBUG: [runtime-status] [75001] Attempting to listen to socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_75001.sock
+[debug] [2021-04-26T00:47:05.893Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2021-04-26T00:47:05.893Z] DEBUG: [functions] Got req.url=/spark-project-engage/us-central1/sendEmail, mapping to path=/
+[debug] [2021-04-26T00:47:05.923Z] DEBUG: [runtime-status] [75001] Ephemeral server handling POST request
+[debug] [2021-04-26T00:47:05.926Z] DEBUG: [runtime-status] [75001] No callable functions auth found
+[warn] ⚠  Google API requested!
+   - URL: "https://oauth2.googleapis.com/token"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://oauth2.googleapis.com/token\"\n   - Be careful, this may be a production service."}}
+[debug] [2021-04-26T00:47:05.952Z] DEBUG: [runtime-status] [75001] Ephemeral server survived.
+[warn] ⚠  Google API requested!
+   - URL: "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+   - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"Google API requested!\n   - URL: \"https://gmail.googleapis.com/gmail/v1/users/me/messages/send\"\n   - Be careful, this may be a production service."}}
+[info] >  { {"user":"{","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m {"}}
+[info] >    id: '1790ba4e811ea697', {"user":"  id: '1790ba4e811ea697',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   id: '1790ba4e811ea697',"}}
+[info] >    threadId: '1790ba4e811ea697', {"user":"  threadId: '1790ba4e811ea697',","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   threadId: '1790ba4e811ea697',"}}
+[info] >    labelIds: [ 'SENT' ] {"user":"  labelIds: [ 'SENT' ]","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m   labelIds: [ 'SENT' ]"}}
+[info] >  } {"user":"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"sendEmail"},"message":"\u001b[90m> \u001b[39m }"}}
+[debug] [2021-04-26T00:47:06.462Z] [functions] Finished "sendEmail" in ~1s
+[debug] [2021-04-26T00:47:06.462Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: IDLE
+[debug] [2021-04-26T00:47:06.462Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2021-04-26T01:14:03.543Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T01:14:04.561Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T01:14:04.561Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: FINISHING
+[debug] [2021-04-26T01:14:04.565Z] DEBUG: [worker-pool] Shutting down IDLE worker (sendEmail)
+[debug] [2021-04-26T01:14:04.566Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: FINISHING
+[debug] [2021-04-26T01:14:04.604Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T01:14:04.609Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T01:14:04.610Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T01:14:04.612Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_76208.sock
+[debug] [2021-04-26T01:14:04.612Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: BUSY
+[debug] [2021-04-26T01:14:04.627Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: exited
+[debug] [2021-04-26T01:14:04.627Z] DEBUG: [worker-~diagnostic~-6b4d9cec-f90b-4e15-8112-6edbbdf7eaa4]: FINISHED
+[debug] [2021-04-26T01:14:04.627Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: exited
+[debug] [2021-04-26T01:14:04.627Z] DEBUG: [worker-sendEmail-6e6330b0-e392-4592-9ee9-1b03cdc271a6]: FINISHED
+[debug] [2021-04-26T01:14:05.168Z] DEBUG: [runtime-status] [76208] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T01:14:05.169Z] DEBUG: [runtime-status] [76208] Disabled runtime features: undefined
+[debug] [2021-04-26T01:14:05.182Z] DEBUG: [runtime-status] [76208] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:05.185Z] DEBUG: [runtime-status] [76208] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:05.187Z] DEBUG: [runtime-status] [76208] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T01:14:05.188Z] DEBUG: [runtime-status] [76208] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:05.191Z] DEBUG: [runtime-status] [76208] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T01:14:05.191Z] DEBUG: [runtime-status] [76208] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:05.264Z] DEBUG: [runtime-status] [76208] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T01:14:05.265Z] DEBUG: [runtime-status] [76208] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T01:14:05.265Z] DEBUG: [runtime-status] [76208] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:05.266Z] DEBUG: [runtime-status] [76208] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:05.266Z] DEBUG: [runtime-status] [76208] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:05.267Z] DEBUG: [runtime-status] [76208] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T01:14:05.314Z] DEBUG: [runtime-status] [76208] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T01:14:07.051Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: IDLE
+[debug] [2021-04-26T01:14:50.389Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T01:14:51.391Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T01:14:51.391Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: FINISHING
+[debug] [2021-04-26T01:14:51.391Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T01:14:51.392Z] DEBUG: [worker-pool] Cleaned up workers for sendEmail: 1 --> 0
+[debug] [2021-04-26T01:14:51.403Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T01:14:51.404Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T01:14:51.405Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T01:14:51.437Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_76371.sock
+[debug] [2021-04-26T01:14:51.438Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: BUSY
+[debug] [2021-04-26T01:14:51.439Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: exited
+[debug] [2021-04-26T01:14:51.440Z] DEBUG: [worker-~diagnostic~-9ca19abb-a417-4422-a13d-97468f93904c]: FINISHED
+[debug] [2021-04-26T01:14:52.111Z] DEBUG: [runtime-status] [76371] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T01:14:52.128Z] DEBUG: [runtime-status] [76371] Disabled runtime features: undefined
+[debug] [2021-04-26T01:14:52.134Z] DEBUG: [runtime-status] [76371] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:52.136Z] DEBUG: [runtime-status] [76371] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:52.138Z] DEBUG: [runtime-status] [76371] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T01:14:52.139Z] DEBUG: [runtime-status] [76371] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:52.141Z] DEBUG: [runtime-status] [76371] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T01:14:52.142Z] DEBUG: [runtime-status] [76371] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:52.200Z] DEBUG: [runtime-status] [76371] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T01:14:52.200Z] DEBUG: [runtime-status] [76371] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T01:14:52.201Z] DEBUG: [runtime-status] [76371] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:52.202Z] DEBUG: [runtime-status] [76371] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:52.202Z] DEBUG: [runtime-status] [76371] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:52.203Z] DEBUG: [runtime-status] [76371] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T01:14:52.252Z] DEBUG: [runtime-status] [76371] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T01:14:53.217Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T01:14:54.218Z] DEBUG: [worker-pool] Marking BUSY worker to finish (~diagnostic~)
+[debug] [2021-04-26T01:14:54.219Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: FINISHING
+[debug] [2021-04-26T01:14:54.219Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T01:14:54.224Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T01:14:54.224Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T01:14:54.224Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T01:14:54.225Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_76398.sock
+[debug] [2021-04-26T01:14:54.225Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: BUSY
+[debug] [2021-04-26T01:14:54.261Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: IDLE --> FINISHING
+[debug] [2021-04-26T01:14:54.273Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: exited
+[debug] [2021-04-26T01:14:54.273Z] DEBUG: [worker-~diagnostic~-262b5528-b881-40b8-8c81-02c1f80d9af8]: FINISHED
+[debug] [2021-04-26T01:14:54.530Z] DEBUG: [runtime-status] [76398] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T01:14:54.536Z] DEBUG: [runtime-status] [76398] Disabled runtime features: undefined
+[debug] [2021-04-26T01:14:54.541Z] DEBUG: [runtime-status] [76398] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:54.541Z] DEBUG: [runtime-status] [76398] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:54.550Z] DEBUG: [runtime-status] [76398] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T01:14:54.550Z] DEBUG: [runtime-status] [76398] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:54.551Z] DEBUG: [runtime-status] [76398] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T01:14:54.551Z] DEBUG: [runtime-status] [76398] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:54.610Z] DEBUG: [runtime-status] [76398] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T01:14:54.610Z] DEBUG: [runtime-status] [76398] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T01:14:54.610Z] DEBUG: [runtime-status] [76398] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:54.611Z] DEBUG: [runtime-status] [76398] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:14:54.612Z] DEBUG: [runtime-status] [76398] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:14:54.612Z] DEBUG: [runtime-status] [76398] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T01:14:54.648Z] DEBUG: [runtime-status] [76398] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T01:14:55.999Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: IDLE
+[debug] [2021-04-26T01:23:30.174Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T01:23:31.186Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T01:23:31.187Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: FINISHING
+[debug] [2021-04-26T01:23:31.188Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T01:23:31.203Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T01:23:31.204Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T01:23:31.204Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T01:23:31.205Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_76601.sock
+[debug] [2021-04-26T01:23:31.206Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: BUSY
+[debug] [2021-04-26T01:23:31.210Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: exited
+[debug] [2021-04-26T01:23:31.210Z] DEBUG: [worker-~diagnostic~-079ecf0e-c5be-4ded-8c1a-9821ee512d80]: FINISHED
+[debug] [2021-04-26T01:23:31.820Z] DEBUG: [runtime-status] [76601] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T01:23:31.821Z] DEBUG: [runtime-status] [76601] Disabled runtime features: undefined
+[debug] [2021-04-26T01:23:31.826Z] DEBUG: [runtime-status] [76601] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:23:31.828Z] DEBUG: [runtime-status] [76601] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:31.831Z] DEBUG: [runtime-status] [76601] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T01:23:31.832Z] DEBUG: [runtime-status] [76601] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:31.834Z] DEBUG: [runtime-status] [76601] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T01:23:31.834Z] DEBUG: [runtime-status] [76601] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:31.941Z] DEBUG: [runtime-status] [76601] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T01:23:31.942Z] DEBUG: [runtime-status] [76601] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T01:23:31.942Z] DEBUG: [runtime-status] [76601] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:31.943Z] DEBUG: [runtime-status] [76601] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:23:31.944Z] DEBUG: [runtime-status] [76601] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:31.944Z] DEBUG: [runtime-status] [76601] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T01:23:32.031Z] DEBUG: [runtime-status] [76601] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T01:23:33.710Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: IDLE
+[debug] [2021-04-26T01:23:52.917Z] DEBUG: File /Users/jane/github/project-engage/functions/emailFunctions/sendEmail.function.js changed, reloading triggers
+[debug] [2021-04-26T01:23:53.920Z] DEBUG: [worker-pool] Shutting down IDLE worker (~diagnostic~)
+[debug] [2021-04-26T01:23:53.924Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: FINISHING
+[debug] [2021-04-26T01:23:53.925Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 2 --> 1
+[debug] [2021-04-26T01:23:53.936Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2021-04-26T01:23:53.937Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=2
+[debug] [2021-04-26T01:23:53.937Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2021-04-26T01:23:53.937Z] DEBUG: [worker-~diagnostic~-14bbfd8e-98df-49e1-a9d3-d4648a1fe912]: Assigning socketPath: /var/folders/3x/x0kppmbn2xb_44hyrx66g28c0000gn/T/fire_emu_76629.sock
+[debug] [2021-04-26T01:23:53.938Z] DEBUG: [worker-~diagnostic~-14bbfd8e-98df-49e1-a9d3-d4648a1fe912]: BUSY
+[debug] [2021-04-26T01:23:53.939Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: exited
+[debug] [2021-04-26T01:23:53.939Z] DEBUG: [worker-~diagnostic~-99dbb394-04a0-468e-8d9f-45480213ecb9]: FINISHED
+[debug] [2021-04-26T01:23:54.121Z] DEBUG: [runtime-status] [76629] Functions runtime initialized. {"cwd":"/Users/jane/github/project-engage/functions","node_version":"15.14.0"}
+[debug] [2021-04-26T01:23:54.127Z] DEBUG: [runtime-status] [76629] Disabled runtime features: undefined
+[debug] [2021-04-26T01:23:54.129Z] DEBUG: [runtime-status] [76629] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:23:54.129Z] DEBUG: [runtime-status] [76629] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:54.131Z] DEBUG: [runtime-status] [76629] Found local functions config: /Users/jane/github/project-engage/functions/.runtimeconfig.json
+[debug] [2021-04-26T01:23:54.132Z] DEBUG: [runtime-status] [76629] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:54.133Z] DEBUG: [runtime-status] [76629] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}]
+[debug] [2021-04-26T01:23:54.134Z] DEBUG: [runtime-status] [76629] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:54.171Z] DEBUG: [runtime-status] [76629] Checked functions.config() {"config":{"authinfo":{"refreshtoken":"1//04Icyb4pe6oDTCgYIARAAGAQSNwF-L9IrRCI89eyvhxltZ4v0-FKOZXOCfhDOp4yco7KnwbMKfdo93sIVB1WmUcWgCjmU4BOB-Hk","id":"95521899365-41eshv4iv6627iff0gv4pa1cm7c38cuj.apps.googleusercontent.com","secret":"zRr0l5dr1HTuBN9X2QocSRQl"}}}
+[debug] [2021-04-26T01:23:54.172Z] DEBUG: [runtime-status] [76629] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}}
+[debug] [2021-04-26T01:23:54.172Z] DEBUG: [runtime-status] [76629] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:54.173Z] DEBUG: [runtime-status] [76629] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2021-04-26T01:23:54.176Z] DEBUG: [runtime-status] [76629] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.13.2","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2021-04-26T01:23:54.176Z] DEBUG: [runtime-status] [76629] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.6.0","resolution":"/Users/jane/github/project-engage/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2021-04-26T01:23:54.203Z] DEBUG: [runtime-status] [76629] initializeApp(DEFAULT) {"storageBucket":"spark-project-engage.appspot.com","projectId":"spark-project-engage"}
+[debug] [2021-04-26T01:23:55.009Z] DEBUG: [worker-~diagnostic~-14bbfd8e-98df-49e1-a9d3-d4648a1fe912]: IDLE
