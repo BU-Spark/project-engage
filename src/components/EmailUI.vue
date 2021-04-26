@@ -208,28 +208,15 @@ export default {
     async send() {
       if (this.$refs.form.validate()) {
         // this.toEmail = this.to.join();
-        const emailList = [];
-        var i;
-        if (!(this.to === null)) {
-          for (i = 0; i < this.to.length; i++) {
-            emailList.push("<" + this.to[i] + ">");
-          }
-        }
+        const toList = [];
         const ccList = [];
-        if (!(this.cc === null)) {
-          for (i = 0; i < this.cc.length; i++) {
-            ccList.push("<" + this.cc[i] + ">");
-          }
-        }
         const bccList = [];
-        if (!(this.bcc === null)) {
-          for (i = 0; i < this.bcc.length; i++) {
-            bccList.push("<" + this.bcc[i] + ">");
-          }
-        }
+        this.formatList(this.to, toList);
+        this.formatList(this.cc, ccList);
+        this.formatList(this.bcc, bccList);
 
         let message = {
-          to: emailList,
+          to: toList,
           subject: this.subject,
           message: this.message,
           cc: ccList,
@@ -249,6 +236,13 @@ export default {
             this.fail = true;
           });
         this.dialog = false;
+      }
+    },
+    formatList(recipient, recipientList) {
+      if (recipient) {
+        for (let i = 0; i < recipient.length; i++) {
+          recipientList.push("<" + this.to[i] + ">");
+        }
       }
     }
   }
