@@ -229,9 +229,9 @@ export default {
         }
 
         let message = {
-          email: emailList,
+          to: emailList,
           subject: this.subject,
-          text: this.message,
+          message: this.message,
           cc: ccList,
           bcc: bccList
         };

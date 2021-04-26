@@ -30,10 +30,10 @@ module.exports.sendEmail = functions.https.onCall(async (data, context) => {
     data.message
   ];
   if (data.cc) {
-    messageParts.splice(2, 0, data.cc);
+    messageParts.splice(2, 0, "Cc: " + data.cc);
   }
   if (data.bcc) {
-    messageParts.splice(2, 0, data.bcc);
+    messageParts.splice(2, 0, "Bcc: " + data.cc);
   }
   const message = messageParts.join("\n");
 
