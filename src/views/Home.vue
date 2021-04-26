@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { functions, db } from "@/firebase/init";
 import store from "@/store";
 import AdminHome from "@/components/AdminHome.vue";
 import StudentHome from "@/components/StudentHome.vue";
@@ -45,80 +44,13 @@ export default {
     return {
       addAdminEmail: null,
       emailValidated: false,
-      adminExists: false,
-      inviteMessage:
-        "So... what are you waiting for? 🤘❤️😎 <br/> <a href='https://buspark.app/AdminLogin'> Spark Central Portal </a>",
-      emailRules: [
-        v =>
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            v
-          ) || "Please enter a valid email"
-      ]
+      adminExists: false
     };
   },
   methods: {
     async signOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/");
-    },
-    checkEmail() {
-      if (
-        !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          this.email
-        )
-      ) {
-        this.emailValidated = true;
-        return;
-      }
-      this.emailValidated = false;
-    },
-    async addAdmin() {
-      if (this.addAdminEmail != null) {
-        await store.dispatch("validateAdmin", this.addAdminEmail);
-        if (!(await this.adminValidation)) {
-          await db
-            .collection("invites")
-            .doc()
-            .set({
-              inviteeEmail: this.addAdminEmail,
-              invitorEmail: this.user.email
-            });
-          await store.dispatch("getSnapshot", [
-            "users",
-            "email",
-            this.addAdminEmail
-          ]);
-          if (this.snapshot.size > 0) {
-            this.adminExists = true;
-          } else {
-            await this.sendInviteEmail();
-            this.addAdminEmail = "";
-            alert("invited email");
-          }
-        } else {
-          alert("This email had already been invited to sign up as admin");
-        }
-      } else {
-        alert("Please enter a email");
-      }
-    },
-    async changeRole() {
-      this.snapshot.forEach(doc => {
-        this.sendInviteEmail();
-        functions.httpsCallable("processChangeRole")({
-          id: doc.id
-        });
-      });
-      this.adminExists = false;
-      this.addAdminEmail = "";
-      alert("changed role");
-    },
-    sendInviteEmail() {
-      functions.httpsCallable("sendEmail")({
-        to: this.addAdminEmail,
-        message: this.inviteMessage,
-        subject: "You are Invited to be a Spark Admin!"
-      });
     }
   },
   async mounted() {}
