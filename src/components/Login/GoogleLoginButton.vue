@@ -1,10 +1,12 @@
 <template>
   <div>
-    <v-btn color="#fffff" class="ma-2" @click="googleLogin">
-      <v-avatar>
-        <v-img src="../../assets/google.jpeg" height="20px" width="20px" />
+    <v-btn color="#fffff" @click="googleLogin">
+      <v-avatar size="30">
+        <v-img src="../../assets/google.jpeg" width="30px" height="30px" />
       </v-avatar>
-      {{ buttonLabel }}
+      <div style="width: 195px">
+        {{ buttonLabel }}
+      </div>
     </v-btn>
   </div>
 </template>
@@ -87,8 +89,8 @@ v-btn {
   color: #36bd90;
 }
 
-v-avatar {
+/* v-avatar {
   align-items: left;
   margin-left: 10px;
-}
+} */
 </style>
