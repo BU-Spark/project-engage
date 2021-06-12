@@ -235,7 +235,14 @@ export default {
             console.log(error);
             this.fail = true;
           });
+        this.to = null;
+        this.cc = null;
+        this.bcc = null;
+        this.subject = null;
+        this.message = null;
         this.dialog = false;
+        this.success = false;
+        this.fail = false;
       }
     },
     formatList(recipient, recipientList) {
