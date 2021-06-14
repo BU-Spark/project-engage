@@ -112,13 +112,18 @@
               label="Subject"
               required
             ></v-text-field>
-            <v-textarea
-              v-model="message"
-              :rules="notEmptyRules"
-              label="Message"
-              auto-grow
-              required
-            ></v-textarea>
+            <div>
+              <editor
+                :initialValue="editorText"
+                :options="editorOptions"
+                height="500px"
+                initialEditType="wysiwyg"
+                previewStyle="vertical"
+                ref="toastuiEditor"
+              />
+              <v-btn @click="getHtml"></v-btn>
+            </div>
+
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -159,8 +164,15 @@
 <script>
 import { functions } from "../firebase/init";
 import "@firebase/functions";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor } from "@toast-ui/vue-editor";
+
 export default {
   name: "EmailUI",
+  components: {
+    editor: Editor
+  },
   data() {
     return {
       ccRules: [
@@ -194,6 +206,10 @@ export default {
       bcc: null,
       subject: null,
       message: null,
+      editorText: "",
+      editorOptions: {
+        hideModeSwitch: true
+      },
       ccRecepients: [],
       bccRecepients: [],
       recepients: []
@@ -207,24 +223,24 @@ export default {
   methods: {
     async send() {
       if (this.$refs.form.validate()) {
-        // this.toEmail = this.to.join();
         const toList = [];
         const ccList = [];
         const bccList = [];
         this.formatList(this.to, toList);
         this.formatList(this.cc, ccList);
         this.formatList(this.bcc, bccList);
+        let html = this.$refs.toastuiEditor.invoke("getHtml");
 
         let message = {
           to: toList,
           subject: this.subject,
-          message: this.message,
+          message: html,
           cc: ccList,
           bcc: bccList
         };
 
         this.dialog = true;
-
+        console.log(message);
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
@@ -243,6 +259,7 @@ export default {
         this.dialog = false;
         this.success = false;
         this.fail = false;
+        this.editorText = "";
       }
     },
     formatList(recipient, recipientList) {
@@ -251,6 +268,10 @@ export default {
           recipientList.push("<" + this.to[i] + ">");
         }
       }
+    },
+    getHtml() {
+      let html = this.$refs.toastuiEditor.invoke("getHtml");
+      console.log(html);
     }
   }
 };
