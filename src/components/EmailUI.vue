@@ -267,7 +267,7 @@ export default {
 </script>
 
 <style>
-/* .tui-editor-contents {
+.tui-editor-contents {
   text-align: start;
-} */
+}
 </style>
