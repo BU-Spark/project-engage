@@ -112,13 +112,13 @@
               label="Subject"
               required
             ></v-text-field>
-            <v-textarea
-              v-model="message"
-              :rules="notEmptyRules"
-              label="Message"
-              auto-grow
-              required
-            ></v-textarea>
+            <editor
+              :options="editorOptions"
+              height="300px"
+              initialEditType="wysiwyg"
+              previewStyle="vertical"
+              ref="toastuiEditor"
+            />
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -159,8 +159,15 @@
 <script>
 import { functions } from "../firebase/init";
 import "@firebase/functions";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor } from "@toast-ui/vue-editor";
+
 export default {
   name: "EmailUI",
+  components: {
+    editor: Editor
+  },
   data() {
     return {
       ccRules: [
@@ -194,6 +201,9 @@ export default {
       bcc: null,
       subject: null,
       message: null,
+      editorOptions: {
+        hideModeSwitch: true
+      },
       ccRecepients: [],
       bccRecepients: [],
       recepients: []
@@ -207,24 +217,23 @@ export default {
   methods: {
     async send() {
       if (this.$refs.form.validate()) {
-        // this.toEmail = this.to.join();
         const toList = [];
         const ccList = [];
         const bccList = [];
         this.formatList(this.to, toList);
         this.formatList(this.cc, ccList);
         this.formatList(this.bcc, bccList);
+        let html = this.$refs.toastuiEditor.invoke("getHtml");
 
         let message = {
           to: toList,
           subject: this.subject,
-          message: this.message,
+          message: html,
           cc: ccList,
           bcc: bccList
         };
 
         this.dialog = true;
-
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
@@ -235,7 +244,15 @@ export default {
             console.log(error);
             this.fail = true;
           });
+        this.to = null;
+        this.cc = null;
+        this.bcc = null;
+        this.subject = null;
+        this.message = null;
         this.dialog = false;
+        this.success = false;
+        this.fail = false;
+        this.$refs.toastuiEditor.invoke("setHtml", "");
       }
     },
     formatList(recipient, recipientList) {
@@ -248,3 +265,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.tui-editor-contents {
+  text-align: start;
+}
+</style>
