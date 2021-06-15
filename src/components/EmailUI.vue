@@ -112,18 +112,13 @@
               label="Subject"
               required
             ></v-text-field>
-            <div>
-              <editor
-                :initialValue="editorText"
-                :options="editorOptions"
-                height="500px"
-                initialEditType="wysiwyg"
-                previewStyle="vertical"
-                ref="toastuiEditor"
-              />
-              <v-btn @click="getHtml"></v-btn>
-            </div>
-
+            <editor
+              :options="editorOptions"
+              height="300px"
+              initialEditType="wysiwyg"
+              previewStyle="vertical"
+              ref="toastuiEditor"
+            />
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -206,7 +201,6 @@ export default {
       bcc: null,
       subject: null,
       message: null,
-      editorText: "",
       editorOptions: {
         hideModeSwitch: true
       },
@@ -240,7 +234,6 @@ export default {
         };
 
         this.dialog = true;
-        console.log(message);
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
@@ -259,7 +252,7 @@ export default {
         this.dialog = false;
         this.success = false;
         this.fail = false;
-        this.editorText = "";
+        this.$refs.toastuiEditor.invoke("setHtml", "");
       }
     },
     formatList(recipient, recipientList) {
@@ -268,10 +261,6 @@ export default {
           recipientList.push("<" + this.to[i] + ">");
         }
       }
-    },
-    getHtml() {
-      let html = this.$refs.toastuiEditor.invoke("getHtml");
-      console.log(html);
     }
   }
 };
