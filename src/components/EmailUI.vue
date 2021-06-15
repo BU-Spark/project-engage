@@ -265,3 +265,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.tui-editor-contents {
+  text-align: start;
+}
+</style>
