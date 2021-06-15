@@ -8,9 +8,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@toast-ui/vue-editor": "^2.5.2",
     "core-js": "^3.10.0",
     "firebase": "^8.3.2",
     "register-service-worker": "^1.7.1",
+    "tui-editor": "^1.4.10",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.9",
