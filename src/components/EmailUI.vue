@@ -144,6 +144,7 @@
                 <v-card-text>Unable To Send Email</v-card-text>
               </v-card>
             </v-dialog> -->
+            <!-- <img src="./desktop1.jpg"> -->
             <v-overlay v-if="dialog" absolute color="#036358">
               <v-text v-if="success">Email Sent Successfully!</v-text>
               <v-text v-else-if="fail">Unable To Send Email</v-text>
@@ -231,12 +232,14 @@ export default {
           message: html,
           cc: ccList,
           bcc: bccList
+          // files: [{filename:"desktop1.jpg", path:'/desktop1.jpg', mimetype:'image/jpg'}]
         };
 
         this.dialog = true;
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
+            console.log("hi");
             console.log(result);
             this.success = true;
           })
@@ -258,7 +261,7 @@ export default {
     formatList(recipient, recipientList) {
       if (recipient) {
         for (let i = 0; i < recipient.length; i++) {
-          recipientList.push("<" + this.to[i] + ">");
+          recipientList.push("<" + recipient[i] + ">");
         }
       }
     }
