@@ -119,6 +119,8 @@
               previewStyle="vertical"
               ref="toastuiEditor"
             />
+            <input type="file" @change="previewFiles" multiple />
+            <v-btn @click="check">check</v-btn>
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -164,6 +166,15 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/vue-editor";
 
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
 export default {
   name: "EmailUI",
   components: {
@@ -203,11 +214,28 @@ export default {
       subject: null,
       message: null,
       editorOptions: {
-        hideModeSwitch: true
+        hideModeSwitch: true,
+        toolbarItems: [
+          "heading",
+          "bold",
+          "italic",
+          "strike",
+          "divider",
+          "hr",
+          "quote",
+          "divider",
+          "ul",
+          "ol",
+          "divider",
+          "table",
+          "link",
+          "divider"
+        ]
       },
       ccRecepients: [],
       bccRecepients: [],
-      recepients: []
+      recepients: [],
+      files: []
     };
   },
   computed: {
@@ -216,6 +244,20 @@ export default {
     }
   },
   methods: {
+    check() {
+      console.log(this.$refs.toastuiEditor.invoke("getHtml"));
+    },
+    async previewFiles(event) {
+      await getBase64(event.target.files[0]).then(fileInfo => {
+        fileInfo = fileInfo.substring(fileInfo.indexOf(",") + 1);
+        this.files.push({
+          name: event.target.files[0].name,
+          size: event.target.files[0].size,
+          type: event.target.files[0].type,
+          info: fileInfo
+        });
+      });
+    },
     async send() {
       if (this.$refs.form.validate()) {
         const toList = [];
@@ -225,21 +267,20 @@ export default {
         this.formatList(this.cc, ccList);
         this.formatList(this.bcc, bccList);
         let html = this.$refs.toastuiEditor.invoke("getHtml");
-
         let message = {
           to: toList,
           subject: this.subject,
           message: html,
           cc: ccList,
-          bcc: bccList
-          // files: [{filename:"desktop1.jpg", path:'/desktop1.jpg', mimetype:'image/jpg'}]
+          bcc: bccList,
+          files: Object.values(this.files)
         };
-
+        console.log("message");
+        console.log(message);
         this.dialog = true;
         await functions
           .httpsCallable("sendEmail")(message)
           .then(result => {
-            console.log("hi");
             console.log(result);
             this.success = true;
           })
@@ -252,6 +293,7 @@ export default {
         this.bcc = null;
         this.subject = null;
         this.message = null;
+        this.files = [];
         this.dialog = false;
         this.success = false;
         this.fail = false;
