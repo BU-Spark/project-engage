@@ -120,7 +120,6 @@
               ref="toastuiEditor"
             />
             <input type="file" @change="previewFiles" multiple />
-            <v-btn @click="check">check</v-btn>
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -244,9 +243,6 @@ export default {
     }
   },
   methods: {
-    check() {
-      console.log(this.$refs.toastuiEditor.invoke("getHtml"));
-    },
     async previewFiles(event) {
       await getBase64(event.target.files[0]).then(fileInfo => {
         fileInfo = fileInfo.substring(fileInfo.indexOf(",") + 1);
