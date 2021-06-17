@@ -46,7 +46,6 @@ module.exports.sendEmail = functions.https.onCall(async (data, context) => {
     "",
     "--012boundary02",
     "Content-type: text/html; charset=UTF-8",
-    "Content-Transfer-Encoding: quoted-printable",
     "",
     data.message,
     "",
