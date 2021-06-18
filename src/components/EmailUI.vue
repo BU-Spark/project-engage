@@ -119,6 +119,12 @@
               previewStyle="vertical"
               ref="toastuiEditor"
             />
+            <ul style="list-style-type:none">
+              <li v-for="(item, index) in this.files" :key="item.name + index">
+                {{ item.name }}
+                <v-btn @click="deleteFile(index)">Delete</v-btn>
+              </li>
+            </ul>
             <input type="file" @change="previewFiles" multiple />
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
@@ -254,6 +260,9 @@ export default {
         });
       });
     },
+    deleteFile(index) {
+      this.files.splice(index, 1);
+    },
     async send() {
       if (this.$refs.form.validate()) {
         const toList = [];
@@ -271,8 +280,6 @@ export default {
           bcc: bccList,
           files: Object.values(this.files)
         };
-        console.log("message");
-        console.log(message);
         this.dialog = true;
         await functions
           .httpsCallable("sendEmail")(message)
