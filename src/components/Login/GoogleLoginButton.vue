@@ -60,7 +60,9 @@ export default {
           //console.log("here");
           //if this is a BU email or the user is a validated admin
           if (this.user) {
-            this.$router.push("/home");
+            this.$router.push("/home").catch(error => {
+              console.info(error.message);
+            });
           }
         } else {
           //if it is not a BU email
