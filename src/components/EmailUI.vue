@@ -119,6 +119,13 @@
               previewStyle="vertical"
               ref="toastuiEditor"
             />
+            <ul style="list-style-type: none">
+              <li v-for="(item, index) in this.files" :key="item.name + index">
+                {{ item.name }}
+                <v-btn @click="deleteFile(index)">Delete</v-btn>
+              </li>
+            </ul>
+            <input type="file" @change="previewFiles" multiple />
             <v-btn :disabled="dialog || success || fail" @click="send"
               >Send</v-btn
             >
@@ -144,6 +151,7 @@
                 <v-card-text>Unable To Send Email</v-card-text>
               </v-card>
             </v-dialog> -->
+            <!-- <img src="./desktop1.jpg"> -->
             <v-overlay v-if="dialog" absolute color="#036358">
               <v-text v-if="success">Email Sent Successfully!</v-text>
               <v-text v-else-if="fail">Unable To Send Email</v-text>
@@ -162,6 +170,15 @@ import "@firebase/functions";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/vue-editor";
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 export default {
   name: "EmailUI",
@@ -202,11 +219,28 @@ export default {
       subject: null,
       message: null,
       editorOptions: {
-        hideModeSwitch: true
+        hideModeSwitch: true,
+        toolbarItems: [
+          "heading",
+          "bold",
+          "italic",
+          "strike",
+          "divider",
+          "hr",
+          "quote",
+          "divider",
+          "ul",
+          "ol",
+          "divider",
+          "table",
+          "link",
+          "divider"
+        ]
       },
       ccRecepients: [],
       bccRecepients: [],
-      recepients: []
+      recepients: [],
+      files: []
     };
   },
   computed: {
@@ -215,6 +249,20 @@ export default {
     }
   },
   methods: {
+    async previewFiles(event) {
+      await getBase64(event.target.files[0]).then(fileInfo => {
+        fileInfo = fileInfo.substring(fileInfo.indexOf(",") + 1);
+        this.files.push({
+          name: event.target.files[0].name,
+          size: event.target.files[0].size,
+          type: event.target.files[0].type,
+          info: fileInfo
+        });
+      });
+    },
+    deleteFile(index) {
+      this.files.splice(index, 1);
+    },
     async send() {
       if (this.$refs.form.validate()) {
         const toList = [];
@@ -224,15 +272,14 @@ export default {
         this.formatList(this.cc, ccList);
         this.formatList(this.bcc, bccList);
         let html = this.$refs.toastuiEditor.invoke("getHtml");
-
         let message = {
           to: toList,
           subject: this.subject,
           message: html,
           cc: ccList,
-          bcc: bccList
+          bcc: bccList,
+          files: Object.values(this.files)
         };
-
         this.dialog = true;
         await functions
           .httpsCallable("sendEmail")(message)
@@ -249,6 +296,7 @@ export default {
         this.bcc = null;
         this.subject = null;
         this.message = null;
+        this.files = [];
         this.dialog = false;
         this.success = false;
         this.fail = false;
@@ -258,7 +306,7 @@ export default {
     formatList(recipient, recipientList) {
       if (recipient) {
         for (let i = 0; i < recipient.length; i++) {
-          recipientList.push("<" + this.to[i] + ">");
+          recipientList.push("<" + recipient[i] + ">");
         }
       }
     }
