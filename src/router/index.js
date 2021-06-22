@@ -29,6 +29,14 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/application",
+    name: "application",
+    component: () => import("@/views/BaseApplication.vue"),
+    meta: {
+      requiresAuth: false
+    }
+  },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
   {
     path: "*",
