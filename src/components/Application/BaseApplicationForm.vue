@@ -1,311 +1,204 @@
 <template>
   <v-container>
-    <v-stepper v-model="e1">
-      <v-stepper-header>
-        <v-stepper-step :complete="e1 > 1" step="1" :editable="editable"
-          >Personal Information</v-stepper-step
-        >
+    <v-form>
+      <v-row class="smallVertical">
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="firstName"
+            label="First Name"
+            :rules="requiredRule"
+            outlined
+          ></v-text-field>
+        </v-col>
 
-        <v-divider></v-divider>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="lastName"
+            label="Last Name"
+            :rules="requiredRule"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="email"
+            label="Email"
+            outlined
+            :rules="emailRules"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="buID"
+            label="BU ID Number"
+            outlined
+            :rules="requiredRule"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="4" sm="2">
+          <v-autocomplete
+            v-model="countryCode"
+            label="Country Code"
+            :items="countryCodeList"
+            :rules="requiredRule"
+            outlined
+          >
+            <template v-slot:selection="data">
+              <!-- HTML that describe how select should render selected items -->
+              {{ data.item.substring(data.item.indexOf("+")) }}
+            </template>
+          </v-autocomplete>
+        </v-col>
+        <v-col cols="8" sm="4">
+          <v-text-field
+            v-model="phone"
+            label="Phone Number"
+            :rules="requiredRule"
+            outlined
+            type="number"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="githubURL"
+            label="GitHub Link"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="linkedinURL"
+            label="Linkedin Link"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="otherURL"
+            label="Other Link"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-autocomplete
+            v-model="major"
+            :items="courseList"
+            color="primary"
+            label="Major"
+            :rules="requiredRule"
+            outlined
+            return-object
+          ></v-autocomplete>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-autocomplete
+            v-model="minor"
+            :items="courseList"
+            color="primary"
+            label="Minor"
+            :rules="requiredRule"
+            outlined
+            return-object
+          ></v-autocomplete>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="schoolYear"
+            label="School Year"
+            :rules="requiredRule"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="graduation"
+            label="Expected year and month of graduation"
+            :rules="requiredRule"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-combobox
+            v-model="clubs"
+            :items="clubsList"
+            label="Involved Student Clubs"
+            :search-input.sync="clubSearch"
+            hide-selected
+            hint="Maximum of 5 tags"
+            multiple
+            persistent-hint
+            outlined
+            small-chips
+          >
+            <template v-slot:no-data>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    No results matching "
+                    <strong>{{ search }}</strong
+                    >". Press <kbd>enter</kbd> to create a new one
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-combobox>
+        </v-col>
 
-        <v-stepper-step :complete="e1 > 2" step="2" :editable="editable"
-          >Education</v-stepper-step
-        >
-
-        <v-divider></v-divider>
-
-        <v-stepper-step :complete="e1 > 3" step="3" :editable="editable"
-          >Application Questions</v-stepper-step
-        >
-
-        <v-divider></v-divider>
-
-        <v-stepper-step step="4" :editable="editable">Consent</v-stepper-step>
-      </v-stepper-header>
-      <v-form ref="form" lazy-validation>
-        <v-stepper-items>
-          <v-stepper-content step="1">
-            <v-row class="smallVertical">
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="firstName"
-                  label="First Name"
-                  :rules="requiredRule"
-                  outlined
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="lastName"
-                  label="Last Name"
-                  :rules="requiredRule"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="email"
-                  label="Email"
-                  outlined
-                  :rules="emailRules"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="gender"
-                  :items="genderList"
-                  color="primary"
-                  label="Gender"
-                  outlined
-                  :rules="requiredRule"
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="pronouns"
-                  :items="pronounList"
-                  color="primary"
-                  label="Pronoun"
-                  outlined
-                  :rules="requiredRule"
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="age"
-                  type="number"
-                  label="Age"
-                  :rules="requiredRule"
-                  onkeydown="javascript: return event.keyCode == 69 ? false : true"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col cols="8" sm="4">
-                <v-text-field
-                  v-model="phone"
-                  label="Phone Number"
-                  :rules="requiredRule"
-                  outlined
-                  type="number"
-                  onkeydown="javascript: return event.keyCode == 69 ? false : true"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="country"
-                  :items="countryList"
-                  color="primary"
-                  label="Country"
-                  :rules="requiredRule"
-                  outlined
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-btn color="primary" class="mt-5" @click="e1 = 2">Continue</v-btn>
-
-            <v-btn @click="saveApplication" class="mt-5 ml-5">Save</v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="2">
-            <v-row class="smallVertical">
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="major"
-                  :items="courseList"
-                  color="primary"
-                  label="Major"
-                  :rules="requiredRule"
-                  outlined
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="minor"
-                  :items="courseList"
-                  color="primary"
-                  label="Minor"
-                  outlined
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  v-model="educationLevel"
-                  :items="educationLevels"
-                  color="primary"
-                  label="Select your Level of Education (required)"
-                  :rules="requiredRule"
-                  outlined
-                  return-object
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-combobox
-                  v-model="language"
-                  :items="languageList"
-                  :search-input.sync="languageSearch"
-                  hide-selected
-                  hint="Maximum of 5 tags"
-                  label="List proficient programming languages"
-                  multiple
-                  persistent-hint
-                  outlined
-                  small-chips
-                >
-                  <template v-slot:no-data>
-                    <v-list-item>
-                      <v-list-item-content>
-                        <v-list-item-title>
-                          No results matching "
-                          <strong>{{ search }}</strong
-                          >". Press <kbd>enter</kbd> to create a new one
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </template>
-                </v-combobox>
-              </v-col>
-            </v-row>
-
-            <v-btn color="primary" class="mt-5" @click="e1 = 3">Continue</v-btn>
-
-            <v-btn @click="saveApplication" class="mt-5 ml-5">Save</v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="3">
-            <v-textarea
-              class="pt-3"
-              counter="200"
-              :counter-value="wordCounter"
-              label="Why do you want to join Spark!? (200 word max) "
-              :rules="essayRules.concat(requiredRule)"
-              v-model="essayAns"
-              outlined
-            ></v-textarea>
-            <v-text-field
-              v-model="githubURL"
-              label="Github URL"
-              :rules="urlRules"
-            ></v-text-field>
-            <v-text-field
-              v-model="linkedinURL"
-              label="LinkedIn URL"
-              :rules="urlRules"
-            ></v-text-field>
-            <v-text-field v-model="otherURL" label="Other URL"></v-text-field>
-
-            <v-btn color="primary" @click="e1 = 4" class="mt-5">Continue</v-btn>
-
-            <v-btn @click="saveApplication" class="mt-5 ml-5">Save</v-btn>
-          </v-stepper-content>
-
-          <v-stepper-content step="4">
-            <v-switch
-              class="pl-3"
-              v-model="miniHacks"
-              label="Did you attend BostonHacks Virtual MiniHacks 2020?"
-            ></v-switch>
-            <v-switch
-              class="pl-3"
-              v-model="marketingData"
-              label="Do you consent to your picture or your likeness being used in future BostonHacks marketing material?"
-            ></v-switch>
-            <v-switch
-              class="pl-3"
-              v-model="tAndC1"
-              label="Do you agree to abide by the MLH code of conduct?"
-              :rules="requiredRule"
-            >
-              <template v-slot:label>
-                <div>
-                  Do you agree to abide by the
-                  <a
-                    target="_blank"
-                    href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf"
-                    @click.stop
-                  >
-                    MLH code of conduct
-                  </a>
-                  ？
-                </div>
-              </template>
-            </v-switch>
-            <v-switch
-              class="pl-3"
-              v-model="tAndC3"
-              label=""
-              :rules="requiredRule"
-            >
-              <template v-slot:label>
-                <div>
-                  I authorize you to share my application/registration
-                  information for event administration, ranking, MLH
-                  administration, pre- and post-event informational e-mails, and
-                  occasional messages about hackathons in-line with the
-                  <a target="_blank" href="https://mlh.io/privacy" @click.stop>
-                    MLH Privacy Policy
-                  </a>
-                  I further agree to the terms of both the
-                  <a
-                    target="_blank"
-                    href="https://github.com/MLH/mlh-policies/blob/master/prize-terms-and-conditions/contest-terms.md"
-                    @click.stop
-                  >
-                    MLH Contest Terms and Conditions
-                  </a>
-                  and the
-                  <a target="_blank" href="https://mlh.io/privacy" @click.stop>
-                    MLH Privacy Policy
-                  </a>
-                  .
-                </div>
-              </template>
-            </v-switch>
-            <v-switch
-              class="pl-3"
-              v-model="tAndC2"
-              label="Do you agree to abide by the Boston University code of conduct?"
-              :rules="requiredRule"
-            >
-              <template v-slot:label>
-                <div>
-                  Do you agree to abide by the
-                  <a
-                    target="_blank"
-                    href="http://www.bu.edu/dos/policies/student-responsibilities/"
-                    @click.stop
-                  >
-                    Boston University code of conduct
-                  </a>
-                  ？
-                </div>
-              </template>
-            </v-switch>
-            <v-btn color="primary" class="mt-5" @click="submitApplication"
-              >Submit</v-btn
-            >
-
-            <v-btn @click="saveApplication" class="mt-5 ml-5">Save</v-btn>
-          </v-stepper-content>
-        </v-stepper-items>
-      </v-form>
-      <v-fade-transition>
-        <v-overlay v-if="loading == true" absolute color="#c7c3c3">
-          <div>
-            <bostonHacksLoadingLogo class="loadingSVG" />
-          </div>
-        </v-overlay>
-      </v-fade-transition>
-    </v-stepper>
+        <v-col cols="12" sm="6">
+          <v-combobox
+            v-model="language"
+            :items="languageList"
+            :search-input.sync="languageSearch"
+            hide-selected
+            hint="Maximum of 10 tags"
+            label="Programming Tech Skills"
+            multiple
+            persistent-hint
+            outlined
+            small-chips
+          >
+            <template v-slot:no-data>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    No results matching "
+                    <strong>{{ search }}</strong
+                    >". Press <kbd>enter</kbd> to create a new one
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-combobox>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-combobox
+            v-model="designSkills"
+            :items="languageList"
+            :search-input.sync="designSearch"
+            hide-selected
+            hint="Maximum of 10 tags"
+            label="Design Tech Skills"
+            multiple
+            persistent-hint
+            outlined
+            small-chips
+          >
+            <template v-slot:no-data>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    No results matching "
+                    <strong>{{ search }}</strong
+                    >". Press <kbd>enter</kbd> to create a new one
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-combobox>
+        </v-col>
+      </v-row>
+    </v-form>
   </v-container>
 </template>
 
@@ -318,133 +211,26 @@ export default {
   components: {},
   data() {
     return {
-      city: null,
-      address: null,
-      zip: null,
-      countryCode: "United States +1",
-      requiredRule: [v => !!v || "Input is required."],
-      valid: false,
-      languageSearch: null,
-      language: [],
-      languageList: [
-        "ABAP",
-        "ActionScript",
-        "Ada",
-        "ALGOL",
-        "Alice",
-        "APL",
-        "ASP / ASP.NET",
-        "Assembly Language",
-        "Awk",
-        "BBC Basic",
-        "C",
-        "C++",
-        "C#",
-        "COBOL",
-        "Cascading Style Sheets",
-        "D",
-        "Delphi",
-        "Dreamweaver",
-        "Erlang and Elixir",
-        "F#",
-        "FORTH",
-        "FORTRAN",
-        "Functional Programming",
-        "Go",
-        "Haskell",
-        "HTML",
-        "IDL",
-        "INTERCAL",
-        "Java",
-        "Javascript",
-        "jQuery",
-        "LabVIEW",
-        "Lisp",
-        "Logo",
-        "MetaQuotes Language",
-        "ML",
-        "Modula-3",
-        "MS Access",
-        "MySQL",
-        "NXT-G",
-        "Object-Oriented Programming",
-        "Objective-C",
-        "OCaml",
-        "Pascal",
-        "Perl",
-        "PHP",
-        "PL/I",
-        "PL/SQL",
-        "PostgreSQL",
-        "PostScript",
-        "PROLOG",
-        "Pure Data",
-        "Python",
-        "R",
-        "RapidWeaver",
-        "RavenDB",
-        "Rexx",
-        "Ruby on Rails",
-        "S-PLUS",
-        "SAS",
-        "Scala",
-        "Sed",
-        "SGML",
-        "Simula",
-        "Smalltalk",
-        "SMIL",
-        "SNOBOL",
-        "SQL",
-        "SQLite",
-        "SSI",
-        "Stata",
-        "Swift",
-        "Tcl/Tk",
-        "TeX and LaTeX",
-        "Unified Modeling Language",
-        "Unix Shells",
-        "Verilog",
-        "VHDL",
-        "Visual Basic",
-        "Visual FoxPro",
-        "VRML",
-        "WAP/WML",
-        "XML",
-        "XSL"
-      ],
-      resumeLoading: false,
-      essayRules: [v => v.split(" ").length <= 200 || "Max 200 words!"],
-      wordCounter: input => (input ? input.split(" ").length : 0),
-      e1: 1,
-      loading: false,
       search: null,
-      essayAns: "",
-      editable: true,
       firstName: null,
       lastName: null,
+      email: null,
+      buID: null,
+      countryCode: "United States +1",
       phone: null,
-      age: null,
-      gender: null,
-      genderList: ["Female", "Male", "Other"],
-      pronouns: null,
-      pronounList: ["He/Him", "She/Her", "They/Them"],
-      educationLevels: [
-        "High School",
-        "College Freshman",
-        "College Sophomore",
-        "College Junior",
-        "College Senior",
-        "Masters",
-        "PhD"
-      ],
-      educationLevel: null,
-      university: null,
-      universityList: null,
+      githubURL: null,
+      linkedinURL: null,
+      otherURL: null,
       major: null,
       minor: null,
-      country: null,
-      timeZone: null,
-      email: null,
+      schoolYear: null,
+      graduation: null,
+      clubSearch: null,
+      clubs: [],
+      languageSearch: null,
+      language: [],
+      designSearch: null,
+      designSkills: [],
       emailRules: [
         v =>
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -457,242 +243,7 @@ export default {
             v
           ) || "Please enter a valid URL"
       ],
-      timeZoneList: [
-        "GMT+1:00",
-        "GMT+2:00",
-        "GMT+3:00",
-        "GMT+3:30",
-        "GMT+4:00",
-        "GMT+5:00",
-        "GMT+5:30",
-        "GMT+6:00",
-        "GMT+7:00",
-        "GMT+8:00",
-        "GMT+9:00",
-        "GMT+9:30",
-        "GMT+10:00",
-        "GMT+11:00",
-        "GMT+12:00",
-        "GMT-11:00",
-        "GMT-10:00",
-        "GMT-9:00",
-        "GMT-8:00",
-        "GMT-7:00",
-        "GMT-6:00",
-        "GMT-5:00",
-        "GMT-4:00",
-        "GMT-3:30",
-        "GMT-3:00"
-      ],
-      countryList: [
-        "Afghanistan",
-        "Albania",
-        "Algeria",
-        "Andorra",
-        "Angola",
-        "Anguilla",
-        "Antigua &amp; Barbuda",
-        "Argentina",
-        "Armenia",
-        "Aruba",
-        "Australia",
-        "Austria",
-        "Azerbaijan",
-        "Bahamas",
-        "Bahrain",
-        "Bangladesh",
-        "Barbados",
-        "Belarus",
-        "Belgium",
-        "Belize",
-        "Benin",
-        "Bermuda",
-        "Bhutan",
-        "Bolivia",
-        "Bosnia &amp; Herzegovina",
-        "Botswana",
-        "Brazil",
-        "British Virgin Islands",
-        "Brunei",
-        "Bulgaria",
-        "Burkina Faso",
-        "Burundi",
-        "Canada",
-        "Cambodia",
-        "Cameroon",
-        "Cape Verde",
-        "Cayman Islands",
-        "Chad",
-        "Chile",
-        "China",
-        "Colombia",
-        "Congo",
-        "Cook Islands",
-        "Costa Rica",
-        "Cote D Ivoire",
-        "Croatia",
-        "Cruise Ship",
-        "Cuba",
-        "Cyprus",
-        "Czech Republic",
-        "Denmark",
-        "Djibouti",
-        "Dominica",
-        "Dominican Republic",
-        "Ecuador",
-        "Egypt",
-        "El Salvador",
-        "Equatorial Guinea",
-        "Estonia",
-        "Ethiopia",
-        "Falkland Islands",
-        "Faroe Islands",
-        "Fiji",
-        "Finland",
-        "France",
-        "French Polynesia",
-        "French West Indies",
-        "Gabon",
-        "Gambia",
-        "Georgia",
-        "Germany",
-        "Ghana",
-        "Gibraltar",
-        "Greece",
-        "Greenland",
-        "Grenada",
-        "Guam",
-        "Guatemala",
-        "Guernsey",
-        "Guinea",
-        "Guinea Bissau",
-        "Guyana",
-        "Haiti",
-        "Honduras",
-        "Hong Kong",
-        "Hungary",
-        "Iceland",
-        "India",
-        "Indonesia",
-        "Iran",
-        "Iraq",
-        "Ireland",
-        "Isle of Man",
-        "Israel",
-        "Italy",
-        "Jamaica",
-        "Japan",
-        "Jersey",
-        "Jordan",
-        "Kazakhstan",
-        "Kenya",
-        "Kuwait",
-        "Kyrgyz Republic",
-        "Laos",
-        "Latvia",
-        "Lebanon",
-        "Lesotho",
-        "Liberia",
-        "Libya",
-        "Liechtenstein",
-        "Lithuania",
-        "Luxembourg",
-        "Macau",
-        "Macedonia",
-        "Madagascar",
-        "Malawi",
-        "Malaysia",
-        "Maldives",
-        "Mali",
-        "Malta",
-        "Mauritania",
-        "Mauritius",
-        "Mexico",
-        "Moldova",
-        "Monaco",
-        "Mongolia",
-        "Montenegro",
-        "Montserrat",
-        "Morocco",
-        "Mozambique",
-        "Namibia",
-        "Nepal",
-        "Netherlands",
-        "Netherlands Antilles",
-        "New Caledonia",
-        "New Zealand",
-        "Nicaragua",
-        "Niger",
-        "Nigeria",
-        "Norway",
-        "Oman",
-        "Pakistan",
-        "Palestine",
-        "Panama",
-        "Papua New Guinea",
-        "Paraguay",
-        "Peru",
-        "Philippines",
-        "Poland",
-        "Portugal",
-        "Puerto Rico",
-        "Qatar",
-        "Reunion",
-        "Romania",
-        "Russia",
-        "Rwanda",
-        "Saint Pierre &amp; Miquelon",
-        "Samoa",
-        "San Marino",
-        "Satellite",
-        "Saudi Arabia",
-        "Senegal",
-        "Serbia",
-        "Seychelles",
-        "Sierra Leone",
-        "Singapore",
-        "Slovakia",
-        "Slovenia",
-        "South Africa",
-        "South Korea",
-        "Spain",
-        "Sri Lanka",
-        "St Kitts &amp; Nevis",
-        "St Lucia",
-        "St Vincent",
-        "St. Lucia",
-        "Sudan",
-        "Suriname",
-        "Swaziland",
-        "Sweden",
-        "Switzerland",
-        "Syria",
-        "Taiwan",
-        "Tajikistan",
-        "Tanzania",
-        "Thailand",
-        "Timor L'Este",
-        "Togo",
-        "Tonga",
-        "Trinidad &amp; Tobago",
-        "Tunisia",
-        "Turkey",
-        "Turkmenistan",
-        "Turks &amp; Caicos",
-        "Uganda",
-        "Ukraine",
-        "United Arab Emirates",
-        "United States",
-        "United Kingdom",
-        "Uruguay",
-        "Uzbekistan",
-        "Venezuela",
-        "Vietnam",
-        "Virgin Islands (US)",
-        "Yemen",
-        "Zambia",
-        "Zimbabwe"
-      ],
+      requiredRule: [v => !!v || "Input is required."],
       courseList: [
         "Accounting",
         "Aerospace Engineering",
@@ -788,18 +339,6 @@ export default {
         "Theatre and Linguistics",
         "Other"
       ],
-      uploadedResume: null,
-      resume: null,
-      githubURL: null,
-      linkedinURL: null,
-      otherURL: null,
-      beenToHackathon: null,
-      attendedBHacks: 0,
-      miniHacks: 0,
-      marketingData: 0,
-      tAndC1: 0,
-      tAndC2: 0,
-      tAndC3: 0,
       countryCodeList: [
         "Afghanistan (\u202bافغانستان\u202c\u200e) +93",
         "Albania (Shqipëri) +355",
@@ -1044,7 +583,95 @@ export default {
         "Zambia +260",
         "Zimbabwe +263",
         "Åland Islands +358"
-      ]
+      ],
+      clubsList: ["Cool Club", "Very Cool Club", "Cool Cool Club"],
+      languageList: [
+        "ABAP",
+        "ActionScript",
+        "Ada",
+        "ALGOL",
+        "Alice",
+        "APL",
+        "ASP / ASP.NET",
+        "Assembly Language",
+        "Awk",
+        "BBC Basic",
+        "C",
+        "C++",
+        "C#",
+        "COBOL",
+        "Cascading Style Sheets",
+        "D",
+        "Delphi",
+        "Dreamweaver",
+        "Erlang and Elixir",
+        "F#",
+        "FORTH",
+        "FORTRAN",
+        "Functional Programming",
+        "Go",
+        "Haskell",
+        "HTML",
+        "IDL",
+        "INTERCAL",
+        "Java",
+        "Javascript",
+        "jQuery",
+        "LabVIEW",
+        "Lisp",
+        "Logo",
+        "MetaQuotes Language",
+        "ML",
+        "Modula-3",
+        "MS Access",
+        "MySQL",
+        "NXT-G",
+        "Object-Oriented Programming",
+        "Objective-C",
+        "OCaml",
+        "Pascal",
+        "Perl",
+        "PHP",
+        "PL/I",
+        "PL/SQL",
+        "PostgreSQL",
+        "PostScript",
+        "PROLOG",
+        "Pure Data",
+        "Python",
+        "R",
+        "RapidWeaver",
+        "RavenDB",
+        "Rexx",
+        "Ruby on Rails",
+        "S-PLUS",
+        "SAS",
+        "Scala",
+        "Sed",
+        "SGML",
+        "Simula",
+        "Smalltalk",
+        "SMIL",
+        "SNOBOL",
+        "SQL",
+        "SQLite",
+        "SSI",
+        "Stata",
+        "Swift",
+        "Tcl/Tk",
+        "TeX and LaTeX",
+        "Unified Modeling Language",
+        "Unix Shells",
+        "Verilog",
+        "VHDL",
+        "Visual Basic",
+        "Visual FoxPro",
+        "VRML",
+        "WAP/WML",
+        "XML",
+        "XSL"
+      ],
+      valid: false
     };
   },
   computed: {
@@ -1066,36 +693,22 @@ export default {
       this.loading = true;
       const applications = db.collection("applications").doc(this.user.uid);
       await applications.update({
-        language: this.language,
-        essayAns: this.essayAns,
         firstName: this.firstName,
         lastName: this.lastName,
-        timeZone: this.timeZone,
         email: this.email,
-        country: this.country,
+        buID: this.buID,
         countryCode: this.countryCode,
         phone: this.phone,
-        age: this.age,
-        address: this.address,
-        city: this.city,
-        zip: this.zip,
-        gender: this.gender,
-        pronouns: this.pronouns,
-        educationLevel: this.educationLevel,
-        university: this.university,
-        major: this.major,
-        minor: this.minor,
-        resume: this.resume,
         githubURL: this.githubURL,
         linkedinURL: this.linkedinURL,
         otherURL: this.otherURL,
-        beenToHackathon: this.beenToHackathon,
-        attendedBHacks: this.attendedBHacks,
-        marketingData: this.marketingData,
-        miniHacks: this.miniHacks,
-        tAndC1: this.tAndC1,
-        tAndC2: this.tAndC2,
-        tAndC3: this.tAndC3
+        major: this.major,
+        minor: this.minor,
+        schoolYear: this.schoolYear,
+        graduation: this.graduation,
+        clubs: this.clubs,
+        language: this.language,
+        designSkills: this.designSkills
       });
       this.loading = false;
       this.$router.push({ name: "dashboard" });
@@ -1115,43 +728,28 @@ export default {
         await userApplication.update({
           status: 1,
           uid: this.user.uid,
-          language: this.language,
-          essayAns: this.essayAns,
           firstName: this.firstName,
           lastName: this.lastName,
-          timeZone: this.timeZone,
-          country: this.country,
-          countryCode: this.countryCode,
-          address: this.address,
-          city: this.city,
-          zip: this.zip,
           email: this.email,
+          buID: this.buID,
+          countryCode: this.countryCode,
           phone: this.phone,
-          age: this.age,
-          gender: this.gender,
-          pronouns: this.pronouns,
-          educationLevel: this.educationLevel,
-          university: this.university,
-          major: this.major,
-          minor: this.minor,
-          resume: this.resume,
           githubURL: this.githubURL,
           linkedinURL: this.linkedinURL,
           otherURL: this.otherURL,
-          beenToHackathon: this.beenToHackathon,
-          attendedBHacks: this.attendedBHacks,
-          marketingData: this.marketingData,
-          miniHacks: this.miniHacks,
-          tAndC1: this.tAndC1,
-          tAndC2: this.tAndC2,
-          tAndC3: this.tAndC3
+          major: this.major,
+          minor: this.minor,
+          schoolYear: this.schoolYear,
+          graduation: this.graduation,
+          clubs: this.clubs,
+          language: this.language,
+          designSkills: this.designSkills
         });
         await store.dispatch("getUser");
         this.loading = false;
         this.$router.push({ name: "dashboard" });
       } else {
         this.loading = false;
-        this.e1 = 1;
       }
     },
     async uploadResume(value) {
@@ -1193,23 +791,12 @@ export default {
       if (
         this.firstName == null ||
         this.lastName == null ||
+        this.buID == null ||
+        this.countryCode == null ||
         this.phone == null ||
-        this.country == null ||
-        this.timeZone == null ||
-        this.essayAns == "" ||
-        this.age == null ||
-        this.email == null ||
-        this.gender == null ||
-        this.pronouns == null ||
-        this.educationLevel == null ||
-        this.university == null ||
         this.major == null ||
-        this.tAndC1 == false ||
-        this.tAndC1 == null ||
-        this.tAndC2 == false ||
-        this.tAndC2 == null ||
-        this.tAndC3 == false ||
-        this.tAndC3 == null ||
+        this.schoolYear == null ||
+        this.graduation == null ||
         !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.email
         ) ||
@@ -1217,12 +804,6 @@ export default {
       ) {
         this.valid = false;
         return;
-      }
-      if (this.country == "United States") {
-        if (this.address == null || this.city == null || this.zip == null) {
-          this.valid = false;
-          return;
-        }
       }
       this.valid = true;
     }
@@ -1232,40 +813,22 @@ export default {
     if (this.user.applicationStatus >= 0) {
       const userApplication = db.collection("applications").doc(this.user.uid);
       var userApplicationDoc = await userApplication.get();
-      (this.essayAns = userApplicationDoc.data().essayAns),
-        (this.language = userApplicationDoc.data().language),
-        (this.firstName = userApplicationDoc.data().firstName),
+      (this.firstName = userApplicationDoc.data().firstName),
         (this.lastName = userApplicationDoc.data().lastName),
-        (this.country = userApplicationDoc.data().country),
-        (this.countryCode = userApplicationDoc.data().countryCode),
-        (this.address = userApplicationDoc.data().address),
-        (this.zip = userApplicationDoc.data().zip),
-        (this.city = userApplicationDoc.data().city),
         (this.email = userApplicationDoc.data().email),
-        (this.timeZone = userApplicationDoc.data().timeZone),
+        (this.buID = userApplicationDoc.data().buID),
+        (this.countryCode = userApplicationDoc.data().countryCode),
         (this.phone = userApplicationDoc.data().phone),
-        (this.age = userApplicationDoc.data().age),
-        (this.gender = userApplicationDoc.data().gender),
-        (this.pronouns = userApplicationDoc.data().pronouns),
-        (this.educationLevel = userApplicationDoc.data().educationLevel),
-        (this.university = userApplicationDoc.data().university),
-        (this.major = userApplicationDoc.data().major),
-        (this.minor = userApplicationDoc.data().minor),
-        (this.resume = userApplicationDoc.data().resume),
         (this.githubURL = userApplicationDoc.data().githubURL),
         (this.linkedinURL = userApplicationDoc.data().linkedinURL),
         (this.otherURL = userApplicationDoc.data().otherURL),
-        (this.beenToHackathon = userApplicationDoc.data().beenToHackathon),
-        (this.attendedBHacks = userApplicationDoc.data().attendedBHacks),
-        (this.marketingData = userApplicationDoc.data().marketingData),
-        (this.tAndC1 = userApplicationDoc.data().tAndC1),
-        (this.tAndC2 = userApplicationDoc.data().tAndC2),
-        (this.miniHacks = userApplicationDoc.data().miniHacks);
-      if (userApplicationDoc.data().tAndC3) {
-        this.tAndC3 = userApplicationDoc.data().tAndC3;
-      } else {
-        this.tAndC3 = false;
-      }
+        (this.major = userApplicationDoc.data().major),
+        (this.minor = userApplicationDoc.data().minor),
+        (this.schoolYear = userApplicationDoc.data().schoolYear),
+        (this.graduation = userApplicationDoc.data().graduation),
+        (this.clubs = userApplicationDoc.data().clubs),
+        (this.language = userApplicationDoc.data().language),
+        (this.designSkills = userApplicationDoc.data().designSkills);
     } else {
       const userdb = db.collection("users").doc(this.user.uid);
       await userdb.update({
@@ -1273,63 +836,40 @@ export default {
       });
       const userApplication = db.collection("applications").doc(this.user.uid);
       await userApplication.set({
-        uid: this.user.uid,
-        status: 0,
         firstName: null,
         lastName: null,
-        phone: null,
-        countryCode: "United States +1",
-        country: null,
         email: null,
-        timeZone: null,
-        address: null,
-        city: null,
-        zip: null,
-        age: null,
-        gender: null,
-        pronouns: null,
-        educationLevel: null,
-        university: null,
-        language: null,
-        essayAns: "",
-        major: null,
-        minor: null,
-        resume: null,
+        buID: null,
+        countryCode: null,
+        phone: null,
         githubURL: null,
         linkedinURL: null,
         otherURL: null,
-        beenToHackathon: null,
-        attendedBHacks: false,
-        marketingData: false,
-        tAndC1: false,
-        tAndC2: false,
-        tAndC3: false,
-        miniHacks: false
+        major: null,
+        minor: null,
+        schoolYear: null,
+        graduation: null,
+        language: null,
+        designSkills: null
       });
       await store.dispatch("getUser");
     }
     this.loading = false;
-    fetch(
-      "https://raw.githubusercontent.com/MLH/mlh-policies/master/schools.csv"
-    )
-      .then(response => response.text())
-      .then(result => {
-        let schoolList = result.split("\n").map(item => {
-          item = item.startsWith('"')
-            ? item.substring(1, item.length - 2)
-            : item;
-          return item;
-        });
-        schoolList.splice(0, 1);
-        schoolList.push("Other");
-        54;
-        this.universityList = schoolList;
-      });
   },
   watch: {
     language(val) {
-      if (val && val.length > 5) {
+      if (val && val.length > 10) {
         this.$nextTick(() => this.language.pop());
+      }
+    },
+    designSkills(val) {
+      if (val && val.length > 10) {
+        this.$nextTick(() => this.designSkills.pop());
+      }
+    },
+    clubs(val) {
+      if (val && val.length > 5) {
+        this.$nextTick(() => this.clubs.pop());
       }
     }
   }
