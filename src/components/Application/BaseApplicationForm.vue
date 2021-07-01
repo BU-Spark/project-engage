@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-form>
+    <FormlateForm v-model="values" :schema="schema" />
+    <!-- <v-form>
       <v-row class="smallVertical">
         <v-col cols="12" sm="6">
           <v-text-field
@@ -44,7 +45,6 @@
             outlined
           >
             <template v-slot:selection="data">
-              <!-- HTML that describe how select should render selected items -->
               {{ data.item.substring(data.item.indexOf("+")) }}
             </template>
           </v-autocomplete>
@@ -198,19 +198,105 @@
           </v-combobox>
         </v-col>
       </v-row>
-    </v-form>
+    </v-form> -->
   </v-container>
 </template>
 
 <script>
 import { functions, db } from "@/firebase/init";
 import store from "@/store/index";
+import FormlateForm from "@braid/vue-formulate";
 
 export default {
   name: "BaseApplicationForm",
-  components: {},
+  components: {
+    FormlateForm
+  },
   data() {
     return {
+      value: {},
+      schema: [
+        {
+          name: "firstname",
+          label: "First Name"
+        },
+        {
+          name: "lastname",
+          label: "Last Name"
+        },
+        {
+          name: "email",
+          label: "Email",
+          validation: "^required"
+        },
+        {
+          name: "buID",
+          label: "BU ID",
+          validation: "^required"
+        },
+        {
+          name: "phone",
+          label: "Phone Number",
+          type: "number",
+          validation: "^required"
+        },
+        {
+          name: "githubURL",
+          label: "GitHub URL"
+        },
+        {
+          name: "linkedinURL",
+          label: "Linkedin URL"
+        },
+        {
+          name: "otherURL",
+          label: "Other URL"
+        },
+        // {
+        //   type: "select",
+        //   name: "gender",
+        //   label: "Gender",
+        //   // options: "{VA: 'Virginia', CA: 'California', NY: 'New York'}"
+        // },
+
+        {
+          type: "group",
+          repeatable: true,
+          name: "addresses",
+          addLabel: "+ Address",
+          children: [
+            {
+              name: "street",
+              label: "Street address"
+            },
+            {
+              name: "city",
+              label: "City"
+            },
+            {
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  name: "state",
+                  type: "select",
+                  label: "State",
+                  options: {
+                    va: "Virginia",
+                    fl: "Florida",
+                    ne: "Nebraska",
+                    ca: "California"
+                  }
+                },
+                {
+                  name: "zip",
+                  label: "Zip"
+                }
+              ]
+            }
+          ]
+        }
+      ],
       search: null,
       firstName: null,
       lastName: null,

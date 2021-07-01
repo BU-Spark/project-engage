@@ -22,6 +22,7 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@braid/vue-formulate": "^2.5.2",
     "@vue/cli-plugin-babel": "^4.5.12",
     "@vue/cli-plugin-eslint": "^4.5.12",
     "@vue/cli-plugin-pwa": "^4.5.12",
