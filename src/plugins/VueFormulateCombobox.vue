@@ -10,13 +10,8 @@
 </template>
 
 <script>
-// import {
-//     Datetime
-// } from 'vue-datetime';
 export default {
-  components: {
-    // 'datetime': Datetime,
-  },
+  components: {},
   props: {
     context: {
       type: Object,
