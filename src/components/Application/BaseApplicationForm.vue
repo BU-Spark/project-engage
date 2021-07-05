@@ -1,6 +1,13 @@
 <template>
   <v-container>
-    <FormlateForm v-model="values" :schema="schema" />
+    <!-- <FormulateForm>
+      <FormulateInput
+        v-for="item in schema"
+        :key="item.name"
+        v-bind="item"
+      />
+    </FormulateForm> -->
+    <FormulateForm v-model="values" :schema="schema" />
     <!-- <v-form>
       <v-row class="smallVertical">
         <v-col cols="12" sm="6">
@@ -47,91 +54,35 @@
             <template v-slot:selection="data">
               {{ data.item.substring(data.item.indexOf("+")) }}
             </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col cols="8" sm="4">
-          <v-text-field
-            v-model="phone"
-            label="Phone Number"
-            :rules="requiredRule"
-            outlined
-            type="number"
-            onkeydown="javascript: return event.keyCode == 69 ? false : true"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="githubURL"
-            label="GitHub Link"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="linkedinURL"
-            label="Linkedin Link"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="otherURL"
-            label="Other Link"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-autocomplete
-            v-model="major"
-            :items="courseList"
-            color="primary"
-            label="Major"
-            :rules="requiredRule"
-            outlined
-            return-object
-          ></v-autocomplete>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-autocomplete
-            v-model="minor"
-            :items="courseList"
-            color="primary"
-            label="Minor"
-            :rules="requiredRule"
-            outlined
-            return-object
-          ></v-autocomplete>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="schoolYear"
-            label="School Year"
-            :rules="requiredRule"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="graduation"
-            label="Expected year and month of graduation"
-            :rules="requiredRule"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-combobox
-            v-model="clubs"
-            :items="clubsList"
-            label="Involved Student Clubs"
-            :search-input.sync="clubSearch"
-            hide-selected
-            hint="Maximum of 5 tags"
-            multiple
-            persistent-hint
-            outlined
-            small-chips
-          >
-            <template v-slot:no-data>
+</v-autocomplete>
+</v-col>
+<v-col cols="8" sm="4">
+    <v-text-field v-model="phone" label="Phone Number" :rules="requiredRule" outlined type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true"></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-text-field v-model="githubURL" label="GitHub Link" outlined></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-text-field v-model="linkedinURL" label="Linkedin Link" outlined></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-text-field v-model="otherURL" label="Other Link" outlined></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-autocomplete v-model="major" :items="courseList" color="primary" label="Major" :rules="requiredRule" outlined return-object></v-autocomplete>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-autocomplete v-model="minor" :items="courseList" color="primary" label="Minor" :rules="requiredRule" outlined return-object></v-autocomplete>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-text-field v-model="schoolYear" label="School Year" :rules="requiredRule" outlined></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-text-field v-model="graduation" label="Expected year and month of graduation" :rules="requiredRule" outlined></v-text-field>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-combobox v-model="clubs" :items="clubsList" label="Involved Student Clubs" :search-input.sync="clubSearch" hide-selected hint="Maximum of 5 tags" multiple persistent-hint outlined small-chips>
+        <template v-slot:no-data>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -142,23 +93,12 @@
                 </v-list-item-content>
               </v-list-item>
             </template>
-          </v-combobox>
-        </v-col>
+    </v-combobox>
+</v-col>
 
-        <v-col cols="12" sm="6">
-          <v-combobox
-            v-model="language"
-            :items="languageList"
-            :search-input.sync="languageSearch"
-            hide-selected
-            hint="Maximum of 10 tags"
-            label="Programming Tech Skills"
-            multiple
-            persistent-hint
-            outlined
-            small-chips
-          >
-            <template v-slot:no-data>
+<v-col cols="12" sm="6">
+    <v-combobox v-model="language" :items="languageList" :search-input.sync="languageSearch" hide-selected hint="Maximum of 10 tags" label="Programming Tech Skills" multiple persistent-hint outlined small-chips>
+        <template v-slot:no-data>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -169,22 +109,11 @@
                 </v-list-item-content>
               </v-list-item>
             </template>
-          </v-combobox>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-combobox
-            v-model="designSkills"
-            :items="languageList"
-            :search-input.sync="designSearch"
-            hide-selected
-            hint="Maximum of 10 tags"
-            label="Design Tech Skills"
-            multiple
-            persistent-hint
-            outlined
-            small-chips
-          >
-            <template v-slot:no-data>
+    </v-combobox>
+</v-col>
+<v-col cols="12" sm="6">
+    <v-combobox v-model="designSkills" :items="languageList" :search-input.sync="designSearch" hide-selected hint="Maximum of 10 tags" label="Design Tech Skills" multiple persistent-hint outlined small-chips>
+        <template v-slot:no-data>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
@@ -195,102 +124,128 @@
                 </v-list-item-content>
               </v-list-item>
             </template>
-          </v-combobox>
-        </v-col>
-      </v-row>
-    </v-form> -->
+    </v-combobox>
+</v-col>
+</v-row>
+</v-form> -->
   </v-container>
 </template>
 
 <script>
 import { functions, db } from "@/firebase/init";
 import store from "@/store/index";
-import FormlateForm from "@braid/vue-formulate";
 
 export default {
   name: "BaseApplicationForm",
-  components: {
-    FormlateForm
-  },
+  components: {},
   data() {
     return {
       value: {},
       schema: [
         {
-          name: "firstname",
-          label: "First Name"
-        },
-        {
-          name: "lastname",
-          label: "Last Name"
-        },
-        {
-          name: "email",
-          label: "Email",
-          validation: "^required"
-        },
-        {
-          name: "buID",
-          label: "BU ID",
-          validation: "^required"
-        },
-        {
-          name: "phone",
-          label: "Phone Number",
-          type: "number",
-          validation: "^required"
-        },
-        {
-          name: "githubURL",
-          label: "GitHub URL"
-        },
-        {
-          name: "linkedinURL",
-          label: "Linkedin URL"
-        },
-        {
-          name: "otherURL",
-          label: "Other URL"
-        },
-        // {
-        //   type: "select",
-        //   name: "gender",
-        //   label: "Gender",
-        //   // options: "{VA: 'Virginia', CA: 'California', NY: 'New York'}"
-        // },
-
-        {
           type: "group",
-          repeatable: true,
-          name: "addresses",
-          addLabel: "+ Address",
+          name: "baseProfile",
           children: [
             {
-              name: "street",
-              label: "Street address"
-            },
-            {
-              name: "city",
-              label: "City"
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  label: "First Name",
+                  name: "firstname",
+                  validation: "required"
+                },
+                {
+                  label: "Last Name",
+                  name: "lastname",
+                  validation: "required"
+                }
+              ]
             },
             {
               component: "div",
               class: "double-row",
               children: [
                 {
-                  name: "state",
-                  type: "select",
-                  label: "State",
-                  options: {
-                    va: "Virginia",
-                    fl: "Florida",
-                    ne: "Nebraska",
-                    ca: "California"
+                  label: "Email",
+                  name: "email",
+                  help: "Please use your student email address",
+                  validation: "bail|required|email|ends_with:bu.edu",
+                  "validation-messages": {
+                    ends_with: "Please use a bu.edu email address"
                   }
                 },
                 {
-                  name: "zip",
-                  label: "Zip"
+                  label: "Student ID",
+                  name: "student_id",
+                  help: "Your 8 digit student ID (ex. U01010101)",
+                  placeholder: "",
+                  validation: "^required|matches:/^U[\\d]{6}$/",
+                  "validation-name": "Student ID"
+                }
+              ]
+            },
+            {
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  name: "major",
+                  type: "select",
+                  label: "Major",
+                  options: "courseList"
+                },
+                {
+                  name: "minor",
+                  label: "Minor",
+                  type: "select",
+                  options: "courseList"
+                }
+              ]
+            },
+            {
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  name: "schoolYear",
+                  type: "select",
+                  label: "Education Level",
+                  options: "schoolYearList"
+                },
+                {
+                  name: "graduatingYear",
+                  label: "Expected Graduating Month and Year"
+                }
+              ]
+            },
+            {
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  name: "linkedinURL",
+                  label: "Linkedin URL"
+                },
+                {
+                  name: "otherURL",
+                  label: "Other URL"
+                }
+              ]
+            },
+            {
+              component: "div",
+              class: "double-row",
+              children: [
+                {
+                  type: "select",
+                  name: "gender",
+                  label: "Gender",
+                  options: ["Female", "Male", "Perfer not to say"]
+                },
+                {
+                  type: "submit",
+                  "@onClick": "submitApplicationFormTemplate"
                 }
               ]
             }
@@ -330,6 +285,7 @@ export default {
           ) || "Please enter a valid URL"
       ],
       requiredRule: [v => !!v || "Input is required."],
+      schoolYearList: ["Freshmen", "Sophmore", "Junior", "Senior", "Master"],
       courseList: [
         "Accounting",
         "Aerospace Engineering",
@@ -775,9 +731,11 @@ export default {
         this.uploadResume(value);
       }
     },
-    async saveApplication() {
+    async saveApplicationTemplate(applicationType) {
       this.loading = true;
-      const applications = db.collection("applications").doc(this.user.uid);
+      const applications = db
+        .collection("applicationTemplate")
+        .doc(applicationType);
       await applications.update({
         firstName: this.firstName,
         lastName: this.lastName,
@@ -797,7 +755,9 @@ export default {
         designSkills: this.designSkills
       });
       this.loading = false;
-      this.$router.push({ name: "dashboard" });
+      this.$router.push({
+        name: "dashboard"
+      });
     },
     async submitApplication() {
       this.loading = true;
@@ -833,7 +793,9 @@ export default {
         });
         await store.dispatch("getUser");
         this.loading = false;
-        this.$router.push({ name: "dashboard" });
+        this.$router.push({
+          name: "dashboard"
+        });
       } else {
         this.loading = false;
       }

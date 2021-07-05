@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import { auth } from "@/firebase/init";
+import "./assets/formulate.css";
 
 Vue.config.productionTip = false;
 Vue.use(VueFormulate);
