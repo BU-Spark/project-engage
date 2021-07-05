@@ -1,15 +1,24 @@
 import Vue from "vue";
 import VueFormulate from "@braid/vue-formulate";
+import "./assets/formulate.css";
+import VueFormulateCombobox from "@/plugins/VueFormulateCombobox";
+Vue.component("VueFormulateCombobox", VueFormulateCombobox);
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import { auth } from "@/firebase/init";
-import "./assets/formulate.css";
 
 Vue.config.productionTip = false;
-Vue.use(VueFormulate);
+Vue.use(VueFormulate, {
+  library: {
+    combobox: {
+      classification: "list",
+      component: "VueFormulateCombobox"
+    }
+  }
+});
 var app = null;
 auth.onAuthStateChanged(async () => {
   if (!app) {

@@ -16,6 +16,11 @@
     margin-bottom: .75em
 }
 
+
+/* .double-row {
+    display: inline-block;
+} */
+
 .formulate-input .formulate-input-element {
     max-width: 20em;
     margin-bottom: .1em
@@ -66,7 +71,7 @@
     margin: 0
 }
 
-.formulate-inp›ut[data-classification=text] input::-moz-placeholder {
+.formulate-input[data-classification=text] input::-moz-placeholder {
     color: #a8a8a8;
     line-height: normal
 }
@@ -530,7 +535,7 @@
 .formulate-input[data-classification=group] [data-is-repeatable] .formulate-input-group-repeatable {
     padding: 1em 3em 1em 1em;
     border-bottom: 1px solid #efefef;
-    position: relative
+    position: relative;
 }
 
 .formulate-input[data-classification=group] [data-is-repeatable] .formulate-input-group-repeatable-remove {
