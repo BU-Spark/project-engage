@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(VueFormulate, {
   library: {
     combobox: {
-      classification: "list",
+      classification: "search",
       component: "VueFormulateCombobox"
     }
   }

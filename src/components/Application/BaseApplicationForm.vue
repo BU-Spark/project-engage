@@ -1,13 +1,19 @@
 <template>
   <v-container>
+    <!-- <v-combobox
+      v-model="select"
+      :items="clubsList"
+      label="I use chips"
+      multiple
+      chips
+    ></v-combobox>
     <FormulateInput
       type="combobox"
       :items="clubsList"
       item-value="clubs"
-      v-model="value"
-      label="Comboboxxx"
+      label="Combobox"
       placeholder="Select an option"
-    />
+    /> -->
     <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
   </v-container>
 </template>
@@ -21,330 +27,200 @@ export default {
   name: "BaseApplicationForm",
   components: {},
   data() {
+    let schoolYearList = ["Freshmen", "Sophmore", "Junior", "Senior", "Master"];
+    let clubsList = ["Cool Club", "Very Cool Club", "Cool Cool Club"];
+    let courseList = [
+      "None",
+      "Accounting",
+      "Aerospace Engineering",
+      "Agricultural Engineering",
+      "Applied Mathematics",
+      "Architecture",
+      "Biochemistry",
+      "Bioengineering",
+      "Bioinformatics",
+      "Biological Sciences",
+      "Biology",
+      "Biomedical Engineering",
+      "Biotechnology",
+      "Building Construction Management",
+      "Business",
+      "Business Administration",
+      "Business Analytics",
+      "Chemical Engineering",
+      "Chemistry",
+      "Civil Engineering",
+      "Cognitive Science",
+      "Communications",
+      "Computational Biology",
+      "Computational Media",
+      "Computer Engineering",
+      "Computer Science",
+      "Computer Information Systems",
+      "Computer Technologies",
+      "Computing Security",
+      "Culinary Arts",
+      "Cyber Operations",
+      "Data Science",
+      "Design",
+      "Economics",
+      "Electrical Engineering",
+      "Engineering",
+      "Engineering Management",
+      "Engineering Physics",
+      "Engineering Science",
+      "English",
+      "Film",
+      "Finance",
+      "Game Design and Development",
+      "Geophysics",
+      "Graphic Design",
+      "Human Centered Design",
+      "Human Computer Interaction",
+      "Humanities",
+      "Individualized Major",
+      "Industrial and Systems Engineering",
+      "Industrial and Operations Engineering",
+      "Industrial Engineering",
+      "Informatics",
+      "Information Science",
+      "Information Systems",
+      "Information Technology",
+      "Interaction Design",
+      "Interactive Multimedia",
+      "Interactive Telecommunications Program (ITP)",
+      "International Relations",
+      "Journalism",
+      "Linguistics",
+      "Management",
+      "Management Information Systems",
+      "Marketing",
+      "Materials Science",
+      "Mathematics",
+      "Mechanical Engineering",
+      "Mechatronics",
+      "Mechatronics Engineering",
+      "Media Arts and Sciences",
+      "Music Computing",
+      "Nanoengineering",
+      "Network Security",
+      "Neurobiology/Cognitive Science",
+      "Neuroscience",
+      "New Media Design",
+      "Operations Research Management Science",
+      "Organizational",
+      "Philosophy",
+      "Physics",
+      "Political Science",
+      "Poultry Science",
+      "Product Design",
+      "Psych",
+      "Psychology",
+      "Robotics Engineering",
+      "Robotics",
+      "Software Engineering",
+      "Statistics",
+      "Systems Design Engineering",
+      "Technology Management",
+      "Theatre and Linguistics",
+      "Undeclared",
+      "Other"
+    ];
     return {
       value: {},
       schema: [
         {
-          type: "group",
-          name: "baseProfile",
-          children: [
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  label: "First Name",
-                  name: "firstname",
-                  validation: "required"
-                },
-                {
-                  label: "Last Name",
-                  name: "lastname",
-                  validation: "required"
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  label: "Email",
-                  name: "email",
-                  help: "Please use your student email address",
-                  validation: "bail|required|email|ends_with:bu.edu",
-                  "validation-messages": {
-                    ends_with: "Please use a bu.edu email address"
-                  }
-                },
-                {
-                  label: "Student ID",
-                  name: "student_id",
-                  help: "Your 8 digit student ID (ex. U01010101)",
-                  placeholder: "",
-                  validation: "^required|matches:/^U[\\d]{6}$/",
-                  "validation-name": "Student ID"
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  type: "select",
-                  name: "gender",
-                  label: "Gender",
-                  options: ["Female", "Male", "Perfer not to say"]
-                },
-                {
-                  type: "number",
-                  name: "phone",
-                  label: "Cell Phone"
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  name: "major",
-                  type: "select",
-                  label: "Major",
-                  options: [
-                    "None",
-                    "Accounting",
-                    "Aerospace Engineering",
-                    "Agricultural Engineering",
-                    "Applied Mathematics",
-                    "Architecture",
-                    "Biochemistry",
-                    "Bioengineering",
-                    "Bioinformatics",
-                    "Biological Sciences",
-                    "Biology",
-                    "Biomedical Engineering",
-                    "Biotechnology",
-                    "Building Construction Management",
-                    "Business",
-                    "Business Administration",
-                    "Business Analytics",
-                    "Chemical Engineering",
-                    "Chemistry",
-                    "Civil Engineering",
-                    "Cognitive Science",
-                    "Communications",
-                    "Computational Biology",
-                    "Computational Media",
-                    "Computer Engineering",
-                    "Computer Science",
-                    "Computer Information Systems",
-                    "Computer Technologies",
-                    "Computing Security",
-                    "Culinary Arts",
-                    "Cyber Operations",
-                    "Data Science",
-                    "Design",
-                    "Economics",
-                    "Electrical Engineering",
-                    "Engineering",
-                    "Engineering Management",
-                    "Engineering Physics",
-                    "Engineering Science",
-                    "English",
-                    "Film",
-                    "Finance",
-                    "Game Design and Development",
-                    "Geophysics",
-                    "Graphic Design",
-                    "Human Centered Design",
-                    "Human Computer Interaction",
-                    "Humanities",
-                    "Individualized Major",
-                    "Industrial and Systems Engineering",
-                    "Industrial and Operations Engineering",
-                    "Industrial Engineering",
-                    "Informatics",
-                    "Information Science",
-                    "Information Systems",
-                    "Information Technology",
-                    "Interaction Design",
-                    "Interactive Multimedia",
-                    "Interactive Telecommunications Program (ITP)",
-                    "International Relations",
-                    "Journalism",
-                    "Linguistics",
-                    "Management",
-                    "Management Information Systems",
-                    "Marketing",
-                    "Materials Science",
-                    "Mathematics",
-                    "Mechanical Engineering",
-                    "Mechatronics",
-                    "Mechatronics Engineering",
-                    "Media Arts and Sciences",
-                    "Music Computing",
-                    "Nanoengineering",
-                    "Network Security",
-                    "Neurobiology/Cognitive Science",
-                    "Neuroscience",
-                    "New Media Design",
-                    "Operations Research Management Science",
-                    "Organizational",
-                    "Philosophy",
-                    "Physics",
-                    "Political Science",
-                    "Poultry Science",
-                    "Product Design",
-                    "Psych",
-                    "Psychology",
-                    "Robotics Engineering",
-                    "Robotics",
-                    "Software Engineering",
-                    "Statistics",
-                    "Systems Design Engineering",
-                    "Technology Management",
-                    "Theatre and Linguistics",
-                    "Other"
-                  ]
-                },
-                {
-                  name: "minor",
-                  label: "Minor",
-                  type: "select",
-                  options: [
-                    "None",
-                    "Accounting",
-                    "Aerospace Engineering",
-                    "Agricultural Engineering",
-                    "Applied Mathematics",
-                    "Architecture",
-                    "Biochemistry",
-                    "Bioengineering",
-                    "Bioinformatics",
-                    "Biological Sciences",
-                    "Biology",
-                    "Biomedical Engineering",
-                    "Biotechnology",
-                    "Building Construction Management",
-                    "Business",
-                    "Business Administration",
-                    "Business Analytics",
-                    "Chemical Engineering",
-                    "Chemistry",
-                    "Civil Engineering",
-                    "Cognitive Science",
-                    "Communications",
-                    "Computational Biology",
-                    "Computational Media",
-                    "Computer Engineering",
-                    "Computer Science",
-                    "Computer Information Systems",
-                    "Computer Technologies",
-                    "Computing Security",
-                    "Culinary Arts",
-                    "Cyber Operations",
-                    "Data Science",
-                    "Design",
-                    "Economics",
-                    "Electrical Engineering",
-                    "Engineering",
-                    "Engineering Management",
-                    "Engineering Physics",
-                    "Engineering Science",
-                    "English",
-                    "Film",
-                    "Finance",
-                    "Game Design and Development",
-                    "Geophysics",
-                    "Graphic Design",
-                    "Human Centered Design",
-                    "Human Computer Interaction",
-                    "Humanities",
-                    "Individualized Major",
-                    "Industrial and Systems Engineering",
-                    "Industrial and Operations Engineering",
-                    "Industrial Engineering",
-                    "Informatics",
-                    "Information Science",
-                    "Information Systems",
-                    "Information Technology",
-                    "Interaction Design",
-                    "Interactive Multimedia",
-                    "Interactive Telecommunications Program (ITP)",
-                    "International Relations",
-                    "Journalism",
-                    "Linguistics",
-                    "Management",
-                    "Management Information Systems",
-                    "Marketing",
-                    "Materials Science",
-                    "Mathematics",
-                    "Mechanical Engineering",
-                    "Mechatronics",
-                    "Mechatronics Engineering",
-                    "Media Arts and Sciences",
-                    "Music Computing",
-                    "Nanoengineering",
-                    "Network Security",
-                    "Neurobiology/Cognitive Science",
-                    "Neuroscience",
-                    "New Media Design",
-                    "Operations Research Management Science",
-                    "Organizational",
-                    "Philosophy",
-                    "Physics",
-                    "Political Science",
-                    "Poultry Science",
-                    "Product Design",
-                    "Psych",
-                    "Psychology",
-                    "Robotics Engineering",
-                    "Robotics",
-                    "Software Engineering",
-                    "Statistics",
-                    "Systems Design Engineering",
-                    "Technology Management",
-                    "Theatre and Linguistics",
-                    "Other"
-                  ]
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  name: "schoolYear",
-                  type: "select",
-                  label: "School Year",
-                  options: [
-                    "Freshmen",
-                    "Sophmore",
-                    "Junior",
-                    "Senior",
-                    "Master"
-                  ]
-                },
-                {
-                  name: "graduatingYear",
-                  label: "Expected Graduating Month and Year"
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  type: "select",
-                  name: "clubs",
-                  label: "Involed Student Clubs",
-                  options: ["Cool Club", "Very Cool Club", "Cool Cool Club"]
-                },
-                {
-                  name: "linkedinURL",
-                  label: "Linkedin URL"
-                }
-              ]
-            },
-            {
-              component: "div",
-              class: "double-row",
-              children: [
-                {
-                  name: "githubURL",
-                  label: "GitHub URL"
-                },
-                {
-                  name: "otherURL",
-                  label: "Other URL"
-                }
-              ]
-            }
-          ]
+          label: "First Name",
+          name: "firstname",
+          validation: "required"
+        },
+        {
+          label: "Last Name",
+          name: "lastname",
+          validation: "required"
+        },
+        {
+          label: "Email",
+          name: "email",
+          help: "Please use your student email address",
+          validation: "bail|required|email|ends_with:bu.edu",
+          "validation-messages": {
+            ends_with: "Please use a bu.edu email address"
+          }
+        },
+        {
+          label: "Student ID",
+          name: "student_id",
+          help: "Your 8 digit student ID (ex. U01010101)",
+          placeholder: "",
+          validation: "^required|matches:/^U[\\d]{6}$/",
+          "validation-name": "Student ID"
+        },
+        {
+          type: "select",
+          name: "gender",
+          label: "Gender",
+          options: ["Female", "Male", "Non-Binary", "Perfer not to say"]
+        },
+        {
+          type: "number",
+          name: "phone",
+          label: "Cell Phone"
+        },
+        {
+          name: "major",
+          type: "select",
+          label: "Major",
+          options: courseList
+        },
+        {
+          name: "minor",
+          label: "Minor",
+          type: "select",
+          options: courseList
+        },
+        {
+          name: "schoolYear",
+          type: "select",
+          label: "School Year",
+          options: schoolYearList
+        },
+        {
+          name: "graduatingYear",
+          label: "Expected Graduating Month and Year"
+        },
+        {
+          type: "combobox",
+          name: "clubs",
+          label: "Involed Student Clubs",
+          list: clubsList,
+          placeholder: "Add clubs"
+        },
+        {
+          name: "linkedinURL",
+          label: "Linkedin URL"
+        },
+        {
+          name: "githubURL",
+          label: "GitHub URL"
+        },
+        {
+          name: "otherURL",
+          label: "Other URL"
+        },
+        {
+          type: "combobox",
+          name: "programmingSkills",
+          label: "Programming Technical Skills",
+          list: [],
+          placeholder: "Add more skills"
+        },
+        {
+          type: "combobox",
+          name: "designSkills",
+          label: "Design Technical Skills",
+          list: [],
+          placeholder: "Add more skills"
         },
         {
           type: "submit",
@@ -384,102 +260,6 @@ export default {
           ) || "Please enter a valid URL"
       ],
       requiredRule: [v => !!v || "Input is required."],
-      // schoolYearList: ["Freshmen", "Sophmore", "Junior", "Senior", "Master"],
-      // courseList: [
-      //     "Accounting",
-      //     "Aerospace Engineering",
-      //     "Agricultural Engineering",
-      //     "Applied Mathematics",
-      //     "Architecture",
-      //     "Biochemistry",
-      //     "Bioengineering",
-      //     "Bioinformatics",
-      //     "Biological Sciences",
-      //     "Biology",
-      //     "Biomedical Engineering",
-      //     "Biotechnology",
-      //     "Building Construction Management",
-      //     "Business",
-      //     "Business Administration",
-      //     "Business Analytics",
-      //     "Chemical Engineering",
-      //     "Chemistry",
-      //     "Civil Engineering",
-      //     "Cognitive Science",
-      //     "Communications",
-      //     "Computational Biology",
-      //     "Computational Media",
-      //     "Computer Engineering",
-      //     "Computer Science",
-      //     "Computer Information Systems",
-      //     "Computer Technologies",
-      //     "Computing Security",
-      //     "Culinary Arts",
-      //     "Cyber Operations",
-      //     "Data Science",
-      //     "Design",
-      //     "Economics",
-      //     "Electrical Engineering",
-      //     "Engineering",
-      //     "Engineering Management",
-      //     "Engineering Physics",
-      //     "Engineering Science",
-      //     "English",
-      //     "Film",
-      //     "Finance",
-      //     "Game Design and Development",
-      //     "Geophysics",
-      //     "Graphic Design",
-      //     "Human Centered Design",
-      //     "Human Computer Interaction",
-      //     "Humanities",
-      //     "Individualized Major",
-      //     "Industrial and Systems Engineering",
-      //     "Industrial and Operations Engineering",
-      //     "Industrial Engineering",
-      //     "Informatics",
-      //     "Information Science",
-      //     "Information Systems",
-      //     "Information Technology",
-      //     "Interaction Design",
-      //     "Interactive Multimedia",
-      //     "Interactive Telecommunications Program (ITP)",
-      //     "International Relations",
-      //     "Journalism",
-      //     "Linguistics",
-      //     "Management",
-      //     "Management Information Systems",
-      //     "Marketing",
-      //     "Materials Science",
-      //     "Mathematics",
-      //     "Mechanical Engineering",
-      //     "Mechatronics",
-      //     "Mechatronics Engineering",
-      //     "Media Arts and Sciences",
-      //     "Music Computing",
-      //     "Nanoengineering",
-      //     "Network Security",
-      //     "Neurobiology/Cognitive Science",
-      //     "Neuroscience",
-      //     "New Media Design",
-      //     "Operations Research Management Science",
-      //     "Organizational",
-      //     "Philosophy",
-      //     "Physics",
-      //     "Political Science",
-      //     "Poultry Science",
-      //     "Product Design",
-      //     "Psych",
-      //     "Psychology",
-      //     "Robotics Engineering",
-      //     "Robotics",
-      //     "Software Engineering",
-      //     "Statistics",
-      //     "Systems Design Engineering",
-      //     "Technology Management",
-      //     "Theatre and Linguistics",
-      //     "Other"
-      // ],
       countryCodeList: [
         "Afghanistan (\u202bافغانستان\u202c\u200e) +93",
         "Albania (Shqipëri) +355",

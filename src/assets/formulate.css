@@ -4,11 +4,12 @@
 }
 
 .formulate-input .formulate-input-label {
-    display: block;
+    display: flex;
     line-height: 1.5;
     font-size: .9em;
     font-weight: 600;
-    margin-bottom: .1em
+    max-width: 20em;
+    margin-bottom: .1em;
 }
 
 .formulate-input .formulate-input-label--before+.formulate-input-help--before {
@@ -16,28 +17,30 @@
     margin-bottom: .75em
 }
 
-
-/* .double-row {
-    display: inline-block;
-} */
-
 .formulate-input .formulate-input-element {
+    display: flex;
     max-width: 20em;
-    margin-bottom: .1em
+    margin-bottom: .2em
 }
 
 .formulate-input .formulate-input-help {
+    display: flex;
     color: #6d6d6d;
     font-size: .7em;
     font-weight: 400;
     line-height: 1.5;
-    margin-bottom: .25em
+    margin-bottom: .25em;
+    max-width: 20em;
+    margin-bottom: .2em
 }
 
 .formulate-input .formulate-input-errors {
+    display: flex;
     list-style-type: none;
     padding: 0;
-    margin: 0
+    margin: 0;
+    max-width: 20em;
+    margin-bottom: .2em
 }
 
 .formulate-input .formulate-file-upload-error,

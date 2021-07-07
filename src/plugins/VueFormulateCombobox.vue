@@ -4,17 +4,22 @@
     :data-type="context.type"
     v-model="context.model"
     :items="context.items"
-    label="label"
-    placeholder="placeholder"
+    v-bind="context.attributes"
+    label="Select"
+    multiple
+    chips
   ></v-combobox>
 </template>
-
+<!-- :items="context.items" -->
+<!-- :items='["Cool Club", "Very Cool Club", "Cool Cool Club"]' -->
+<!-- :items="`${context.items}`" -->
 <script>
 export default {
   components: {},
   props: {
     context: {
       type: Object,
+      items: Array,
       required: true
     }
   }
