@@ -14,7 +14,12 @@
       label="Combobox"
       placeholder="Select an option"
     /> -->
-    <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
+    <FormulateForm
+      class="form-wrapper"
+      v-model="values"
+      :schema="schema"
+      @submit="handleSubmit"
+    />
   </v-container>
 </template>
 
@@ -224,7 +229,7 @@ export default {
         },
         {
           type: "submit",
-          "@onClick": "submitApplicationFormTemplate"
+          label: "Submit"
         }
       ],
       search: null,
@@ -609,6 +614,13 @@ export default {
       } else {
         this.uploadResume(value);
       }
+    },
+    async submitApplicationTemplate() {
+      const template = db.collection("applicationTemplate").doc("Base");
+      await template.update({
+        schema: this.schema,
+        year: new Date().getFullYear()
+      });
     },
     async saveApplicationTemplate(applicationType) {
       this.loading = true;
