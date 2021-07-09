@@ -14,6 +14,11 @@
       label="Combobox"
       placeholder="Select an option"
     /> -->
+
+    <Plugins v-if="this.addItem" />
+    <v-btn v-if="!this.addItem" @click="changeAddItemState()">Add</v-btn>
+    <v-btn v-if="this.addItem" @click="changeAddItemState()">Cancel</v-btn>
+    <v-btn v-if="this.addItem" @click="changeAddItemState()">Confirm</v-btn>
     <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
   </v-container>
 </template>
@@ -22,10 +27,13 @@
 import { functions, db } from "@/firebase/init";
 import store from "@/store/index";
 import "@/assets/formulate.css";
+import Plugins from "@/plugins/Plugins.vue";
 
 export default {
   name: "BaseApplicationForm",
-  components: {},
+  components: {
+    Plugins
+  },
   data() {
     let schoolYearList = ["Freshmen", "Sophmore", "Junior", "Senior", "Master"];
     let clubsList = ["Cool Club", "Very Cool Club", "Cool Cool Club"];
@@ -127,6 +135,7 @@ export default {
       "Other"
     ];
     return {
+      addItem: false,
       value: {},
       schema: [
         {
@@ -601,6 +610,9 @@ export default {
     }
   },
   methods: {
+    changeAddItemState() {
+      this.addItem = !this.addItem;
+    },
     fileUpload(value) {
       if (value == "viewFile") {
         window.open(this.resume[0], "_blank");
