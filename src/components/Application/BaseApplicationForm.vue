@@ -20,12 +20,12 @@
     <v-btn v-if="this.addItem" @click="changeAddItemState()">Cancel</v-btn>
     <v-btn v-if="this.addItem" @click="changeAddItemState()">Confirm</v-btn>
     <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
+    <v-btn @click="submitFormTemplate"> Submit Form Template</v-btn>
   </v-container>
 </template>
 
 <script>
 import { functions, db } from "@/firebase/init";
-import store from "@/store/index";
 import "@/assets/formulate.css";
 import Plugins from "@/plugins/Plugins.vue";
 
@@ -35,207 +35,109 @@ export default {
     Plugins
   },
   data() {
-    let schoolYearList = ["Freshmen", "Sophmore", "Junior", "Senior", "Master"];
-    let clubsList = ["Cool Club", "Very Cool Club", "Cool Cool Club"];
-    let courseList = [
-      "None",
-      "Accounting",
-      "Aerospace Engineering",
-      "Agricultural Engineering",
-      "Applied Mathematics",
-      "Architecture",
-      "Biochemistry",
-      "Bioengineering",
-      "Bioinformatics",
-      "Biological Sciences",
-      "Biology",
-      "Biomedical Engineering",
-      "Biotechnology",
-      "Building Construction Management",
-      "Business",
-      "Business Administration",
-      "Business Analytics",
-      "Chemical Engineering",
-      "Chemistry",
-      "Civil Engineering",
-      "Cognitive Science",
-      "Communications",
-      "Computational Biology",
-      "Computational Media",
-      "Computer Engineering",
-      "Computer Science",
-      "Computer Information Systems",
-      "Computer Technologies",
-      "Computing Security",
-      "Culinary Arts",
-      "Cyber Operations",
-      "Data Science",
-      "Design",
-      "Economics",
-      "Electrical Engineering",
-      "Engineering",
-      "Engineering Management",
-      "Engineering Physics",
-      "Engineering Science",
-      "English",
-      "Film",
-      "Finance",
-      "Game Design and Development",
-      "Geophysics",
-      "Graphic Design",
-      "Human Centered Design",
-      "Human Computer Interaction",
-      "Humanities",
-      "Individualized Major",
-      "Industrial and Systems Engineering",
-      "Industrial and Operations Engineering",
-      "Industrial Engineering",
-      "Informatics",
-      "Information Science",
-      "Information Systems",
-      "Information Technology",
-      "Interaction Design",
-      "Interactive Multimedia",
-      "Interactive Telecommunications Program (ITP)",
-      "International Relations",
-      "Journalism",
-      "Linguistics",
-      "Management",
-      "Management Information Systems",
-      "Marketing",
-      "Materials Science",
-      "Mathematics",
-      "Mechanical Engineering",
-      "Mechatronics",
-      "Mechatronics Engineering",
-      "Media Arts and Sciences",
-      "Music Computing",
-      "Nanoengineering",
-      "Network Security",
-      "Neurobiology/Cognitive Science",
-      "Neuroscience",
-      "New Media Design",
-      "Operations Research Management Science",
-      "Organizational",
-      "Philosophy",
-      "Physics",
-      "Political Science",
-      "Poultry Science",
-      "Product Design",
-      "Psych",
-      "Psychology",
-      "Robotics Engineering",
-      "Robotics",
-      "Software Engineering",
-      "Statistics",
-      "Systems Design Engineering",
-      "Technology Management",
-      "Theatre and Linguistics",
-      "Undeclared",
-      "Other"
-    ];
+    // let schoolYearList = ["Freshmen", "Sophmore", "Junior", "Senior", "Master"];
+    // let clubsList = ["Cool Club", "Very Cool Club", "Cool Cool Club"];
+    // let courseList = [
+    //   "None",
+    //   "Accounting",
+    //   "Aerospace Engineering",
+    //   "Agricultural Engineering",
+    //   "Applied Mathematics",
+    //   "Architecture",
+    //   "Biochemistry",
+    //   "Bioengineering",
+    //   "Bioinformatics",
+    //   "Biological Sciences",
+    //   "Biology",
+    //   "Biomedical Engineering",
+    //   "Biotechnology",
+    //   "Building Construction Management",
+    //   "Business",
+    //   "Business Administration",
+    //   "Business Analytics",
+    //   "Chemical Engineering",
+    //   "Chemistry",
+    //   "Civil Engineering",
+    //   "Cognitive Science",
+    //   "Communications",
+    //   "Computational Biology",
+    //   "Computational Media",
+    //   "Computer Engineering",
+    //   "Computer Science",
+    //   "Computer Information Systems",
+    //   "Computer Technologies",
+    //   "Computing Security",
+    //   "Culinary Arts",
+    //   "Cyber Operations",
+    //   "Data Science",
+    //   "Design",
+    //   "Economics",
+    //   "Electrical Engineering",
+    //   "Engineering",
+    //   "Engineering Management",
+    //   "Engineering Physics",
+    //   "Engineering Science",
+    //   "English",
+    //   "Film",
+    //   "Finance",
+    //   "Game Design and Development",
+    //   "Geophysics",
+    //   "Graphic Design",
+    //   "Human Centered Design",
+    //   "Human Computer Interaction",
+    //   "Humanities",
+    //   "Individualized Major",
+    //   "Industrial and Systems Engineering",
+    //   "Industrial and Operations Engineering",
+    //   "Industrial Engineering",
+    //   "Informatics",
+    //   "Information Science",
+    //   "Information Systems",
+    //   "Information Technology",
+    //   "Interaction Design",
+    //   "Interactive Multimedia",
+    //   "Interactive Telecommunications Program (ITP)",
+    //   "International Relations",
+    //   "Journalism",
+    //   "Linguistics",
+    //   "Management",
+    //   "Management Information Systems",
+    //   "Marketing",
+    //   "Materials Science",
+    //   "Mathematics",
+    //   "Mechanical Engineering",
+    //   "Mechatronics",
+    //   "Mechatronics Engineering",
+    //   "Media Arts and Sciences",
+    //   "Music Computing",
+    //   "Nanoengineering",
+    //   "Network Security",
+    //   "Neurobiology/Cognitive Science",
+    //   "Neuroscience",
+    //   "New Media Design",
+    //   "Operations Research Management Science",
+    //   "Organizational",
+    //   "Philosophy",
+    //   "Physics",
+    //   "Political Science",
+    //   "Poultry Science",
+    //   "Product Design",
+    //   "Psych",
+    //   "Psychology",
+    //   "Robotics Engineering",
+    //   "Robotics",
+    //   "Software Engineering",
+    //   "Statistics",
+    //   "Systems Design Engineering",
+    //   "Technology Management",
+    //   "Theatre and Linguistics",
+    //   "Undeclared",
+    //   "Other"
+    // ];
     return {
       addItem: false,
       value: {},
-      schema: [
-        {
-          label: "First Name",
-          name: "firstname",
-          validation: "required"
-        },
-        {
-          label: "Last Name",
-          name: "lastname",
-          validation: "required"
-        },
-        {
-          label: "Email",
-          name: "email",
-          help: "Please use your student email address",
-          validation: "bail|required|email|ends_with:bu.edu",
-          "validation-messages": {
-            ends_with: "Please use a bu.edu email address"
-          }
-        },
-        {
-          label: "Student ID",
-          name: "student_id",
-          help: "Your 8 digit student ID (ex. U01010101)",
-          placeholder: "",
-          validation: "^required|matches:/^U[\\d]{6}$/",
-          "validation-name": "Student ID"
-        },
-        {
-          type: "select",
-          name: "gender",
-          label: "Gender",
-          options: ["Female", "Male", "Non-Binary", "Perfer not to say"]
-        },
-        {
-          type: "number",
-          name: "phone",
-          label: "Cell Phone"
-        },
-        {
-          name: "major",
-          type: "select",
-          label: "Major",
-          options: courseList
-        },
-        {
-          name: "minor",
-          label: "Minor",
-          type: "select",
-          options: courseList
-        },
-        {
-          name: "schoolYear",
-          type: "select",
-          label: "School Year",
-          options: schoolYearList
-        },
-        {
-          name: "graduatingYear",
-          label: "Expected Graduating Month and Year"
-        },
-        {
-          type: "combobox",
-          name: "clubs",
-          label: "Involed Student Clubs",
-          list: clubsList,
-          placeholder: "Add clubs"
-        },
-        {
-          name: "linkedinURL",
-          label: "Linkedin URL"
-        },
-        {
-          name: "githubURL",
-          label: "GitHub URL"
-        },
-        {
-          name: "otherURL",
-          label: "Other URL"
-        },
-        {
-          type: "combobox",
-          name: "programmingSkills",
-          label: "Programming Technical Skills",
-          list: [],
-          placeholder: "Add more skills"
-        },
-        {
-          type: "combobox",
-          name: "designSkills",
-          label: "Design Technical Skills",
-          list: [],
-          placeholder: "Add more skills"
-        },
-        {
-          type: "submit",
-          label: "Submit"
-        }
-      ],
+      schema: [],
       search: null,
       firstName: null,
       lastName: null,
@@ -622,81 +524,19 @@ export default {
         this.uploadResume(value);
       }
     },
-    async submitApplicationTemplate() {
+    async submitFormTemplate() {
+      const currentYear = new Date().getFullYear();
       const template = db.collection("applicationTemplate").doc("Base");
-      await template.update({
-        schema: this.schema,
-        year: new Date().getFullYear()
-      });
-    },
-    async saveApplicationTemplate(applicationType) {
-      this.loading = true;
-      const applications = db
-        .collection("applicationTemplate")
-        .doc(applicationType);
-      await applications.update({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        buID: this.buID,
-        countryCode: this.countryCode,
-        phone: this.phone,
-        githubURL: this.githubURL,
-        linkedinURL: this.linkedinURL,
-        otherURL: this.otherURL,
-        major: this.major,
-        minor: this.minor,
-        schoolYear: this.schoolYear,
-        graduation: this.graduation,
-        clubs: this.clubs,
-        language: this.language,
-        designSkills: this.designSkills
-      });
-      this.loading = false;
-      this.$router.push({
-        name: "dashboard"
-      });
-    },
-    async submitApplication() {
-      this.loading = true;
-      this.$refs.form.validate();
-      this.check();
-      if (this.valid) {
-        const userdb = db.collection("users").doc(this.user.uid);
-        await userdb.update({
-          applicationStatus: 1
+      template
+        .update({
+          [`FormSchemas.${currentYear}`]: this.schema
+        })
+        .then(() => {
+          console.log("submitted");
+        })
+        .catch(error => {
+          console.log(error);
         });
-        const userApplication = db
-          .collection("applications")
-          .doc(this.user.uid);
-        await userApplication.update({
-          status: 1,
-          uid: this.user.uid,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          buID: this.buID,
-          countryCode: this.countryCode,
-          phone: this.phone,
-          githubURL: this.githubURL,
-          linkedinURL: this.linkedinURL,
-          otherURL: this.otherURL,
-          major: this.major,
-          minor: this.minor,
-          schoolYear: this.schoolYear,
-          graduation: this.graduation,
-          clubs: this.clubs,
-          language: this.language,
-          designSkills: this.designSkills
-        });
-        await store.dispatch("getUser");
-        this.loading = false;
-        this.$router.push({
-          name: "dashboard"
-        });
-      } else {
-        this.loading = false;
-      }
     },
     async uploadResume(value) {
       this.resumeLoading = true;
@@ -755,52 +595,28 @@ export default {
     }
   },
   async mounted() {
-    this.loading = true;
-    if (this.user.applicationStatus >= 0) {
-      const userApplication = db.collection("applications").doc(this.user.uid);
-      var userApplicationDoc = await userApplication.get();
-      (this.firstName = userApplicationDoc.data().firstName),
-        (this.lastName = userApplicationDoc.data().lastName),
-        (this.email = userApplicationDoc.data().email),
-        (this.buID = userApplicationDoc.data().buID),
-        (this.countryCode = userApplicationDoc.data().countryCode),
-        (this.phone = userApplicationDoc.data().phone),
-        (this.githubURL = userApplicationDoc.data().githubURL),
-        (this.linkedinURL = userApplicationDoc.data().linkedinURL),
-        (this.otherURL = userApplicationDoc.data().otherURL),
-        (this.major = userApplicationDoc.data().major),
-        (this.minor = userApplicationDoc.data().minor),
-        (this.schoolYear = userApplicationDoc.data().schoolYear),
-        (this.graduation = userApplicationDoc.data().graduation),
-        (this.clubs = userApplicationDoc.data().clubs),
-        (this.language = userApplicationDoc.data().language),
-        (this.designSkills = userApplicationDoc.data().designSkills);
-    } else {
-      const userdb = db.collection("users").doc(this.user.uid);
-      await userdb.update({
-        applicationStatus: 0
+    const currentYear = new Date().getFullYear();
+    const template = db.collection("applicationTemplate").doc("Base");
+    template
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          const newestForm = doc.data().FormSchemas[currentYear];
+          if (newestForm) {
+            this.schema = newestForm;
+          } else {
+            const lastYear = (parseInt(currentYear) - 1).toString();
+            this.schema = doc.data().FormSchemas[lastYear];
+          }
+        } else {
+          template.set({
+            [`FormSchemas.${currentYear}`]: {}
+          });
+        }
+      })
+      .catch(error => {
+        console.log("Error getting document:", error);
       });
-      const userApplication = db.collection("applications").doc(this.user.uid);
-      await userApplication.set({
-        firstName: null,
-        lastName: null,
-        email: null,
-        buID: null,
-        countryCode: null,
-        phone: null,
-        githubURL: null,
-        linkedinURL: null,
-        otherURL: null,
-        major: null,
-        minor: null,
-        schoolYear: null,
-        graduation: null,
-        language: null,
-        designSkills: null
-      });
-      await store.dispatch("getUser");
-    }
-    this.loading = false;
   },
   watch: {
     language(val) {
