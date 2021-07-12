@@ -16,7 +16,6 @@ export default {
   props: {
     context: {
       type: Object,
-      items: Array,
       required: true
     },
     items: {
