@@ -4,6 +4,7 @@
     :data-type="context.type"
     v-model="context.model"
     :items="items"
+    validation="requiredOrNot"
     v-bind="context.attributes"
     label="Select"
     multiple
@@ -19,6 +20,9 @@ export default {
       required: true
     },
     items: {
+      type: String
+    },
+    requiredOrNot: {
       type: String
     }
   }
