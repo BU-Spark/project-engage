@@ -1,7 +1,7 @@
 <template>
   <div id="main-container">
     <div v-if="pageStatus == 0">
-      <div class="header-profile d-flex flex-row mb-6 align-center">
+      <div class="header-profile">
         <v-img
           src="@/assets/null-profile-img.svg"
           max-height="75"
@@ -27,10 +27,18 @@
         <h5>Gender</h5>
         <h5>GenderStudent</h5>
       </div>
+      <div class="profile-additionals">
+        <div class="studentClubs">
+          <h5><u> Student Clubs </u></h5>
+        </div>
+        <div class="skills">
+          <h5><u> Skills</u></h5>
+        </div>
+      </div>
     </div>
 
     <div v-if="pageStatus == 1">
-      <div class="header-profile d-flex flex-row mb-6 align-center">
+      <div class="header-profile">
         <v-img
           src="@/assets/null-profile-img.svg"
           max-height="75"
@@ -43,7 +51,7 @@
         </v-btn>
       </div>
       <div class="body-profile">
-        <input type="text" placeholder="First Name" />>
+        <input type="text" placeholder="First Name" />
         <input type="text" placeholder="Last Name" />
         <input type="text" placeholder="Email" />
         <input type="text" placeholder="BU ID" />
@@ -54,7 +62,28 @@
         <input type="text" placeholder="School Year" />
         <input type="text" placeholder="Expected Graduation" />
         <input type="text" placeholder="Gender" />
-        <input type="text" placeholder="GenderStudent" />
+        <input type="text" placeholder="Gender" />
+      </div>
+      <div class="profile-edit-additionals">
+        <div class="studentClubs">
+          <h5><u> Student Clubs </u></h5>
+          <input type="text" placeholder="Add New Club" />
+          <input type="text" value="Member" />
+          <v-btn class="check-btn" elevation="0">
+            <v-icon aria-hidden="false">
+              mdi-check-outline
+            </v-icon>
+          </v-btn>
+        </div>
+        <div class="skills">
+          <h5><u> Skills</u></h5>
+          <input type="text" placeholder="New Skill" />
+          <v-btn class="check-btn" elevation="0">
+            <v-icon aria-hidden="false">
+              mdi-check-outline
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
     </div>
   </div>
@@ -95,11 +124,26 @@ export default {
 </script>
 
 <style scoped>
+.check-btn {
+  color: #36bd90 !important;
+  border-radius: 150px !important;
+  background-color: transparent !important;
+}
+.profile-additionals,
+.profile-edit-additionals {
+  text-align: left !important;
+  margin-top: 15px !important;
+}
 .body-profile {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
   position: static;
+}
+.body-profile h5 {
+  margin: 0px !important;
+  text-align: left !important;
+  padding: 2px 5px !important;
 }
 #main-container {
   border-radius: 25px;
@@ -116,13 +160,16 @@ export default {
   grid-gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
   position: static;
+  margin-bottom: 25px;
 }
 .submit-profile-btn {
   background-color: #36bd90 !important;
   color: black !important;
+  width: 170px !important;
 }
 .edit-profile-btn {
   background-color: #ffc65d !important;
+  width: 170px !important;
 }
 v-btn {
   color: #e7f1ee;
