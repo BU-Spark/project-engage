@@ -9,7 +9,9 @@
       >
       </v-img>
       <div id="navigations">
-        <v-btn elevation="0" class="nav-btn"> Dashboard</v-btn>
+        <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
+          Dashboard</v-btn
+        >
         <v-btn elevation="0" class="nav-btn"> Applicants </v-btn>
         <v-btn elevation="0" class="nav-btn"> Reports </v-btn>
       </div>
@@ -20,7 +22,7 @@
         <v-btn class="main-action" elevation="0">
           <v-icon aria-hidden="false" style="color: #36bd90"> mdi-bell </v-icon>
         </v-btn>
-        <v-btn class="main-action" elevation="0">
+        <v-btn class="main-action" elevation="0" @click="updatePageBody(1)">
           <v-icon aria-hidden="false" style="color: #36bd90">
             mdi-account-circle
           </v-icon>
@@ -32,9 +34,11 @@
 </template>
 
 <script>
+import Vue from "vue";
 // LINK TO ALL ICONS: https://materialdesignicons.com
 // import firebase from "firebase/app";
 // import { auth } from "@/firebase/init";
+export const curAppPage = new Vue();
 export default {
   name: "Dashboard",
   props: ["currentPage", "activeUser"],
@@ -44,7 +48,11 @@ export default {
     //   // return store.state.user;
     // }
   },
-  methods: {},
+  methods: {
+    updatePageBody(currentPage) {
+      curAppPage.$emit("chaneCurrentPage", currentPage);
+    }
+  },
   mounted() {}
 };
 </script>

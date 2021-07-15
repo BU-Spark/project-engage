@@ -1,21 +1,35 @@
 <template>
   <div>
     <Dashboard> </Dashboard>
-    <Apps> </Apps>
+    <Apps v-if="currentPage == 0"> </Apps>
+    <Profile v-if="currentPage == 1"></Profile>
   </div>
 </template>
 
 <script>
-import Dashboard from "@/components/Dashboard/Dashboard.vue";
-import Apps from "@/components/Dashboard/Apps.vue";
+import Dashboard from "@/components/ApplicantSide/Dashboard.vue";
+import Apps from "@/components/ApplicantSide/Apps.vue";
+import Profile from "@/components/ApplicantSide/Profile.vue";
 import store from "@/store";
+import { curAppPage } from "./ApplicantSide/Dashboard.vue";
 // import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
 export default {
   name: "ApplicantDashboardHome",
   components: {
     Dashboard,
-    Apps
+    Apps,
+    Profile
     // GoogleLoginButton
+  },
+  data() {
+    return {
+      currentPage: 0
+    };
+  },
+  created() {
+    curAppPage.$on("chaneCurrentPage", cp => {
+      this.currentPage = cp;
+    });
   },
   computed: {
     adminValidation() {
