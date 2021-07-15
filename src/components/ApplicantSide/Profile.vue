@@ -91,7 +91,9 @@
 
 <script>
 import Vue from "vue";
-// import firebase from "firebase/app";
+import { firestorePlugin } from "vuefire";
+Vue.use(firestorePlugin);
+import "firebase/firestore";
 // import { auth } from "@/firebase/init";
 export const curPageStatus = new Vue();
 export default {

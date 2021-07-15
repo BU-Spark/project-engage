@@ -26,7 +26,7 @@
           <v-icon aria-hidden="false" style="color: #36bd90">
             mdi-account-circle
           </v-icon>
-          &nbsp; &nbsp; Active User
+          &nbsp; &nbsp; {{ this.user.displayName }}
         </v-btn>
       </div>
     </div>
@@ -35,18 +35,22 @@
 
 <script>
 import Vue from "vue";
+import { firestorePlugin } from "vuefire";
+Vue.use(firestorePlugin);
+import "firebase/firestore";
+// Get a Firestore instance
+// import store & authentication
+// import store from "@/store";
 // LINK TO ALL ICONS: https://materialdesignicons.com
-// import firebase from "firebase/app";
-// import { auth } from "@/firebase/init";
 export const curAppPage = new Vue();
 export default {
   name: "Dashboard",
   props: ["currentPage", "activeUser"],
   components: {},
   computed: {
-    // user() {
-    //   // return store.state.user;
-    // }
+    user() {
+      return this.$store.state.user;
+    }
   },
   methods: {
     updatePageBody(currentPage) {

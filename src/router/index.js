@@ -26,7 +26,7 @@ const routes = [
     name: "ApplicantDashboard",
     component: () => import("@/views/ApplicantDashboard.vue"),
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {

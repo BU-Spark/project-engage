@@ -60,7 +60,11 @@ export default {
           //console.log("here");
           //if this is a BU email or the user is a validated admin
           if (this.user) {
-            this.$router.push("/home");
+            if (this.adminValidation == false) {
+              this.$router.push("/ApplicantDashboard");
+            } else {
+              this.$router.push("/home");
+            }
           }
         } else {
           //if it is not a BU email
