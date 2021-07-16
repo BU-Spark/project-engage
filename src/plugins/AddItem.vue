@@ -3,7 +3,7 @@
     <!-- admin chooses a question type -->
     <v-select
       :items="items"
-      v-model="itemSelected"
+      v-model="questionSelected"
       v-on:change="eraseFields"
       label="Type of question to add to the form"
       outlined
@@ -12,13 +12,14 @@
     <!-- fields required for "Input Field" -->
     <v-container
       class="grey lighten-5"
-      v-if="this.itemSelected == 'Input Field'"
+      v-if="this.questionSelected == 'Input Field'"
     >
       <v-row no-gutters>
         <v-col cols="12" sm="6">
           <v-text-field
             label="Label"
             v-model="labelInput"
+            :rules="[() => !!labelInput || 'This field is required']"
             outlined
           ></v-text-field>
           <v-text-field
@@ -32,15 +33,25 @@
           ></v-checkbox>
         </v-col>
         <!-- View FormulateInput "Input Field" UI -->
-        <v-col cols="12" sm="6">
-          <v-row justify="center">
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-card class="pa-10 mb-4" outlined tile>
+            <h4>Preview</h4>
             <FormulateInput
               type="text"
               :label="`${labelInput}`"
               :validation="`${checkValidation(validationInput)}`"
               v-model="tempInput"
             />
-          </v-row>
+          </v-card>
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -48,13 +59,14 @@
     <!-- fields required for "Dropdown Options" -->
     <v-container
       class="grey lighten-5"
-      v-if="this.itemSelected == 'Dropdown Options'"
+      v-if="this.questionSelected == 'Dropdown Options'"
     >
       <v-row no-gutters>
         <v-col cols="12" sm="6">
           <v-text-field
             label="Label"
             v-model="labelDropdown"
+            :rules="[() => !!labelDropdown || 'This field is required']"
             outlined
           ></v-text-field>
           <v-text-field
@@ -83,8 +95,9 @@
           </ul>
         </v-col>
         <!-- View FormulateInput "Dropdown Options" UI -->
-        <v-col cols="12" sm="6">
-          <v-row justify="center">
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-card class="pa-10 mb-4" outlined tile>
+            <h4>Preview</h4>
             <FormulateInput
               type="select"
               :label="`${labelDropdown}`"
@@ -92,7 +105,16 @@
               :validation="`${checkValidation(validationDropdown)}`"
               v-model="tempDropdown"
             />
-          </v-row>
+          </v-card>
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -100,13 +122,14 @@
     <!-- fields required for "Multi-Select Combobox" -->
     <v-container
       class="grey lighten-5"
-      v-if="this.itemSelected == 'Multi-Select Combobox'"
+      v-if="this.questionSelected == 'Multi-Select Combobox'"
     >
       <v-row no-gutters>
         <v-col cols="12" sm="6">
           <v-text-field
             label="Label"
             v-model="labelCombobox"
+            :rules="[() => !!labelCombobox || 'This field is required']"
             outlined
           ></v-text-field>
           <v-text-field
@@ -140,8 +163,9 @@
           </ul>
         </v-col>
         <!-- View FormulateInput "Multi-Select Combobox" UI -->
-        <v-col cols="12" sm="6">
-          <v-row justify="center">
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-card class="pa-10 mb-4" outlined tile>
+            <h4>Preview</h4>
             <FormulateInput
               type="combobox"
               :label="`${labelCombobox}`"
@@ -150,10 +174,22 @@
               :validation="`${checkValidation(validationCombobox)}`"
               v-model="tempCombobox"
             />
-          </v-row>
+          </v-card>
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
         </v-col>
       </v-row>
     </v-container>
+
+    <v-btn @click="cancelItem()">Cancel</v-btn>
+    <v-btn @click="addItem()">Confirm Add</v-btn>
   </div>
 </template>
 
@@ -161,16 +197,16 @@
 export default {
   name: "Plugins",
   components: {},
+  props: {
+    schema: Array
+  },
   data() {
     return {
       // types of questions the admin can select to add to the form
-      items: [
-        "Title",
-        "Input Field",
-        "Dropdown Options",
-        "Multi-Select Combobox"
-      ],
+      schemaArray: this.schema,
       itemSelected: null,
+      items: ["Input Field", "Dropdown Options", "Multi-Select Combobox"],
+      questionSelected: null,
       // fields required for "Input Field"
       labelInput: null,
       nameInput: null,
@@ -190,11 +226,57 @@ export default {
       validationCombobox: false,
       addItemCombobox: null,
       itemsCombobox: [],
-      tempCombobox: null
+      tempCombobox: null,
+      itemSchema: null
     };
   },
   computed: {},
   methods: {
+    addItem() {
+      if (
+        (!this.labelInput && !this.labelDropdown && !this.labelCombobox) ||
+        !this.itemSelected
+      ) {
+        alert(
+          'Pleaase fill in "Label" or select "Choose where to add the question"'
+        );
+      } else {
+        if (this.questionSelected == this.items[0]) {
+          this.itemSchema = {
+            label: this.labelInput,
+            name: this.nameInput,
+            validation: this.validationInput ? "required" : ""
+          };
+        } else if (this.questionSelected == this.items[1]) {
+          this.itemSchema = {
+            label: this.labelDropdown,
+            name: this.nameDropdown,
+            type: "select",
+            options: this.optionsDropdown,
+            validation: this.validationDropdown ? "required" : ""
+          };
+        } else if (this.questionSelected == this.items[2]) {
+          this.itemSchema = {
+            label: this.labelCombobox,
+            name: this.nameCombobox,
+            type: "combobox",
+            items: this.itemsCombobox,
+            validation: this.validationCombobox ? "required" : "",
+            placeholder: this.placeholderCombobox
+          };
+        }
+        var index = this.schemaArray.findIndex(
+          x => x.label === this.itemSelected
+        );
+        this.schemaArray.splice(index, 0, this.itemSchema);
+        this.$emit("addItem", false);
+        this.$emit("itemAdded", this.schemaArray);
+        alert("You have successfully added an item!");
+      }
+    },
+    cancelItem() {
+      this.$emit("addItem", false);
+    },
     checkValidation(variable) {
       if (variable) {
         return "required";

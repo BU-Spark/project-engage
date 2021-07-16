@@ -17,7 +17,7 @@ Vue.use(VueFormulate, {
       classification: "combobox",
       component: "VueFormulateCombobox",
       slotProps: {
-        component: ["items"]
+        component: ["items", "validation"]
       }
     }
   }

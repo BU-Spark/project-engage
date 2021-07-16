@@ -1,9 +1,29 @@
 <template>
   <v-container>
-    <Plugins v-if="this.addItem" />
-    <v-btn v-if="!this.addItem" @click="changeAddItemState()">Add</v-btn>
-    <v-btn v-if="this.addItem" @click="changeAddItemState()">Cancel</v-btn>
-    <v-btn v-if="this.addItem" @click="changeAddItemState()">Confirm</v-btn>
+    <DeleteItem
+      v-if="this.deleteItem && !this.addItem"
+      :schema="schema"
+      @deleteItem="changeDeleteItemState()"
+      @itemDeleted="deleteField"
+    />
+    <v-btn
+      v-if="!this.deleteItem && !this.addItem"
+      @click="changeDeleteItemState()"
+      >Delete Item</v-btn
+    >
+
+    <AddItem
+      v-if="this.addItem && !this.deleteItem"
+      :schema="schema"
+      @addItem="changeAddItemState()"
+      @itemAdded="addField"
+    />
+    <v-btn
+      v-if="!this.addItem && !this.deleteItem"
+      @click="changeAddItemState()"
+      >Add Item</v-btn
+    >
+
     <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
     <v-btn @click="submitFormTemplate"> Submit Form Template</v-btn>
   </v-container>
@@ -12,12 +32,14 @@
 <script>
 import { functions, db } from "@/firebase/init";
 import "@/assets/formulate.css";
-import Plugins from "@/plugins/Plugins.vue";
+import AddItem from "@/plugins/AddItem.vue";
+import DeleteItem from "@/plugins/DeleteItem.vue";
 
 export default {
   name: "BaseApplicationForm",
   components: {
-    Plugins
+    AddItem,
+    DeleteItem
   },
   data() {
     // let schoolYearList = ["Freshmen", "Sophmore", "Junior", "Senior", "Master"];
@@ -207,6 +229,7 @@ export default {
     // ];
     return {
       addItem: false,
+      deleteItem: false,
       value: {},
       schema: [],
       search: null,
@@ -497,8 +520,19 @@ export default {
     }
   },
   methods: {
+    addField(value) {
+      this.schema = value;
+    },
+    deleteField(value) {
+      this.schema = value;
+    },
     changeAddItemState() {
       this.addItem = !this.addItem;
+      this.deleteItem = false;
+    },
+    changeDeleteItemState() {
+      this.deleteItem = !this.deleteItem;
+      this.addItem = false;
     },
     fileUpload(value) {
       if (value == "viewFile") {

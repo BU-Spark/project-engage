@@ -4,25 +4,25 @@
     :data-type="context.type"
     v-model="context.model"
     :items="items"
-    validation="requiredOrNot"
     v-bind="context.attributes"
+    :validation="validation"
     label="Select"
     multiple
     chips
   ></v-combobox>
 </template>
+<!-- :rules="[() => !!context.model || 'This field is required']" -->
 <script>
 export default {
   components: {},
   props: {
     context: {
-      type: Object,
-      required: true
+      type: Object
     },
     items: {
       type: String
     },
-    requiredOrNot: {
+    validation: {
       type: String
     }
   }
