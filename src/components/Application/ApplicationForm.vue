@@ -78,7 +78,7 @@ export default {
       this.addItem = false;
     },
     cancel() {
-      this.$router.push("/applicationFormList");
+      this.$router.go(-1);
     },
     async submitFormTemplate() {
       const template = db

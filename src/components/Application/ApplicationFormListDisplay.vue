@@ -5,7 +5,7 @@
         <v-card>
           <v-toolbar color="teal" dark>
             <v-toolbar-side-icon></v-toolbar-side-icon>
-            <v-toolbar-title>Application Forms</v-toolbar-title>
+            <v-toolbar-title>Manage Application Forms</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-list>
