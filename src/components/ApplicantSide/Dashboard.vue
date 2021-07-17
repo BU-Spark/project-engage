@@ -17,10 +17,22 @@
       </div>
       <div id="main-actions">
         <v-btn class="main-action" elevation="0">
-          <v-icon aria-hidden="false" style="color: #36bd90"> mdi-cog </v-icon>
+          <v-icon
+            aria-hidden="false"
+            style="color: #36bd90"
+            @click="updatePageBody(2)"
+          >
+            mdi-cog
+          </v-icon>
         </v-btn>
         <v-btn class="main-action" elevation="0">
-          <v-icon aria-hidden="false" style="color: #36bd90"> mdi-bell </v-icon>
+          <v-icon
+            aria-hidden="false"
+            style="color: #36bd90"
+            @click="updatePageBody(3)"
+          >
+            mdi-bell
+          </v-icon>
         </v-btn>
         <v-btn class="main-action" elevation="0" @click="updatePageBody(1)">
           <v-icon aria-hidden="false" style="color: #36bd90">

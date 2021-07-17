@@ -3,6 +3,8 @@
     <Dashboard> </Dashboard>
     <Apps v-if="currentPage == 0"> </Apps>
     <Profile v-if="currentPage == 1"></Profile>
+    <ApplicantSettings v-if="currentPage == 2"></ApplicantSettings>
+    <Notifications v-if="currentPage == 3"></Notifications>
   </div>
 </template>
 
@@ -10,6 +12,8 @@
 import Dashboard from "@/components/ApplicantSide/Dashboard.vue";
 import Apps from "@/components/ApplicantSide/Apps.vue";
 import Profile from "@/components/ApplicantSide/Profile.vue";
+import Notifications from "@/components/ApplicantSide/Notifications.vue";
+import ApplicantSettings from "@/components/ApplicantSide/ApplicantSettings.vue";
 import store from "@/store";
 import { curAppPage } from "./ApplicantSide/Dashboard.vue";
 // import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
@@ -18,7 +22,9 @@ export default {
   components: {
     Dashboard,
     Apps,
-    Profile
+    Profile,
+    ApplicantSettings,
+    Notifications
     // GoogleLoginButton
   },
   data() {
