@@ -37,6 +37,14 @@ const routes = [
       requiresAuth: false
     }
   },
+  {
+    path: "/applicationFormList",
+    name: "applicationFormList",
+    component: () => import("@/views/ApplicationFormList.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
   {
     path: "*",

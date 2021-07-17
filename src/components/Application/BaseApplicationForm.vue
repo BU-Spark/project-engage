@@ -544,11 +544,12 @@ export default {
       }
     },
     async submitFormTemplate() {
-      const currentYear = new Date().getFullYear();
+      // const currentYear = new Date().getFullYear();
       const template = db.collection("applicationTemplate").doc("Base");
       template
         .update({
-          [`FormSchemas.${currentYear}`]: this.schema
+          [`template.schema`]: this.schema,
+          [`template.deadline`]: ""
         })
         .then(() => {
           console.log("submitted");

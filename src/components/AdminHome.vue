@@ -1,6 +1,10 @@
 <template>
   <div>
     <p>Successfully logged in as admin</p>
+    <!-- application form: TO BE MOVED LATER -->
+    <v-btn color="#36bd90" class="ma-4" @click="applicationFormList" rounded>
+      View Program Applications
+    </v-btn>
     <div>
       <v-text-field
         outlined
@@ -141,6 +145,9 @@ export default {
         message: this.inviteMessage,
         subject: "You are Invited to be a Spark Admin!"
       });
+    },
+    applicationFormList() {
+      this.$router.push("/applicationFormList");
     }
   },
   async mounted() {}
