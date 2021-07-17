@@ -45,6 +45,18 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/applicationForm",
+    name: "applicationForm",
+    component: () => import("@/components/Application/ApplicationForm.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    props: {
+      header: true,
+      content: true
+    }
+  },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
   {
     path: "*",

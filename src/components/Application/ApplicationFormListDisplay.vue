@@ -26,13 +26,26 @@
                   <h4>{{ item }}</h4>>
                 </v-list-tile-action> -->
               <v-list-tile
-                v-for="semesters in Object.keys(
-                  Object.assign({}, ...item.data)
-                )"
-                :key="semesters"
+                v-for="semester in Object.keys(Object.assign({}, ...item.data))"
+                :key="semester"
               >
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ semesters }}</v-list-tile-title>
+                  <v-list-tile-title>
+                    <v-btn
+                      color="#36bd90"
+                      class="ma-4"
+                      @click="
+                        applicationForm(
+                          item.id,
+                          semester,
+                          item.data[semester]['schema']
+                        )
+                      "
+                      rounded
+                    >
+                      {{ semester }}
+                    </v-btn>
+                  </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list-group>
@@ -45,6 +58,7 @@
 
 <script>
 import { db } from "@/firebase/init";
+
 export default {
   name: "applicationFormListDisplay",
   components: {},
@@ -60,6 +74,16 @@ export default {
       if (event) {
         this.selected = item;
       }
+    },
+    applicationForm(applicationType, semester, schema) {
+      this.$router.push({
+        name: "applicationForm",
+        params: {
+          applicationTypeFromList: applicationType,
+          semesterFromList: semester,
+          schemaList: schema
+        }
+      });
     }
   },
   async mounted() {

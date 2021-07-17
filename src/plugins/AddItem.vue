@@ -235,10 +235,10 @@ export default {
     addItem() {
       if (
         (!this.labelInput && !this.labelDropdown && !this.labelCombobox) ||
-        !this.itemSelected
+        (!this.itemSelected && this.schemaArray.length > 0)
       ) {
         alert(
-          'Pleaase fill in "Label" or select "Choose where to add the question"'
+          'Please fill in "Label" or select "Choose where to add the question"'
         );
       } else {
         if (this.questionSelected == this.items[0]) {
@@ -268,7 +268,11 @@ export default {
         var index = this.schemaArray.findIndex(
           x => x.label === this.itemSelected
         );
-        this.schemaArray.splice(index, 0, this.itemSchema);
+        if (this.schemaArray.length <= 0) {
+          this.schemaArray = [this.itemSchema];
+        } else {
+          this.schemaArray.splice(index, 0, this.itemSchema);
+        }
         this.$emit("addItem", false);
         this.$emit("itemAdded", this.schemaArray);
         alert("You have successfully added an item!");
@@ -303,6 +307,7 @@ export default {
       this.addItemCombobox = null;
       this.itemsCombobox = [];
       this.tempCombobox = [];
+      this.itemSelected = null;
     },
     // functions for fields required for "Dropdown Options"
     addOptionDropdownFunc() {
