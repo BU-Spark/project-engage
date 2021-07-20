@@ -1,76 +1,45 @@
 <template>
   <div>
-    <p>Successfully logged in as admin</p>
-    <!-- application form: TO BE MOVED LATER -->
-    <v-btn color="#36bd90" class="ma-4" @click="applicationFormList" rounded>
-      Manage Program Application Forms
+    <v-text-field
+      outlined
+      v-model="addAdminEmail"
+      :rules="emailRules"
+      @change="checkEmail"
+    >
+    </v-text-field>
+    <v-btn
+      elevation="2"
+      outlined
+      plain
+      raised
+      class="ma-2"
+      @click="addAdmin()"
+      :disabled="!emailValidated"
+      v-if="!this.adminExists"
+    >
+      Invite Admin
     </v-btn>
-    <div>
-      <v-text-field
-        outlined
-        v-model="addAdminEmail"
-        :rules="emailRules"
-        @change="checkEmail"
-      >
-      </v-text-field>
-      <v-btn
-        elevation="2"
-        outlined
-        plain
-        raised
-        class="ma-2"
-        @click="addAdmin()"
-        :disabled="!emailValidated"
-        v-if="!this.adminExists"
-      >
-        Invite Admin
-      </v-btn>
-      <v-alert dark v-if="this.adminExists">
-        This email is currently registered as a student account, please click
-        Change Role if you want to assign them admin permission
-      </v-alert>
-      <v-btn
-        elevation="2"
-        outlined
-        plain
-        raised
-        class="ma-2"
-        @click="changeRole()"
-        v-if="this.adminExists"
-      >
-        Change Role
-      </v-btn>
-      <v-container>
-        <EmailUI />
-      </v-container>
-    </div>
+    <v-alert dark v-if="this.adminExists">
+      This email is currently registered as a student account, please click
+      Change Role if you want to assign them admin permission
+    </v-alert>
+    <v-btn
+      elevation="2"
+      outlined
+      plain
+      raised
+      class="ma-2"
+      @click="changeRole()"
+      v-if="this.adminExists"
+    >
+      Change Role
+    </v-btn>
   </div>
 </template>
-
 <script>
 import { functions, db } from "@/firebase/init";
-import store from "@/store";
-import EmailUI from "@/components/EmailUI.vue";
-
 export default {
-  name: "AdminHome",
-  components: {
-    EmailUI
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-    isAdmin() {
-      return this.$store.state.isAdmin;
-    },
-    adminValidation() {
-      return store.state.adminValidation;
-    },
-    snapshot() {
-      return store.state.snapshot;
-    }
-  },
+  name: "InviteAdmin",
   data() {
     return {
       addAdminEmail: null,
@@ -86,6 +55,20 @@ export default {
       ]
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    isAdmin() {
+      return this.$store.state.isAdmin;
+    },
+    adminValidation() {
+      return this.$store.state.adminValidation;
+    },
+    snapshot() {
+      return this.$store.state.snapshot;
+    }
+  },
   methods: {
     checkEmail() {
       if (
@@ -100,7 +83,7 @@ export default {
     },
     async addAdmin() {
       if (this.addAdminEmail != null) {
-        await store.dispatch("validateAdmin", this.addAdminEmail);
+        await this.$store.dispatch("validateAdmin", this.addAdminEmail);
         if (!(await this.adminValidation)) {
           await db
             .collection("invites")
@@ -109,7 +92,7 @@ export default {
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
             });
-          await store.dispatch("getSnapshot", [
+          await this.$store.dispatch("getSnapshot", [
             "users",
             "email",
             this.addAdminEmail
@@ -145,11 +128,13 @@ export default {
         message: this.inviteMessage,
         subject: "You are Invited to be a Spark Admin!"
       });
-    },
-    applicationFormList() {
-      this.$router.push("/applicationFormList");
     }
-  },
-  async mounted() {}
+  }
 };
 </script>
+
+<style scoped>
+v-text-field {
+  width: 200px;
+}
+</style>

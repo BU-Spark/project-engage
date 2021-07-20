@@ -1,53 +1,44 @@
 <template>
   <div>
-    <v-layout row>
+    <v-layout>
       <v-flex mt-3 xs12 sm6 offset-sm3>
         <v-card>
-          <v-toolbar color="teal" dark>
-            <v-toolbar-side-icon></v-toolbar-side-icon>
+          <v-toolbar color="teal" dark @click="toggle">
             <v-toolbar-title>Manage Application Forms</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-list>
+          <v-list v-if="this.expand">
             <v-list-group
               v-for="item in programList"
               v-model="item.active"
-              :key="item"
-              :prepend-icon="item.action"
+              :key="item.id"
               no-action
-              @input="onItemClick($event, item.id)"
             >
-              <v-list-tile slot="activator">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.id }}</v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <!-- <v-list-tile-action>
-                  <h4>{{ item }}</h4>>
-                </v-list-tile-action> -->
-              <v-list-tile
-                v-for="semester in Object.keys(Object.assign({}, ...item.data))"
-                :key="semester"
-              >
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    <v-btn
-                      color="#36bd90"
-                      class="ma-4"
-                      @click="
-                        applicationForm(
-                          item.id,
-                          semester,
-                          item.data[semester]['schema']
-                        )
-                      "
-                      rounded
-                    >
-                      {{ semester }}
-                    </v-btn>
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title class="text-left">{{
+                    item.id
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </template>
+              <v-item-group multiple>
+                <v-item v-for="semester in item.data" :key="semester[0]">
+                  <v-btn
+                    color="#36bd90"
+                    class="ma-4"
+                    @click="
+                      applicationForm(
+                        item.id,
+                        semester[0],
+                        semester[1]['schema']
+                      )
+                    "
+                    rounded
+                  >
+                    {{ semester[0] }}
+                  </v-btn>
+                </v-item>
+              </v-item-group>
             </v-list-group>
           </v-list>
         </v-card>
@@ -65,15 +56,13 @@ export default {
   data() {
     return {
       programList: [],
-      selected: ""
+      expand: false
     };
   },
   computed: {},
   methods: {
-    onItemClick(event, item) {
-      if (event) {
-        this.selected = item;
-      }
+    toggle() {
+      this.expand = !this.expand;
     },
     applicationForm(applicationType, semester, schema) {
       this.$router.push({
@@ -92,7 +81,7 @@ export default {
     snapshot.forEach(doc => {
       this.programList.push({
         id: doc.id,
-        data: doc.data()
+        data: Object.entries(doc.data())
       });
     });
     console.log(this.programList);
