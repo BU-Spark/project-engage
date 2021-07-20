@@ -1,71 +1,76 @@
 {
-  "name": "project-engage",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@toast-ui/vue-editor": "^2.5.2",
-    "core-js": "^3.10.0",
-    "firebase": "^8.3.2",
-    "register-service-worker": "^1.7.1",
-    "vue": "^2.6.14",
-    "vue-router": "^3.2.0",
-    "vuetify": "^2.4.9",
-    "vuex": "^3.4.0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.12",
-    "@vue/cli-plugin-eslint": "^4.5.12",
-    "@vue/cli-plugin-pwa": "^4.5.12",
-    "@vue/cli-plugin-router": "^4.5.12",
-    "@vue/cli-plugin-vuex": "^4.5.12",
-    "@vue/cli-service": "^4.5.12",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-vue": "^6.2.2",
-    "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1",
-    "sass": "^1.32.0",
-    "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "^2.3.1",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "project-engage",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/prettier"
+    "dependencies": {
+        "@toast-ui/vue-editor": "^2.5.2",
+        "core-js": "^3.10.0",
+        "file-system": "^2.2.2",
+        "firebase": "^8.3.2",
+        "firebase-functions": "^3.14.1",
+        "register-service-worker": "^1.7.1",
+        "tui-editor": "^1.4.10",
+        "vue": "^2.6.11",
+        "vue-file-agent": "^1.7.3",
+        "vue-router": "^3.2.0",
+        "vuetify": "^2.4.9",
+        "vuex": "^3.4.0"
+    },
+    "devDependencies": {
+        "@braid/vue-formulate": "^2.5.2",
+        "@vue/cli-plugin-babel": "^4.5.12",
+        "@vue/cli-plugin-eslint": "^4.5.12",
+        "@vue/cli-plugin-pwa": "^4.5.12",
+        "@vue/cli-plugin-router": "^4.5.12",
+        "@vue/cli-plugin-vuex": "^4.5.12",
+        "@vue/cli-service": "^4.5.12",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.7.2",
+        "eslint-plugin-prettier": "^3.1.3",
+        "eslint-plugin-vue": "^6.2.2",
+        "lint-staged": "^9.5.0",
+        "prettier": "^1.19.1",
+        "sass": "^1.32.0",
+        "sass-loader": "^10.0.0",
+        "vue-cli-plugin-vuetify": "^2.3.1",
+        "vue-template-compiler": "^2.6.11",
+        "vuetify-loader": "^1.7.0"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "eslint:recommended",
+            "@vue/prettier"
+        ],
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "rules": {}
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
     ],
-    "parserOptions": {
-      "parser": "babel-eslint"
+    "_id": "project-engage@0.1.0",
+    "gitHooks": {
+        "pre-commit": "lint-staged"
     },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "_id": "project-engage@0.1.0",
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  },
-  "readme": "ERROR: No README data found!"
+    "lint-staged": {
+        "*.{js,jsx,vue}": [
+            "vue-cli-service lint",
+            "git add"
+        ]
+    },
+    "readme": "ERROR: No README data found!"
 }

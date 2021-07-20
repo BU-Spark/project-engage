@@ -58,6 +58,9 @@ export default {
   methods: {
     admin() {
       this.$router.push("/AdminLogin");
+    },
+    applicationForm() {
+      this.$router.push("/application");
     }
   }
 };
