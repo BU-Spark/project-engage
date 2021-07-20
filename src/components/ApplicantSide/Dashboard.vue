@@ -1,19 +1,21 @@
 <template>
   <div>
-    <div id="dashboatd-container" class="d-flex flex-row mb-6 align-center">
-      <v-img
-        src="@/assets/sparky.png"
-        max-height="75"
-        max-width="75"
-        class="db-logo"
-      >
-      </v-img>
-      <div id="navigations">
-        <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
-          Dashboard</v-btn
+    <div id="dashboard-container" class="d-flex flex-row mb-6 align-center">
+      <div id="rightSideDashboard">
+        <v-img
+          src="@/assets/sparky.png"
+          max-height="75"
+          max-width="75"
+          class="db-logo"
         >
-        <v-btn elevation="0" class="nav-btn"> Applicants </v-btn>
-        <v-btn elevation="0" class="nav-btn"> Reports </v-btn>
+        </v-img>
+        <div id="navigations">
+          <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
+            Dashboard</v-btn
+          >
+          <v-btn elevation="0" class="nav-btn"> Applicants </v-btn>
+          <v-btn elevation="0" class="nav-btn"> Reports </v-btn>
+        </div>
       </div>
       <div id="main-actions">
         <v-btn class="main-action" elevation="0">
@@ -79,6 +81,7 @@ div#main-actions {
   float: right !important;
   right: -25px !important;
   padding: 15px !important;
+  text-align: left !important;
 }
 v-btn {
   color: #36bd90;
@@ -88,11 +91,18 @@ v-btn {
   border-radius: 15px;
   padding: 15px 0px;
 }
-div#dashboatd-container {
+div#dashboard-container {
   background-color: #36bd90;
   color: black;
   padding: 15px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+div#rightSideDashboard {
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 .nav-btn {
   background-color: transparent !important;

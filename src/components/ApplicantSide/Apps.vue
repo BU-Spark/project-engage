@@ -2,14 +2,24 @@
   <div>
     <div id="main-container">
       <h1>No Applications in Progress <br /></h1>
-      <a class="d-flex flex-row align-center new-app-link">
-        Start Application
+      <br />
+      <h1>
+        <v-btn className="new-app-btn">
+          Start New Application
+          <v-icon aria-hidden="false" style="color:#36BD90"
+            >mdi-arrow-right-drop-circle</v-icon
+          >
+        </v-btn>
+      </h1>
+
+      <!-- <a class="d-flex flex-row align-center new-app-link">
         <v-btn class="new-app-btn" elevation="0" v-on:click="startNewApp"
           ><v-icon aria-hidden="false" style="color: #36bd90"
             >mdi-arrow-right-drop-circle</v-icon
-          ></v-btn
+          >
+          </v-btn
         >
-      </a>
+      </a> -->
     </div>
   </div>
 </template>
@@ -36,7 +46,7 @@ export default {
 <style scoped>
 .new-app-link {
   text-align: center !important;
-  color: white !important;
+  color: black !important;
   font-size: 30px !important;
 }
 v-btn {
@@ -53,9 +63,10 @@ v-btn {
   text-align: center;
 }
 .new-app-btn {
-  color: transparent !important;
-  border-radius: 150px !important;
-  margin: 5px !important;
+  border-radius: 5px !important;
   background-color: transparent !important;
+  border: 4px solid #219e75;
+  font-weight: 700 !important;
+  font-size: 16px !important;
 }
 </style>
