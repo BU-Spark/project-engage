@@ -96,7 +96,7 @@ export default {
           console.log(error);
         });
       alert("You have successfully updated the form");
-      this.$router.push("/applicationFormList");
+      this.$router.go(-1);
     }
   },
   async mounted() {
