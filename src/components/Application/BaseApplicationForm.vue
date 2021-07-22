@@ -114,7 +114,6 @@ export default {
       }
     },
     async submitFormTemplate() {
-      // const currentYear = new Date().getFullYear();
       const template = db.collection("applicationTemplate").doc("Base");
       template
         .update({
