@@ -117,14 +117,14 @@ export default {
     toggle() {
       this.expand = !this.expand;
     },
-    applicationForm(applicationType, semester, schema, deadlne) {
+    applicationForm(applicationType, semester, schema, deadline) {
       this.$router.push({
         name: "applicationForm",
         params: {
           applicationTypeFromList: applicationType,
           semesterFromList: semester,
           schemaList: schema,
-          deadline: deadlne
+          deadline: deadline
         }
       });
     },
