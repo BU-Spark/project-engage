@@ -30,7 +30,8 @@
                       applicationForm(
                         item.id,
                         semester[0],
-                        semester[1]['schema']
+                        semester[1]['schema'],
+                        semester[1]['deadline']
                       )
                     "
                     rounded
@@ -116,13 +117,14 @@ export default {
     toggle() {
       this.expand = !this.expand;
     },
-    applicationForm(applicationType, semester, schema) {
+    applicationForm(applicationType, semester, schema, deadlne) {
       this.$router.push({
         name: "applicationForm",
         params: {
           applicationTypeFromList: applicationType,
           semesterFromList: semester,
-          schemaList: schema
+          schemaList: schema,
+          deadline: deadlne
         }
       });
     },
@@ -148,7 +150,7 @@ export default {
       this.schema = null;
       this.errorMsg = null;
     },
-    submit() {
+    async submit() {
       if (
         this.application == null ||
         this.semester == null ||
@@ -171,17 +173,16 @@ export default {
             ][1].schema;
           }
         }
-        this.programList[this.applicationIndex].data.push([
-          this.newSemester,
-          {
-            [`${this.newSemester}.schema`]: this.schema,
-            [`${this.newSemester}.deadline`]: ""
-          }
-        ]);
+        // this.programList[this.applicationIndex].data.push([
+        //     this.newSemester, {
+        //         [`${this.newSemester}.schema`]: this.schema,
+        //         [`${this.newSemester}.deadline`]: ""
+        //     }
+        // ]);
         const template = db
           .collection("applicationTemplate")
           .doc(this.application);
-        template
+        await template
           .update({
             [`${this.newSemester}.schema`]: this.schema,
             [`${this.newSemester}.deadline`]: ""
@@ -200,6 +201,7 @@ export default {
         this.newSemester = null;
         this.schema = null;
         this.errorMsg = null;
+        location.reload();
       }
     }
   },
