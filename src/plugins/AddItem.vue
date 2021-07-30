@@ -22,11 +22,6 @@
             :rules="[() => !!labelInput || 'This field is required']"
             outlined
           ></v-text-field>
-          <v-text-field
-            label="Name"
-            v-model="nameInput"
-            outlined
-          ></v-text-field>
           <v-checkbox
             v-model="validationInput"
             :label="`Required field? ${validationInput.toString()}`"
@@ -56,10 +51,10 @@
       </v-row>
     </v-container>
 
-    <!-- fields required for "Dropdown Options" -->
+    <!-- fields required for "Select" -->
     <v-container
       class="grey lighten-5"
-      v-if="this.questionSelected == 'Dropdown Options'"
+      v-if="this.questionSelected == 'Select'"
     >
       <v-row no-gutters>
         <v-col cols="12" sm="6">
@@ -67,11 +62,6 @@
             label="Label"
             v-model="labelDropdown"
             :rules="[() => !!labelDropdown || 'This field is required']"
-            outlined
-          ></v-text-field>
-          <v-text-field
-            label="Name"
-            v-model="nameDropdown"
             outlined
           ></v-text-field>
           <v-checkbox
@@ -98,7 +88,7 @@
             </li>
           </ul>
         </v-col>
-        <!-- View FormulateInput "Dropdown Options" UI -->
+        <!-- View FormulateInput "Select" UI -->
         <v-col cols="12" sm="6" class="pa-5">
           <v-card class="pa-10 mb-4" outlined tile>
             <h4>Preview</h4>
@@ -135,10 +125,10 @@
       </v-row>
     </v-container>
 
-    <!-- fields required for "Multi-Select Combobox" -->
+    <!-- fields required for "Combobox" -->
     <v-container
       class="grey lighten-5"
-      v-if="this.questionSelected == 'Multi-Select Combobox'"
+      v-if="this.questionSelected == 'Combobox'"
     >
       <v-row no-gutters>
         <v-col cols="12" sm="6">
@@ -151,11 +141,6 @@
           <v-text-field
             label="Placeholder"
             v-model="placeholderCombobox"
-            outlined
-          ></v-text-field>
-          <v-text-field
-            label="Name"
-            v-model="nameCombobox"
             outlined
           ></v-text-field>
           <v-checkbox
@@ -178,7 +163,7 @@
             </li>
           </ul>
         </v-col>
-        <!-- View FormulateInput "Multi-Select Combobox" UI -->
+        <!-- View FormulateInput "Combobox" UI -->
         <v-col cols="12" sm="6" class="pa-5">
           <v-card class="pa-10 mb-4" outlined tile>
             <h4>Preview</h4>
@@ -190,6 +175,80 @@
               :validation="`${checkValidation(validationCombobox)}`"
               v-model="tempCombobox"
             />
+          </v-card>
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- fields required for "File" -->
+    <v-container class="grey lighten-5" v-if="this.questionSelected == 'File'">
+      <v-row no-gutters>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            label="Label"
+            v-model="labelFile"
+            :rules="[() => !!labelFile || 'This field is required']"
+            outlined
+          ></v-text-field>
+          <v-select
+            :items="['image', 'file']"
+            v-model="validationFile"
+            label="Choose allowed file type"
+            outlined
+            :rules="[() => !!validationFile || 'This field is required']"
+          ></v-select>
+          <v-checkbox
+            v-model="multipleFile"
+            :label="`Allow multiple files? ${multipleFile.toString()}`"
+          ></v-checkbox>
+        </v-col>
+        <!-- View FormulateInput "File" UI -->
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-card class="pa-10 mb-4" outlined tile>
+            <h4>Preview</h4>
+            <div v-if="validationFile == 'file' && multipleFile">
+              <FormulateInput
+                type="file"
+                :label="`${labelFile}`"
+                help="Select one or more PDFs to upload"
+                validation="mime:application/pdf"
+                multiple
+              />
+            </div>
+            <div v-if="validationFile == 'file' && !multipleFile">
+              <FormulateInput
+                type="file"
+                :label="`${labelFile}`"
+                help="Select one PDF to upload"
+                validation="mime:application/pdf"
+              />
+            </div>
+            <div v-if="validationFile == 'image' && multipleFile">
+              <FormulateInput
+                type="image"
+                :label="`${labelFile}`"
+                help="Select one or more png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif"
+                multiple
+              />
+            </div>
+            <div v-if="validationFile == 'image' && !multipleFile">
+              <FormulateInput
+                type="image"
+                :label="`${labelFile}`"
+                help="Select a png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif"
+              />
+            </div>
           </v-card>
           <v-select
             :items="schemaArray"
@@ -221,30 +280,31 @@ export default {
       // types of questions the admin can select to add to the form
       schemaArray: this.schema,
       itemSelected: null,
-      items: ["Input Field", "Dropdown Options", "Multi-Select Combobox"],
+      items: ["Input Field", "Select", "Combobox", "File"],
       questionSelected: null,
       // fields required for "Input Field"
       labelInput: null,
-      nameInput: null,
       validationInput: false,
       tempInput: null,
-      // fields required for "Dropdown Options"
+      // fields required for "Select"
       labelDropdown: null,
-      nameDropdown: null,
       multipleDropdown: false,
       validationDropdown: false,
       addOptionDropdown: null,
       optionsDropdown: [],
       tempDropdown: null,
-      // fields required for "Multi-Select Combobox"
+      // fields required for "Combobox"
       labelCombobox: null,
       placeholderCombobox: null,
-      nameCombobox: null,
       validationCombobox: false,
       addItemCombobox: null,
       itemsCombobox: [],
       tempCombobox: null,
-      itemSchema: null
+      itemSchema: null,
+      // fields required for "File"
+      labelFile: null,
+      validationFile: null,
+      multipleFile: false
     };
   },
   computed: {},
@@ -257,17 +317,23 @@ export default {
         alert(
           'Please fill in "Label" or select "Choose where to add the question"'
         );
+      } else if (
+        !this.labelFile ||
+        !this.validationFile ||
+        (!this.itemSelected && this.schemaArray.length > 0)
+      ) {
+        alert(
+          'Please fill in "Label", choose a file type, or select "Choose where to add the question"'
+        );
       } else {
         if (this.questionSelected == this.items[0]) {
           this.itemSchema = {
             label: this.labelInput,
-            name: this.nameInput,
             validation: this.validationInput ? "required" : null
           };
         } else if (this.questionSelected == this.items[1]) {
           this.itemSchema = {
             label: this.labelDropdown,
-            name: this.nameDropdown,
             type: "select",
             options: this.optionsDropdown,
             validation: this.validationDropdown ? "required" : null,
@@ -276,11 +342,30 @@ export default {
         } else if (this.questionSelected == this.items[2]) {
           this.itemSchema = {
             label: this.labelCombobox,
-            name: this.nameCombobox,
             type: "combobox",
             items: this.itemsCombobox,
             validation: this.validationCombobox ? "required" : null,
             placeholder: this.placeholderCombobox
+          };
+        } else if (this.questionSelected == this.items[3]) {
+          this.itemSchema = {
+            label: this.labelFile,
+            type: this.validationFile,
+            validation:
+              this.validationFile == "file"
+                ? "mime:application/pdf"
+                : "mime:image/jpeg,image/png,image/gif",
+            multiple: this.multipleFile ? "multiple" : null,
+            help:
+              this.validationFile == "file" && this.multipleFile
+                ? "Select one or more PDFs to upload"
+                : this.validationFile == "file" && !this.multipleFile
+                ? "Select one PDF to upload"
+                : this.validationFile == "image" && this.multipleFile
+                ? "Select one or more png, jpg or gif to upload."
+                : this.validationFile == "image" && !this.multipleFile
+                ? "Select a png, jpg or gif to upload."
+                : ""
           };
         }
         var index = this.schemaArray.findIndex(
@@ -309,11 +394,9 @@ export default {
     // remove all field values when admin switches a question type
     eraseFields() {
       this.labelInput = null;
-      this.nameInput = null;
       this.validationInput = false;
       this.tempInput = null;
       this.labelDropdown = null;
-      this.nameDropdown = null;
       this.multipleDropdown = false;
       this.validationDropdown = false;
       this.addOptionDropdown = null;
@@ -321,14 +404,16 @@ export default {
       this.tempDropdown = [];
       this.labelCombobox = null;
       this.placeholderCombobox = null;
-      this.nameCombobox = null;
       this.validationCombobox = false;
       this.addItemCombobox = null;
       this.itemsCombobox = [];
       this.tempCombobox = [];
       this.itemSelected = null;
+      this.labelFile = null;
+      this.validationFile = null;
+      this.multipleFile = false;
     },
-    // functions for fields required for "Dropdown Options"
+    // functions for fields required for "Select"
     addOptionDropdownFunc() {
       if (this.addOptionDropdown != null && this.addOptionDropdown != "") {
         this.optionsDropdown.push(this.addOptionDropdown);
@@ -338,7 +423,7 @@ export default {
     removeOptionDropdownFunc: function(option) {
       this.optionsDropdown.splice(this.optionsDropdown.indexOf(option), 1);
     },
-    // functions for fields required for "Multi-Select Combobox"
+    // functions for fields required for "Combobox"
     addItemComboboxFunc() {
       if (this.addItemCombobox != null && this.addItemCombobox != "") {
         this.itemsCombobox.push(this.addItemCombobox);
