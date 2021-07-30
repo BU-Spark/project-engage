@@ -1,12 +1,24 @@
 <template>
   <div>
+    <v-card-title>
+      Submitted Applications
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
       :headers="headers"
       v-model="selected"
-      :items="masterApplications"
-      :single-select="true"
-      item-key="name"
+      :items="applications"
+      :single-select="false"
+      item-key="test"
       show-select
+      :search="search"
       class="elevation-1"
     />
   </div>
@@ -19,8 +31,9 @@ export default {
   components: {},
   data() {
     return {
-      applications: { masterApplications: [] },
+      applications: [],
       selected: null,
+      search: "",
       headers: [{ text: "test", value: "test" }],
       applicationTypes: ["Fellowship", "Justice Media Co-Lab"]
     };
@@ -29,12 +42,9 @@ export default {
   async mounted() {
     const ref = db.collection("testApplication").doc("Fall 2021");
     for (let type of this.applicationTypes) {
-      this.applications[type] = [];
       const subCol = await ref.collection(type).get();
       subCol.forEach(element => {
-        console.log(element);
-        this.applications.masterApplications.push(element.data());
-        this.applications[type].push(element.data());
+        this.applications.push(element.data());
       });
     }
   }
