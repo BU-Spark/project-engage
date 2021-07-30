@@ -3,6 +3,40 @@
     <h2>Application Form for {{ this.applicationType }} program</h2>
     <h2>Semester: {{ this.semester }}</h2>
 
+    <!-- select deadline date -->
+    <v-container>
+      <v-row>
+        <v-col cols="12" lg="6">
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="dateFormatted"
+                label="Deadline Date"
+                hint="MM/DD/YYYY format (if no deadline, leave the input blank or delete everything in the box)"
+                persistent-hint
+                prepend-icon="mdi-calendar"
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="date"
+              no-title
+              @input="menu = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <DeleteItem
       v-if="this.deleteItem && !this.addItem"
       :schema="schema"
@@ -40,13 +74,16 @@ import AddItem from "@/plugins/AddItem.vue";
 import DeleteItem from "@/plugins/DeleteItem.vue";
 
 export default {
-  name: "BaseApplicationForm",
+  name: "ApplicationForm",
   components: {
     AddItem,
     DeleteItem
   },
   data() {
     return {
+      date: "",
+      dateFormatted: "",
+      menu: false,
       addItem: false,
       deleteItem: false,
       value: {},
@@ -57,12 +94,27 @@ export default {
       valid: false
     };
   },
+  watch: {
+    date() {
+      this.dateFormatted = this.formatDate(this.date);
+    }
+  },
   computed: {
     user() {
       return this.$store.state.user;
     }
   },
   methods: {
+    formatDate(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) return null;
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    },
     addField(value) {
       this.schema = value;
     },
@@ -87,7 +139,7 @@ export default {
       template
         .update({
           [`${this.semester}.schema`]: this.schema,
-          [`${this.semester}.deadline`]: ""
+          [`${this.semester}.deadline`]: this.date
         })
         .then(() => {
           console.log("submitted");
@@ -103,6 +155,8 @@ export default {
     this.applicationType = await this.$route.params.applicationTypeFromList;
     this.semester = await this.$route.params.semesterFromList;
     this.schema = await this.$route.params.schemaList;
+    this.dateFormatted = await this.$route.params.deadline;
+    this.date = this.parseDate(this.dateFormatted);
   }
 };
 </script>

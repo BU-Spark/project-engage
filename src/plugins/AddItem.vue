@@ -75,6 +75,10 @@
             outlined
           ></v-text-field>
           <v-checkbox
+            v-model="multipleDropdown"
+            :label="`Multi-select? ${multipleDropdown.toString()}`"
+          ></v-checkbox>
+          <v-checkbox
             v-model="validationDropdown"
             :label="`Required field? ${validationDropdown.toString()}`"
           ></v-checkbox>
@@ -98,13 +102,25 @@
         <v-col cols="12" sm="6" class="pa-5">
           <v-card class="pa-10 mb-4" outlined tile>
             <h4>Preview</h4>
-            <FormulateInput
-              type="select"
-              :label="`${labelDropdown}`"
-              :options="optionsDropdown"
-              :validation="`${checkValidation(validationDropdown)}`"
-              v-model="tempDropdown"
-            />
+            <div v-if="multipleDropdown">
+              <FormulateInput
+                type="select"
+                :label="`${labelDropdown}`"
+                :options="optionsDropdown"
+                :validation="`${checkValidation(validationDropdown)}`"
+                v-model="tempDropdown"
+                multiple
+              />
+            </div>
+            <div v-if="!multipleDropdown">
+              <FormulateInput
+                type="select"
+                :label="`${labelDropdown}`"
+                :options="optionsDropdown"
+                :validation="`${checkValidation(validationDropdown)}`"
+                v-model="tempDropdown"
+              />
+            </div>
           </v-card>
           <v-select
             :items="schemaArray"
@@ -215,6 +231,7 @@ export default {
       // fields required for "Dropdown Options"
       labelDropdown: null,
       nameDropdown: null,
+      multipleDropdown: false,
       validationDropdown: false,
       addOptionDropdown: null,
       optionsDropdown: [],
@@ -245,7 +262,7 @@ export default {
           this.itemSchema = {
             label: this.labelInput,
             name: this.nameInput,
-            validation: this.validationInput ? "required" : ""
+            validation: this.validationInput ? "required" : null
           };
         } else if (this.questionSelected == this.items[1]) {
           this.itemSchema = {
@@ -253,7 +270,8 @@ export default {
             name: this.nameDropdown,
             type: "select",
             options: this.optionsDropdown,
-            validation: this.validationDropdown ? "required" : ""
+            validation: this.validationDropdown ? "required" : null,
+            multiple: this.multipleDropdown ? "multiple" : null
           };
         } else if (this.questionSelected == this.items[2]) {
           this.itemSchema = {
@@ -261,7 +279,7 @@ export default {
             name: this.nameCombobox,
             type: "combobox",
             items: this.itemsCombobox,
-            validation: this.validationCombobox ? "required" : "",
+            validation: this.validationCombobox ? "required" : null,
             placeholder: this.placeholderCombobox
           };
         }
@@ -296,6 +314,7 @@ export default {
       this.tempInput = null;
       this.labelDropdown = null;
       this.nameDropdown = null;
+      this.multipleDropdown = false;
       this.validationDropdown = false;
       this.addOptionDropdown = null;
       this.optionsDropdown = [];
