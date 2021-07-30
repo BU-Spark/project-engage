@@ -47,15 +47,11 @@
 
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on">
-          Add Application
-        </v-btn>
+        <v-btn v-bind="attrs" v-on="on"> Add Application </v-btn>
       </template>
 
       <v-card>
-        <v-card-title class="text-h5 lighten-2">
-          Add Application
-        </v-card-title>
+        <v-card-title class="text-h5 lighten-2"> Add Application </v-card-title>
         <v-select
           :items="programList"
           item-text="id"
@@ -79,12 +75,8 @@
         <v-alert dark v-if="errorMsg"> {{ errorMsg }} </v-alert>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="cancel">
-            Cancel
-          </v-btn>
-          <v-btn color="primary" text @click="submit">
-            Confirm
-          </v-btn>
+          <v-btn color="primary" text @click="cancel"> Cancel </v-btn>
+          <v-btn color="primary" text @click="submit"> Confirm </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
