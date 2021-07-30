@@ -10,6 +10,9 @@
     <v-container>
       <EmailUI />
     </v-container>
+    <v-btn @click="changeRoutes('/AdminApplicationDashboard')"
+      >View Submitted Application</v-btn
+    >
   </div>
 </template>
 
@@ -28,7 +31,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    changeRoutes(route) {
+      this.$router.push(route);
+    }
+  },
   async mounted() {}
 };
 </script>

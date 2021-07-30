@@ -38,9 +38,9 @@ const routes = [
     }
   },
   {
-    path: "/applicationFormList",
-    name: "applicationFormList",
-    component: () => import("@/views/ApplicationFormList.vue"),
+    path: "/adminApplicationDashboard",
+    name: "adminApplicationDashboard",
+    component: () => import("@/views/AdminApplicationDashboard.vue"),
     meta: {
       requiresAuth: true
     }
