@@ -40,7 +40,7 @@
                         </svg>
                       </td>
                       <td class="text-center">
-                        <v-radio label="Accepted" :value="4"></v-radio>
+                        <v-radio label="Accepted" :value="5"></v-radio>
                       </td>
                     </tr>
                     <tr>
@@ -50,7 +50,7 @@
                         </svg>
                       </td>
                       <td class="text-center">
-                        <v-radio label="Rejected" :value="5"></v-radio>
+                        <v-radio label="Rejected" :value="6"></v-radio>
                       </td>
                     </tr>
                   </v-radio-group>
@@ -81,6 +81,35 @@
           hide-details
         ></v-text-field>
       </v-card-title>
+      <div>
+        <v-row>
+          <v-flex mx-1>
+            <v-select
+              :items="positionList"
+              v-model="position"
+              label="Position"
+              multiple
+            ></v-select>
+          </v-flex>
+          <v-flex mx-1>
+            <v-select
+              :items="programList"
+              v-model="program"
+              label="Program"
+              multiple
+            ></v-select>
+          </v-flex>
+          <v-flex mx-1>
+            <v-select
+              v-model="status"
+              label="Status"
+              :items="statusList"
+              :menu-props="{ maxHeight: '400' }"
+              multiple
+            ></v-select>
+          </v-flex>
+        </v-row>
+      </div>
       <v-data-table
         :headers="headers"
         v-model="selected"
@@ -114,6 +143,8 @@ export default {
   components: {},
   data() {
     return {
+      value: {},
+      schema: null,
       editStatus: false,
       editNotes: false,
       editIndex: null,
@@ -121,13 +152,65 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
+      positionList: [
+        "team lead",
+        "ux designer",
+        "frontend developer",
+        "backend developer"
+      ],
+      position: [],
+      programList: [
+        "X-Lab",
+        "Innovation Fellow",
+        "Co-Lab",
+        "Student Employment"
+      ],
+      program: [],
+      statusList: [
+        "started",
+        "submitted",
+        "under review",
+        "reviewed",
+        "interviewing",
+        "accepted",
+        "rejcted",
+        "declined"
+      ],
+      status: [],
       search: "",
       headers: [
-        { text: "test", value: "test" },
-        { text: "notes", value: "notes" },
-        { text: "status", value: "status" }
-      ],
-      applicationTypes: ["Fellowship", "Justice Media Co-Lab"]
+        { text: "Test", value: "test" },
+        { text: "Name", value: "name" },
+        {
+          text: "Position",
+          value: "position",
+          filter: value => {
+            if (this.position.length == 0) return true;
+            return this.position.includes(value.toLowerCase());
+          }
+        },
+        {
+          text: "Program",
+          value: "program",
+          filter: value => {
+            if (this.program.length == 0) return true;
+            return this.program.includes(value);
+          }
+        },
+        { text: "Year", value: "year" },
+        { text: "Gender", value: "gender" },
+        { text: "Email", value: "Email" },
+        {
+          text: "Status",
+          value: "status",
+          filter: value => {
+            if (this.status.length == 0) return true;
+            return this.status.includes(this.statusList[value]);
+          }
+        },
+        { text: "Notes", value: "notes" },
+        {}
+      ]
     };
   },
   methods: {
@@ -196,21 +279,22 @@ export default {
         return "reviewed";
       }
       if (status == 4) {
-        return "accepted";
+        return "interviewing";
       }
       if (status == 5) {
-        return "rejcted";
+        return "accepted";
       }
       if (status == 6) {
+        return "rejcted";
+      }
+      if (status == 7) {
         return "declined";
-      } else {
-        return "Interviewing";
       }
     }
   },
   async mounted() {
     const ref = db.collection("testApplication").doc("Fall 2021");
-    for (let type of this.applicationTypes) {
+    for (let type of this.programList) {
       const subCol = await ref.collection(type).get();
       subCol.forEach(element => {
         this.applications.push(element.data());
