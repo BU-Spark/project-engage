@@ -10,7 +10,7 @@
     <v-container>
       <EmailUI />
     </v-container>
-    <v-btn @click="changeRoutes('/AdminApplicationDashboard')"
+    <v-btn @click="changeRoutes('/adminapplicationdashboard')"
       >View Submitted Application</v-btn
     >
   </div>

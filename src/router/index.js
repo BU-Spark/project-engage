@@ -38,14 +38,6 @@ const routes = [
     }
   },
   {
-    path: "/applicationFormList",
-    name: "applicationFormList",
-    component: () => import("@/views/ApplicationFormList.vue"),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/applicationForm",
     name: "applicationForm",
     component: () => import("@/components/Application/ApplicationForm.vue"),
@@ -55,6 +47,14 @@ const routes = [
     props: {
       header: true,
       content: true
+    }
+  },
+  {
+    path: "/adminapplicationdashboard",
+    name: "adminapplicationdashboard",
+    component: () => import("@/views/AdminApplicationDashboard.vue"),
+    meta: {
+      requiresAuth: false
     }
   },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
