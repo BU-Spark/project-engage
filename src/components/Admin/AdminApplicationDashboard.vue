@@ -128,7 +128,7 @@
 
         <template v-slot:item.notes="{ item }">
           <button @click="editApplication(item, 'notes')">
-            {{ item.notes }}
+            {{ item.notes ? item.notes : "Add Notes" }}
           </button>
         </template>
       </v-data-table>
@@ -160,10 +160,12 @@ export default {
       ],
       position: [],
       programList: [
-        "X-Lab",
-        "Innovation Fellow",
-        "Co-Lab",
-        "Student Employment"
+        "Employment Opportunities",
+        "Innovation Fellowship | Innovator",
+        "Innovation Fellowship | Technical Teammate",
+        "Innovation Fellowship | UX Designer",
+        "Justice Media Co-Lab",
+        "X-Lab"
       ],
       program: [],
       statusList: [
@@ -234,35 +236,18 @@ export default {
       this.editIndex = null;
     },
     async save() {
-      // if (this.editItem.status == 2) {
-      //   // rejectMentor
-      //   const user = db.collection("users").doc(this.editItem.uid);
-      //   const application = db.collection("mentors").doc(this.editItem.uid);
-      //   await user.update({
-      //     applicationStatus: 2
-      //   });
-      //   await application.update({
-      //     status: 2
-      //   });
-      //   Object.assign(this.data[this.editIndex], this.editItem);
-      //   this.close();
-      // } else if (this.editItem.status == 4) {
-      //   // acceptMentor
-      //   const user = db.collection("users").doc(this.editItem.uid);
-      //   const application = db.collection("mentors").doc(this.editItem.uid);
-      //   await user.update({
-      //     applicationStatus: 4
-      //   });
-      //   await application.update({
-      //     status: 4
-      //   });
-      //   Object.assign(this.data[this.editIndex], this.editItem);
-      //   this.close();
-      // } else {
-      //   this.close();
-      // }
+      //might chage base on how the application is submitted on the student side.
+      if (this.editItem.status) {
+        const ref = db.collection("testApplication").doc("Fall 2021");
+        const application = await ref
+          .collection(this.editItem.program)
+          .doc(this.editItem.uid);
+        await application.update({
+          status: this.editItem.status
+        });
+        Object.assign(this.applications[this.editIndex], this.editItem);
+      }
 
-      Object.assign(this.applications[this.editIndex], this.editItem);
       this.close();
     },
     getStatus(status) {
