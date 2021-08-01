@@ -78,9 +78,7 @@
             outlined
           ></v-text-field>
           <v-btn @click="addOptionDropdownFunc()">Add Option</v-btn>
-          <div>
-            Options entered:
-          </div>
+          <div>Options entered:</div>
           <ul>
             <li v-for="option in optionsDropdown" :key="option">
               {{ option }}
@@ -153,9 +151,7 @@
             outlined
           ></v-text-field>
           <v-btn @click="addItemComboboxFunc()">Add Item</v-btn>
-          <div>
-            Items entered:
-          </div>
+          <div>Items entered:</div>
           <ul>
             <li v-for="item in itemsCombobox" :key="item">
               {{ item }}
