@@ -3,6 +3,8 @@ import VueFormulate from "@braid/vue-formulate";
 import "./assets/formulate.css";
 import VueFormulateCombobox from "@/plugins/VueFormulateCombobox";
 Vue.component("VueFormulateCombobox", VueFormulateCombobox);
+import VueFormulateComboboxSpecial from "@/plugins/VueFormulateComboboxSpecial";
+Vue.component("VueFormulateComboboxSpecial", VueFormulateComboboxSpecial);
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
@@ -16,6 +18,13 @@ Vue.use(VueFormulate, {
     combobox: {
       classification: "combobox",
       component: "VueFormulateCombobox",
+      slotProps: {
+        component: ["items", "validation"]
+      }
+    },
+    comboboxSpecial: {
+      classification: "comboboxSpecial",
+      component: "VueFormulateComboboxSpecial",
       slotProps: {
         component: ["items", "validation"]
       }
