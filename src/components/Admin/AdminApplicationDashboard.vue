@@ -1,137 +1,142 @@
 <template>
-  <v-layout>
+  <v-layout align-center justify-center>
     <v-container>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Status</span>
-          </v-card-title>
+      <template>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">Status</span>
+            </v-card-title>
 
-          <v-card-text>
-            <v-container v-if="editStatus">
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-radio-group v-if="editItem" v-model="editItem.status">
-                    <tr>
-                      <td class="text-center">
-                        <svg height="30" width="50">
-                          <circle cx="20" cy="20" r="10" fill="orange" />
-                        </svg>
-                      </td>
-                      <td class="text-center">
-                        <v-radio label="Under Review" :value="2"></v-radio>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">
-                        <svg height="30" width="50">
-                          <circle cx="20" cy="20" r="10" fill="yellow" />
-                        </svg>
-                      </td>
-                      <td class="text-center">
-                        <v-radio label="Reviewed" :value="3"></v-radio>
-                      </td>
-                    </tr>
+            <v-card-text>
+              <v-container v-if="editStatus">
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-radio-group v-if="editItem" v-model="editItem.status">
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="orange" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Under Review" :value="2"></v-radio>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="yellow" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Reviewed" :value="3"></v-radio>
+                        </td>
+                      </tr>
 
-                    <tr>
-                      <td class="text-center">
-                        <svg height="30" width="50">
-                          <circle cx="20" cy="20" r="10" fill="green" />
-                        </svg>
-                      </td>
-                      <td class="text-center">
-                        <v-radio label="Accepted" :value="5"></v-radio>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">
-                        <svg height="30" width="50">
-                          <circle cx="20" cy="20" r="10" fill="red" />
-                        </svg>
-                      </td>
-                      <td class="text-center">
-                        <v-radio label="Rejected" :value="6"></v-radio>
-                      </td>
-                    </tr>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
-            </v-container>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="green" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Accepted" :value="5"></v-radio>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="red" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Rejected" :value="6"></v-radio>
+                        </td>
+                      </tr>
+                    </v-radio-group>
+                  </v-col>
+                </v-row>
+              </v-container>
 
-            <v-container v-else-if="editNotes">
-              <v-textarea v-model="editItem.notes" />
-            </v-container>
-          </v-card-text>
+              <v-container v-else-if="editNotes">
+                <v-textarea v-model="editItem.notes" />
+              </v-container>
+            </v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-card-title>
-        Submitted Applications
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
-      <div>
-        <v-row>
-          <v-flex mx-1>
-            <v-select
-              :items="positionList"
-              v-model="position"
-              label="Position"
-              multiple
-            ></v-select>
-          </v-flex>
-          <v-flex mx-1>
-            <v-select
-              :items="programList"
-              v-model="program"
-              label="Program"
-              multiple
-            ></v-select>
-          </v-flex>
-          <v-flex mx-1>
-            <v-select
-              v-model="status"
-              label="Status"
-              :items="statusList"
-              :menu-props="{ maxHeight: '400' }"
-              multiple
-            ></v-select>
-          </v-flex>
-        </v-row>
-      </div>
-      <v-data-table
-        :headers="headers"
-        v-model="selected"
-        :items="applications"
-        :single-select="false"
-        item-key="test"
-        show-select
-        :search="search"
-        class="elevation-1"
-      >
-        <template v-slot:item.status="{ item }">
-          <button @click="editApplication(item, 'status')">
-            {{ getStatus(item.status) }}
-          </button>
-        </template>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-card-title>
+          Submitted Applications
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <div>
+          <v-row>
+            <v-flex mx-1>
+              <v-select
+                :items="positionList"
+                v-model="position"
+                label="Position"
+                multiple
+              ></v-select>
+            </v-flex>
+            <v-flex mx-1>
+              <v-select
+                :items="programList"
+                v-model="program"
+                label="Program"
+                multiple
+              ></v-select>
+            </v-flex>
+            <v-flex mx-1>
+              <v-select
+                v-model="status"
+                label="Status"
+                :items="statusList"
+                :menu-props="{ maxHeight: '400' }"
+                multiple
+              ></v-select>
+            </v-flex>
+          </v-row>
+        </div>
+        <v-data-table
+          :headers="headers"
+          v-model="selected"
+          :items="applications"
+          :single-select="false"
+          item-key="test"
+          show-select
+          :search="search"
+          class="elevation-1"
+        >
+          <template v-slot:item.status="{ item }">
+            <button @click="editApplication(item, 'status')">
+              {{ getStatus(item.status) }}
+            </button>
+          </template>
 
-        <template v-slot:item.notes="{ item }">
-          <button @click="editApplication(item, 'notes')">
-            {{ item.notes ? item.notes : "Add Notes" }}
-          </button>
-        </template>
-      </v-data-table>
+          <template v-slot:item.notes="{ item }">
+            <button @click="editApplication(item, 'notes')">
+              {{ item.notes ? item.notes : "Add Notes" }}
+            </button>
+          </template>
+        </v-data-table>
+      </template>
+      <v-container>
+        <v-btn @click="back">Cancel</v-btn>
+      </v-container>
     </v-container>
   </v-layout>
 </template>
@@ -216,6 +221,9 @@ export default {
     };
   },
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     editApplication(item, field) {
       if (field == "notes") {
         this.editNotes = true;
@@ -237,15 +245,26 @@ export default {
     },
     async save() {
       //might chage base on how the application is submitted on the student side.
-      if (this.editItem.status) {
+      if (this.editNotes) {
         const ref = db.collection("testApplication").doc("Fall 2021");
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          status: this.editItem.status
+          notes: this.editItem.notes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
+      } else if (this.editStatus) {
+        if (this.editItem.status) {
+          const ref = db.collection("testApplication").doc("Fall 2021");
+          const application = await ref
+            .collection(this.editItem.program)
+            .doc(this.editItem.uid);
+          await application.update({
+            status: this.editItem.status
+          });
+          Object.assign(this.applications[this.editIndex], this.editItem);
+        }
       }
 
       this.close();
