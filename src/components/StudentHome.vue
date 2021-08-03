@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "AdminHome",
+  name: "StudentHome",
   components: {},
   computed: {},
   data() {
