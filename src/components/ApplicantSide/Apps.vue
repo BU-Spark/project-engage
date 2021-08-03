@@ -4,22 +4,13 @@
       <h1>No Applications in Progress <br /></h1>
       <br />
       <h1>
-        <v-btn className="new-app-btn">
+        <v-btn className="new-app-btn" @click="startNewApp()">
           Start New Application
           <v-icon aria-hidden="false" style="color:#36BD90"
             >mdi-arrow-right-drop-circle</v-icon
           >
         </v-btn>
       </h1>
-
-      <!-- <a class="d-flex flex-row align-center new-app-link">
-        <v-btn class="new-app-btn" elevation="0" v-on:click="startNewApp"
-          ><v-icon aria-hidden="false" style="color: #36bd90"
-            >mdi-arrow-right-drop-circle</v-icon
-          >
-          </v-btn
-        >
-      </a> -->
     </div>
   </div>
 </template>
@@ -37,7 +28,9 @@ export default {
     // }
   },
   methods: {
-    // startNewApp: this.$router.push("@/views/NotFound.vue")
+    startNewApp(){
+       this.$router.push("@/views/BaseApplication.vue")
+    }
   },
   mounted() {}
 };
