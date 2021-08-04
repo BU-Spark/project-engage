@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { functions } from "../firebase/init";
+import { functions } from "@/firebase/init";
 import "@firebase/functions";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";

@@ -22,11 +22,41 @@ const routes = [
     }
   },
   {
+    path: "/ApplicantDashboard",
+    name: "ApplicantDashboard",
+    component: () => import("@/views/ApplicantDashboard.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/home",
     name: "home",
     component: () => import("@/views/Home.vue"),
     meta: {
       requiresAuth: true
+    }
+  },
+  {
+    path: "/applicationForm",
+    name: "applicationForm",
+    component: () => import("@/components/Application/ApplicationForm.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true
+    },
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/adminapplicationdashboard",
+    name: "adminapplicationdashboard",
+    component: () => import("@/views/AdminApplicationDashboard.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true
     }
   },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!

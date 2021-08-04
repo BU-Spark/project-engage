@@ -17,7 +17,7 @@
 
 <script>
 import store from "@/store";
-import AdminHome from "@/components/AdminHome.vue";
+import AdminHome from "@/components/Admin/AdminHome.vue";
 import StudentHome from "@/components/StudentHome.vue";
 
 export default {
