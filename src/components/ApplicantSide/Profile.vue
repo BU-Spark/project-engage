@@ -1,6 +1,5 @@
 // NOTE: if you want to create another interface
 
-
 <template>
   <div id="main-container">
     <div v-if="pageStatus == 1">
@@ -43,83 +42,160 @@
     <div v-if="pageStatus == 0">
       <div class="header-profile">
         <v-img
-          :src='userPhoto'
+          :src="userPhoto"
           max-height="110"
           max-width="110"
           class="profile-img"
         >
-        </v-img> &nbsp; &nbsp; &nbsp;
+        </v-img>
+        &nbsp; &nbsp; &nbsp;
         <div class="edit-profile-section header-input">
           <h5>First Name</h5>
-          <input class="profile-edit-input" type="text"  v-model="userFirstName" id = "firstnameinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userFirstName"
+            id="firstnameinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section header-input">
           <h5>Last Name</h5>
-          <input class="profile-edit-input" type="text"  v-model="userLastName" id = "lastnameinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userLastName"
+            id="lastnameinput"
+          />
+          <br />
         </div>
       </div>
       <div class="edit-profile-main">
         <div class="edit-profile-section">
           <h5>Student Email</h5>
-          <input class="profile-edit-input" type="text" v-model="userEmail" id = "emailinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userEmail"
+            id="emailinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5>Student BU ID &nbsp; (U12345678)</h5>
-          <input class="profile-edit-input" type="text"  v-model="userBUID" id = "buidinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userBUID"
+            id="buidinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5>Phone Number</h5>
-          <input class="profile-edit-input" type="text"  v-model="userPhone" id = "phonenumberinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userPhone"
+            id="phonenumberinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5>Graduation Date &nbsp; (MM/YY)</h5>
-          <input class="profile-edit-input" type="text" v-model="userGrad" id="graudationinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userGrad"
+            id="graudationinput"
+          />
+          <br />
         </div>
-        
+
         <div class="edit-profile-section">
           <h5>Major</h5>
-          <input class="profile-edit-input" type="text" v-model="userMajor" id="majorinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userMajor"
+            id="majorinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5>Minor</h5>
-          <input class="profile-edit-input" type="text" v-model="userMinor" id="minorinput"/> <br />
+          <input
+            class="profile-edit-input"
+            type="text"
+            v-model="userMinor"
+            id="minorinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5>Gender</h5>
-          <v-select :items="genderOptions" class="profile-edit-input-select" solo id="genderinput" :label="userGender"></v-select>
+          <v-select
+            :items="genderOptions"
+            class="profile-edit-input-select"
+            solo
+            id="genderinput"
+            :label="userGender"
+          ></v-select>
         </div>
         <div class="edit-profile-section">
           <h5>School Year</h5>
-          <v-select :items="schoolYearOptions" class="profile-edit-input-select" solo id="schoolYearInput" :label="userSchoolYr"></v-select>
+          <v-select
+            :items="schoolYearOptions"
+            class="profile-edit-input-select"
+            solo
+            id="schoolYearInput"
+            :label="userSchoolYr"
+          ></v-select>
           <br />
         </div>
       </div>
       <br />
-      <div class = "edit-profile-links">
+      <div class="edit-profile-links">
         <div class="edit-profile-section">
           <h5><v-icon>mdi-github</v-icon>&nbsp; GitHub Link</h5>
-          <input class="profile-edit-input-link" type="text" v-model="userGitHub" id="githubinput"/> <br />
+          <input
+            class="profile-edit-input-link"
+            type="text"
+            v-model="userGitHub"
+            id="githubinput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5><v-icon>mdi-linkedin</v-icon>&nbsp; LinekdIn Profile</h5>
-          <input class="profile-edit-input-link" type="text" v-model="userLinkedIn" id="linkedininput"/> <br />
+          <input
+            class="profile-edit-input-link"
+            type="text"
+            v-model="userLinkedIn"
+            id="linkedininput"
+          />
+          <br />
         </div>
         <div class="edit-profile-section">
           <h5><v-icon>mdi-link</v-icon>&nbsp; Other Links</h5>
-          <input class="profile-edit-input-link" type="text" v-model="userLink" id="otherlinkinput"/> <br />
+          <input
+            class="profile-edit-input-link"
+            type="text"
+            v-model="userLink"
+            id="otherlinkinput"
+          />
+          <br />
         </div>
       </div>
       <br />
-       <v-btn class="submit-profile-btn" @click="updatePageStatus(0)">
-          Submit
-        </v-btn>
+      <v-btn class="submit-profile-btn" @click="updatePageStatus(0)">
+        Submit
+      </v-btn>
       <div class="profile-edit-additionals">
         <div class="studentClubs">
           <h5><u> Student Clubs </u></h5>
           <v-btn class="check-btn" elevation="0" @click="addNewClub()">
-            <v-icon aria-hidden="false">
-              mdi-check-outline
-            </v-icon>
+            <v-icon aria-hidden="false"> mdi-check-outline </v-icon>
           </v-btn>
           <input type="text" placeholder="Add New Club" id="newclubnameinput" />
           <input type="text" placeholder="Member" id="newclubpositioninput" />
@@ -131,11 +207,9 @@
         <div class="skills">
           <h5><u> Skills</u></h5>
           <v-btn class="check-btn" elevation="0" @click="addNewSkill()">
-            <v-icon aria-hidden="false">
-              mdi-check-outline
-            </v-icon>
+            <v-icon aria-hidden="false"> mdi-check-outline </v-icon>
           </v-btn>
-          <input type="text" placeholder="New Skill" id="newskillinput"/>
+          <input type="text" placeholder="New Skill" id="newskillinput" />
         </div>
         <br />
         <div id="populatedStudentSkills">
@@ -152,11 +226,11 @@ import Vuex from "vuex";
 import { firestorePlugin } from "vuefire";
 Vue.use(firestorePlugin);
 Vue.use(Vuex);
-import 'firebase/auth';
-import 'firebase/database';
-import 'firebase/firestore';
-import 'firebase/storage';
-import { db, auth } from "@/firebase/init.js";
+import "firebase/auth";
+import "firebase/database";
+import "firebase/firestore";
+import "firebase/storage";
+import { db } from "@/firebase/init.js";
 export const curPageStatus = new Vue();
 export default {
   name: "Profile",
@@ -165,39 +239,43 @@ export default {
   data() {
     return {
       pageStatus: 0,
-      genderOptions: ['Male', 'Female', 'Non Binary', 'Prefer Not To Answer'],
-      schoolYearOptions: ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Grad Student'],
+      genderOptions: ["Male", "Female", "Non Binary", "Prefer Not To Answer"],
+      schoolYearOptions: [
+        "Freshman",
+        "Sophomore",
+        "Junior",
+        "Senior",
+        "Grad Student"
+      ]
     };
   },
   created() {
     curPageStatus.$on("changePageStatus", cps => {
-      this.pageStatus = cps; 
+      this.pageStatus = cps;
     });
     //begin by populating skills:
-    if(this.user.skills){
+    if (this.user.skills) {
       var skills = this.user.skills;
-      var htmlskills = '';
       for (let i = 0; i < skills.length; i++) {
         var h5 = document.createElement("h5");
-        h5.value = skills[i]
+        h5.value = skills[i];
         // htmlskills += '<h5 class="skillElement">' + skills[i] + '</h5>';
         console.log(h5);
         document.getElementById("populatedStudentSkills").append(h5);
-      } 
+      }
       // console.log(htmlskills);
       // document.getElementById("populatedStudentSkills").append(htmlskills);
     }
     //continue by populating clubs:
-    if(this.user.clubs){
+    if (this.user.clubs) {
       var clubs = this.user.clubs;
-      var htmlclubs;
       for (let i = 0; i < clubs.length; i++) {
-        var h5 = document.createElement("h5");
-        h5.value = clubs[i]
+        var h51 = document.createElement("h51");
+        h51.value = clubs[i];
         // htmlclubs += '<h5 class="clubElement">' + clubs[i] + '</h5>';
-        console.log(h5);
-        document.getElementById("populatedStudentClubs").append(h5);
-      } 
+        console.log(h51);
+        document.getElementById("populatedStudentClubs").append(h51);
+      }
       // document.getElementById("populatedStudentClubs").append(htmlclubs);
     }
   },
@@ -274,12 +352,14 @@ export default {
     // startNewApp: this.$router.push("@/views/NotFound.vue")
     updatePageStatus(pageStatus) {
       curPageStatus.$emit("changePageStatus", pageStatus);
-      if(pageStatus == 0) {//this means that the submit new information button was clicked
+      if (pageStatus == 0) {
+        //this means that the submit new information button was clicked
         const toifirstname = document.getElementById("firstnameinput").value;
         const toilastname = document.getElementById("lastnameinput").value;
         const toiemail = document.getElementById("emailinput").value;
         const toibuid = document.getElementById("buidinput").value;
-        const toiphonenumber = document.getElementById("phonenumberinput").value;
+        const toiphonenumber = document.getElementById("phonenumberinput")
+          .value;
         const toigender = document.getElementById("genderinput").value;
         const toimajor = document.getElementById("majorinput").value;
         const toiminor = document.getElementById("minorinput").value;
@@ -288,67 +368,82 @@ export default {
         const toilinkedin = document.getElementById("linkedininput").value;
         const toiotherlink = document.getElementById("otherlinkinput").value;
         const toigraduation = document.getElementById("graudationinput").value;
-        const userRef = db.collection('users').doc(this.user.uid);
-        userRef.set({
-          firstname: toifirstname,
-          lastname: toilastname,
-          email: toiemail,
-          buid: toibuid,
-          phone: toiphonenumber,
-          gender: toigender,
-          major: toimajor,
-          minor: toiminor,
-          schoolyear: toischoolyr,
-          github: toigithub,
-          linkedin: toilinkedin,
-          otherlink: toiotherlink,
-          graudation: toigraduation,
-          // clubs: toiclubs
-        }, { merge: true }).then(() => {
-          console.log("updated database successfully");
-          this.$router.go();
-        });
+        const userRef = db.collection("users").doc(this.user.uid);
+        userRef
+          .set(
+            {
+              firstname: toifirstname,
+              lastname: toilastname,
+              email: toiemail,
+              buid: toibuid,
+              phone: toiphonenumber,
+              gender: toigender,
+              major: toimajor,
+              minor: toiminor,
+              schoolyear: toischoolyr,
+              github: toigithub,
+              linkedin: toilinkedin,
+              otherlink: toiotherlink,
+              graudation: toigraduation
+              // clubs: toiclubs
+            },
+            { merge: true }
+          )
+          .then(() => {
+            console.log("updated database successfully");
+            this.$router.go();
+          });
       }
     },
     addNewClub() {
       const name = document.getElementById("newclubnameinput").value;
       var position = document.getElementById("newclubpositioninput").value;
-      if(position == "") {
+      if (position == "") {
         position = "Member";
       }
       const club = name + ":\t" + position;
-      var toiclubs = []
-      if(!this.user.clubs) {
+      var toiclubs = [];
+      if (!this.user.clubs) {
         toiclubs = [club];
       } else {
         toiclubs = this.user.clubs;
         toiclubs.push(club);
       }
-      const userRef = db.collection('users').doc(this.user.uid);
-      userRef.set({
-          clubs: toiclubs
-        }, { merge: true }).then(() => {
+      const userRef = db.collection("users").doc(this.user.uid);
+      userRef
+        .set(
+          {
+            clubs: toiclubs
+          },
+          { merge: true }
+        )
+        .then(() => {
           console.log("updated database successfully");
           document.getElementById("newclubnameinput").value = "";
           document.getElementById("newclubpositioninput").value = "";
         });
     },
     addNewSkill() {
-      const skill = document.getElementById("newskillinput").value
-      var toiskills = []
-      if(!this.user.skills) {
-        toiskills = [skill]
+      const skill = document.getElementById("newskillinput").value;
+      var toiskills = [];
+      if (!this.user.skills) {
+        toiskills = [skill];
       } else {
-        toiskills = this.user.skills
-        toiskills.push(skill)
+        toiskills = this.user.skills;
+        toiskills.push(skill);
       }
-      console.log(toiskills)
-      const userRef = db.collection('users').doc(this.user.uid);
-      userRef.set({
-          skills: toiskills
-        }, { merge: true }).then(() => {
+      console.log(toiskills);
+      const userRef = db.collection("users").doc(this.user.uid);
+      userRef
+        .set(
+          {
+            skills: toiskills
+          },
+          { merge: true }
+        )
+        .then(() => {
           console.log("updated database successfully");
-          document.getElementById("newskillinput").value = "";          
+          document.getElementById("newskillinput").value = "";
         });
     }
   },
@@ -439,7 +534,7 @@ input.profile-edit-input-link {
   grid-template-columns: repeat(2, 1fr); */
   position: static;
   margin-bottom: 25px;
-  align-items: center ;
+  align-items: center;
 }
 .submit-profile-btn {
   background-color: #36bd90 !important;
