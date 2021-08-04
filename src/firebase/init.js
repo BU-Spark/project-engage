@@ -4,6 +4,7 @@ import "firebase/firestore";
 import "firebase/functions";
 import "firebase/performance";
 import "firebase/analytics";
+// import "firebase/document";
 
 const config = {
   apiKey: "AIzaSyB46JWorhyNJDzG20J0dujbIY46zNudibc",
@@ -21,8 +22,7 @@ const functions = firebase.functions();
 const db = firebase.firestore();
 firebase.performance();
 firebase.analytics();
-
 const arrayUnion = array => firebase.firestore.FieldValue.arrayUnion(array);
 
 export default app;
-export { auth, functions, db, arrayUnion };
+export { app, auth, functions, db, arrayUnion };
