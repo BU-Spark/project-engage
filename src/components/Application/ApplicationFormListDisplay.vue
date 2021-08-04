@@ -22,23 +22,25 @@
                 </v-list-item-content>
               </template>
               <v-item-group multiple>
-                <v-item v-for="semester in item.data" :key="semester[0]">
-                  <v-btn
-                    color="#36bd90"
-                    class="ma-4"
-                    @click="
-                      applicationForm(
-                        item.id,
-                        semester[0],
-                        semester[1]['schema'],
-                        semester[1]['deadline']
-                      )
-                    "
-                    rounded
-                  >
-                    {{ semester[0] }}
-                  </v-btn>
-                </v-item>
+                <v-layout align-end>
+                  <v-item v-for="semester in item.data" :key="semester[0]">
+                    <v-btn
+                      color="#36bd90"
+                      class="ma-4"
+                      @click="
+                        applicationForm(
+                          item.id,
+                          semester[0],
+                          semester[1]['schema'],
+                          semester[1]['deadline']
+                        )
+                      "
+                      rounded
+                    >
+                      {{ semester[0] }}
+                    </v-btn>
+                  </v-item>
+                </v-layout>
               </v-item-group>
             </v-list-group>
           </v-list>
