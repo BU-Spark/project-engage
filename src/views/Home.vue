@@ -53,7 +53,7 @@
       <AdminHome />
     </div>
     <div v-if="!this.isAdmin">
-      <StudentHome />
+      <ApplicantDashboardHome />
     </div>
     <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
       Log Out</v-btn
@@ -64,13 +64,13 @@
 <script>
 import store from "@/store";
 import AdminHome from "@/components/Admin/AdminHome.vue";
-import StudentHome from "@/components/StudentHome.vue";
+import ApplicantDashboardHome from "@/components/ApplicantDashboardHome.vue";
 
 export default {
   name: "Home",
   components: {
     AdminHome,
-    StudentHome
+    ApplicantDashboardHome
   },
   computed: {
     user() {
@@ -142,4 +142,3 @@ div#rightSideDashboard {
   margin: 5px 25px;
 }
 </style>
-
