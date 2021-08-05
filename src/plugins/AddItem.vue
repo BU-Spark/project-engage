@@ -51,6 +51,48 @@
       </v-row>
     </v-container>
 
+    <!-- fields required for "Paragraph" -->
+    <v-container
+      class="grey lighten-5"
+      v-if="this.questionSelected == 'Paragraph'"
+    >
+      <v-row no-gutters>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            label="Label"
+            v-model="labelParagraph"
+            :rules="[() => !!labelParagraph || 'This field is required']"
+            outlined
+          ></v-text-field>
+          <v-checkbox
+            v-model="validationParagraph"
+            :label="`Required field? ${validationParagraph.toString()}`"
+          ></v-checkbox>
+        </v-col>
+        <!-- View FormulateInput "Input Field" UI -->
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-card class="pa-10 mb-4" outlined tile>
+            <h4>Preview</h4>
+            <FormulateInput
+              type="textarea"
+              :label="`${labelParagraph}`"
+              :validation="`${checkValidation(validationInput)}`"
+              v-model="tempParagraph"
+            />
+          </v-card>
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- fields required for "Select" -->
     <v-container
       class="grey lighten-5"
@@ -276,12 +318,16 @@ export default {
       // types of questions the admin can select to add to the form
       schemaArray: this.schema,
       itemSelected: null,
-      items: ["Input Field", "Select", "Combobox", "File"],
+      items: ["Input Field", "Paragraph", "Select", "Combobox", "File"],
       questionSelected: null,
       // fields required for "Input Field"
       labelInput: null,
       validationInput: false,
       tempInput: null,
+      // fields required for "Paragraph"
+      labelParagraph: null,
+      validationParagraph: false,
+      tempParagraph: null,
       // fields required for "Select"
       labelDropdown: null,
       multipleDropdown: false,
@@ -307,16 +353,25 @@ export default {
   methods: {
     addItem() {
       if (
-        (!this.labelInput && !this.labelDropdown && !this.labelCombobox) ||
-        (!this.itemSelected && this.schemaArray.length > 0)
+        ((this.questionSelected == "Input Field" &&
+          (!this.labelInput || !this.itemSelected)) ||
+          (this.questionSelected == "Paragraph" &&
+            (!this.labelParagraph || !this.itemSelected)) ||
+          (this.questionSelected == "Select" &&
+            (!this.labelDropdown || !this.itemSelected)) ||
+          (this.questionSelected == "Combobox" &&
+            (!this.labelCombobox || !this.itemSelected))) &&
+        !this.itemSelected &&
+        this.schemaArray.length > 0
       ) {
         alert(
           'Please fill in "Label" or select "Choose where to add the question"'
         );
       } else if (
-        !this.labelFile ||
-        !this.validationFile ||
-        (!this.itemSelected && this.schemaArray.length > 0)
+        this.questionSelected == "File" &&
+        (!this.labelFile || !this.validationFile || !this.itemSelected) &&
+        !this.itemSelected &&
+        this.schemaArray.length > 0
       ) {
         alert(
           'Please fill in "Label", choose a file type, or select "Choose where to add the question"'
@@ -325,9 +380,16 @@ export default {
         if (this.questionSelected == this.items[0]) {
           this.itemSchema = {
             label: this.labelInput,
+            type: "text",
             validation: this.validationInput ? "required" : null
           };
         } else if (this.questionSelected == this.items[1]) {
+          this.itemSchema = {
+            label: this.labelParagraph,
+            type: "textarea",
+            validation: this.validationParagraph ? "required" : null
+          };
+        } else if (this.questionSelected == this.items[2]) {
           this.itemSchema = {
             label: this.labelDropdown,
             type: "select",
@@ -335,7 +397,7 @@ export default {
             validation: this.validationDropdown ? "required" : null,
             multiple: this.multipleDropdown ? "multiple" : null
           };
-        } else if (this.questionSelected == this.items[2]) {
+        } else if (this.questionSelected == this.items[3]) {
           this.itemSchema = {
             label: this.labelCombobox,
             type: "combobox",
@@ -343,7 +405,7 @@ export default {
             validation: this.validationCombobox ? "required" : null,
             placeholder: this.placeholderCombobox
           };
-        } else if (this.questionSelected == this.items[3]) {
+        } else if (this.questionSelected == this.items[4]) {
           this.itemSchema = {
             label: this.labelFile,
             type: this.validationFile,
@@ -361,12 +423,16 @@ export default {
                 ? "Select one or more png, jpg or gif to upload."
                 : this.validationFile == "image" && !this.multipleFile
                 ? "Select a png, jpg or gif to upload."
-                : ""
+                : "",
+            rules: null
           };
         }
-        var index = this.schemaArray.findIndex(
-          x => x.label === this.itemSelected
-        );
+        var index = 0;
+        if (this.schemaArray.length > 0) {
+          index = this.schemaArray.findIndex(
+            x => x.label === this.itemSelected
+          );
+        }
         if (this.schemaArray.length <= 0) {
           this.schemaArray = [this.itemSchema];
         } else {
@@ -392,6 +458,9 @@ export default {
       this.labelInput = null;
       this.validationInput = false;
       this.tempInput = null;
+      this.labelParagraph = null;
+      this.validationParagraph = false;
+      this.tempParagraph = null;
       this.labelDropdown = null;
       this.multipleDropdown = false;
       this.validationDropdown = false;

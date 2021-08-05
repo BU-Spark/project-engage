@@ -160,3 +160,64 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+/* .formulate-input-element .formulate-input-element--group .formulate-input-group {
+        width: 100%;
+    }
+    
+    .formulate-input-group-repeatable {
+        width: 100%;
+    } */
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 1px solid #a8a8a8;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  color: rgb(110, 108, 108);
+  background-color: rgb(229, 243, 250);
+}
+
+.test {
+  display: felx;
+  flex-direction: row;
+  background-color: black;
+}
+
+.double-row {
+  width: 700px;
+  color: aqua;
+}
+@media (min-width: 650px) {
+  .double-row {
+    display: flex;
+  }
+}
+
+@media (min-width: 720px) {
+  .double-row {
+    display: block;
+  }
+}
+
+@media (min-width: 850px) {
+  .double-row {
+    display: flex;
+  }
+  .double-row .formulate-input {
+    margin-right: 1.5em;
+  }
+}
+
+.formulate-input {
+  margin-right: 2em;
+  margin-bottom: 0;
+  color: black;
+  background-color: white;
+}
+</style>
