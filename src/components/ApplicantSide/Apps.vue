@@ -28,8 +28,8 @@ export default {
     // }
   },
   methods: {
-    startNewApp(){
-       this.$router.push("@/views/BaseApplication.vue")
+    startNewApp() {
+      this.$router.push("@/views/BaseApplication.vue");
     }
   },
   mounted() {}

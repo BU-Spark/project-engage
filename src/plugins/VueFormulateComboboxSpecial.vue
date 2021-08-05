@@ -1,28 +1,55 @@
 <template>
-  <v-combobox
-    :class="`formulate-input-element formulate-input-element--${context.type}`"
-    :data-type="context.type"
-    v-bind="context.attributes"
-    ref="numberComboBox"
-    v-model="comboBoxDummyModel"
-    @change="onAutoCompleteSelection"
-    @keyup="customOnChangeHandler"
-    @paste="customOnChangeHandler"
-    :items="items"
-    persistent-hint
-    :hint="
-      'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'
-    "
-    label="Select"
-    :validation="validation"
-    multiple
-    chips
-  ></v-combobox>
+  <div>
+    <div v-if="this.rules != 'required'">
+      <v-combobox
+        :class="
+          `formulate-input-element formulate-input-element--${context.type}`
+        "
+        :data-type="context.type"
+        v-bind="context.attributes"
+        ref="numberComboBox"
+        v-model="comboBoxDummyModel"
+        @change="onAutoCompleteSelection"
+        @keyup="customOnChangeHandler"
+        @paste="customOnChangeHandler"
+        :items="items"
+        persistent-hint
+        :hint="
+          'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'
+        "
+        label="Select"
+        multiple
+        chips
+      ></v-combobox>
+    </div>
+    <div v-if="this.rules == 'required'">
+      <v-combobox
+        :class="
+          `formulate-input-element formulate-input-element--${context.type}`
+        "
+        :data-type="context.type"
+        v-bind="context.attributes"
+        ref="numberComboBox"
+        v-model="comboBoxDummyModel"
+        @change="onAutoCompleteSelection"
+        @keyup="customOnChangeHandler"
+        @paste="customOnChangeHandler"
+        :items="items"
+        persistent-hint
+        :hint="
+          'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'
+        "
+        label="Select"
+        :rules="[() => !!context.model || 'This field is required']"
+        multiple
+        chips
+      ></v-combobox>
+    </div>
+  </div>
 </template>
-<!-- :rules="[() => !!context.model || 'This field is required']" -->
+
 <script>
 export default {
-  components: {},
   props: {
     context: {
       type: Object
@@ -30,7 +57,7 @@ export default {
     items: {
       type: String
     },
-    validation: {
+    rules: {
       type: String
     }
   },
@@ -57,16 +84,26 @@ export default {
   },
   methods: {
     onAutoCompleteSelection() {
-      var item = this.comboBoxDummyModel[this.comboBoxDummyModel.length - 1];
+      var index = this.comboBoxDummyModel.length - 1;
+      var item = this.comboBoxDummyModel[index];
+      var firstWord = item.split(" ")[0];
       if (
-        item.split(" ")[0] != "Beginner" &&
-        item.split(" ")[0] != "beginner" &&
-        item.split(" ")[0] != "Intermediate" &&
-        item.split(" ")[0] != "intermediate" &&
-        item.split(" ")[0] != "Expert" &&
-        item.split(" ")[0] != "expert"
+        firstWord != "Beginner" &&
+        firstWord != "beginner" &&
+        firstWord != "Intermediate" &&
+        firstWord != "intermediate" &&
+        firstWord != "Expert" &&
+        firstWord != "expert"
       ) {
         this.comboBoxDummyModel.splice(this.comboBoxDummyModel.length - 1, 1);
+      }
+      if (
+        firstWord == "beginner" ||
+        firstWord == "intermediate" ||
+        firstWord == "expert"
+      ) {
+        this.comboBoxDummyModel[index] =
+          item.charAt(0).toUpperCase() + item.slice(1);
       }
       this.comboBoxModel = this.comboBoxDummyModel;
     },
