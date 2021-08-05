@@ -1,4 +1,5 @@
 .formulate-input {
+    flex: 50%;
     margin-bottom: 1.5em;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
 }
@@ -20,7 +21,8 @@
 .formulate-input .formulate-input-element {
     display: flex;
     max-width: 20em;
-    margin-bottom: .2em
+    margin-bottom: .2em;
+    background-color: white;
 }
 
 .formulate-input .formulate-input-help {
