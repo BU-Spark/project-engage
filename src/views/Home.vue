@@ -46,9 +46,6 @@
         </div>
       </div>
     </div>
-    Welcome!
-
-    <h1>{{ this.user.email }}</h1>
     <div v-if="this.isAdmin">
       <AdminHome />
     </div>
