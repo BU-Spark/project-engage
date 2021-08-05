@@ -119,7 +119,7 @@
               previewStyle="vertical"
               ref="toastuiEditor"
             />
-            <ul style="list-style-type:none">
+            <ul style="list-style-type: none">
               <li v-for="(item, index) in this.files" :key="item.name + index">
                 {{ item.name }}
                 <v-btn @click="deleteFile(index)">Delete</v-btn>

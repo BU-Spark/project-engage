@@ -266,7 +266,6 @@ export default {
   color: black;
   background-color: white;
 }
-
 div#main-actions {
   margin-right: 25px !important;
   float: right !important;
