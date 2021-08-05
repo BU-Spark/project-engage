@@ -28,16 +28,6 @@
                 Admin SignUp
               </v-btn>
               <GoogleLoginButton buttonLabel="Sign up with Google" />
-
-              <!-- application form: TO BE MOVED LATER -->
-              <v-btn
-                color="#36bd90"
-                class="ma-4"
-                @click="applicationForm"
-                rounded
-              >
-                Application Form
-              </v-btn>
             </center>
           </v-col>
         </v-row>
