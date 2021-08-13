@@ -12,27 +12,18 @@
           >
           </v-img>
           <div id="navigations">
-            <v-btn elevation="0" class="nav-btn" @click="changePage(0)">
+            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
               Dashboard
             </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="changePage(1)">
-              Applicants
+            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(1)">
+              Application
             </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="changePage(2)">
-              Reports
+            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(2)">
+              Profile
             </v-btn>
           </div>
         </div>
         <div id="main-actions">
-          <v-btn class="main-action" elevation="0">
-            <v-icon
-              aria-hidden="false"
-              style="color: #36bd90"
-              @click="updatePageBody(2)"
-            >
-              mdi-cog
-            </v-icon>
-          </v-btn>
           <v-btn class="main-action" elevation="0">
             <v-icon
               aria-hidden="false"
@@ -42,7 +33,7 @@
               mdi-bell
             </v-icon>
           </v-btn>
-          <v-btn class="main-action" elevation="0" @click="updatePageBody(1)">
+          <v-btn class="main-action" elevation="0" @click="updatePageBody(2)">
             <v-icon aria-hidden="false" style="color: #36bd90">
               mdi-account-circle
             </v-icon>
@@ -54,15 +45,18 @@
 
     <!-- different pages -->
     <Dashboard v-if="page == 0" />
+    <EditProfile v-if="page == 2" />
   </div>
 </template>
 
 <script>
 import Dashboard from "@/components/Student/Dashboard.vue";
+import EditProfile from "@/components/Student/EditProfile.vue";
 export default {
   name: "StudentHome",
   components: {
-    Dashboard
+    Dashboard,
+    EditProfile
   },
   data() {
     return {
@@ -75,7 +69,7 @@ export default {
     }
   },
   methods: {
-    changePage(index) {
+    updatePageBody(index) {
       this.page = index;
     }
   },

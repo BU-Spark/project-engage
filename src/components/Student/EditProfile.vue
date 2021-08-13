@@ -1,0 +1,162 @@
+<template>
+  <div>
+    <FormulateForm
+      class="form-wrapper"
+      v-model="values"
+      :schema="schema"
+      @submit="submitProfile"
+    />
+  </div>
+</template>
+
+<script>
+import "firebase/auth";
+import "firebase/database";
+import "firebase/firestore";
+import "firebase/storage";
+import { db } from "@/firebase/init.js";
+export default {
+  name: "EditProfile",
+  // props: ["currentPage"],
+  components: {},
+  data() {
+    return {
+      schema: [],
+      values: null
+    };
+  },
+  created() {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
+  methods: {
+    async submitProfile() {
+      const userBaseRef = db
+        .collection("applications")
+        .doc("Base")
+        .collection("All")
+        .doc(this.user.uid);
+      await userBaseRef.set(this.values);
+    }
+  },
+  async mounted() {
+    const userBaseRef = db
+      .collection("applications")
+      .doc("Base")
+      .collection("All")
+      .doc(this.user.uid);
+    const doc = await userBaseRef.get();
+    if (!doc.exists) {
+      console.log("No such document!");
+    } else {
+      this.values = doc.data();
+      console.log("Document data:", doc.data());
+    }
+
+    const formRef = db.collection("applicationTemplate").doc("Base");
+    const formSnapshot = await formRef.get();
+    const template = formSnapshot.data();
+    this.schema = template["Template"]["schema"];
+  }
+};
+</script>
+
+<style scoped>
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 1px solid #a8a8a8;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  color: rgb(110, 108, 108);
+  background-color: rgb(229, 243, 250);
+}
+
+.test {
+  display: felx;
+  flex-direction: row;
+  background-color: black;
+}
+
+.double-row {
+  width: 700px;
+  color: aqua;
+}
+
+@media (min-width: 650px) {
+  .double-row {
+    display: flex;
+  }
+}
+
+@media (min-width: 720px) {
+  .double-row {
+    display: block;
+  }
+}
+
+@media (min-width: 850px) {
+  .double-row {
+    display: flex;
+  }
+  .double-row .formulate-input {
+    margin-right: 1.5em;
+  }
+}
+
+.formulate-input {
+  margin-right: 2em;
+  margin-bottom: 0;
+  color: black;
+  background-color: white;
+}
+
+div#main-actions {
+  margin-right: 25px !important;
+  float: right !important;
+  right: -25px !important;
+  padding: 15px !important;
+  text-align: left !important;
+}
+
+v-btn {
+  color: #36bd90;
+}
+
+.main-action {
+  margin-right: 10px !important;
+  border-radius: 15px;
+  padding: 15px 0px;
+}
+
+div#dashboard-container {
+  background-color: #36bd90;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+div#rightSideDashboard {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.nav-btn {
+  background-color: transparent !important;
+  color: black !important;
+  font-weight: 900 !important;
+  border: none !important;
+  /* font-size: 12px; */
+}
+
+.db-logo {
+  margin: 5px 25px;
+}
+</style>
