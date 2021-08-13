@@ -1,4 +1,0 @@
-diff a/src/router/index.js b/src/router/index.js	(rejected hunks)
-@@ -53 +53 @@ const routes = [
--      requiresAuth: true,
-+      requiresAuth: true

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Dashboard> </Dashboard>
     <Apps v-if="currentPage == 0"> </Apps>
     <Profile v-if="currentPage == 1"></Profile>
     <ApplicantSettings v-if="currentPage == 2"></ApplicantSettings>
@@ -9,7 +8,6 @@
 </template>
 
 <script>
-import Dashboard from "@/components/ApplicantSide/Dashboard.vue";
 import Apps from "@/components/ApplicantSide/Apps.vue";
 import Profile from "@/components/ApplicantSide/Profile.vue";
 import Notifications from "@/components/ApplicantSide/Notifications.vue";
@@ -20,7 +18,6 @@ import { curAppPage } from "./ApplicantSide/Dashboard.vue";
 export default {
   name: "ApplicantDashboardHome",
   components: {
-    Dashboard,
     Apps,
     Profile,
     ApplicantSettings,
