@@ -68,8 +68,7 @@ export default {
         "Innovation Fellowship | Innovator",
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
-        "Justice Media Co-Lab",
-        "X-Lab"
+        "Justice Media Co-Lab"
       ],
       applications: [],
       type: null,

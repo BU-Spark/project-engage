@@ -40,7 +40,7 @@ export default {
 
     //grab user application inputs
     this.userBaseRef = db
-      .collection("testApplication")
+      .collection("applications")
       .doc(this.semester)
       .collection(this.type)
       .doc(this.user.uid);
