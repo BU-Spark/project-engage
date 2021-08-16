@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- navbar -->
+    <!-- 0: Dashboard, 1: Application, 2: Profile & Profile icon, 3: Notification icon -->
     <div>
       <div id="dashboard-container" class="d-flex flex-row mb-6 align-center">
         <div id="rightSideDashboard">

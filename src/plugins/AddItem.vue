@@ -22,6 +22,12 @@
             :rules="[() => !!labelInput || 'This field is required']"
             outlined
           ></v-text-field>
+          <v-text-field
+            label="id"
+            v-model="nameInput"
+            :rules="[checkid, rules.required]"
+            outlined
+          ></v-text-field>
           <v-checkbox
             v-model="validationInput"
             :label="`Required field? ${validationInput.toString()}`"
@@ -64,6 +70,12 @@
             :rules="[() => !!labelParagraph || 'This field is required']"
             outlined
           ></v-text-field>
+          <v-text-field
+            label="id"
+            v-model="nameParagraph"
+            :rules="[checkid, rules.required]"
+            outlined
+          ></v-text-field>
           <v-checkbox
             v-model="validationParagraph"
             :label="`Required field? ${validationParagraph.toString()}`"
@@ -104,6 +116,12 @@
             label="Label"
             v-model="labelDropdown"
             :rules="[() => !!labelDropdown || 'This field is required']"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            label="id"
+            v-model="nameDropdown"
+            :rules="[checkid, rules.required]"
             outlined
           ></v-text-field>
           <v-checkbox
@@ -179,6 +197,12 @@
             outlined
           ></v-text-field>
           <v-text-field
+            label="id"
+            v-model="nameCombobox"
+            :rules="[checkid, rules.required]"
+            outlined
+          ></v-text-field>
+          <v-text-field
             label="Placeholder"
             v-model="placeholderCombobox"
             outlined
@@ -235,6 +259,12 @@
             label="Label"
             v-model="labelFile"
             :rules="[() => !!labelFile || 'This field is required']"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            label="id"
+            v-model="nameFile"
+            :rules="[checkid, rules.required]"
             outlined
           ></v-text-field>
           <v-select
@@ -320,16 +350,22 @@ export default {
       itemSelected: null,
       items: ["Input Field", "Paragraph", "Select", "Combobox", "File"],
       questionSelected: null,
+      rules: {
+        required: v => !!v || "this field is required"
+      },
       // fields required for "Input Field"
       labelInput: null,
+      nameInput: null,
       validationInput: false,
       tempInput: null,
       // fields required for "Paragraph"
       labelParagraph: null,
+      nameParagraph: null,
       validationParagraph: false,
       tempParagraph: null,
       // fields required for "Select"
       labelDropdown: null,
+      nameDropdown: null,
       multipleDropdown: false,
       validationDropdown: false,
       addOptionDropdown: null,
@@ -337,6 +373,7 @@ export default {
       tempDropdown: null,
       // fields required for "Combobox"
       labelCombobox: null,
+      nameCombobox: null,
       placeholderCombobox: null,
       validationCombobox: false,
       addItemCombobox: null,
@@ -345,53 +382,79 @@ export default {
       itemSchema: null,
       // fields required for "File"
       labelFile: null,
+      nameFile: null,
       validationFile: null,
       multipleFile: false
     };
   },
   computed: {},
   methods: {
+    checkid(val) {
+      if (this.schema.some(el => el.name === val) == true) {
+        return `Name "${val}" already exist`;
+      } else {
+        return true;
+      }
+    },
     addItem() {
       if (
-        ((this.questionSelected == "Input Field" &&
-          (!this.labelInput || !this.itemSelected)) ||
-          (this.questionSelected == "Paragraph" &&
-            (!this.labelParagraph || !this.itemSelected)) ||
-          (this.questionSelected == "Select" &&
-            (!this.labelDropdown || !this.itemSelected)) ||
-          (this.questionSelected == "Combobox" &&
-            (!this.labelCombobox || !this.itemSelected))) &&
-        !this.itemSelected &&
-        this.schemaArray.length > 0
+        (this.questionSelected == "Input Field" &&
+          (!this.labelInput ||
+            !this.nameInput ||
+            this.schema.some(el => el.name === this.nameInput) ||
+            (!this.itemSelected && this.schemaArray.length > 0))) ||
+        (this.questionSelected == "Paragraph" &&
+          (!this.labelParagraph ||
+            !this.nameParagraph ||
+            this.schema.some(el => el.name === this.nameParagraph) ||
+            (!this.itemSelected && this.schemaArray.length > 0))) ||
+        (this.questionSelected == "Select" &&
+          (!this.labelDropdown ||
+            !this.nameDropdown ||
+            this.schema.some(el => el.name === this.nameDropdown) ||
+            (!this.itemSelected && this.schemaArray.length > 0))) ||
+        (this.questionSelected == "Combobox" &&
+          (!this.labelCombobox ||
+            !this.nameCombobox ||
+            this.schema.some(el => el.name === this.nameCombobox) ||
+            (!this.itemSelected && this.schemaArray.length > 0)))
       ) {
         alert(
-          'Please fill in "Label" or select "Choose where to add the question"'
+          'Please fill in "Label", fill out "id" and check for duplication, or select "Choose where to add the question"'
         );
       } else if (
         this.questionSelected == "File" &&
-        (!this.labelFile || !this.validationFile || !this.itemSelected) &&
-        !this.itemSelected &&
-        this.schemaArray.length > 0
+        (!this.labelFile ||
+          !this.nameFile ||
+          this.schema.some(el => el.name === this.nameFile) ||
+          !this.validationFile ||
+          (!this.itemSelected && this.schemaArray.length > 0))
       ) {
         alert(
-          'Please fill in "Label", choose a file type, or select "Choose where to add the question"'
+          'Please fill in "Label", fill out "id" and check for duplication, choose a file type, or select "Choose where to add the question"'
         );
       } else {
         if (this.questionSelected == this.items[0]) {
           this.itemSchema = {
             label: this.labelInput,
+            name: this.nameInput,
             type: "text",
             validation: this.validationInput ? "required" : null
           };
         } else if (this.questionSelected == this.items[1]) {
           this.itemSchema = {
             label: this.labelParagraph,
+            name: this.nameParagraph,
             type: "textarea",
             validation: this.validationParagraph ? "required" : null
           };
         } else if (this.questionSelected == this.items[2]) {
           this.itemSchema = {
-            label: this.labelDropdown,
+            label: this.multipleDropdown
+              ? this.labelDropdown +
+                " (hold the command key (mac) or option key (windows))"
+              : this.labelDropdown,
+            name: this.nameDropdown,
             type: "select",
             options: this.optionsDropdown,
             validation: this.validationDropdown ? "required" : null,
@@ -400,6 +463,7 @@ export default {
         } else if (this.questionSelected == this.items[3]) {
           this.itemSchema = {
             label: this.labelCombobox,
+            name: this.nameCombobox,
             type: "combobox",
             items: this.itemsCombobox,
             validation: this.validationCombobox ? "required" : null,
@@ -408,6 +472,7 @@ export default {
         } else if (this.questionSelected == this.items[4]) {
           this.itemSchema = {
             label: this.labelFile,
+            name: this.nameFile,
             type: this.validationFile,
             validation:
               this.validationFile == "file"
@@ -456,18 +521,22 @@ export default {
     // remove all field values when admin switches a question type
     eraseFields() {
       this.labelInput = null;
+      this.nameInput = null;
       this.validationInput = false;
       this.tempInput = null;
       this.labelParagraph = null;
+      this.nameParagraph = null;
       this.validationParagraph = false;
       this.tempParagraph = null;
       this.labelDropdown = null;
+      this.nameDropdown = null;
       this.multipleDropdown = false;
       this.validationDropdown = false;
       this.addOptionDropdown = null;
       this.optionsDropdown = [];
       this.tempDropdown = [];
       this.labelCombobox = null;
+      this.nameCombobox = null;
       this.placeholderCombobox = null;
       this.validationCombobox = false;
       this.addItemCombobox = null;
@@ -475,6 +544,7 @@ export default {
       this.tempCombobox = [];
       this.itemSelected = null;
       this.labelFile = null;
+      this.nameFile = null;
       this.validationFile = null;
       this.multipleFile = false;
     },
