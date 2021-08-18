@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- ??? rule for file still needs fix, when delete file -->
     <FormulateForm
       class="form-wrapper"
       v-model="values"
@@ -14,16 +15,18 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/firestore";
 import "firebase/storage";
-import { db } from "@/firebase/init.js";
+import { db, storage } from "@/firebase/init.js";
 export default {
-  name: "EditProfile",
-  // props: ["currentPage"],
+  name: "Profile",
   components: {},
   data() {
     return {
       schema: [],
       values: null
     };
+  },
+  props: {
+    formulateValue: Object
   },
   created() {},
   computed: {
@@ -33,12 +36,50 @@ export default {
   },
   methods: {
     async submitProfile() {
+      // upload firebase storage for files
+      var valuesCopy = Object.assign({}, this.values);
+      Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+          .filter(key => predicate(obj[key]))
+          .reduce((res, key) => ((res[key] = obj[key]), res), {});
+      var filtered = Object.filter(valuesCopy, value => value["files"] != null);
+      var fileElements = Object.keys(filtered);
+      for (var i = 0; i < fileElements.length; i++) {
+        var temp = [];
+        for (var j = 0; j < filtered[fileElements[i]]["files"].length; j++) {
+          var name = valuesCopy[fileElements[i]]["files"][j]["path"]["name"];
+          var url = await storage
+            .ref()
+            .child(
+              this.user.uid +
+                " " +
+                "Base" +
+                " " +
+                fileElements[i] +
+                " " +
+                j +
+                "." +
+                name.split(".").pop()
+            )
+            .put(valuesCopy[fileElements[i]]["files"][j]["file"])
+            .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+            })
+            .then(downloadURL => downloadURL);
+          temp.push({
+            name: name,
+            url: url
+          });
+        }
+        valuesCopy[fileElements[i]] = temp;
+      }
+
       const userBaseRef = db
         .collection("applications")
         .doc("Base")
         .collection("All")
         .doc(this.user.uid);
-      await userBaseRef.set(this.values);
+      await userBaseRef.set(valuesCopy);
     }
   },
   async mounted() {

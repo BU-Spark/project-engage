@@ -46,18 +46,18 @@
 
     <!-- different pages -->
     <Dashboard v-if="page == 0" />
-    <EditProfile v-if="page == 2" />
+    <Profile v-if="page == 2" />
   </div>
 </template>
 
 <script>
 import Dashboard from "@/components/Student/Dashboard.vue";
-import EditProfile from "@/components/Student/EditProfile.vue";
+import Profile from "@/components/Student/Profile.vue";
 export default {
   name: "StudentHome",
   components: {
     Dashboard,
-    EditProfile
+    Profile
   },
   data() {
     return {

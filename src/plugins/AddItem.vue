@@ -470,27 +470,48 @@ export default {
             placeholder: this.placeholderCombobox
           };
         } else if (this.questionSelected == this.items[4]) {
-          this.itemSchema = {
-            label: this.labelFile,
-            name: this.nameFile,
-            type: this.validationFile,
-            validation:
-              this.validationFile == "file"
-                ? "mime:application/pdf"
-                : "mime:image/jpeg,image/png,image/gif",
-            multiple: this.multipleFile ? "multiple" : null,
-            help:
-              this.validationFile == "file" && this.multipleFile
-                ? "Select one or more PDFs to upload"
-                : this.validationFile == "file" && !this.multipleFile
-                ? "Select one PDF to upload"
-                : this.validationFile == "image" && this.multipleFile
-                ? "Select one or more png, jpg or gif to upload."
-                : this.validationFile == "image" && !this.multipleFile
-                ? "Select a png, jpg or gif to upload."
-                : "",
-            rules: null
-          };
+          this.multipleFile
+            ? (this.itemSchema = {
+                label: this.labelFile,
+                name: this.nameFile,
+                type: this.validationFile,
+                validation:
+                  this.validationFile == "file"
+                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                multiple: "multiple",
+                help:
+                  this.validationFile == "file" && this.multipleFile
+                    ? "Select one or more PDFs to upload"
+                    : this.validationFile == "file" && !this.multipleFile
+                    ? "Select one PDF to upload"
+                    : this.validationFile == "image" && this.multipleFile
+                    ? "Select one or more png, jpg or gif to upload."
+                    : this.validationFile == "image" && !this.multipleFile
+                    ? "Select a png, jpg or gif to upload."
+                    : "",
+                rules: null
+              })
+            : (this.itemSchema = {
+                label: this.labelFile,
+                name: this.nameFile,
+                type: this.validationFile,
+                validation:
+                  this.validationFile == "file"
+                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                help:
+                  this.validationFile == "file" && this.multipleFile
+                    ? "Select one or more PDFs to upload"
+                    : this.validationFile == "file" && !this.multipleFile
+                    ? "Select one PDF to upload"
+                    : this.validationFile == "image" && this.multipleFile
+                    ? "Select one or more png, jpg or gif to upload."
+                    : this.validationFile == "image" && !this.multipleFile
+                    ? "Select a png, jpg or gif to upload."
+                    : "",
+                rules: null
+              });
         }
         var index = 0;
         if (this.schemaArray.length > 0) {
