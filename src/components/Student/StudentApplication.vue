@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     async submitProfile() {
+      this.values.program = this.type;
       await this.userBaseRef.set(this.values);
     }
   },
