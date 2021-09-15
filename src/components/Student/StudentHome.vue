@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- navbar -->
-    <!-- 0: Dashboard, 1: Application, 2: Programs, 3: Reports, 4: Notification icon, 5: Profile icon -->
+    <!-- 0: Dashboard, 1: Application, 2: Profile & Profile icon, 3: Notification icon -->
     <div>
       <div id="dashboard-container" class="d-flex flex-row mb-6 align-center">
         <div id="rightSideDashboard">
@@ -20,10 +20,7 @@
               Application
             </v-btn>
             <v-btn elevation="0" class="nav-btn" @click="updatePageBody(2)">
-              Programs
-            </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(3)">
-              Reports
+              Profile
             </v-btn>
           </div>
         </div>
@@ -32,12 +29,12 @@
             <v-icon
               aria-hidden="false"
               style="color: #36bd90"
-              @click="updatePageBody(4)"
+              @click="updatePageBody(3)"
             >
               mdi-bell
             </v-icon>
           </v-btn>
-          <v-btn class="main-action" elevation="0" @click="updatePageBody(5)">
+          <v-btn class="main-action" elevation="0" @click="updatePageBody(2)">
             <v-icon aria-hidden="false" style="color: #36bd90">
               mdi-account-circle
             </v-icon>
@@ -48,26 +45,19 @@
     </div>
 
     <!-- different pages -->
-    <InviteAdmin v-if="page == 0" />
-    <EmailUI v-if="page == 0" />
-    <AdminApplicationDashboard v-if="page == 1" />
-    <ApplicationFormListDisplay v-if="page == 2" />
+    <Dashboard v-if="page == 0" />
+    <Profile v-if="page == 2" />
   </div>
 </template>
 
 <script>
-import EmailUI from "@/components/Admin/EmailUI.vue";
-import InviteAdmin from "@/components/Admin/InviteAdmin.vue";
-import AdminApplicationDashboard from "@/components/Admin/AdminApplicationDashboard.vue";
-import ApplicationFormListDisplay from "@/components/Application/ApplicationFormListDisplay.vue";
-
+import Dashboard from "@/components/Student/Dashboard.vue";
+import Profile from "@/components/Student/Profile.vue";
 export default {
-  name: "AdminHome",
+  name: "StudentHome",
   components: {
-    EmailUI,
-    ApplicationFormListDisplay,
-    InviteAdmin,
-    AdminApplicationDashboard
+    Dashboard,
+    Profile
   },
   data() {
     return {
@@ -82,9 +72,6 @@ export default {
   methods: {
     updatePageBody(index) {
       this.page = index;
-    },
-    changeRoutes(route) {
-      this.$router.push(route);
     }
   },
   async mounted() {}

@@ -246,7 +246,7 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("testApplication").doc("Fall 2021");
+        const ref = db.collection("applications").doc("Fall 2021");
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
@@ -256,7 +256,7 @@ export default {
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = db.collection("testApplication").doc("Fall 2021");
+          const ref = db.collection("applications").doc("Fall 2021");
           const application = await ref
             .collection(this.editItem.program)
             .doc(this.editItem.uid);
@@ -297,7 +297,7 @@ export default {
     }
   },
   async mounted() {
-    const ref = db.collection("testApplication").doc("Fall 2021");
+    const ref = db.collection("applications").doc("Fall 2021");
     for (let type of this.programList) {
       const subCol = await ref.collection(type).get();
       subCol.forEach(element => {

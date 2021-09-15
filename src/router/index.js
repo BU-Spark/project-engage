@@ -22,14 +22,6 @@ const routes = [
     }
   },
   {
-    path: "/ApplicantDashboard",
-    name: "ApplicantDashboard",
-    component: () => import("@/views/ApplicantDashboard.vue"),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/home",
     name: "home",
     component: () => import("@/views/Home.vue"),
