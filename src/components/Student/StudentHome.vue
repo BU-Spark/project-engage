@@ -35,7 +35,7 @@
             </v-icon>
           </v-btn>
           <v-btn class="main-action" elevation="0" @click="updatePageBody(2)">
-            <v-icon aria-hidden="false" style="color: #36bd90">
+            <v-icon aria-hidden="false" style="color: #00A99E">
               mdi-account-circle
             </v-icon>
             &nbsp; &nbsp; {{ this.user.displayName }}
@@ -98,7 +98,7 @@ v-btn {
 }
 
 div#dashboard-container {
-  background-color: #36bd90;
+  background-color: #00a99e;
   color: black;
   padding: 15px;
   width: 100%;

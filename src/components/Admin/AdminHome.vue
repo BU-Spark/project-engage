@@ -4,45 +4,51 @@
     <!-- 0: Dashboard, 1: Application, 2: Programs, 3: Reports, 4: Notification icon, 5: Profile icon -->
     <div>
       <div id="dashboard-container" class="d-flex flex-row mb-6 align-center">
-        <div id="rightSideDashboard">
-          <v-img
-            src="@/assets/sparky.png"
-            max-height="75"
-            max-width="75"
-            class="db-logo"
-          >
-          </v-img>
-          <div id="navigations">
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
-              Dashboard
+        <div
+          id="dashboard-container2"
+          class="d-flex flex-row mb-6 align-center"
+          v-bind:style="{ width: '150vh' }"
+        >
+          <div id="rightSideDashboard">
+            <v-img
+              src="@/assets/sparky.png"
+              max-height="75"
+              max-width="75"
+              class="db-logo"
+            >
+            </v-img>
+            <div id="navigations">
+              <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
+                Dashboard
+              </v-btn>
+              <v-btn elevation="0" class="nav-btn" @click="updatePageBody(1)">
+                Application
+              </v-btn>
+              <v-btn elevation="0" class="nav-btn" @click="updatePageBody(2)">
+                Programs
+              </v-btn>
+              <v-btn elevation="0" class="nav-btn" @click="updatePageBody(3)">
+                Reports
+              </v-btn>
+            </div>
+          </div>
+          <div id="main-actions">
+            <v-btn class="main-action" elevation="0">
+              <v-icon
+                aria-hidden="false"
+                style="color: #36bd90"
+                @click="updatePageBody(4)"
+              >
+                mdi-bell
+              </v-icon>
             </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(1)">
-              Application
-            </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(2)">
-              Programs
-            </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(3)">
-              Reports
+            <v-btn class="main-action" elevation="0" @click="updatePageBody(5)">
+              <v-icon aria-hidden="false" style="color: #00A99E">
+                mdi-account-circle
+              </v-icon>
+              &nbsp; &nbsp; {{ this.user.displayName }}
             </v-btn>
           </div>
-        </div>
-        <div id="main-actions">
-          <v-btn class="main-action" elevation="0">
-            <v-icon
-              aria-hidden="false"
-              style="color: #36bd90"
-              @click="updatePageBody(4)"
-            >
-              mdi-bell
-            </v-icon>
-          </v-btn>
-          <v-btn class="main-action" elevation="0" @click="updatePageBody(5)">
-            <v-icon aria-hidden="false" style="color: #36bd90">
-              mdi-account-circle
-            </v-icon>
-            &nbsp; &nbsp; {{ this.user.displayName }}
-          </v-btn>
         </div>
       </div>
     </div>
@@ -111,7 +117,15 @@ v-btn {
 }
 
 div#dashboard-container {
-  background-color: #36bd90;
+  background-color: #00a99e;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+div#dashboard-container2 {
+  background-color: #a90063;
   color: black;
   padding: 15px;
   width: 100%;
