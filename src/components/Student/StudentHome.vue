@@ -3,43 +3,64 @@
     <!-- navbar -->
     <!-- 0: Dashboard, 1: Application, 2: Profile & Profile icon, 3: Notification icon -->
     <div>
-      <div id="dashboard-container" class="d-flex flex-row mb-6 align-center">
-        <div id="rightSideDashboard">
-          <v-img
-            src="@/assets/sparky.png"
-            max-height="75"
-            max-width="75"
-            class="db-logo"
-          >
-          </v-img>
-          <div id="navigations">
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(0)">
-              Dashboard
-            </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(1)">
-              Application
-            </v-btn>
-            <v-btn elevation="0" class="nav-btn" @click="updatePageBody(2)">
-              Profile
-            </v-btn>
-          </div>
-        </div>
-        <div id="main-actions">
-          <v-btn class="main-action" elevation="0">
-            <v-icon
-              aria-hidden="false"
-              style="color: #36bd90"
-              @click="updatePageBody(3)"
+      <div id="dashboard-container" class="flex-row align-center">
+        <div id="dashboard-container2" class="pa-2 rounded-l-pill">
+          <div id="rightSideDashboard">
+            <v-img
+              src="@/assets/sparky.png"
+              max-height="75"
+              max-width="75"
+              class="db-logo"
             >
-              mdi-bell
-            </v-icon>
-          </v-btn>
-          <v-btn class="main-action" elevation="0" @click="updatePageBody(2)">
-            <v-icon aria-hidden="false" style="color: #36bd90">
-              mdi-account-circle
-            </v-icon>
-            &nbsp; &nbsp; {{ this.user.displayName }}
-          </v-btn>
+            </v-img>
+            <div id="navigations">
+              <v-btn
+                elevation="0"
+                class="nav-btn"
+                @click="updatePageBody(0)"
+                :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
+              >
+                Dashboard
+              </v-btn>
+              <v-btn
+                elevation="0"
+                class="nav-btn"
+                @click="updatePageBody(1)"
+                :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
+              >
+                Application
+              </v-btn>
+              <v-btn
+                elevation="0"
+                class="nav-btn"
+                @click="updatePageBody(2)"
+                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
+              >
+                Profile
+              </v-btn>
+            </div>
+            <div id="dashboard-container3" class="pa-8 rounded-l-pill">
+              <v-btn class="main-action" elevation="0">
+                <v-icon
+                  aria-hidden="false"
+                  style="color: #00a99e"
+                  @click="updatePageBody(3)"
+                >
+                  mdi-bell
+                </v-icon>
+              </v-btn>
+              <v-btn
+                class="main-action"
+                elevation="0"
+                @click="updatePageBody(4)"
+              >
+                <v-icon aria-hidden="false" style="color: #00a99e">
+                  mdi-account-circle
+                </v-icon>
+                &nbsp; &nbsp; {{ this.user.displayName }}
+              </v-btn>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -79,35 +100,37 @@ export default {
 </script>
 
 <style scoped>
-div#main-actions {
-  margin-right: 25px !important;
-  float: right !important;
-  right: -25px !important;
-  padding: 15px !important;
-  text-align: left !important;
-}
-
 v-btn {
-  color: #36bd90;
+  color: #00a99e;
 }
 
 .main-action {
   margin-right: 10px !important;
-  border-radius: 15px;
-  padding: 15px 0px;
 }
 
 div#dashboard-container {
-  background-color: #36bd90;
-  color: black;
-  padding: 15px;
+  background-color: #00a99e;
   width: 100%;
   justify-content: space-between;
 }
 
+div#dashboard-container2 {
+  background-color: #cceeec;
+  width: 98%;
+  margin-left: auto;
+}
+
+div#dashboard-container3 {
+  background-color: #00a99e;
+  width: 25%;
+  margin-left: auto;
+  margin-top: -12px;
+  margin-right: -12px;
+  margin-bottom: -12px;
+}
+
 div#rightSideDashboard {
   display: flex;
-  justify-content: left;
   align-items: center;
 }
 
@@ -116,7 +139,7 @@ div#rightSideDashboard {
   color: black !important;
   font-weight: 900 !important;
   border: none !important;
-  /* font-size: 12px; */
+  font-size: 18px;
 }
 
 .db-logo {
