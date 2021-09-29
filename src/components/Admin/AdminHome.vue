@@ -103,13 +103,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    navbarTextColor(currentPage) {
-      let color =
-        this.page === currentPage
-          ? "primary--text text--darken-1"
-          : "black--text text--darken-1";
-      return color;
     }
   },
   methods: {
