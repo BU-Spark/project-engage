@@ -88,16 +88,6 @@ export default {
     }
   },
   async mounted() {
-    //grab application status of user
-    const userBaseRef = db.collection("users").doc(this.user.uid);
-    const doc = await userBaseRef.get();
-    if (doc.data().applications) {
-      this.applications = doc.data().applications;
-    }
-    this.newApplications = this.programList.filter(
-      x => !this.applications.includes(x)
-    );
-
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
     const month = date.getMonth();
@@ -109,6 +99,19 @@ export default {
     } else {
       this.semester = "Summer " + year;
     }
+
+    //grab application status of user
+    const userBaseRef = db.collection("users").doc(this.user.uid);
+    const doc = await userBaseRef.get();
+    if (doc.data().applications && doc.data().applications[this.semester]) {
+      doc.data().applications[this.semester].forEach(element => {
+        this.applications.push(element.type);
+      });
+    }
+    console.log(doc.data().applications[this.semester]);
+    this.newApplications = this.programList.filter(
+      x => !this.applications.includes(x)
+    );
   }
 };
 </script>

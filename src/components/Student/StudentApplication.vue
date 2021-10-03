@@ -30,6 +30,29 @@ export default {
     async submitProfile() {
       this.values.program = this.type;
       await this.userBaseRef.set(this.values);
+      const userRef = db.collection("users").doc(this.user.uid);
+      const doc = await userRef.get();
+      var applications = null;
+      if (doc.data().applications) {
+        applications = doc.data();
+        if (!doc.data().applications[this.semester]) {
+          applications["applications"][this.semester] = [];
+        }
+        applications["applications"][this.semester].push({
+          type: this.type,
+          staus: "started"
+        });
+      } else {
+        applications = {};
+        applications["applications"] = {};
+        applications["applications"][this.semester] = [];
+        applications = applications["applications"];
+        applications[this.semester].push({
+          type: this.type,
+          staus: "started"
+        });
+      }
+      await userRef.update(applications);
     }
   },
   async mounted() {
