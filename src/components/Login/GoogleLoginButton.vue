@@ -45,8 +45,8 @@ export default {
       auth.signInWithRedirect(provider);
     }
   },
-  mounted() {
-    auth.getRedirectResult().then(async result => {
+  async mounted() {
+    await auth.getRedirectResult().then(async result => {
       if (result.user != null) {
         await store.dispatch(
           "validateAdmin",
@@ -57,10 +57,12 @@ export default {
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
-          //console.log("here");
           //if this is a BU email or the user is a validated admin
           if (this.user) {
-            this.$router.push("/home").catch(() => {});
+            this.$router.push("/home").catch(() => {
+              console.log("push route error");
+            });
+            console.log("pushed route");
           }
         } else {
           //if it is not a BU email
@@ -81,6 +83,7 @@ export default {
 button {
   margin-top: 10px;
 }
+
 v-text-field {
   width: 200;
 }
@@ -88,9 +91,4 @@ v-text-field {
 v-btn {
   color: #36bd90;
 }
-
-/* v-avatar {
-  align-items: left;
-  margin-left: 10px;
-} */
 </style>
