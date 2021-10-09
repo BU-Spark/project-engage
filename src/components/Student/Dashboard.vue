@@ -13,7 +13,10 @@
       <div v-else>
         <!-- List of different applications -->
         <p id="app-title">Choose an Application to Resume</p>
-        <div id="app-list">
+        <div
+          id="app-list"
+          v-bind:class="applications.length >= 4 ? 'full-row' : 'not-full-row'"
+        >
           <v-card
             v-for="application in applications"
             :key="application"
@@ -37,7 +40,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn
-                plain
+                raised
                 id="resume-btn"
                 @click="resumeApplication(application)"
               >
@@ -55,11 +58,42 @@
       <StudentApplication v-bind:type="type" v-bind:semester="semester" />
     </div>
     <div v-else>
-      <ul v-for="newApp in newApplications" :key="newApp">
-        <v-btn class="appBtn" @click="resumeApplication(newApp)">
-          Start {{ newApp }} Application
-        </v-btn>
-      </ul>
+      <p id="app-title">Which Program Are You Applying To?</p>
+      <div
+        id="app-list"
+        v-bind:class="newApplications.length >= 4 ? 'full-row' : 'not-full-row'"
+      >
+        <v-card
+          v-for="newApp in newApplications"
+          :key="newApp"
+          id="card-component"
+        >
+          <v-card-title id="card-title">
+            {{ newApp }}
+          </v-card-title>
+          <!-- Change when due date and text components are added -->
+          <v-card-subtitle id="card-date">
+            Due Thursday, February 4th, 2021
+          </v-card-subtitle>
+          <v-card-text id="app-desc">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </v-card-text>
+          <v-card-actions>
+            <v-btn raised id="resume-btn" @click="resumeApplication(newApp)">
+              Start
+              <v-icon aria-hidden="false" id="resume-app-btn"
+                >mdi-arrow-right-drop-circle</v-icon
+              >
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
     </div>
     <v-btn class="my-2" v-if="apps" @click="apps = false"> Back </v-btn>
   </div>
@@ -91,12 +125,12 @@ export default {
         "Justice Media Co-Lab"
       ],
       // temporary applications for design purposes
-      // applications: [],
       applications: [
-        "Employment Opportunities",
-        "Innovation Fellowship: Innovator",
-        "Innovation Fellowship: Technical Teammate",
-        "Innovation Fellowship: UX Designer"
+        // "Employment Opportunities",
+        // "Innovation Fellowship: Innovator",
+        // "Innovation Fellowship: Technical Teammate",
+        // "Innovation Fellowship: Innovator",
+        // "Innovation Fellowship: Technical Teammate"
       ],
       type: null,
       newApplications: [],
@@ -157,7 +191,7 @@ v-btn {
   padding: 25px;
   min-height: 570px !important;
   text-align: center;
-  height: 70vh;
+  min-height: 70vh;
   margin-top: 5vh;
   margin-left: 2vw;
   margin-right: 2vw;
@@ -196,18 +230,26 @@ v-btn {
   margin-top: 15%;
 }
 
-#app-list {
+.full-row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.not-full-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 #card-component {
-  display: flex;
+  display: flex 0 0 25%;
   flex-direction: column;
   width: 20vw;
   height: 50vh;
   margin-right: 2.5vh;
   margin-left: 2.5vh;
+  margin-bottom: 20px;
   border-radius: 40px;
   text-align: left;
   white-space: pre-line;
@@ -237,7 +279,7 @@ v-btn {
   margin-bottom: 5%;
 }
 
-#card-component #resume-btn {
+#resume-btn {
   box-shadow: none;
   background-color: white;
   letter-spacing: 2px;
@@ -245,13 +287,9 @@ v-btn {
   font-weight: bold;
   margin: auto;
   border-radius: 30px;
-  box-shadow: 0 2px 4px;
+  box-shadow: 0 1px 5px;
   margin-bottom: 15px;
-  display: none;
-}
-
-#card-component:hover #resume-btn {
-  display: block;
+  width: 50%;
 }
 
 #resume-app-btn {
