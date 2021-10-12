@@ -57,7 +57,6 @@ export default {
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
-          //console.log("here");
           //if this is a BU email or the user is a validated admin
           if (this.user) {
             this.$router.push("/home").catch(() => {});

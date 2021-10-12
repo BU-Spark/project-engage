@@ -1,45 +1,99 @@
 <template>
   <div id="main-container">
     <div v-if="!apps">
-      <div v-if="applications.length == 0">
-        <h1>No Applications in Progress <br /></h1>
-        <br />
-      </div>
-      <div v-else>
-        <v-card
-          v-for="application in applications"
-          :key="application"
-          class="ma-auto mb-2"
-          max-width="344"
-        >
-          <v-card-title>
-            {{ application }}
-          </v-card-title>
-          <v-card-actions>
-            <v-btn color="teal" @click="resumeApplication(application)">
-              Resume Application</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </div>
-      <h1>
-        <v-btn className="new-app-btn" @click="startNewApp()">
-          Start New Application
-          <v-icon aria-hidden="false" style="color:#36BD90"
+      <div id="app-container" v-if="applications.length == 0">
+        <p id="app-title">No applications in progress</p>
+        <v-btn plain id="new-app-btn" @click="startNewApp()">
+          Start application
+          <v-icon aria-hidden="false" id="start-app-btn"
             >mdi-arrow-right-drop-circle</v-icon
           >
         </v-btn>
-      </h1>
+      </div>
+      <div v-else>
+        <!-- List of different applications -->
+        <p id="app-title">Choose an Application to Resume</p>
+        <div
+          id="app-list"
+          v-bind:class="applications.length >= 4 ? 'full-row' : 'not-full-row'"
+        >
+          <v-card
+            v-for="application in applications"
+            :key="application"
+            id="card-component"
+          >
+            <v-card-title id="card-title">
+              {{ application }}
+            </v-card-title>
+            <!-- Change when due date and text components are added -->
+            <v-card-subtitle id="card-date">
+              Due Thursday, February 4th, 2021
+            </v-card-subtitle>
+            <v-card-text id="app-desc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                raised
+                id="resume-btn"
+                @click="resumeApplication(application)"
+              >
+                Resume
+                <v-icon aria-hidden="false" id="resume-app-btn"
+                  >mdi-arrow-right-drop-circle</v-icon
+                >
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+      </div>
     </div>
     <div v-else-if="resume">
       <StudentApplication v-bind:type="type" v-bind:semester="semester" />
     </div>
     <div v-else>
-      <ul v-for="newApp in newApplications" :key="newApp">
-        <v-btn class="appBtn" @click="resumeApplication(newApp)">
-          Start {{ newApp }} Application
-        </v-btn>
-      </ul>
+      <p id="app-title">Which Program Are You Applying To?</p>
+      <div
+        id="app-list"
+        v-bind:class="newApplications.length >= 4 ? 'full-row' : 'not-full-row'"
+      >
+        <v-card
+          v-for="newApp in newApplications"
+          :key="newApp"
+          id="card-component"
+        >
+          <v-card-title id="card-title">
+            {{ newApp }}
+          </v-card-title>
+          <!-- Change when due date and text components are added -->
+          <v-card-subtitle id="card-date">
+            Due Thursday, February 4th, 2021
+          </v-card-subtitle>
+          <v-card-text id="app-desc">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </v-card-text>
+          <v-card-actions>
+            <v-btn raised id="resume-btn" @click="resumeApplication(newApp)">
+              Start
+              <v-icon aria-hidden="false" id="resume-app-btn"
+                >mdi-arrow-right-drop-circle</v-icon
+              >
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
     </div>
     <v-btn class="my-2" v-if="apps" @click="apps = false"> Back </v-btn>
   </div>
@@ -70,7 +124,14 @@ export default {
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab"
       ],
-      applications: [],
+      // temporary applications for design purposes
+      applications: [
+        // "Employment Opportunities",
+        // "Innovation Fellowship: Innovator",
+        // "Innovation Fellowship: Technical Teammate",
+        // "Innovation Fellowship: Innovator",
+        // "Innovation Fellowship: Technical Teammate"
+      ],
       type: null,
       newApplications: [],
       semester: null
@@ -88,16 +149,6 @@ export default {
     }
   },
   async mounted() {
-    //grab application status of user
-    const userBaseRef = db.collection("users").doc(this.user.uid);
-    const doc = await userBaseRef.get();
-    if (doc.data().applications) {
-      this.applications = doc.data().applications;
-    }
-    this.newApplications = this.programList.filter(
-      x => !this.applications.includes(x)
-    );
-
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
     const month = date.getMonth();
@@ -109,6 +160,19 @@ export default {
     } else {
       this.semester = "Summer " + year;
     }
+
+    //grab application status of user
+    const userBaseRef = db.collection("users").doc(this.user.uid);
+    const doc = await userBaseRef.get();
+    if (doc.data().applications && doc.data().applications[this.semester]) {
+      doc.data().applications[this.semester].forEach(element => {
+        this.applications.push(element.type);
+      });
+    }
+    console.log(doc.data().applications[this.semester]);
+    this.newApplications = this.programList.filter(
+      x => !this.applications.includes(x)
+    );
   }
 };
 </script>
@@ -123,24 +187,117 @@ v-btn {
   color: #36bd90;
 }
 #main-container {
-  border-radius: 25px;
-  background-color: rgb(227, 227, 255);
+  border-radius: 60px;
+  background-color: #e3eee5;
   color: black;
   font-weight: 750;
   padding: 25px;
   min-height: 570px !important;
-  margin: 10px;
   text-align: center;
+  min-height: 70vh;
+  margin-top: 5vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
-.new-app-btn {
-  border-radius: 5px !important;
-  background-color: transparent !important;
-  border: 4px solid #219e75;
-  font-weight: 700 !important;
-  font-size: 16px !important;
+
+#new-app-btn {
+  box-shadow: none;
+  background-color: #e3eee5;
+  font-size: 40px;
+  letter-spacing: 0px;
+  text-transform: none;
+  font-weight: bold;
 }
+
+#new-app-btn:hover {
+  background-color: #e3eee5;
+}
+
 .appBtn {
   text-align: left;
   width: 100%;
+}
+
+#start-app-btn {
+  color: #36bd90;
+  font-size: 40px;
+  margin-left: 10px;
+}
+
+#app-title {
+  margin-top: 3vh;
+  font-size: 40px;
+}
+
+#app-container {
+  margin-top: 15%;
+}
+
+.full-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.not-full-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#card-component {
+  display: flex 0 0 25%;
+  flex-direction: column;
+  width: 20vw;
+  height: 50vh;
+  margin-right: 2.5vh;
+  margin-left: 2.5vh;
+  margin-bottom: 20px;
+  border-radius: 40px;
+  text-align: left;
+  white-space: pre-line;
+  overflow-wrap: normal;
+  padding-left: 10px;
+}
+
+#card-component:hover {
+  box-shadow: 0 0 20px #36bd90;
+}
+
+#app-desc {
+  text-overflow: ellipsis;
+}
+
+#card-title {
+  line-height: 110%;
+  height: 20%;
+  margin-top: 2%;
+  padding-top: 5%;
+  word-break: normal;
+  font-weight: bold;
+}
+
+#card-date {
+  height: 5%;
+  margin-bottom: 5%;
+}
+
+#resume-btn {
+  box-shadow: none;
+  background-color: white;
+  letter-spacing: 2px;
+  text-transform: none;
+  font-weight: bold;
+  margin: auto;
+  border-radius: 30px;
+  box-shadow: 0 1px 5px;
+  margin-bottom: 15px;
+  width: 50%;
+}
+
+#resume-app-btn {
+  color: #36bd90;
+  font-size: 25px;
+  margin-left: 5px;
 }
 </style>
