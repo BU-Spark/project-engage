@@ -38,10 +38,14 @@ export default {
         if (!doc.data().applications[this.semester]) {
           applications["applications"][this.semester] = [];
         }
-        applications["applications"][this.semester].push({
-          type: this.type,
-          staus: "started"
-        });
+        applications["applications"][this.semester].indexOf(
+          x => x.type == this.type
+        ) === -1
+          ? applications["applications"][this.semester].push({
+              type: this.type,
+              staus: "started"
+            })
+          : console.log("application exisited");
       } else {
         applications = {};
         applications["applications"] = {};
