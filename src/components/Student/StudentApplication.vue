@@ -38,9 +38,9 @@ export default {
         if (!doc.data().applications[this.semester]) {
           applications["applications"][this.semester] = [];
         }
-        applications["applications"][this.semester].indexOf(
-          x => x.type == this.type
-        ) === -1
+        applications["applications"][this.semester].some(x => {
+          return x.type == this.type;
+        }) === false
           ? applications["applications"][this.semester].push({
               type: this.type,
               staus: "started"
