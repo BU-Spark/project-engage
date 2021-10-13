@@ -68,6 +68,11 @@
     <!-- different pages -->
     <Dashboard v-if="page == 0" />
     <Profile v-if="page == 2" />
+    <div v-if="page == 4">
+      <v-btn class="main-action" elevation="0" @click="signOut()">
+        Sign Out
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -93,6 +98,10 @@ export default {
   methods: {
     updatePageBody(index) {
       this.page = index;
+    },
+    async signOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/");
     }
   },
   async mounted() {}

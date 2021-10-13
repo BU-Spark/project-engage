@@ -78,6 +78,11 @@
     <EmailUI v-if="page == 0" />
     <AdminApplicationDashboard v-if="page == 1" />
     <ApplicationFormListDisplay v-if="page == 2" />
+    <div v-if="page == 5">
+      <v-btn class="main-action" elevation="0" @click="signOut()">
+        Sign Out
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -111,6 +116,10 @@ export default {
     },
     changeRoutes(route) {
       this.$router.push(route);
+    },
+    async signOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/");
     }
   },
   async mounted() {}
