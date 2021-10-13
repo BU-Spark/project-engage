@@ -1,13 +1,21 @@
 <template>
   <div>
-    <v-btn color="#fffff" @click="googleLogin">
-      <v-avatar size="30">
-        <v-img src="../../assets/google.jpeg" width="30px" height="30px" />
-      </v-avatar>
-      <div style="width: 195px">
-        {{ buttonLabel }}
-      </div>
-    </v-btn>
+    <div v-if="hide == 'true'">
+      <v-btn
+        style="background-color: transparent; border-color: transparent; box-shadow: none;"
+        @click="googleLogin"
+      ></v-btn>
+    </div>
+    <div v-if="hide == null">
+      <v-btn color="#fffff" @click="googleLogin">
+        <v-avatar size="30">
+          <v-img src="../../assets/google.jpeg" width="30px" height="30px" />
+        </v-avatar>
+        <div style="width: 195px">
+          {{ buttonLabel }}
+        </div>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -17,7 +25,7 @@ import { auth } from "@/firebase/init";
 import store from "@/store";
 export default {
   name: "GoogleLoginButton",
-  props: ["buttonLabel", "email"],
+  props: ["buttonLabel", "email", "hide"],
   data() {
     return {
       errorMsg: null

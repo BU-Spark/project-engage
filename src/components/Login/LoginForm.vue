@@ -45,28 +45,14 @@
       <!-- display "student" or "admin" selection animation (with different views) -->
       <v-col cols="12" md="7">
         <v-container fill-height fluid>
-          <!-- 
-            <center>
-                <v-alert v-if="errorMsg"> {{ errorMsg }}</v-alert>
-                <h3>Gmail Login</h3>
-                <h4>
-                  <GoogleLoginButton buttonLabel="Sign in with Google" />
-                </h4>
-                <br />
-                <h3>Sign Up</h3>
-                <br />
-                <v-btn color="#36bd90" class="ma-4" @click="admin" rounded>
-                  Admin SignUp
-                </v-btn>
-                <GoogleLoginButton buttonLabel="Sign up with Google" />
-              </center>
-           -->
-
           <!-- view 0: choose role -->
           <v-col
             v-if="view == 0"
             class="d-flex flex-column justify-center align-center"
           >
+            <!-- invisible login button so that login page router push is successful -->
+            <GoogleLoginButton buttonLabel="Sign in with Google" hide="true" />
+
             <v-row>
               <v-card
                 class="mx-auto"
