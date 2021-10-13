@@ -61,7 +61,10 @@
       >Add Item</v-btn
     >
 
-    <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
+    <div v-for="(schema, i) in schemaList" :key="i">
+      <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
+    </div>
+
     <v-btn @click="cancel">Cancel</v-btn>
     <v-btn @click="submitFormTemplate">Submit Form Template</v-btn>
   </v-container>
@@ -90,6 +93,7 @@ export default {
       applicationType: "",
       semester: "",
       schema: [],
+      schemaList: [],
       search: null,
       valid: false
     };
@@ -117,9 +121,31 @@ export default {
     },
     addField(value) {
       this.schema = value;
+      this.schemaList = [];
+      var temp = [];
+      for (let i = 0; i < this.schema.length; i++) {
+        if (this.schema[i]["type"] == "hr") {
+          this.schemaList.push(temp);
+          temp = [];
+        } else {
+          temp.push(this.schema[i]);
+        }
+      }
+      this.schemaList.push(temp);
     },
     deleteField(value) {
       this.schema = value;
+      this.schemaList = [];
+      var temp = [];
+      for (let i = 0; i < this.schema.length; i++) {
+        if (this.schema[i]["type"] == "hr") {
+          this.schemaList.push(temp);
+          temp = [];
+        } else {
+          temp.push(this.schema[i]);
+        }
+      }
+      this.schemaList.push(temp);
     },
     changeAddItemState() {
       this.addItem = !this.addItem;
@@ -155,6 +181,16 @@ export default {
     this.applicationType = await this.$route.params.applicationTypeFromList;
     this.semester = await this.$route.params.semesterFromList;
     this.schema = await this.$route.params.schemaList;
+    var temp = [];
+    for (let i = 0; i < this.schema.length; i++) {
+      if (this.schema[i]["type"] == "hr") {
+        this.schemaList.push(temp);
+        temp = [];
+      } else {
+        temp.push(this.schema[i]);
+      }
+    }
+    this.schemaList.push(temp);
     this.dateFormatted = await this.$route.params.deadline;
     this.date = this.parseDate(this.dateFormatted);
   }
@@ -176,35 +212,9 @@ export default {
 }
 
 .test {
-  display: felx;
+  display: flex;
   flex-direction: row;
   background-color: black;
-}
-
-.double-row {
-  width: 700px;
-  color: aqua;
-}
-
-@media (min-width: 650px) {
-  .double-row {
-    display: flex;
-  }
-}
-
-@media (min-width: 720px) {
-  .double-row {
-    display: block;
-  }
-}
-
-@media (min-width: 850px) {
-  .double-row {
-    display: flex;
-  }
-  .double-row .formulate-input {
-    margin-right: 1.5em;
-  }
 }
 
 .formulate-input {

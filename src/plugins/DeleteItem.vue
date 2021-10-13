@@ -37,7 +37,12 @@ export default {
         var index = this.schemaArray.findIndex(
           x => x.label === this.itemSelected
         );
-        this.schemaArray.splice(index, 1);
+        if (this.schemaArray[index]["type"] == "hr") {
+          this.schemaArray.splice(index - 1, 1);
+          this.schemaArray.splice(index - 1, 1);
+        } else {
+          this.schemaArray.splice(index, 1);
+        }
         this.$emit("deleteItem", false);
         this.$emit("itemDeleted", this.schemaArray);
         alert("You have successfully deleted an item!");
