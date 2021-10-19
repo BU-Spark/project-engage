@@ -2,7 +2,8 @@
   <div>
     <div v-if="hide == 'true'">
       <v-btn
-        style="background-color: transparent; border-color: transparent; box-shadow: none;"
+        disabled
+        style="background-color: transparent; border-color: transparent; box-shadow: none; opacity: 0;"
         @click="googleLogin"
       ></v-btn>
     </div>
