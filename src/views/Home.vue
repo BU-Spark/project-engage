@@ -6,9 +6,6 @@
     <div v-if="!this.isAdmin">
       <StudentHome />
     </div>
-    <v-btn elevation="2" outlined plain raised class="ma-2" @click="signOut">
-      Log Out</v-btn
-    >
   </div>
 </template>
 
