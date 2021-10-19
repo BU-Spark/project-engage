@@ -6,6 +6,15 @@
       :schema="schema"
       @submit="submitProfile"
     />
+    <v-overlay v-if="loading">
+      <div>
+        <v-progress-circular
+          :size="70"
+          indeterminate
+          color="green"
+        ></v-progress-circular>
+      </div>
+    </v-overlay>
   </div>
 </template>
 
@@ -18,7 +27,8 @@ export default {
     return {
       schema: [],
       values: null,
-      userBaseRef: null
+      userBaseRef: null,
+      loading: false
     };
   },
   computed: {
@@ -28,6 +38,7 @@ export default {
   },
   methods: {
     async submitProfile() {
+      this.loading = true;
       this.values.program = this.type;
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
@@ -57,6 +68,7 @@ export default {
         });
       }
       await userRef.update(applications);
+      this.$router.go();
     }
   },
   async mounted() {
