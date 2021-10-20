@@ -339,9 +339,9 @@
       <v-row no-gutters>
         <v-col cols="12" sm="6">
           <v-text-field
-            label="Label"
+            label="Section Name"
             v-model="labelSection"
-            hint="New Section 1"
+            hint="Experiences, Section 1, etc."
             :rules="[() => !!labelSection || 'This field is required']"
             outlined
           ></v-text-field>
@@ -486,7 +486,9 @@ export default {
           this.schema.some(el => el.name === this.nameSection) ||
           (!this.itemSelected && this.schemaArray.length > 0))
       ) {
-        alert('Please select "Choose where to add the question"');
+        alert(
+          'Please fill in "Section name", "id", or select "Choose where to add the question"'
+        );
       } else {
         if (this.questionSelected == this.items[0]) {
           this.itemSchema = {
