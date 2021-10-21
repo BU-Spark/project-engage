@@ -1,8 +1,22 @@
 <template>
   <div>
-    <v-btn color="#228B22" class="ma-2" @click="googleLogin">
-      {{ buttonLabel }}
-    </v-btn>
+    <div v-if="hide == 'true'">
+      <v-btn
+        disabled
+        style="background-color: transparent; border-color: transparent; box-shadow: none; opacity: 0;"
+        @click="googleLogin"
+      ></v-btn>
+    </div>
+    <div v-if="hide == null">
+      <v-btn color="#fffff" @click="googleLogin">
+        <v-avatar size="30">
+          <v-img src="../../assets/google.jpeg" width="30px" height="30px" />
+        </v-avatar>
+        <div style="width: 195px">
+          {{ buttonLabel }}
+        </div>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -12,7 +26,7 @@ import { auth } from "@/firebase/init";
 import store from "@/store";
 export default {
   name: "GoogleLoginButton",
-  props: ["buttonLabel", "email"],
+  props: ["buttonLabel", "email", "hide"],
   data() {
     return {
       errorMsg: null
@@ -34,27 +48,34 @@ export default {
         prompt: "select_account",
         login_hint: this.email
       });
+      if (this.email) {
+        provider.setCustomParameters({
+          prompt: "select_account",
+          login_hint: this.email
+        });
+      }
       auth.useDeviceLanguage();
       auth.signInWithRedirect(provider);
     }
   },
-  mounted() {
-    if (this.user) {
-      this.$router.push("/home");
-    }
-    auth.getRedirectResult().then(async result => {
+  async mounted() {
+    await auth.getRedirectResult().then(async result => {
       if (result.user != null) {
         await store.dispatch(
           "validateAdmin",
           result.additionalUserInfo.profile.email
         );
+        console.log(this.adminValidation);
         if (
-          store.state.adminValidation ||
+          this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
           //if this is a BU email or the user is a validated admin
-          if (!this.user) {
-            await store.dispatch("setUser");
+          if (this.user) {
+            this.$router.push("/home").catch(() => {
+              console.log("push route error");
+            });
+            console.log("pushed route");
           }
         } else {
           //if it is not a BU email
@@ -75,7 +96,12 @@ export default {
 button {
   margin-top: 10px;
 }
+
 v-text-field {
   width: 200;
+}
+
+v-btn {
+  color: #36bd90;
 }
 </style>

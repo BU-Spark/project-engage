@@ -2,6 +2,8 @@
 
 Project Engage
 
+To add yourself to the repository, open a PR modifying `COLLABORATORS`, entering your GitHub username in a newline.
+
 [![Actions Status](https://github.com/BU-Spark/project-engage/workflows/Build/badge.svg)](https://github.com/BU-Spark/project-engage/actions)
 [![License](http://img.shields.io/badge/License-MIT-brightgreen.svg)](./LICENSE)
 

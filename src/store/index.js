@@ -5,12 +5,19 @@ import { db, auth } from "@/firebase/init.js";
 
 Vue.use(Vuex);
 
+let defaultSetup = (user, context) => {
+  user.getIdTokenResult(true).then(result => {
+    context.commit("setAdmin", result.claims.admin);
+    context.commit("setAdminValidation", result.claims.admin);
+  });
+};
 export default new Vuex.Store({
   state: {
     user: null,
     isAdmin: null,
     adminValidation: null,
-    errorMsg: null
+    errorMsg: null,
+    snapshot: null
   },
   mutations: {
     setUser: (state, data) => {
@@ -24,26 +31,12 @@ export default new Vuex.Store({
     },
     setErrorMsg: (state, data) => {
       state.errorMsg = data;
+    },
+    setSnapshot: (state, data) => {
+      state.snapshot = data;
     }
   },
   actions: {
-    setUser: async context => {
-      const user = auth.currentUser;
-      if (!user) {
-        return;
-      }
-      db.collection("users")
-        .doc(user.uid)
-        .onSnapshot(snapshot => {
-          user.getIdTokenResult(true).then(result => {
-            if (result.claims.admin) {
-              context.commit("setAdmin", result.claims.admin);
-            }
-          });
-          context.commit("setUser", snapshot.data());
-          router.push("/home");
-        });
-    },
     getUser: async context => {
       const user = auth.currentUser;
       if (!user) {
@@ -51,16 +44,24 @@ export default new Vuex.Store({
       }
       const mydb = db.collection("users").doc(user.uid);
       var raid = await mydb.get();
-      user.getIdTokenResult(true).then(result => {
-        if (result.claims.admin) {
-          context.commit("setAdmin", result.claims.admin);
-        }
-      });
-      context.commit("setUser", raid.data());
+      if (!raid.exists) {
+        db.collection("users")
+          .doc(user.uid)
+          .onSnapshot(snapshot => {
+            defaultSetup(user, context);
+            context.commit("setUser", snapshot.data());
+            router.push("/home");
+          });
+      } else {
+        console.log("here");
+        defaultSetup(user, context);
+        context.commit("setUser", raid.data());
+      }
     },
     logOut: async context => {
       await auth.signOut();
       context.commit("setUser", null);
+      context.commit("setAdminValidation", false);
     },
     validateAdmin: async (context, email) => {
       const usersRef = db.collection("invites");
@@ -70,6 +71,13 @@ export default new Vuex.Store({
       } else {
         context.commit("setAdminValidation", false);
       }
+    },
+    getSnapshot: async (context, [col, field, variable]) => {
+      const snap = await db
+        .collection(col)
+        .where(field, "==", variable)
+        .get();
+      context.commit("setSnapshot", snap);
     }
   }
 });

@@ -6,12 +6,12 @@
       </v-alert>
       <v-text-field outlined v-model="emailEntered"> </v-text-field>
       <div>
-        <v-btn v-if="!this.adminVal" class="ma-2" @click="checkEmail()">
+        <v-btn v-if="!this.adminValidation" class="ma-2" @click="checkEmail()">
           Check Email
         </v-btn>
       </div>
       <GoogleLoginButton
-        v-if="adminValidation"
+        v-if="this.adminValidation"
         class="ma-2"
         :email="emailEntered"
         buttonLabel="Admin Google Sign Up"
@@ -31,8 +31,7 @@ export default {
   data() {
     return {
       errorMsg: null,
-      emailEntered: null,
-      adminVal: false
+      emailEntered: null
     };
   },
   computed: {
@@ -56,12 +55,6 @@ export default {
       } else {
         this.errorMsg = "Please enter an email";
       }
-      this.adminVal = true;
-    }
-  },
-  async mounted() {
-    if (this.user) {
-      this.$router.push("/home");
     }
   }
 };
