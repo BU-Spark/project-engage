@@ -586,7 +586,7 @@ export default {
         } else {
           this.schemaArray.splice(index, 0, this.itemSchema);
         }
-        if (this.questionSelected == this.items[5] && index != 0) {
+        if (this.questionSelected == this.items[5]) {
           this.schemaArray.splice(index, 0, {
             label: "Save",
             name: "submit",
