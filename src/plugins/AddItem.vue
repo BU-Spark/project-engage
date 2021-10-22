@@ -331,6 +331,42 @@
       </v-row>
     </v-container>
 
+    <!-- fields required for "New Section" -->
+    <v-container
+      class="grey lighten-5"
+      v-if="this.questionSelected == 'New Section'"
+    >
+      <v-row no-gutters>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            label="Section Name"
+            v-model="labelSection"
+            hint="Experiences, Section 1, etc."
+            :rules="[() => !!labelSection || 'This field is required']"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            label="id"
+            v-model="nameSection"
+            :rules="[checkid, rules.required]"
+            outlined
+          ></v-text-field>
+        </v-col>
+        <!-- View FormulateInput "Input Field" UI -->
+        <v-col cols="12" sm="6" class="pa-5">
+          <v-select
+            :items="schemaArray"
+            item-text="label"
+            v-model="itemSelected"
+            v-validate="required"
+            label="Choose where to add the question (before...)"
+            :rules="[() => !!itemSelected || 'This field is required']"
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-btn @click="cancelItem()">Cancel</v-btn>
     <v-btn @click="addItem()">Confirm Add</v-btn>
   </div>
@@ -348,7 +384,14 @@ export default {
       // types of questions the admin can select to add to the form
       schemaArray: this.schema,
       itemSelected: null,
-      items: ["Input Field", "Paragraph", "Select", "Combobox", "File"],
+      items: [
+        "Input Field",
+        "Paragraph",
+        "Select",
+        "Combobox",
+        "File",
+        "New Section"
+      ],
       questionSelected: null,
       rules: {
         required: v => !!v || "this field is required"
@@ -384,7 +427,10 @@ export default {
       labelFile: null,
       nameFile: null,
       validationFile: null,
-      multipleFile: false
+      multipleFile: false,
+      // fields required for "New Section"
+      labelSection: null,
+      nameSection: null
     };
   },
   computed: {},
@@ -432,6 +478,16 @@ export default {
       ) {
         alert(
           'Please fill in "Label", fill out "id" and check for duplication, choose a file type, or select "Choose where to add the question"'
+        );
+      } else if (
+        this.questionSelected == "New Section" &&
+        (!this.labelSection ||
+          !this.nameSection ||
+          this.schema.some(el => el.name === this.nameSection) ||
+          (!this.itemSelected && this.schemaArray.length > 0))
+      ) {
+        alert(
+          'Please fill in "Section name", "id", or select "Choose where to add the question"'
         );
       } else {
         if (this.questionSelected == this.items[0]) {
@@ -512,6 +568,12 @@ export default {
                     : "",
                 rules: null
               });
+        } else if (this.questionSelected == this.items[5]) {
+          this.itemSchema = {
+            label: this.labelSection,
+            name: this.nameSection,
+            type: "hr"
+          };
         }
         var index = 0;
         if (this.schemaArray.length > 0) {
@@ -523,6 +585,13 @@ export default {
           this.schemaArray = [this.itemSchema];
         } else {
           this.schemaArray.splice(index, 0, this.itemSchema);
+        }
+        if (this.questionSelected == this.items[5]) {
+          this.schemaArray.splice(index, 0, {
+            label: "Save",
+            name: "submit",
+            type: "submit"
+          });
         }
         this.$emit("addItem", false);
         this.$emit("itemAdded", this.schemaArray);
@@ -568,6 +637,8 @@ export default {
       this.nameFile = null;
       this.validationFile = null;
       this.multipleFile = false;
+      this.labelSection = null;
+      this.nameSection = null;
     },
     // functions for fields required for "Select"
     addOptionDropdownFunc() {

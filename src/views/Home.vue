@@ -41,12 +41,7 @@ export default {
       adminExists: false
     };
   },
-  methods: {
-    async signOut() {
-      await this.$store.dispatch("logOut");
-      this.$router.push("/");
-    }
-  },
+  methods: {},
   async mounted() {}
 };
 </script>

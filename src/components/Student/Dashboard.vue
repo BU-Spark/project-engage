@@ -125,9 +125,6 @@ export default {
     return {
       apps: false,
       resume: false,
-      // temporary applications for design purposes
-      applications: [],
-      type: null,
       newApplications: [
         "Employment Opportunities",
         "Innovation Fellowship | Innovator",
@@ -135,6 +132,9 @@ export default {
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab"
       ],
+      // temporary applications for design purposes
+      applications: [],
+      type: null,
       semester: null
     };
   },
