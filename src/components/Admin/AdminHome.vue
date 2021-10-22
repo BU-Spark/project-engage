@@ -78,6 +78,7 @@
     <EmailUI v-if="page == 0" />
     <AdminApplicationDashboard v-if="page == 1" />
     <ApplicationFormListDisplay v-if="page == 2" />
+    <Profile v-if="page == 3" />
     <div v-if="page == 5">
       <v-btn class="main-action" elevation="0" @click="signOut()">
         Sign Out
@@ -91,12 +92,14 @@ import EmailUI from "@/components/Admin/EmailUI.vue";
 import InviteAdmin from "@/components/Admin/InviteAdmin.vue";
 import AdminApplicationDashboard from "@/components/Admin/AdminApplicationDashboard.vue";
 import ApplicationFormListDisplay from "@/components/Application/ApplicationFormListDisplay.vue";
+import Profile from "@/components/Student/Profile.vue";
 
 export default {
   name: "AdminHome",
   components: {
     EmailUI,
     ApplicationFormListDisplay,
+    Profile,
     InviteAdmin,
     AdminApplicationDashboard
   },
