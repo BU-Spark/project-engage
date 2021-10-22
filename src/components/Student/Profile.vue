@@ -99,7 +99,12 @@ export default {
     const formRef = db.collection("applicationTemplate").doc("Base");
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
-    this.schema = template["Template"]["schema"];
+    console.log(template);
+    const schema = template["Template"]["schema"].slice(
+      1,
+      template["Template"]["schema"].length
+    );
+    this.schema = schema;
   }
 };
 </script>

@@ -71,12 +71,20 @@ export default {
       this.$router.go();
     }
   },
+  async seperateSchema() {
+    // ignore save button
+    var temp_schema = this.schema;
+    console.log(temp_schema);
+  },
   async mounted() {
     //grab application form template
     const formRef = db.collection("applicationTemplate").doc(this.type);
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
     this.schema = template["Template"]["schema"];
+
+    // split schema into different groups based on sections
+    this.seperateSchema();
 
     //grab user application inputs
     this.userBaseRef = db

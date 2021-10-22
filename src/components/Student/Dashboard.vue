@@ -255,8 +255,8 @@ v-btn {
   border-radius: 40px;
   text-align: left;
   white-space: pre-line;
-  overflow-wrap: normal;
   padding-left: 10px;
+  overflow: auto;
 }
 
 #card-component:hover {
@@ -264,11 +264,13 @@ v-btn {
 }
 
 #app-desc {
+  white-space: pre-wrap;
   text-overflow: ellipsis;
+  line-height: 1.5;
 }
 
 #card-title {
-  line-height: 110%;
+  line-height: 1;
   height: 20%;
   margin-top: 2%;
   padding-top: 5%;
@@ -277,7 +279,7 @@ v-btn {
 }
 
 #card-date {
-  height: 5%;
+  line-height: 1;
   margin-bottom: 5%;
 }
 
@@ -287,11 +289,11 @@ v-btn {
   letter-spacing: 2px;
   text-transform: none;
   font-weight: bold;
-  margin: auto;
   border-radius: 30px;
   box-shadow: 0 1px 5px;
-  margin-bottom: 15px;
-  width: 50%;
+  min-width: 40%;
+  max-width: 50%;
+  margin: 0 auto 10%;
 }
 
 #resume-app-btn {
