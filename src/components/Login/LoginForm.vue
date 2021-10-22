@@ -82,7 +82,9 @@
                     />
                     <v-card-text
                       :style="
-                        roleSelected == 'admin' ? 'visibility:visible;' : ''
+                        roleSelected == 'admin'
+                          ? 'visibility:visible; opacity: 1;'
+                          : ''
                       "
                       id="adminText"
                       class="text"
@@ -125,7 +127,9 @@
                     />
                     <v-card-text
                       :style="
-                        roleSelected == 'student' ? 'visibility:visible;' : ''
+                        roleSelected == 'student'
+                          ? 'visibility:visible; opacity: 1;'
+                          : ''
                       "
                       id="studentText"
                       class="text"
@@ -282,19 +286,19 @@ export default {
   left: 20px;
 }
 
-#studentText:after {
+/* #studentText:after {
   left: 10px;
   border-right: 20px solid transparent;
-}
+} */
 
 #adminText {
   right: 20px;
 }
 
-#adminText:after {
+/* #adminText:after {
   right: 90px;
   border-left: 20px solid transparent;
-}
+} */
 
 .text {
   position: absolute;
@@ -310,15 +314,13 @@ export default {
   font-weight: 700;
 }
 
-.text:after {
+/* .text:after {
   content: "";
   position: relative;
-  top: 2.5px;
-  /* left: 10px; */
+  bottom: 2.5px;
   border-top: 20px solid rgba(0, 176, 161, 0.3);
   border-top-color: rgba(0, 176, 161, 0.3);
-  /* border-left: 20px solid transparent; */
-}
+} */
 
 #student:hover #studentText {
   visibility: visible;
