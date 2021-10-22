@@ -161,7 +161,6 @@ export default {
     } else {
       this.semester = "Summer " + year;
     }
-
     //grab application status of user
     const userBaseRef = db.collection("users").doc(this.user.uid);
     const doc = await userBaseRef.get();
@@ -182,9 +181,11 @@ export default {
   color: black !important;
   font-size: 30px !important;
 }
+
 v-btn {
   color: #36bd90;
 }
+
 #main-container {
   border-radius: 60px;
   background-color: #e3eee5;
@@ -298,5 +299,22 @@ v-btn {
   color: #36bd90;
   font-size: 25px;
   margin-left: 5px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  border-radius: 2.5em;
+  box-sizing: border-box;
+  background-color: #f1f8f3;
+}
+
+.stepperColor {
+  background-color: #f1f8f3;
+  border-radius: 2.5em;
 }
 </style>
