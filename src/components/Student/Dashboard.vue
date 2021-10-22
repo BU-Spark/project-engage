@@ -1,6 +1,7 @@
 <template>
   <div id="main-container">
     <div v-if="!apps">
+      <!-- When no applications are started -->
       <div id="app-container" v-if="applications.length == 0">
         <p id="app-title">No applications in progress</p>
         <v-btn plain id="new-app-btn" @click="startNewApp()">
@@ -23,7 +24,7 @@
             id="card-component"
           >
             <v-card-title id="card-title">
-              {{ application }}
+              {{ application.type }}
             </v-card-title>
             <!-- Change when due date and text components are added -->
             <v-card-subtitle id="card-date">
@@ -52,11 +53,19 @@
             </v-card-actions>
           </v-card>
         </div>
+        <v-btn id="new-app-btn " @click="startNewApp()">
+          Start application
+          <v-icon aria-hidden="false" id="start-app-btn"
+            >mdi-arrow-right-drop-circle</v-icon
+          >
+        </v-btn>
       </div>
     </div>
+    <!-- Resuming the a particular application -->
     <div v-else-if="resume">
       <StudentApplication v-bind:type="type" v-bind:semester="semester" />
     </div>
+    <!-- List of new applications-->
     <div v-else>
       <p id="app-title">Which Program Are You Applying To?</p>
       <div
@@ -104,7 +113,6 @@ import { db } from "@/firebase/init.js";
 import StudentApplication from "@/components/Student/StudentApplication.vue";
 export default {
   name: "Apps",
-  // props: ["currentPage"],
   components: {
     StudentApplication
   },
@@ -117,23 +125,16 @@ export default {
     return {
       apps: false,
       resume: false,
-      programList: [
+      // temporary applications for design purposes
+      applications: [],
+      type: null,
+      newApplications: [
         "Employment Opportunities",
         "Innovation Fellowship | Innovator",
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab"
       ],
-      // temporary applications for design purposes
-      applications: [
-        // "Employment Opportunities",
-        // "Innovation Fellowship: Innovator",
-        // "Innovation Fellowship: Technical Teammate",
-        // "Innovation Fellowship: Innovator",
-        // "Innovation Fellowship: Technical Teammate"
-      ],
-      type: null,
-      newApplications: [],
       semester: null
     };
   },
@@ -165,14 +166,12 @@ export default {
     const userBaseRef = db.collection("users").doc(this.user.uid);
     const doc = await userBaseRef.get();
     if (doc.data().applications && doc.data().applications[this.semester]) {
+      this.applications = doc.data().applications[this.semester];
       doc.data().applications[this.semester].forEach(element => {
-        this.applications.push(element.type);
+        const index = this.newApplications.indexOf(element.type);
+        this.newApplications.splice(index, index + 1);
       });
     }
-    console.log(doc.data().applications[this.semester]);
-    this.newApplications = this.programList.filter(
-      x => !this.applications.includes(x)
-    );
   }
 };
 </script>
