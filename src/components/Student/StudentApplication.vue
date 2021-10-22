@@ -1,40 +1,22 @@
 <template>
   <div>
-    <v-stepper v-model="section" vertical>
-      <template v-for="(n, i) in steps">
-        <v-stepper-step
-          :key="`${n}-step`"
-          :complete="section > n"
-          :step="i"
-          editable
-          class="stepperColor"
-        >
-          {{ n }}
-        </v-stepper-step>
-        <v-stepper-content :key="`${n}-content`" :step="i">
-          <FormulateForm
-            class="form-wrapper"
-            v-model="values"
-            :schema="schemaList[i]"
-            @submit="submitProfile"
-          />
-        </v-stepper-content>
-      </template>
-    </v-stepper>
-    <v-btn
-      class="my-2"
-      @click="true"
-      style="background-color: #00A99E; color: white;"
-    >
-      Submit
-    </v-btn>
+    <FormulateForm
+      class="form-wrapper"
+      v-model="values"
+      :schema="schema"
+      @submit="submitProfile"
+    />
+    <v-overlay v-if="loading">
+      <div>
+        <v-progress-circular
+          :size="70"
+          indeterminate
+          color="green"
+        ></v-progress-circular>
+      </div>
+    </v-overlay>
   </div>
 </template>
-<v-overlay v-if="loading">
-    <div>
-        <v-progress-circular :size="70" indeterminate color="green"></v-progress-circular>
-    </div>
-</v-overlay>
 
 <script>
 import { db } from "@/firebase/init.js";
@@ -44,12 +26,9 @@ export default {
   data() {
     return {
       schema: [],
-      schemaList: [],
       values: null,
       userBaseRef: null,
-      loading: false,
-      steps: [],
-      section: 1
+      loading: false
     };
   },
   computed: {
@@ -87,9 +66,7 @@ export default {
         });
       }
       console.log(applications);
-      await userRef.update({
-        applications: applications
-      });
+      await userRef.update({ applications: applications });
       this.$router.go();
     }
   },
@@ -99,18 +76,6 @@ export default {
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
     this.schema = template["Template"]["schema"];
-    var temp = [];
-    for (let i = 0; i < this.schema.length; i++) {
-      if (this.schema[i]["type"] == "hr") {
-        this.schemaList.push(temp);
-        this.steps.push(this.schema[i]["label"]);
-        temp = [];
-      } else {
-        temp.push(this.schema[i]);
-      }
-    }
-    this.schemaList.push(temp);
-    this.schemaList = this.schemaList.filter(e => e.length);
 
     //grab user application inputs
     this.userBaseRef = db
@@ -172,22 +137,5 @@ div#rightSideDashboard {
 
 .db-logo {
   margin: 5px 25px;
-}
-
-.form-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 2em;
-  border: 2px solid rgba(200, 200, 200, 0.1);
-  border-radius: 2.5em;
-  box-sizing: border-box;
-  background-color: #f1f8f3;
-}
-
-.stepperColor {
-  background-color: #f1f8f3;
-  border-radius: 2.5em;
 }
 </style>
