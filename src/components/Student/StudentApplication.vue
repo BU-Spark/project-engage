@@ -1,12 +1,24 @@
 <template>
-  <div>
-    <FormulateForm
-      class="form-wrapper"
-      v-model="values"
-      :schema="schema"
-      @submit="submitProfile"
-    />
-  </div>
+  <v-stepper v-model="section" vertical>
+    <template v-for="(n, i) in steps">
+      <v-stepper-step
+        :key="`${n}-step`"
+        :complete="section > n"
+        :step="i"
+        editable
+        class="stepperColor"
+      >
+        {{ n }}
+      </v-stepper-step>
+      <v-stepper-content :key="`${n}-content`" :step="i">
+        <FormulateForm
+          class="form-wrapper"
+          v-model="values"
+          :schema="schemaList[i]"
+        />
+      </v-stepper-content>
+    </template>
+  </v-stepper>
 </template>
 
 <script>
@@ -17,6 +29,7 @@ export default {
   data() {
     return {
       schema: [],
+      schemaList: [],
       values: null,
       userBaseRef: null
     };
@@ -65,6 +78,18 @@ export default {
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
     this.schema = template["Template"]["schema"];
+    var temp = [];
+    for (let i = 0; i < this.schema.length; i++) {
+      if (this.schema[i]["type"] == "hr") {
+        this.schemaList.push(temp);
+        this.steps.push(this.schema[i]["label"]);
+        temp = [];
+      } else {
+        temp.push(this.schema[i]);
+      }
+    }
+    this.schemaList.push(temp);
+    this.schemaList = this.schemaList.filter(e => e.length);
 
     //grab user application inputs
     this.userBaseRef = db
@@ -126,5 +151,10 @@ div#rightSideDashboard {
 
 .db-logo {
   margin: 5px 25px;
+}
+
+.stepperColor {
+  background-color: #f1f8f3;
+  border-radius: 2.5em;
 }
 </style>
