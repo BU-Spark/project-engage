@@ -1,6 +1,6 @@
 <template>
   <div id="main-container">
-    <v-stepper v-model="e1">
+    <v-stepper v-model="e1" v-if="!type" class="stepperColor" flat="true">
       <v-stepper-header>
         <template v-for="n in steps">
           <v-stepper-step
@@ -24,6 +24,7 @@
                 ? 'full-row'
                 : 'not-full-row'
             "
+            class="mt-4"
           >
             <v-card
               v-for="app in applications[status[n - 1]]"
@@ -59,11 +60,18 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+    <div v-else>
+      <StudentApplication v-bind:type="type" v-bind:semester="semester" />
+    </div>
   </div>
 </template>
 <script>
 import { db } from "@/firebase/init.js";
+import StudentApplication from "@/components/Student/StudentApplication.vue";
 export default {
+  components: {
+    StudentApplication
+  },
   computed: {
     user() {
       return this.$store.state.user;
@@ -86,7 +94,8 @@ export default {
       },
       status: ["new", "started", "submitted"],
       actions: ["Start", "Resume"],
-      semester: null
+      semester: null,
+      type: null
     };
   },
 
@@ -107,12 +116,7 @@ export default {
       }
     },
     resumeApplication(type) {
-      this.$router.push({
-        name: "home",
-        params: {
-          type: type
-        }
-      });
+      this.type = type;
     }
   },
   async mounted() {
@@ -268,5 +272,9 @@ v-btn {
   color: #36bd90;
   font-size: 25px;
   margin-left: 5px;
+}
+.stepperColor {
+  background-color: #e3eee5;
+  border-radius: 2.5em;
 }
 </style>

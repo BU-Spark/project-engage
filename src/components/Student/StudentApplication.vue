@@ -1,40 +1,46 @@
 <template>
   <div>
-    <v-stepper v-model="section" vertical>
-      <template v-for="(n, i) in steps">
-        <v-stepper-step
-          :key="`${n}-step`"
-          :complete="section > n"
-          :step="i"
-          editable
-          class="stepperColor"
-        >
-          {{ n }}
-        </v-stepper-step>
-        <v-stepper-content :key="`${n}-content`" :step="i">
-          <FormulateForm
-            class="form-wrapper"
-            v-model="values"
-            :schema="schemaList[i]"
-            @submit="submitProfile"
-          />
-        </v-stepper-content>
-      </template>
-    </v-stepper>
-    <v-btn
-      class="my-2"
-      @click="true"
-      style="background-color: #00A99E; color: white;"
-    >
-      Submit
-    </v-btn>
+    <div v-if="!loading">
+      <v-stepper v-model="section" vertical>
+        <template v-for="(n, i) in steps">
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="section > n"
+            :step="i"
+            editable
+            class="stepperColor"
+          >
+            {{ n }}
+          </v-stepper-step>
+          <v-stepper-content :key="`${n}-content`" :step="i">
+            <FormulateForm
+              class="form-wrapper"
+              v-model="values"
+              :schema="schemaList[i]"
+              @submit="submitProfile"
+            />
+          </v-stepper-content>
+        </template>
+      </v-stepper>
+      <v-btn
+        class="my-2"
+        @click="true"
+        style="background-color: #00A99E; color: white;"
+      >
+        Submit
+      </v-btn>
+    </div>
+    <v-overlay v-if="loading">
+      <div>
+        <v-progress-circular
+          :size="70"
+          indeterminate
+          color="green"
+        ></v-progress-circular>
+      </div>
+    </v-overlay>
   </div>
 </template>
-<v-overlay v-if="loading">
-    <div>
-        <v-progress-circular :size="70" indeterminate color="green"></v-progress-circular>
-    </div>
-</v-overlay>
 
 <script>
 import { db } from "@/firebase/init.js";
@@ -66,14 +72,14 @@ export default {
       const doc = await userRef.get();
       var applications = null;
       if (doc.data().applications) {
-        applications = doc.data();
+        applications = doc.data().applications;
         if (!doc.data().applications[this.semester]) {
-          applications["applications"][this.semester] = [];
+          applications[this.semester] = [];
         }
-        applications["applications"][this.semester].some(x => {
+        applications[this.semester].some(x => {
           return x.type == this.type;
         }) === false
-          ? applications["applications"][this.semester].push({
+          ? applications[this.semester].push({
               type: this.type,
               status: "started"
             })
