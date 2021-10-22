@@ -17,7 +17,8 @@ export default new Vuex.Store({
     isAdmin: null,
     adminValidation: null,
     errorMsg: null,
-    snapshot: null
+    snapshot: null,
+    type: null
   },
   mutations: {
     setUser: (state, data) => {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     setSnapshot: (state, data) => {
       state.snapshot = data;
+    },
+    setType: (state, data) => {
+      state.type = data;
     }
   },
   actions: {

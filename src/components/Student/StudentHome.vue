@@ -67,6 +67,7 @@
 
     <!-- different pages -->
     <Dashboard v-if="page == 0" />
+    <ApplicationView v-if="page == 1" />
     <Profile v-if="page == 2" />
     <div v-if="page == 4">
       <v-btn class="main-action" elevation="0" @click="signOut()">
@@ -78,12 +79,14 @@
 
 <script>
 import Dashboard from "@/components/Student/Dashboard.vue";
+import ApplicationView from "@/components/Student/ApplicationView.vue";
 import Profile from "@/components/Student/Profile.vue";
 export default {
   name: "StudentHome",
   components: {
     Dashboard,
-    Profile
+    Profile,
+    ApplicationView
   },
   data() {
     return {

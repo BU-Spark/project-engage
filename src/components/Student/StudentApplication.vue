@@ -54,7 +54,7 @@ export default {
         }) === false
           ? applications["applications"][this.semester].push({
               type: this.type,
-              staus: "started"
+              status: "started"
             })
           : console.log("application exisited");
       } else {
@@ -62,7 +62,7 @@ export default {
         applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
-          staus: "started"
+          status: "started"
         });
       }
       console.log(applications);

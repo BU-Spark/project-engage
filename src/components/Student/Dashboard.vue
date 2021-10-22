@@ -4,14 +4,9 @@
       <!-- When no applications are started -->
       <div id="app-container" v-if="applications.length == 0">
         <p id="app-title">No applications in progress</p>
-        <v-btn id="new-app-btn " @click="startNewApp()">
-          Start new application
-          <v-icon aria-hidden="false" id="start-app-btn"
-            >mdi-arrow-right-drop-circle</v-icon
-          >
-        </v-btn>
+        <span> Check out the application tag </span>
       </div>
-      <div v-else>
+      <div v-else-if="!type">
         <!-- List of different applications -->
         <p id="app-title">Choose an Application to Resume</p>
         <div
@@ -53,56 +48,11 @@
             </v-card-actions>
           </v-card>
         </div>
-        <v-btn id="new-app-btn " @click="startNewApp()">
-          Start new application
-          <v-icon aria-hidden="false" id="start-app-btn"
-            >mdi-arrow-right-drop-circle</v-icon
-          >
-        </v-btn>
       </div>
     </div>
     <!-- Resuming the a particular application -->
-    <div v-else-if="resume">
+    <div v-if="type">
       <StudentApplication v-bind:type="type" v-bind:semester="semester" />
-    </div>
-    <!-- List of new applications-->
-    <div v-else>
-      <p id="app-title">Which Program Are You Applying To?</p>
-      <div
-        id="app-list"
-        v-bind:class="newApplications.length >= 4 ? 'full-row' : 'not-full-row'"
-      >
-        <v-card
-          v-for="newApp in newApplications"
-          :key="newApp"
-          id="card-component"
-        >
-          <v-card-title id="card-title">
-            {{ newApp }}
-          </v-card-title>
-          <!-- Change when due date and text components are added -->
-          <v-card-subtitle id="card-date">
-            Due Thursday, February 4th, 2021
-          </v-card-subtitle>
-          <v-card-text id="app-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </v-card-text>
-          <v-card-actions>
-            <v-btn raised id="resume-btn" @click="resumeApplication(newApp)">
-              Start
-              <v-icon aria-hidden="false" id="resume-app-btn"
-                >mdi-arrow-right-drop-circle</v-icon
-              >
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
     </div>
     <v-btn class="my-2" v-if="apps" @click="apps = false"> Back </v-btn>
   </div>
@@ -113,6 +63,7 @@ import { db } from "@/firebase/init.js";
 import StudentApplication from "@/components/Student/StudentApplication.vue";
 export default {
   name: "Apps",
+  props: ["type"],
   components: {
     StudentApplication
   },
@@ -134,7 +85,6 @@ export default {
       ],
       // temporary applications for design purposes
       applications: [],
-      type: null,
       semester: null
     };
   },
