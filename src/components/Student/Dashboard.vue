@@ -4,8 +4,8 @@
       <!-- When no applications are started -->
       <div id="app-container" v-if="applications.length == 0">
         <p id="app-title">No applications in progress</p>
-        <v-btn plain id="new-app-btn" @click="startNewApp()">
-          Start application
+        <v-btn id="new-app-btn " @click="startNewApp()">
+          Start new application
           <v-icon aria-hidden="false" id="start-app-btn"
             >mdi-arrow-right-drop-circle</v-icon
           >
@@ -54,7 +54,7 @@
           </v-card>
         </div>
         <v-btn id="new-app-btn " @click="startNewApp()">
-          Start application
+          Start new application
           <v-icon aria-hidden="false" id="start-app-btn"
             >mdi-arrow-right-drop-circle</v-icon
           >

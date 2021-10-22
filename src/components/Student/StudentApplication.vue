@@ -59,15 +59,14 @@ export default {
           : console.log("application exisited");
       } else {
         applications = {};
-        applications["applications"] = {};
-        applications["applications"][this.semester] = [];
-        applications = applications["applications"];
+        applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
           staus: "started"
         });
       }
-      await userRef.update(applications);
+      console.log(applications);
+      await userRef.update({ applications: applications });
       this.$router.go();
     }
   },
