@@ -1,29 +1,26 @@
 <template>
-  <div>
-    <!-- ??? rule for file still needs fix, when delete file -->
-    <template>
-      <v-stepper v-model="section" vertical>
-        <template v-for="(n, i) in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="section > n"
-            :step="i"
-            editable
-            class="stepperColor"
-          >
-            {{ n }}
-          </v-stepper-step>
-          <v-stepper-content :key="`${n}-content`" :step="i">
-            <FormulateForm
-              class="form-wrapper"
-              v-model="values"
-              :schema="schemaList[i]"
-            />
-          </v-stepper-content>
-        </template>
-      </v-stepper>
+  <!-- ??? rule for file still needs fix, when delete file -->
+  <v-stepper v-model="section" vertical>
+    <template v-for="(n, i) in steps">
+      <v-stepper-step
+        :key="`${n}-step`"
+        :complete="section > n"
+        :step="i"
+        editable
+        class="stepperColor"
+      >
+        {{ n }}
+      </v-stepper-step>
+      <v-stepper-content :key="`${n}-content`" :step="i">
+        <FormulateForm
+          class="form-wrapper"
+          v-model="values"
+          :schema="schemaList[i]"
+          @submit="submitProfile"
+        />
+      </v-stepper-content>
     </template>
-  </div>
+  </v-stepper>
 </template>
 
 <script>
@@ -230,5 +227,17 @@ div#rightSideDashboard {
 
 .db-logo {
   margin: 5px 25px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  border-radius: 2.5em;
+  box-sizing: border-box;
+  background-color: #f1f8f3;
 }
 </style>

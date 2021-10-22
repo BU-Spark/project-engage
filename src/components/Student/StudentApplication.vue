@@ -1,25 +1,40 @@
 <template>
-  <v-stepper v-model="section" vertical>
-    <template v-for="(n, i) in steps">
-      <v-stepper-step
-        :key="`${n}-step`"
-        :complete="section > n"
-        :step="i"
-        editable
-        class="stepperColor"
-      >
-        {{ n }}
-      </v-stepper-step>
-      <v-stepper-content :key="`${n}-content`" :step="i">
-        <FormulateForm
-          class="form-wrapper"
-          v-model="values"
-          :schema="schemaList[i]"
-        />
-      </v-stepper-content>
-    </template>
-  </v-stepper>
+  <div>
+    <v-stepper v-model="section" vertical>
+      <template v-for="(n, i) in steps">
+        <v-stepper-step
+          :key="`${n}-step`"
+          :complete="section > n"
+          :step="i"
+          editable
+          class="stepperColor"
+        >
+          {{ n }}
+        </v-stepper-step>
+        <v-stepper-content :key="`${n}-content`" :step="i">
+          <FormulateForm
+            class="form-wrapper"
+            v-model="values"
+            :schema="schemaList[i]"
+            @submit="submitProfile"
+          />
+        </v-stepper-content>
+      </template>
+    </v-stepper>
+    <v-btn
+      class="my-2"
+      @click="true"
+      style="background-color: #00A99E; color: white;"
+    >
+      Submit
+    </v-btn>
+  </div>
 </template>
+<v-overlay v-if="loading">
+    <div>
+        <v-progress-circular :size="70" indeterminate color="green"></v-progress-circular>
+    </div>
+</v-overlay>
 
 <script>
 import { db } from "@/firebase/init.js";
@@ -31,7 +46,10 @@ export default {
       schema: [],
       schemaList: [],
       values: null,
-      userBaseRef: null
+      userBaseRef: null,
+      loading: false,
+      steps: [],
+      section: 1
     };
   },
   computed: {
@@ -41,6 +59,7 @@ export default {
   },
   methods: {
     async submitProfile() {
+      this.loading = true;
       this.values.program = this.type;
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
@@ -61,15 +80,17 @@ export default {
           : console.log("application exisited");
       } else {
         applications = {};
-        applications["applications"] = {};
-        applications["applications"][this.semester] = [];
-        applications = applications["applications"];
+        applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
           staus: "started"
         });
       }
-      await userRef.update(applications);
+      console.log(applications);
+      await userRef.update({
+        applications: applications
+      });
+      this.$router.go();
     }
   },
   async mounted() {
@@ -151,6 +172,18 @@ div#rightSideDashboard {
 
 .db-logo {
   margin: 5px 25px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  border-radius: 2.5em;
+  box-sizing: border-box;
+  background-color: #f1f8f3;
 }
 
 .stepperColor {
