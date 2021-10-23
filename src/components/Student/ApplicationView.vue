@@ -1,6 +1,6 @@
 <template>
   <div id="main-container">
-    <v-stepper v-model="e1" v-if="!type" class="stepperColor" flat="true">
+    <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
       <v-stepper-header>
         <template v-for="n in steps">
           <v-stepper-step
@@ -36,16 +36,10 @@
               </v-card-title>
               <!-- Change when due date and text components are added -->
               <v-card-subtitle id="card-date">
-                Due Thursday, February 4th, 2021
+                {{ deadlines[app] }}
               </v-card-subtitle>
               <v-card-text id="app-desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                More info coming soon!
               </v-card-text>
               <v-card-actions v-if="n < 3">
                 <v-btn raised id="resume-btn" @click="resumeApplication(app)">
@@ -92,6 +86,7 @@ export default {
         started: [],
         submitted: []
       },
+      deadlines: {},
       status: ["new", "started", "submitted"],
       actions: ["Start", "Resume"],
       semester: null,
@@ -117,6 +112,12 @@ export default {
     },
     resumeApplication(type) {
       this.type = type;
+    },
+    async retreiveApplicationTemplate(type) {
+      //grab deadlines from templates
+      const formRef = db.collection("applicationTemplate").doc(type);
+      const formSnapshot = await formRef.get();
+      return formSnapshot.data();
     }
   },
   async mounted() {
@@ -131,11 +132,14 @@ export default {
     } else {
       this.semester = "Summer " + year;
     }
+
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
     const doc = await userRef.get();
     if (doc.data().applications) {
-      doc.data().applications[this.semester].forEach(element => {
+      doc.data().applications[this.semester].forEach(async element => {
+        let template = await this.retreiveApplicationTemplate(element.type);
+        let currentDeadline = template["Template"]["deadline"];
         if (element.status == "started") {
           this.applications.started.push(element.type);
         } else {
@@ -143,10 +147,15 @@ export default {
         }
         const index = this.applications.new.indexOf(element.type);
         this.applications.new.splice(index, index + 1);
+        this.deadlines[element.type] = currentDeadline;
       });
     }
-    console.log("here");
-    console.log(this.applications);
+
+    this.applications.new.forEach(async element => {
+      let template = await this.retreiveApplicationTemplate(element);
+      let currentDeadline = template["Template"]["deadline"];
+      this.deadlines[element] = currentDeadline;
+    });
   }
 };
 </script>
@@ -222,7 +231,7 @@ v-btn {
   display: flex 0 0 25%;
   flex-direction: column;
   width: 20vw;
-  height: 50vh;
+  height: 30vh;
   margin-right: 2.5vh;
   margin-left: 2.5vh;
   margin-bottom: 20px;
@@ -253,6 +262,7 @@ v-btn {
 #card-date {
   height: 5%;
   margin-bottom: 5%;
+  margin-top: 5%;
 }
 
 #resume-btn {

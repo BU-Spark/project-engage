@@ -20,7 +20,7 @@
                 @click="updatePageBody(0)"
                 :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
               >
-                Application
+                Dashboard
               </v-btn>
               <v-btn
                 elevation="0"
