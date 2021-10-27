@@ -16,46 +16,47 @@
         </template>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
-          <div
-            id="app-list"
-            v-bind:class="
-              applications[status[n - 1]].length >= 4
-                ? 'full-row'
-                : 'not-full-row'
-            "
-            class="mt-4"
-          >
-            <v-card
-              v-for="app in applications[status[n - 1]]"
-              :key="app"
-              id="card-component"
-            >
-              <v-row>
-                <v-card-title id="card-title">
-                  {{ app }}
-                </v-card-title>
-              </v-row>
-              <!-- Change when due date and text components are added -->
-              <v-card-subtitle id="card-date">
-                {{ deadlines[app] }}
-              </v-card-subtitle>
-              <v-row>
-                <v-card-text id="app-desc">
-                  More info coming soon!
-                </v-card-text>
-              </v-row>
-              <v-card-actions v-if="n < 3">
-                <v-btn raised id="resume-btn" @click="resumeApplication(app)">
-                  {{ actions[n - 1] }}
-                  <v-icon aria-hidden="false" id="resume-app-btn"
-                    >mdi-arrow-right-drop-circle</v-icon
-                  >
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </div>
-        </v-stepper-content>
+        <v-row no-gutters>
+          <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
+            <v-row>
+              <v-col
+                cols="12"
+                md="4"
+                v-for="(app, i) in applications[status[n - 1]]"
+                :key="i"
+              >
+                <v-card :key="app" id="card-component">
+                  <v-row>
+                    <v-card-title id="card-title">
+                      {{ app }}
+                    </v-card-title>
+                  </v-row>
+                  <!-- Change when due date and text components are added -->
+                  <v-card-subtitle id="card-date">
+                    {{ deadlines[app] }}
+                  </v-card-subtitle>
+                  <v-row>
+                    <v-card-text id="app-desc">
+                      More info coming soon!
+                    </v-card-text>
+                  </v-row>
+                  <v-card-actions v-if="n < 3">
+                    <v-btn
+                      raised
+                      id="resume-btn"
+                      @click="resumeApplication(app)"
+                    >
+                      {{ actions[n - 1] }}
+                      <v-icon aria-hidden="false" id="resume-app-btn"
+                        >mdi-arrow-right-drop-circle</v-icon
+                      >
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-stepper-content>
+        </v-row>
       </v-stepper-items>
     </v-stepper>
     <div v-else>
@@ -234,13 +235,7 @@ v-btn {
 }
 
 #card-component {
-  display: flex 0 0 25%;
-  flex-direction: column;
-  width: 20vw;
   border-radius: 40px;
-  text-align: left;
-  white-space: pre-line;
-  overflow-wrap: normal;
   padding: 2px 2px 2px 2px;
   margin: 2% 2% 2% 2%;
 }
