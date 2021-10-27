@@ -17,14 +17,14 @@
               class="form-wrapper"
               v-model="values"
               :schema="schemaList[i]"
-              @submit="submitProfile"
+              @submit="saveProfile"
             />
           </v-stepper-content>
         </template>
       </v-stepper>
       <v-btn
         class="my-2"
-        @click="true"
+        @click="submitProfile"
         style="background-color: #00A99E; color: white;"
       >
         Submit
@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    async submitProfile() {
+    async saveProfile() {
       this.loading = true;
       this.values.program = this.type;
       await this.userBaseRef.set(this.values);
@@ -90,6 +90,42 @@ export default {
         applications[this.semester].push({
           type: this.type,
           status: "started"
+        });
+      }
+      await userRef.update({
+        applications: applications
+      });
+      this.$router.go();
+    },
+    async submitProfile() {
+      this.loading = true;
+      this.values.program = this.type;
+      await this.userBaseRef.set(this.values);
+      const userRef = db.collection("users").doc(this.user.uid);
+      const doc = await userRef.get();
+      var applications = null;
+      if (doc.data().applications) {
+        applications = doc.data().applications;
+        if (!doc.data().applications[this.semester]) {
+          applications[this.semester] = [];
+        }
+        applications[this.semester].some(x => {
+          return x.type == this.type;
+        }) === false
+          ? applications[this.semester].push({
+              type: this.type,
+              status: "submitted"
+            })
+          : applications[this.semester].push({
+              type: this.type,
+              status: "submitted"
+            });
+      } else {
+        applications = {};
+        applications[this.semester] = [];
+        applications[this.semester].push({
+          type: this.type,
+          status: "submitted"
         });
       }
       console.log(applications);
