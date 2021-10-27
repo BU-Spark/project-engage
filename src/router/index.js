@@ -14,24 +14,9 @@ const routes = [
     }
   },
   {
-    path: "/AdminLogin",
-    name: "adminLogin",
-    component: () => import("@/views/AdminLogin.vue"),
-    meta: {
-      requiresAuth: false
-    }
-  },
-  {
-    path: "/ApplicantDashboard",
-    name: "ApplicantDashboard",
-    component: () => import("@/views/ApplicantDashboard.vue"),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/home",
     name: "home",
+    props: true,
     component: () => import("@/views/Home.vue"),
     meta: {
       requiresAuth: true

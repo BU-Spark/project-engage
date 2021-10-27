@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import "firebase/functions";
 import "firebase/performance";
 import "firebase/analytics";
@@ -20,9 +21,10 @@ const app = firebase.initializeApp(config);
 const auth = firebase.auth();
 const functions = firebase.functions();
 const db = firebase.firestore();
+const storage = firebase.storage();
 firebase.performance();
 firebase.analytics();
 const arrayUnion = array => firebase.firestore.FieldValue.arrayUnion(array);
 
 export default app;
-export { app, auth, functions, db, arrayUnion };
+export { app, auth, functions, db, storage, arrayUnion };
