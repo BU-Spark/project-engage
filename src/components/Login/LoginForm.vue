@@ -221,7 +221,7 @@ export default {
     GoogleLoginButton,
     AdminLogin,
     AdminIcon,
-    StudentIcon
+    StudentIcon,
     AdminLogin
   },
   computed: {
