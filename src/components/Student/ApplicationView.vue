@@ -1,5 +1,6 @@
 <template>
   <div id="main-container">
+    <h2 style="padding-bottom: 10px;">{{ this.type }}</h2>
     <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
       <v-stepper-header>
         <template v-for="n in steps">

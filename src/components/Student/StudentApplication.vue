@@ -22,13 +22,41 @@
           </v-stepper-content>
         </template>
       </v-stepper>
-      <v-btn
-        class="my-2"
-        @click="submitApplication"
-        style="background-color: #00A99E; color: white;"
-      >
-        Submit
-      </v-btn>
+      <div class="text-center">
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="my-2"
+              v-bind="attrs"
+              v-on="on"
+              style="background-color: #00A99E; color: white;"
+            >
+              Submit
+            </v-btn>
+          </template>
+
+          <v-card>
+            <h4>
+              Are you sure you want to submit the application? You would not be
+              able to make modifications after submitting.
+            </h4>
+            <v-btn
+              class="my-2"
+              style="margin-right: 5px;"
+              @click="dialog = false"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              class="my-2"
+              @click="submitApplication"
+              style="background-color: #00A99E; color: white; margin-left: 5px;"
+            >
+              Confirm
+            </v-btn>
+          </v-card>
+        </v-dialog>
+      </div>
     </div>
     <v-overlay v-if="loading">
       <div>
@@ -55,7 +83,8 @@ export default {
       userBaseRef: null,
       loading: false,
       steps: [],
-      section: 1
+      section: 1,
+      dialog: false
     };
   },
   computed: {
@@ -100,15 +129,17 @@ export default {
     async submitApplication() {
       var pass = true;
       for (var i = 0; i < this.schema.length; i++) {
+        console.log(this.schema[i]["validation"]);
         if (
-          this.schema[i]["validation"] ||
-          this.schema[i]["validation"] != null ||
+          this.schema[i]["validation"] != undefined &&
+          this.schema[i]["validation"] != null &&
           this.schema[i]["validation"] != ""
         ) {
           if (
             this.values[this.schema[i]["name"]] == "" ||
             this.values[this.schema[i]["name"]] == null
           ) {
+            console.log(this.schema[i]["name"]);
             pass = false;
             break;
           }
@@ -128,20 +159,26 @@ export default {
           if (!doc.data().applications[this.semester]) {
             applications[this.semester] = [];
           }
-          applications[this.semester].some(x => {
+          var temp = applications[this.semester].some(x => {
             return x.type == this.type;
-          }) === false
-            ? applications[this.semester].push({
-                type: this.type,
-                status: "submitted"
-              })
-            : applications[this.semester].push({
-                type: this.type,
-                status: "submitted"
-              });
+          });
+          if (temp === false) {
+            applications[this.semester].push({
+              type: this.type,
+              status: "submitted"
+            });
+          } else {
+            for (i = 0; i < applications[this.semester].length; i++) {
+              if (applications[this.semester][i]["type"] == this.type) {
+                applications[this.semester][i] = {
+                  type: this.type,
+                  status: "submitted"
+                };
+              }
+            }
+          }
         } else {
           applications = {};
-          applications[this.semester] = [];
           applications[this.semester].push({
             type: this.type,
             status: "submitted"
