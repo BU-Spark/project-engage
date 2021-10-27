@@ -44,6 +44,10 @@ export default {
   methods: {
     async googleLogin() {
       var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: "select_account",
+        login_hint: this.email
+      });
       if (this.email) {
         provider.setCustomParameters({
           prompt: "select_account",
