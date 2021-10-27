@@ -221,8 +221,7 @@ export default {
     GoogleLoginButton,
     AdminLogin,
     AdminIcon,
-    StudentIcon,
-    AdminLogin
+    StudentIcon
   },
   computed: {
     adminValidation() {
