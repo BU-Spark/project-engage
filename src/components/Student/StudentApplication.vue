@@ -17,14 +17,14 @@
               class="form-wrapper"
               v-model="values"
               :schema="schemaList[i]"
-              @submit="submitProfile"
+              @submit="saveApplication"
             />
           </v-stepper-content>
         </template>
       </v-stepper>
       <v-btn
         class="my-2"
-        @click="true"
+        @click="submitApplication"
         style="background-color: #00A99E; color: white;"
       >
         Submit
@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    async submitProfile() {
+    async saveApplication() {
       this.loading = true;
       this.values.program = this.type;
       await this.userBaseRef.set(this.values);
@@ -92,11 +92,66 @@ export default {
           status: "started"
         });
       }
-      console.log(applications);
       await userRef.update({
         applications: applications
       });
       this.$router.go();
+    },
+    async submitApplication() {
+      var pass = true;
+      for (var i = 0; i < this.schema.length; i++) {
+        if (
+          this.schema[i]["validation"] ||
+          this.schema[i]["validation"] != null ||
+          this.schema[i]["validation"] != ""
+        ) {
+          if (
+            this.values[this.schema[i]["name"]] == "" ||
+            this.values[this.schema[i]["name"]] == null
+          ) {
+            pass = false;
+            break;
+          }
+        }
+      }
+      if (pass == false) {
+        alert("Please fill out all required information!");
+      } else {
+        this.loading = true;
+        this.values.program = this.type;
+        await this.userBaseRef.set(this.values);
+        const userRef = db.collection("users").doc(this.user.uid);
+        const doc = await userRef.get();
+        var applications = null;
+        if (doc.data().applications) {
+          applications = doc.data().applications;
+          if (!doc.data().applications[this.semester]) {
+            applications[this.semester] = [];
+          }
+          applications[this.semester].some(x => {
+            return x.type == this.type;
+          }) === false
+            ? applications[this.semester].push({
+                type: this.type,
+                status: "submitted"
+              })
+            : applications[this.semester].push({
+                type: this.type,
+                status: "submitted"
+              });
+        } else {
+          applications = {};
+          applications[this.semester] = [];
+          applications[this.semester].push({
+            type: this.type,
+            status: "submitted"
+          });
+        }
+        await userRef.update({
+          applications: applications
+        });
+        this.$router.go();
+      }
     }
   },
   async mounted() {

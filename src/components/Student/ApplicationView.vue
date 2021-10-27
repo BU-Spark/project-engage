@@ -16,42 +16,47 @@
         </template>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
-          <div
-            id="app-list"
-            v-bind:class="
-              applications[status[n - 1]].length >= 4
-                ? 'full-row'
-                : 'not-full-row'
-            "
-            class="mt-4"
-          >
-            <v-card
-              v-for="app in applications[status[n - 1]]"
-              :key="app"
-              id="card-component"
-            >
-              <v-card-title id="card-title">
-                {{ app }}
-              </v-card-title>
-              <!-- Change when due date and text components are added -->
-              <v-card-subtitle id="card-date">
-                {{ deadlines[app] }}
-              </v-card-subtitle>
-              <v-card-text id="app-desc">
-                More info coming soon!
-              </v-card-text>
-              <v-card-actions v-if="n < 3">
-                <v-btn raised id="resume-btn" @click="resumeApplication(app)">
-                  {{ actions[n - 1] }}
-                  <v-icon aria-hidden="false" id="resume-app-btn"
-                    >mdi-arrow-right-drop-circle</v-icon
-                  >
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </div>
-        </v-stepper-content>
+        <v-row no-gutters>
+          <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
+            <v-row>
+              <v-col
+                cols="12"
+                md="4"
+                v-for="(app, i) in applications[status[n - 1]]"
+                :key="i"
+              >
+                <v-card :key="app" id="card-component">
+                  <v-row>
+                    <v-card-title id="card-title">
+                      {{ app }}
+                    </v-card-title>
+                  </v-row>
+                  <!-- Change when due date and text components are added -->
+                  <v-card-subtitle id="card-date">
+                    {{ deadlines[app] }}
+                  </v-card-subtitle>
+                  <v-row>
+                    <v-card-text id="app-desc">
+                      More info coming soon!
+                    </v-card-text>
+                  </v-row>
+                  <v-card-actions v-if="n < 3">
+                    <v-btn
+                      raised
+                      id="resume-btn"
+                      @click="resumeApplication(app)"
+                    >
+                      {{ actions[n - 1] }}
+                      <v-icon aria-hidden="false" id="resume-app-btn"
+                        >mdi-arrow-right-drop-circle</v-icon
+                      >
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-stepper-content>
+        </v-row>
       </v-stepper-items>
     </v-stepper>
     <div v-else>
@@ -165,9 +170,11 @@ export default {
   color: black !important;
   font-size: 30px !important;
 }
+
 v-btn {
   color: #36bd90;
 }
+
 #main-container {
   border-radius: 60px;
   background-color: #e3eee5;
@@ -228,18 +235,9 @@ v-btn {
 }
 
 #card-component {
-  display: flex 0 0 25%;
-  flex-direction: column;
-  width: 20vw;
-  height: 30vh;
-  margin-right: 2.5vh;
-  margin-left: 2.5vh;
-  margin-bottom: 20px;
   border-radius: 40px;
-  text-align: left;
-  white-space: pre-line;
-  overflow-wrap: normal;
-  padding-left: 10px;
+  padding: 2px 2px 2px 2px;
+  margin: 2% 2% 2% 2%;
 }
 
 #card-component:hover {
@@ -248,21 +246,24 @@ v-btn {
 
 #app-desc {
   text-overflow: ellipsis;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 #card-title {
   line-height: 110%;
-  height: 20%;
-  margin-top: 2%;
-  padding-top: 5%;
+  margin-top: 5%;
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: center;
   word-break: normal;
   font-weight: bold;
 }
 
 #card-date {
-  height: 5%;
+  height: 2%;
   margin-bottom: 5%;
-  margin-top: 5%;
+  text-align: center;
 }
 
 #resume-btn {
@@ -274,7 +275,7 @@ v-btn {
   margin: auto;
   border-radius: 30px;
   box-shadow: 0 1px 5px;
-  margin-bottom: 15px;
+  margin-bottom: 2%;
   width: 50%;
 }
 
@@ -283,6 +284,7 @@ v-btn {
   font-size: 25px;
   margin-left: 5px;
 }
+
 .stepperColor {
   background-color: #e3eee5;
   border-radius: 2.5em;
