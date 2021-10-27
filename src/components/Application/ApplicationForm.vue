@@ -81,23 +81,23 @@
               v-model="values"
               :schema="schemaList[i]"
             />
-            <v-btn
+            <!-- <v-btn
               v-if="i < steps.length - 1"
               color="primary"
               @click="nextStep(n, 'continue')"
             >
               Continue
-            </v-btn>
-            <v-btn text v-if="i != 0" @click="nextStep(n, 'back')">
+            </v-btn> -->
+            <!-- <v-btn text v-if="i != 0" @click="nextStep(n, 'back')">
               Back
-            </v-btn>
-            <v-btn
+            </v-btn> -->
+            <!-- <v-btn
               v-if="i == steps.length - 1"
               color="primary"
               @click="nextStep(n)"
             >
               Submit
-            </v-btn>
+            </v-btn> -->
           </v-stepper-content>
         </template>
       </v-stepper>
@@ -175,9 +175,7 @@ export default {
         }
       }
       this.schemaList.push(temp);
-      this.schemaList = this.schemaList.filter(
-        e => e.length && e[0]["type"] != "submit"
-      );
+      this.schemaList = this.schemaList.filter(e => e.length);
     },
     deleteField(value) {
       this.schema = value;
@@ -194,9 +192,7 @@ export default {
         }
       }
       this.schemaList.push(temp);
-      this.schemaList = this.schemaList.filter(
-        e => e.length && e[0]["type"] != "submit"
-      );
+      this.schemaList = this.schemaList.filter(e => e.length);
     },
     changeAddItemState() {
       this.addItem = !this.addItem;
@@ -250,9 +246,7 @@ export default {
       }
     }
     this.schemaList.push(temp);
-    this.schemaList = this.schemaList.filter(
-      e => e.length && e[0]["type"] != "submit"
-    );
+    this.schemaList = this.schemaList.filter(e => e.length);
     this.dateFormatted = await this.$route.params.deadline;
     this.date = this.parseDate(this.dateFormatted);
   }

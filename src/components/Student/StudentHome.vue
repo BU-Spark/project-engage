@@ -2,9 +2,10 @@
   <div>
     <!-- navbar -->
     <!-- 0: Dashboard, 1: Application, 2: Profile & Profile icon, 3: Notification icon -->
-    <div>
+    <!-- mainly for web display: if window > 1017 -->
+    <div v-if="window > 1017">
       <div id="dashboard-container" class="flex-row align-center">
-        <div id="dashboard-container2" class="pa-2 rounded-l-pill">
+        <div id="dashboard-container2" class="rounded-l-pill">
           <div id="rightSideDashboard">
             <v-img
               src="@/assets/sparky.png"
@@ -28,14 +29,6 @@
                 @click="updatePageBody(1)"
                 :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
               >
-                Application
-              </v-btn>
-              <v-btn
-                elevation="0"
-                class="nav-btn"
-                @click="updatePageBody(2)"
-                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
-              >
                 Profile
               </v-btn>
             </div>
@@ -52,7 +45,7 @@
               <v-btn
                 class="main-action"
                 elevation="0"
-                @click="updatePageBody(4)"
+                @click="updatePageBody(2)"
               >
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
@@ -64,11 +57,94 @@
         </div>
       </div>
     </div>
+    <!-- mainly for mobile display: if window <= 1017 -->
+    <div v-if="window <= 1017">
+      <div id="dashboard-container" class="flex-row align-center">
+        <div id="dashboard-container2" class="rounded-l-pill">
+          <div id="rightSideDashboard">
+            <div class="text-center">
+              <v-img
+                src="@/assets/sparky.png"
+                max-height="75"
+                max-width="75"
+                class="db-logo"
+              >
+              </v-img>
+            </div>
+            <div id="dashboard-container3" class="pa-8 rounded-l-pill">
+              <v-menu top :close-on-click="closeOnClick">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    large
+                    aria-hidden="false"
+                    style="color: white"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-arrow-down-drop-circle-outline
+                  </v-icon>
+                </template>
+
+                <v-list>
+                  <v-list-item>
+                    <v-btn
+                      elevation="0"
+                      class="nav-btn"
+                      @click="updatePageBody(0)"
+                      :class="
+                        this.page == 0 ? 'primary--text text--darken-1' : ''
+                      "
+                    >
+                      Dashboard
+                    </v-btn>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-btn
+                      elevation="0"
+                      class="nav-btn"
+                      @click="updatePageBody(1)"
+                      :class="
+                        this.page == 1 ? 'primary--text text--darken-1' : ''
+                      "
+                    >
+                      Profile
+                    </v-btn>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-btn class="main-action" elevation="0">
+                      <v-icon
+                        aria-hidden="false"
+                        style="color: #00a99e"
+                        @click="updatePageBody(3)"
+                      >
+                        mdi-bell
+                      </v-icon>
+                    </v-btn>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-btn
+                      class="main-action"
+                      elevation="0"
+                      @click="updatePageBody(2)"
+                    >
+                      <v-icon aria-hidden="false" style="color: #00a99e">
+                        mdi-account-circle
+                      </v-icon>
+                      &nbsp; &nbsp; {{ this.user.displayName }}
+                    </v-btn>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- different pages -->
-    <Dashboard v-if="page == 0" />
-    <Profile v-if="page == 2" />
-    <div v-if="page == 4">
+    <ApplicationView v-if="page == 0" />
+    <Profile v-if="page == 1" />
+    <div v-if="page == 2">
       <v-btn class="main-action" elevation="0" @click="signOut()">
         Sign Out
       </v-btn>
@@ -77,17 +153,18 @@
 </template>
 
 <script>
-import Dashboard from "@/components/Student/Dashboard.vue";
+import ApplicationView from "@/components/Student/ApplicationView.vue";
 import Profile from "@/components/Student/Profile.vue";
 export default {
   name: "StudentHome",
   components: {
-    Dashboard,
-    Profile
+    Profile,
+    ApplicationView
   },
   data() {
     return {
-      page: 0
+      page: 0,
+      window
     };
   },
   computed: {
@@ -104,7 +181,9 @@ export default {
       this.$router.push("/");
     }
   },
-  async mounted() {}
+  async mounted() {
+    this.window = window.innerWidth;
+  }
 };
 </script>
 
@@ -133,9 +212,6 @@ div#dashboard-container3 {
   background-color: #00a99e;
   width: 25%;
   margin-left: auto;
-  margin-top: -12px;
-  margin-right: -12px;
-  margin-bottom: -12px;
 }
 
 div#rightSideDashboard {
