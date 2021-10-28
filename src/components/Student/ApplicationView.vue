@@ -23,22 +23,22 @@
               <v-col
                 cols="12"
                 md="4"
-                v-for="(app, i) in applications[status[n - 1]]"
+                v-for="(value, i) in information"
                 :key="i"
               >
-                <v-card :key="app" id="card-component">
+                <v-card id="card-component">
                   <v-row>
                     <v-card-title id="card-title">
-                      {{ app }}
+                      {{ value["type"] }}
                     </v-card-title>
                   </v-row>
                   <!-- Change when due date and text components are added -->
                   <v-card-subtitle id="card-date">
-                    {{ deadlines[app] }}
+                    {{ value["deadline"] }}
                   </v-card-subtitle>
                   <v-row>
                     <v-card-text id="app-desc">
-                      More info coming soon!
+                      {{ value["description"] }}
                     </v-card-text>
                   </v-row>
                   <v-card-actions v-if="n < 3">
@@ -92,7 +92,9 @@ export default {
         started: [],
         submitted: []
       },
+      information: [],
       deadlines: {},
+      descriptions: {},
       status: ["new", "started", "submitted"],
       actions: ["Start", "Resume"],
       semester: null,
@@ -129,23 +131,24 @@ export default {
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    if (month >= 7 && month <= 11) {
-      this.semester = "Fall " + year;
-    } else if (month >= 0 && month <= 4) {
-      this.semester = "Spring " + year;
-    } else {
-      this.semester = "Summer " + year;
-    }
+    // const month = date.getMonth();
+    // const year = date.getFullYear();
+    // if (month >= 7 && month <= 11) {
+    //     this.semester = "Fall " + year;
+    // } else if (month >= 0 && month <= 4) {
+    //     this.semester = "Spring " + year;
+    // } else {
+    //     this.semester = "Summer " + year;
+    // }
 
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
     const doc = await userRef.get();
-    if (doc.data().applications) {
-      doc.data().applications[this.semester].forEach(async element => {
+    if (doc.data().applications && doc.data().applications["Template"]) {
+      await doc.data().applications["Template"].forEach(async element => {
         let template = await this.retreiveApplicationTemplate(element.type);
         let currentDeadline = template["Template"]["deadline"];
+        let currentDescription = template["Template"]["description"];
         if (element.status == "started") {
           this.applications.started.push(element.type);
         } else {
@@ -153,14 +156,34 @@ export default {
         }
         const index = this.applications.new.indexOf(element.type);
         this.applications.new.splice(index, index + 1);
-        this.deadlines[element.type] = currentDeadline;
+        this.information.push({
+          type: element.type,
+          deadline: currentDeadline,
+          description: currentDescription
+        });
       });
     }
-
-    this.applications.new.forEach(async element => {
+    await this.applications.new.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
-      let currentDeadline = template["Template"]["deadline"];
-      this.deadlines[element] = currentDeadline;
+      for (var app in template) {
+        if (
+          app != "Template" &&
+          template[app]["deadline"] >=
+            date.getFullYear() +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getDate()
+        ) {
+          let currentDeadline = template[app]["deadline"];
+          let currentDescription = template[app]["description"];
+          this.information.push({
+            type: element,
+            deadline: currentDeadline,
+            description: currentDescription
+          });
+        }
+      }
     });
   }
 };
@@ -249,6 +272,7 @@ v-btn {
   text-overflow: ellipsis;
   margin-left: 2%;
   margin-right: 2%;
+  margin-bottom: 5%;
 }
 
 #card-title {
@@ -263,7 +287,6 @@ v-btn {
 
 #card-date {
   height: 2%;
-  margin-bottom: 5%;
   text-align: center;
 }
 
