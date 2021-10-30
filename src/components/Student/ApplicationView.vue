@@ -96,6 +96,8 @@ export default {
       status: ["new", "started", "submitted"],
       actions: ["Start", "Resume"],
       semester: null,
+      semester1: null,
+      semester2: null,
       type: null
     };
   },
@@ -143,15 +145,18 @@ export default {
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
-    // const month = date.getMonth();
-    // const year = date.getFullYear();
-    // if (month >= 7 && month <= 11) {
-    //     this.semester = "Fall " + year;
-    // } else if (month >= 0 && month <= 4) {
-    //     this.semester = "Spring " + year;
-    // } else {
-    //     this.semester = "Summer " + year;
-    // }
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    if (month >= 7 && month <= 11) {
+      this.semester1 = "Fall " + year;
+      this.semester2 = "Spring " + (year + 1);
+    } else if (month >= 0 && month <= 4) {
+      this.semester1 = "Spring " + year;
+      this.semester2 = "Summer " + year;
+    } else {
+      this.semester1 = "Summer " + year;
+      this.semester2 = "Fall " + year;
+    }
 
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
@@ -180,10 +185,12 @@ export default {
       "Innovation Fellowship | UX Designer",
       "Justice Media Co-Lab"
     ];
+    const semesters = [this.semester1, this.semester2];
     await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
-      for (var sem in template) {
+      for (const sem of semesters) {
         if (
+          template[sem] &&
           sem != "Template" &&
           template[sem]["deadline"] >=
             date.getFullYear() +
@@ -192,8 +199,6 @@ export default {
               "-" +
               date.getDate()
         ) {
-          // console.log("startedsubmittedList")
-          console.log(sem);
           let currentDeadline = template[sem]["deadline"];
           let currentDescription = template[sem]["description"];
           var isStarted = startedsubmittedList.includes(
