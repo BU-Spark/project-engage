@@ -32,7 +32,8 @@
                           item.id,
                           semester[0],
                           semester[1]['schema'],
-                          semester[1]['deadline']
+                          semester[1]['deadline'],
+                          semester[1]['description']
                         )
                       "
                       rounded
@@ -111,14 +112,15 @@ export default {
     toggle() {
       this.expand = !this.expand;
     },
-    applicationForm(applicationType, semester, schema, deadline) {
+    applicationForm(applicationType, semester, schema, deadline, description) {
       this.$router.push({
         name: "applicationForm",
         params: {
           applicationTypeFromList: applicationType,
           semesterFromList: semester,
           schemaList: schema,
-          deadline: deadline
+          deadline: deadline,
+          description: description
         }
       });
     },
@@ -179,7 +181,8 @@ export default {
         await template
           .update({
             [`${this.newSemester}.schema`]: this.schema,
-            [`${this.newSemester}.deadline`]: ""
+            [`${this.newSemester}.deadline`]: "",
+            [`${this.newSemester}.description`]: ""
           })
           .then(() => {
             console.log("submitted");
