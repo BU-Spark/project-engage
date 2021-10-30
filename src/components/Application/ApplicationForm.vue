@@ -37,6 +37,15 @@
       </v-row>
     </v-container>
 
+    <!-- enter application description -->
+    <v-textarea
+      outlined
+      name="input-7-4"
+      label="Description"
+      v-model="description"
+      style="outline-color: #00A99E;"
+    ></v-textarea>
+
     <!-- delete / add item selection -->
     <DeleteItem
       v-if="this.deleteItem && !this.addItem"
@@ -136,7 +145,8 @@ export default {
       search: null,
       valid: false,
       steps: [],
-      section: 1
+      section: 1,
+      description: ""
     };
   },
   watch: {
@@ -158,7 +168,7 @@ export default {
     parseDate(date) {
       if (!date) return null;
       const [month, day, year] = date.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`;
     },
     addField(value) {
       this.schema = value;
@@ -212,7 +222,8 @@ export default {
       template
         .update({
           [`${this.semester}.schema`]: this.schema,
-          [`${this.semester}.deadline`]: this.date
+          [`${this.semester}.deadline`]: this.date,
+          [`${this.semester}.description`]: this.description
         })
         .then(() => {
           console.log("submitted");
@@ -247,8 +258,11 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
-    this.dateFormatted = await this.$route.params.deadline;
-    this.date = this.parseDate(this.dateFormatted);
+    // this.dateFormatted = await this.$route.params.deadline;
+    // this.date = this.parseDate(this.dateFormatted);
+    this.date = await this.$route.params.deadline;
+    this.description = await this.$route.params.description;
+    console.log(this.description);
   }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div id="main-container">
+    <h2 style="padding-bottom: 10px;">{{ this.type }}</h2>
     <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
       <v-stepper-header>
         <template v-for="n in steps">
@@ -22,29 +23,34 @@
               <v-col
                 cols="12"
                 md="4"
-                v-for="(app, i) in applications[status[n - 1]]"
+                v-for="(value, i) in filterInfo(information, n)"
                 :key="i"
               >
-                <v-card :key="app" id="card-component">
+                <v-card
+                  id="card-component"
+                  v-if="value['status'] == status[n - 1]"
+                >
                   <v-row>
                     <v-card-title id="card-title">
-                      {{ app }}
+                      {{ value["type"] }}
                     </v-card-title>
                   </v-row>
                   <!-- Change when due date and text components are added -->
                   <v-card-subtitle id="card-date">
-                    {{ deadlines[app] }}
+                    {{ value["deadline"] }}
                   </v-card-subtitle>
                   <v-row>
                     <v-card-text id="app-desc">
-                      More info coming soon!
+                      {{ value["description"] }}
                     </v-card-text>
                   </v-row>
                   <v-card-actions v-if="n < 3">
                     <v-btn
                       raised
                       id="resume-btn"
-                      @click="resumeApplication(app)"
+                      @click="
+                        resumeApplication(value['type'], value['semester'])
+                      "
                     >
                       {{ actions[n - 1] }}
                       <v-icon aria-hidden="false" id="resume-app-btn"
@@ -60,7 +66,11 @@
       </v-stepper-items>
     </v-stepper>
     <div v-else>
-      <StudentApplication v-bind:type="type" v-bind:semester="semester" />
+      <StudentApplication
+        v-bind:type="type"
+        v-bind:semester="semester"
+        v-on:typeChange="changeType($event)"
+      />
     </div>
   </div>
 </template>
@@ -80,18 +90,9 @@ export default {
     return {
       e1: 1,
       steps: 3,
-      applications: {
-        new: [
-          "Employment Opportunities",
-          "Innovation Fellowship | Innovator",
-          "Innovation Fellowship | Technical Teammate",
-          "Innovation Fellowship | UX Designer",
-          "Justice Media Co-Lab"
-        ],
-        started: [],
-        submitted: []
-      },
+      information: [],
       deadlines: {},
+      descriptions: {},
       status: ["new", "started", "submitted"],
       actions: ["Start", "Resume"],
       semester: null,
@@ -108,6 +109,9 @@ export default {
   },
 
   methods: {
+    changeType(x) {
+      this.type = x;
+    },
     nextStep(n) {
       if (n === this.steps) {
         this.e1 = 1;
@@ -115,52 +119,128 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type) {
+    resumeApplication(type, semester) {
       this.type = type;
+      this.semester = semester;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
       const formRef = db.collection("applicationTemplate").doc(type);
       const formSnapshot = await formRef.get();
       return formSnapshot.data();
+    },
+    filterInfo(info, n) {
+      var infoList = [];
+      var statusPage = this.status[n - 1];
+      for (var i = 0; i < info.length; i++) {
+        if (info[i].status == statusPage) {
+          infoList.push(info[i]);
+        }
+      }
+      return infoList;
     }
   },
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    if (month >= 7 && month <= 11) {
-      this.semester = "Fall " + year;
-    } else if (month >= 0 && month <= 4) {
-      this.semester = "Spring " + year;
-    } else {
-      this.semester = "Summer " + year;
-    }
+    // const month = date.getMonth();
+    // const year = date.getFullYear();
+    // if (month >= 7 && month <= 11) {
+    //     this.semester = "Fall " + year;
+    // } else if (month >= 0 && month <= 4) {
+    //     this.semester = "Spring " + year;
+    // } else {
+    //     this.semester = "Summer " + year;
+    // }
 
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
     const doc = await userRef.get();
-    if (doc.data().applications) {
-      doc.data().applications[this.semester].forEach(async element => {
-        let template = await this.retreiveApplicationTemplate(element.type);
-        let currentDeadline = template["Template"]["deadline"];
-        if (element.status == "started") {
-          this.applications.started.push(element.type);
-        } else {
-          this.applications.submitted.push(element.type);
-        }
-        const index = this.applications.new.indexOf(element.type);
-        this.applications.new.splice(index, index + 1);
-        this.deadlines[element.type] = currentDeadline;
+    const apps = doc.data().applications;
+    var tempList = [];
+    var startedsubmittedList = [];
+    if (apps) {
+      await Object.keys(apps).forEach(async function(key) {
+        await apps[key].forEach(async element => {
+          if (element.type != "Template") {
+            var temp = {
+              semester: key,
+              status: element.status,
+              type: element.type
+            };
+            startedsubmittedList.push(JSON.stringify(temp));
+          }
+        });
       });
     }
-
-    this.applications.new.forEach(async element => {
+    const applications = [
+      "Employment Opportunities",
+      "Innovation Fellowship | Innovator",
+      "Innovation Fellowship | Technical Teammate",
+      "Innovation Fellowship | UX Designer",
+      "Justice Media Co-Lab"
+    ];
+    await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
-      let currentDeadline = template["Template"]["deadline"];
-      this.deadlines[element] = currentDeadline;
+      for (var sem in template) {
+        if (
+          sem != "Template" &&
+          template[sem]["deadline"] >=
+            date.getFullYear() +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getDate()
+        ) {
+          // console.log("startedsubmittedList")
+          console.log(sem);
+          let currentDeadline = template[sem]["deadline"];
+          let currentDescription = template[sem]["description"];
+          var isStarted = startedsubmittedList.includes(
+            JSON.stringify({
+              semester: sem,
+              status: "started",
+              type: element
+            })
+          );
+          var isSubmitted = startedsubmittedList.includes(
+            JSON.stringify({
+              semester: sem,
+              status: "submitted",
+              type: element
+            })
+          );
+          if (isStarted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "started",
+              semester: sem
+            });
+          }
+          if (isSubmitted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "submitted",
+              semester: sem
+            });
+          }
+          if (!isStarted && !isSubmitted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "new",
+              semester: sem
+            });
+          }
+        }
+      }
     });
+    this.information = tempList;
   }
 };
 </script>
@@ -184,7 +264,7 @@ v-btn {
   min-height: 570px !important;
   text-align: center;
   min-height: 70vh;
-  margin-top: 5vh;
+  margin-top: 2vh;
   margin-left: 2vw;
   margin-right: 2vw;
 }
@@ -248,6 +328,7 @@ v-btn {
   text-overflow: ellipsis;
   margin-left: 2%;
   margin-right: 2%;
+  margin-bottom: 5%;
 }
 
 #card-title {
@@ -262,7 +343,6 @@ v-btn {
 
 #card-date {
   height: 2%;
-  margin-bottom: 5%;
   text-align: center;
 }
 
