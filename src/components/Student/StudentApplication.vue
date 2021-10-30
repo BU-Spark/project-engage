@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="!loading">
+      <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
         <template v-for="(n, i) in steps">
           <v-stepper-step
@@ -25,16 +26,24 @@
       <div class="text-center">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              class="my-2"
-              v-bind="attrs"
-              v-on="on"
-              style="background-color: #00A99E; color: white;"
-            >
-              Submit
-            </v-btn>
+            <v-row class="justify-center" style="padding-top: 2vh">
+              <!-- back to applications list page -->
+              <v-btn class="my-2" @click="goBack()">
+                Back
+              </v-btn>
+              <div style="width: 2vh;"></div>
+              <!-- submit application to pop up -->
+              <v-btn
+                class="my-2"
+                v-bind="attrs"
+                v-on="on"
+                style="background-color: #00A99E; color: white;"
+              >
+                Submit
+              </v-btn>
+            </v-row>
           </template>
-
+          <!-- submit application double confirmation pop up -->
           <v-card>
             <h4>
               Are you sure you want to submit the application? You would not be
@@ -47,6 +56,7 @@
             >
               Back
             </v-btn>
+            <!-- submit application -->
             <v-btn
               class="my-2"
               @click="submitApplication"
@@ -71,7 +81,7 @@
 </template>
 
 <script>
-import { db } from "@/firebase/init.js";
+import { db, storage } from "@/firebase/init.js";
 export default {
   name: "StudentApplication",
   props: ["type", "semester"],
@@ -93,9 +103,53 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.$emit("typeChange", null);
+    },
+    async processFiles(values) {
+      // upload firebase storage for files
+      var valuesCopy = Object.assign({}, values);
+      Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+          .filter(key => predicate(obj[key]))
+          .reduce((res, key) => ((res[key] = obj[key]), res), {});
+      var filtered = Object.filter(valuesCopy, value => value["files"] != null);
+      var fileElements = Object.keys(filtered);
+      for (var i = 0; i < fileElements.length; i++) {
+        var temp = [];
+        for (var j = 0; j < filtered[fileElements[i]]["files"].length; j++) {
+          var name = valuesCopy[fileElements[i]]["files"][j]["path"]["name"];
+          var url = await storage
+            .ref()
+            .child(
+              this.user.uid +
+                " " +
+                this.type +
+                " " +
+                fileElements[i] +
+                " " +
+                j +
+                "." +
+                name.split(".").pop()
+            )
+            .put(valuesCopy[fileElements[i]]["files"][j]["file"])
+            .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+            })
+            .then(downloadURL => downloadURL);
+          temp.push({
+            name: name,
+            url: url
+          });
+        }
+        valuesCopy[fileElements[i]] = temp;
+      }
+      return valuesCopy;
+    },
     async saveApplication() {
       this.loading = true;
       this.values.program = this.type;
+      this.values = await this.processFiles(this.values);
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
       const doc = await userRef.get();
@@ -110,7 +164,8 @@ export default {
         }) === false
           ? applications[this.semester].push({
               type: this.type,
-              status: "started"
+              status: "started",
+              submissionTime: new Date()
             })
           : console.log("application exisited");
       } else {
@@ -118,7 +173,8 @@ export default {
         applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
-          status: "started"
+          status: "started",
+          submissionTime: new Date()
         });
       }
       await userRef.update({
@@ -129,17 +185,16 @@ export default {
     async submitApplication() {
       var pass = true;
       for (var i = 0; i < this.schema.length; i++) {
-        console.log(this.schema[i]["validation"]);
         if (
           this.schema[i]["validation"] != undefined &&
           this.schema[i]["validation"] != null &&
-          this.schema[i]["validation"] != ""
+          this.schema[i]["validation"] != "" &&
+          this.schema[i]["type"] != "file"
         ) {
           if (
             this.values[this.schema[i]["name"]] == "" ||
             this.values[this.schema[i]["name"]] == null
           ) {
-            console.log(this.schema[i]["name"]);
             pass = false;
             break;
           }
@@ -150,6 +205,7 @@ export default {
       } else {
         this.loading = true;
         this.values.program = this.type;
+        this.values = await this.processFiles(this.values);
         await this.userBaseRef.set(this.values);
         const userRef = db.collection("users").doc(this.user.uid);
         const doc = await userRef.get();
@@ -165,14 +221,16 @@ export default {
           if (temp === false) {
             applications[this.semester].push({
               type: this.type,
-              status: "submitted"
+              status: "submitted",
+              submissionTime: new Date()
             });
           } else {
             for (i = 0; i < applications[this.semester].length; i++) {
               if (applications[this.semester][i]["type"] == this.type) {
                 applications[this.semester][i] = {
                   type: this.type,
-                  status: "submitted"
+                  status: "submitted",
+                  submissionTime: new Date()
                 };
               }
             }
@@ -181,7 +239,8 @@ export default {
           applications = {};
           applications[this.semester].push({
             type: this.type,
-            status: "submitted"
+            status: "submitted",
+            submissionTime: new Date()
           });
         }
         await userRef.update({
@@ -196,7 +255,7 @@ export default {
     const formRef = db.collection("applicationTemplate").doc(this.type);
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
-    this.schema = template["Template"]["schema"];
+    this.schema = template[this.semester]["schema"];
     var temp = [];
     for (let i = 0; i < this.schema.length; i++) {
       if (this.schema[i]["type"] == "hr") {
@@ -209,7 +268,6 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
-
     //grab user application inputs
     this.userBaseRef = db
       .collection("applications")

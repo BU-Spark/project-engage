@@ -23,10 +23,13 @@
               <v-col
                 cols="12"
                 md="4"
-                v-for="(value, i) in information"
+                v-for="(value, i) in filterInfo(information, n)"
                 :key="i"
               >
-                <v-card id="card-component">
+                <v-card
+                  id="card-component"
+                  v-if="value['status'] == status[n - 1]"
+                >
                   <v-row>
                     <v-card-title id="card-title">
                       {{ value["type"] }}
@@ -45,7 +48,9 @@
                     <v-btn
                       raised
                       id="resume-btn"
-                      @click="resumeApplication(app)"
+                      @click="
+                        resumeApplication(value['type'], value['semester'])
+                      "
                     >
                       {{ actions[n - 1] }}
                       <v-icon aria-hidden="false" id="resume-app-btn"
@@ -61,7 +66,11 @@
       </v-stepper-items>
     </v-stepper>
     <div v-else>
-      <StudentApplication v-bind:type="type" v-bind:semester="semester" />
+      <StudentApplication
+        v-bind:type="type"
+        v-bind:semester="semester"
+        v-on:typeChange="changeType($event)"
+      />
     </div>
   </div>
 </template>
@@ -81,17 +90,6 @@ export default {
     return {
       e1: 1,
       steps: 3,
-      applications: {
-        new: [
-          "Employment Opportunities",
-          "Innovation Fellowship | Innovator",
-          "Innovation Fellowship | Technical Teammate",
-          "Innovation Fellowship | UX Designer",
-          "Justice Media Co-Lab"
-        ],
-        started: [],
-        submitted: []
-      },
       information: [],
       deadlines: {},
       descriptions: {},
@@ -111,6 +109,9 @@ export default {
   },
 
   methods: {
+    changeType(x) {
+      this.type = x;
+    },
     nextStep(n) {
       if (n === this.steps) {
         this.e1 = 1;
@@ -118,14 +119,25 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type) {
+    resumeApplication(type, semester) {
       this.type = type;
+      this.semester = semester;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
       const formRef = db.collection("applicationTemplate").doc(type);
       const formSnapshot = await formRef.get();
       return formSnapshot.data();
+    },
+    filterInfo(info, n) {
+      var infoList = [];
+      var statusPage = this.status[n - 1];
+      for (var i = 0; i < info.length; i++) {
+        if (info[i].status == statusPage) {
+          infoList.push(info[i]);
+        }
+      }
+      return infoList;
     }
   },
   async mounted() {
@@ -144,47 +156,91 @@ export default {
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
     const doc = await userRef.get();
-    if (doc.data().applications && doc.data().applications["Template"]) {
-      await doc.data().applications["Template"].forEach(async element => {
-        let template = await this.retreiveApplicationTemplate(element.type);
-        let currentDeadline = template["Template"]["deadline"];
-        let currentDescription = template["Template"]["description"];
-        if (element.status == "started") {
-          this.applications.started.push(element.type);
-        } else {
-          this.applications.submitted.push(element.type);
-        }
-        const index = this.applications.new.indexOf(element.type);
-        this.applications.new.splice(index, index + 1);
-        this.information.push({
-          type: element.type,
-          deadline: currentDeadline,
-          description: currentDescription
+    const apps = doc.data().applications;
+    var tempList = [];
+    var startedsubmittedList = [];
+    if (apps) {
+      await Object.keys(apps).forEach(async function(key) {
+        await apps[key].forEach(async element => {
+          if (element.type != "Template") {
+            var temp = {
+              semester: key,
+              status: element.status,
+              type: element.type
+            };
+            startedsubmittedList.push(JSON.stringify(temp));
+          }
         });
       });
     }
-    await this.applications.new.forEach(async element => {
+    const applications = [
+      "Employment Opportunities",
+      "Innovation Fellowship | Innovator",
+      "Innovation Fellowship | Technical Teammate",
+      "Innovation Fellowship | UX Designer",
+      "Justice Media Co-Lab"
+    ];
+    await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
-      for (var app in template) {
+      for (var sem in template) {
         if (
-          app != "Template" &&
-          template[app]["deadline"] >=
+          sem != "Template" &&
+          template[sem]["deadline"] >=
             date.getFullYear() +
               "-" +
               (date.getMonth() + 1) +
               "-" +
               date.getDate()
         ) {
-          let currentDeadline = template[app]["deadline"];
-          let currentDescription = template[app]["description"];
-          this.information.push({
-            type: element,
-            deadline: currentDeadline,
-            description: currentDescription
-          });
+          // console.log("startedsubmittedList")
+          console.log(sem);
+          let currentDeadline = template[sem]["deadline"];
+          let currentDescription = template[sem]["description"];
+          var isStarted = startedsubmittedList.includes(
+            JSON.stringify({
+              semester: sem,
+              status: "started",
+              type: element
+            })
+          );
+          var isSubmitted = startedsubmittedList.includes(
+            JSON.stringify({
+              semester: sem,
+              status: "submitted",
+              type: element
+            })
+          );
+          if (isStarted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "started",
+              semester: sem
+            });
+          }
+          if (isSubmitted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "submitted",
+              semester: sem
+            });
+          }
+          if (!isStarted && !isSubmitted) {
+            tempList.push({
+              type: element,
+              deadline: currentDeadline,
+              description: currentDescription,
+              status: "new",
+              semester: sem
+            });
+          }
         }
       }
     });
+    this.information = tempList;
   }
 };
 </script>
@@ -208,7 +264,7 @@ v-btn {
   min-height: 570px !important;
   text-align: center;
   min-height: 70vh;
-  margin-top: 5vh;
+  margin-top: 2vh;
   margin-left: 2vw;
   margin-right: 2vw;
 }

@@ -142,7 +142,11 @@
     </div>
 
     <!-- different pages -->
+    <div v-if="page == 0" style="margin-top: 2vh;">
+      <h3>Please be sure to fill out your Spark! Student Profile!</h3>
+    </div>
     <ApplicationView v-if="page == 0" />
+
     <Profile v-if="page == 1" />
     <div v-if="page == 2">
       <v-btn class="main-action" elevation="0" @click="signOut()">
