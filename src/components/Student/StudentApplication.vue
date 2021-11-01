@@ -440,7 +440,8 @@ label[id^="formulate--home"] {
   margin: auto;
 }
 
-.formulate-input .formulate-input-errors {
+.formulate-input .formulate-input-errors,
+.v-input {
   margin: auto !important;
 }
 </style>
