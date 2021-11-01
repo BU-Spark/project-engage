@@ -19,9 +19,17 @@ if (process.env.NODE_ENV === "production") {
     updatefound() {
       console.log("New content is downloading.");
     },
-    updated() {
+    updated(registration) {
       console.log("New content is available; please refresh.");
-      window.location.reload(true);
+      const waitingServiceWorker = registration.waiting;
+      if (waitingServiceWorker) {
+        waitingServiceWorker.addEventListener("statechange", event => {
+          if (event.target.state === "activated") {
+            window.location.reload();
+          }
+        });
+        waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
+      }
     },
     offline() {
       console.log(
