@@ -204,7 +204,6 @@ export default {
         });
       });
     }
-
     const applications = [
       "Employment Opportunities",
       "Innovation Fellowship | Innovator",
