@@ -37,6 +37,7 @@
       </v-row>
     </v-container>
 
+    <!-- delete / add item selection -->
     <DeleteItem
       v-if="this.deleteItem && !this.addItem"
       :schema="schema"
@@ -61,7 +62,48 @@
       >Add Item</v-btn
     >
 
-    <FormulateForm class="form-wrapper" v-model="values" :schema="schema" />
+    <!-- display form format -->
+    <template>
+      <v-stepper v-model="section" vertical>
+        <template v-for="(n, i) in steps">
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="section > n"
+            :step="i"
+            editable
+            class="stepperColor"
+          >
+            {{ n }}
+          </v-stepper-step>
+          <v-stepper-content :key="`${n}-content`" :step="i">
+            <FormulateForm
+              class="form-wrapper"
+              v-model="values"
+              :schema="schemaList[i]"
+            />
+            <!-- <v-btn
+              v-if="i < steps.length - 1"
+              color="primary"
+              @click="nextStep(n, 'continue')"
+            >
+              Continue
+            </v-btn> -->
+            <!-- <v-btn text v-if="i != 0" @click="nextStep(n, 'back')">
+              Back
+            </v-btn> -->
+            <!-- <v-btn
+              v-if="i == steps.length - 1"
+              color="primary"
+              @click="nextStep(n)"
+            >
+              Submit
+            </v-btn> -->
+          </v-stepper-content>
+        </template>
+      </v-stepper>
+    </template>
+
+    <!-- cancel to stop editing or submit to save template -->
     <v-btn @click="cancel">Cancel</v-btn>
     <v-btn @click="submitFormTemplate">Submit Form Template</v-btn>
   </v-container>
@@ -90,8 +132,11 @@ export default {
       applicationType: "",
       semester: "",
       schema: [],
+      schemaList: [],
       search: null,
-      valid: false
+      valid: false,
+      steps: [],
+      section: 1
     };
   },
   watch: {
@@ -117,9 +162,37 @@ export default {
     },
     addField(value) {
       this.schema = value;
+      this.schemaList = [];
+      var temp = [];
+      this.steps = [];
+      for (let i = 0; i < this.schema.length; i++) {
+        if (this.schema[i]["type"] == "hr") {
+          this.schemaList.push(temp);
+          this.steps.push(this.schema[i]["label"]);
+          temp = [];
+        } else {
+          temp.push(this.schema[i]);
+        }
+      }
+      this.schemaList.push(temp);
+      this.schemaList = this.schemaList.filter(e => e.length);
     },
     deleteField(value) {
       this.schema = value;
+      this.schemaList = [];
+      var temp = [];
+      this.steps = [];
+      for (let i = 0; i < this.schema.length; i++) {
+        if (this.schema[i]["type"] == "hr") {
+          this.schemaList.push(temp);
+          this.steps.push(this.schema[i]["label"]);
+          temp = [];
+        } else {
+          temp.push(this.schema[i]);
+        }
+      }
+      this.schemaList.push(temp);
+      this.schemaList = this.schemaList.filter(e => e.length);
     },
     changeAddItemState() {
       this.addItem = !this.addItem;
@@ -149,12 +222,31 @@ export default {
         });
       alert("You have successfully updated the form");
       this.$router.go(-1);
+    },
+    nextStep(n, action) {
+      if (action == "continue") {
+        this.section = n + 1;
+      } else if (action == "back") {
+        this.section = n - 1;
+      }
     }
   },
   async mounted() {
     this.applicationType = await this.$route.params.applicationTypeFromList;
     this.semester = await this.$route.params.semesterFromList;
     this.schema = await this.$route.params.schemaList;
+    var temp = [];
+    for (let i = 0; i < this.schema.length; i++) {
+      if (this.schema[i]["type"] == "hr") {
+        this.schemaList.push(temp);
+        this.steps.push(this.schema[i]["label"]);
+        temp = [];
+      } else {
+        temp.push(this.schema[i]);
+      }
+    }
+    this.schemaList.push(temp);
+    this.schemaList = this.schemaList.filter(e => e.length);
     this.dateFormatted = await this.$route.params.deadline;
     this.date = this.parseDate(this.dateFormatted);
   }
@@ -168,43 +260,21 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: 2em;
-  border: 1px solid #a8a8a8;
-  border-radius: 0.5em;
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  border-radius: 2.5em;
   box-sizing: border-box;
-  color: rgb(110, 108, 108);
-  background-color: rgb(229, 243, 250);
+  background-color: #f1f8f3;
+}
+
+.stepperColor {
+  background-color: #f1f8f3;
+  border-radius: 2.5em;
 }
 
 .test {
-  display: felx;
+  display: flex;
   flex-direction: row;
   background-color: black;
-}
-
-.double-row {
-  width: 700px;
-  color: aqua;
-}
-
-@media (min-width: 650px) {
-  .double-row {
-    display: flex;
-  }
-}
-
-@media (min-width: 720px) {
-  .double-row {
-    display: block;
-  }
-}
-
-@media (min-width: 850px) {
-  .double-row {
-    display: flex;
-  }
-  .double-row .formulate-input {
-    margin-right: 1.5em;
-  }
 }
 
 .formulate-input {

@@ -1,11 +1,48 @@
 <template>
   <div>
-    <FormulateForm
-      class="form-wrapper"
-      v-model="values"
-      :schema="schema"
-      @submit="submitProfile"
-    />
+    <div v-if="!loading">
+      <v-stepper v-model="section" vertical>
+        <div class="project-card">
+          <div class="project-title">{{ this.type }}</div>
+          <div class="project-deadline">Due Thursday, February 4th, 2021</div>
+          <div class="project-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+        </div>
+        <template v-for="(n, i) in steps">
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="section > n"
+            :step="i"
+            editable
+            class="stepperColor"
+          >
+            {{ n }}
+          </v-stepper-step>
+          <v-stepper-content :key="`${n}-content`" :step="i">
+            <FormulateForm
+              class="form-wrapper"
+              v-model="values"
+              :schema="schemaList[i]"
+              @submit="submitProfile"
+            />
+          </v-stepper-content>
+        </template>
+      </v-stepper>
+      <v-btn
+        class="my-2"
+        @click="true"
+        style="background-color: #00A99E; color: white;"
+      >
+        Submit
+      </v-btn>
+    </div>
     <v-overlay v-if="loading">
       <div>
         <v-progress-circular
@@ -26,9 +63,12 @@ export default {
   data() {
     return {
       schema: [],
+      schemaList: [],
       values: null,
       userBaseRef: null,
-      loading: false
+      loading: false,
+      steps: [],
+      section: 1
     };
   },
   computed: {
@@ -45,36 +85,32 @@ export default {
       const doc = await userRef.get();
       var applications = null;
       if (doc.data().applications) {
-        applications = doc.data();
+        applications = doc.data().applications;
         if (!doc.data().applications[this.semester]) {
-          applications["applications"][this.semester] = [];
+          applications[this.semester] = [];
         }
-        applications["applications"][this.semester].some(x => {
+        applications[this.semester].some(x => {
           return x.type == this.type;
         }) === false
-          ? applications["applications"][this.semester].push({
+          ? applications[this.semester].push({
               type: this.type,
-              staus: "started"
+              status: "started"
             })
           : console.log("application exisited");
       } else {
         applications = {};
-        applications["applications"] = {};
-        applications["applications"][this.semester] = [];
-        applications = applications["applications"];
+        applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
-          staus: "started"
+          status: "started"
         });
       }
-      await userRef.update(applications);
+      console.log(applications);
+      await userRef.update({
+        applications: applications
+      });
       this.$router.go();
     }
-  },
-  async seperateSchema() {
-    // ignore save button
-    var temp_schema = this.schema;
-    console.log(temp_schema);
   },
   async mounted() {
     //grab application form template
@@ -82,10 +118,19 @@ export default {
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
     this.schema = template["Template"]["schema"];
-
-    // split schema into different groups based on sections
-    this.seperateSchema();
-
+    var temp = [];
+    for (let i = 0; i < this.schema.length; i++) {
+      if (this.schema[i]["type"] == "hr") {
+        this.schemaList.push(temp);
+        this.steps.push(this.schema[i]["label"]);
+        temp = [];
+      } else {
+        temp.push(this.schema[i]);
+      }
+    }
+    this.schemaList.push(temp);
+    this.schemaList = this.schemaList.filter(e => e.length);
+    console.log("hello", this.type);
     //grab user application inputs
     this.userBaseRef = db
       .collection("applications")
@@ -146,5 +191,106 @@ div#rightSideDashboard {
 
 .db-logo {
   margin: 5px 25px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2em;
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  border-radius: 2.5em;
+  box-sizing: border-box;
+  background-color: #f1f8f3;
+}
+
+.stepperColor {
+  background-color: #f1f8f3;
+  border-radius: 2.5em;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f8f3;
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 4px 3px -3px black;
+  -moz-box-shadow: 0 4px 3px -3px black;
+  box-shadow: 0 4px 3px -3px black;
+}
+
+.project-title {
+  font-weight: 900;
+  font-size: 30px;
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 3vh;
+}
+
+.project-deadline {
+  font-weight: 850;
+  text-align: left;
+  padding-left: 3.1rem;
+  margin-top: -1vh;
+  margin-bottom: 1.5vh;
+}
+
+.project-description {
+  text-align: left;
+  padding-left: 3.1rem;
+  padding-right: 3rem;
+  padding-bottom: 3vh;
+}
+</style>
+
+<style>
+.formulate-input-element.formulate-input-element--submit {
+  background-color: #f1f8f3 !important;
+  justify-content: center !important;
+}
+
+.v-messages {
+  background-color: #f1f8f3 !important;
+}
+
+.v-sheet.v-stepper:not(.v-sheet--outlined) {
+  box-shadow: none;
+}
+
+button[id^="formulate--home"] {
+  width: 50% !important;
+  justify-content: center !important;
+  margin: auto !important;
+}
+
+.formulate-input .formulate-input-label {
+  margin: auto;
+}
+
+.v-input.v-textarea.theme--light.v-text-field.v-text-field--is-booted.formulate-input-element.formulate-input-element--textarea {
+  margin: auto;
+}
+
+.formulate-input-element.formulate-input-element--select {
+  margin: auto;
+}
+
+label[id^="formulate--home"] {
+  width: 60% !important;
+}
+
+.formulate-input-element.formulate-input-element--submit {
+  margin: auto;
+  margin-top: 3rem !important;
+}
+
+.formulate-input-element.formulate-input-element--text {
+  margin: auto;
+}
+
+.formulate-input .formulate-input-errors {
+  margin: auto !important;
 }
 </style>

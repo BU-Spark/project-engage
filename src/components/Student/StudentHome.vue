@@ -28,14 +28,6 @@
                 @click="updatePageBody(1)"
                 :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
               >
-                Application
-              </v-btn>
-              <v-btn
-                elevation="0"
-                class="nav-btn"
-                @click="updatePageBody(2)"
-                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
-              >
                 Profile
               </v-btn>
             </div>
@@ -52,7 +44,7 @@
               <v-btn
                 class="main-action"
                 elevation="0"
-                @click="updatePageBody(4)"
+                @click="updatePageBody(2)"
               >
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
@@ -66,19 +58,24 @@
     </div>
 
     <!-- different pages -->
-    <Dashboard v-if="page == 0" />
-    <Profile v-if="page == 2" />
+    <ApplicationView v-if="page == 0" />
+    <Profile v-if="page == 1" />
+    <div v-if="page == 2">
+      <v-btn class="main-action" elevation="0" @click="signOut()">
+        Sign Out
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
-import Dashboard from "@/components/Student/Dashboard.vue";
+import ApplicationView from "@/components/Student/ApplicationView.vue";
 import Profile from "@/components/Student/Profile.vue";
 export default {
   name: "StudentHome",
   components: {
-    Dashboard,
-    Profile
+    Profile,
+    ApplicationView
   },
   data() {
     return {
@@ -93,6 +90,10 @@ export default {
   methods: {
     updatePageBody(index) {
       this.page = index;
+    },
+    async signOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/");
     }
   },
   async mounted() {}
