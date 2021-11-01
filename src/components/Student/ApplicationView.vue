@@ -37,7 +37,7 @@
                   </v-row>
                   <!-- Change when due date and text components are added -->
                   <v-card-subtitle id="card-date">
-                    {{ value["deadline"] }}
+                    Deadline: {{ value["deadline"] }}
                   </v-card-subtitle>
                   <v-row>
                     <v-card-text id="app-desc">
