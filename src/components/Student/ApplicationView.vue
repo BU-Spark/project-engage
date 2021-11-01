@@ -46,7 +46,7 @@
                   </v-row>
                   <v-row v-if="value['status'] != 'new'">
                     <v-card-text id="app-desc">
-                      Submission Time: {{ value["submissionTime"] }}
+                      Submission Date: {{ value["submissionTime"] }}
                     </v-card-text>
                   </v-row>
                   <v-card-actions v-if="n < 3">
