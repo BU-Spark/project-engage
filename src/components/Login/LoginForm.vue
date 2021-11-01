@@ -54,28 +54,101 @@
             <GoogleLoginButton buttonLabel="Sign in with Google" hide="true" />
 
             <v-row>
-              <v-card
-                class="mx-auto"
-                outlined
-                @click.native="clickedRole('student')"
-                :style="
-                  roleSelected == 'student' ? 'border: 5px solid #00A99E;' : ''
-                "
-              >
-                <h1 style="font-weight: 900;">Student</h1>
-              </v-card>
-              <div style="display:block; width: 40px;"></div>
-              <v-card
-                class="mx-auto"
-                outlined
-                @click.native="clickedRole('admin')"
-                :style="
-                  roleSelected == 'admin' ? 'border: 5px solid #00A99E;' : ''
-                "
-              >
-                <h1 style="font-weight: 900;">Admin</h1>
-              </v-card>
+              <!-- admin selection animation -->
+              <v-col>
+                <v-hover v-slot="{ hover }" close-delay="200">
+                  <v-card
+                    :elevation="hover ? 16 : 0"
+                    :class="{ 'on-hover': hover }"
+                    class="mx-auto rounded-xl"
+                    min-height="300"
+                    max-width="270"
+                    id="admin"
+                    @click.native="clickedRole('admin')"
+                    :style="
+                      roleSelected == 'admin'
+                        ? 'background-color:white; border: 5px solid #00A99e;'
+                        : 'background-color:#e5ede6; border: none;'
+                    "
+                  >
+                    <AdminIcon
+                      class="icon"
+                      id="adminIcon"
+                      :style="
+                        roleSelected == 'admin'
+                          ? 'margin-right:115px; margin-left:-30px'
+                          : ''
+                      "
+                    />
+                    <v-card-text
+                      :style="
+                        roleSelected == 'admin'
+                          ? 'visibility:visible; opacity: 1;'
+                          : ''
+                      "
+                      id="adminText"
+                      class="text"
+                    >
+                      Hey admin! Check up on your Spark! dashboard with me.
+                    </v-card-text>
+                    <div style="display:block; height: 10px;"></div>
+                    <v-card-text
+                      style="font-weight: 900; font-size: 25px; color: black;"
+                    >
+                      Admin
+                    </v-card-text>
+                  </v-card>
+                </v-hover>
+              </v-col>
+
+              <!-- student selection animation -->
+              <v-col>
+                <v-hover v-slot="{ hover }" close-delay="200">
+                  <v-card
+                    :elevation="hover ? 16 : 0"
+                    :class="{ 'on-hover': hover }"
+                    class="mx-auto rounded-xl"
+                    min-height="300"
+                    max-width="270"
+                    id="student"
+                    @click.native="clickedRole('student')"
+                    :style="
+                      roleSelected == 'student'
+                        ? 'background-color:white; border: 5px solid #00A99e;'
+                        : 'background-color:#e5ede6; border: none;'
+                    "
+                  >
+                    <StudentIcon
+                      class="icon"
+                      id="studentIcon"
+                      :style="
+                        roleSelected == 'student' ? 'margin-left: 100px;' : ''
+                      "
+                    />
+                    <v-card-text
+                      :style="
+                        roleSelected == 'student'
+                          ? 'visibility:visible; opacity: 1;'
+                          : ''
+                      "
+                      id="studentText"
+                      class="text"
+                    >
+                      Hey student! I'll help you apply to Spark!
+                    </v-card-text>
+                    <div style="display:block; height: 10px;"></div>
+                    <v-card-text
+                      style="font-weight: 900; font-size: 25px; color: black;"
+                    >
+                      Student
+                    </v-card-text>
+                  </v-card>
+                </v-hover>
+              </v-col>
             </v-row>
+
+            <div style="display:block; height: 50px;"></div>
+
             <v-btn
               x-large
               color="#00A99E"
@@ -137,12 +210,18 @@
 <script>
 import store from "@/store";
 import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
+import AdminIcon from "@/components/Login/admin.vue";
+import StudentIcon from "@/components/Login/student.vue";
 import AdminLogin from "@/views/AdminLogin";
 export default {
   name: "LoginForm",
+  roleSelected: null,
+  elevation: 0,
   components: {
     GoogleLoginButton,
-    AdminLogin
+    AdminLogin,
+    AdminIcon,
+    StudentIcon
   },
   computed: {
     adminValidation() {
@@ -150,6 +229,9 @@ export default {
     },
     errorMsg() {
       return store.state.errorMsg;
+    },
+    thisElevation() {
+      return this.elevation;
     }
   },
   data() {
@@ -163,6 +245,7 @@ export default {
       this.$router.push("/application");
     },
     clickedRole(role) {
+      this.roleSelected = role;
       if (role == "student") {
         this.roleSelected = "student";
       } else {
@@ -179,11 +262,72 @@ export default {
 </script>
 
 <style scoped>
-v-btn {
-  color: #36bd90;
+.icon {
+  height: 175px;
+  width: 175px;
+  margin-top: 20px;
+  position: relative;
+  transition: 2s;
 }
 
-h3 {
-  margin: 30px 0 0;
+#admin:hover .icon {
+  position: relative;
+  margin-right: 100px;
+}
+
+#student:hover .icon {
+  margin-left: 100px;
+}
+
+#studentText {
+  left: 20px;
+}
+
+/* #studentText:after {
+  left: 10px;
+  border-right: 20px solid transparent;
+} */
+
+#adminText {
+  right: 20px;
+}
+
+/* #adminText:after {
+  right: 90px;
+  border-left: 20px solid transparent;
+} */
+
+.text {
+  position: absolute;
+  bottom: 100px;
+  visibility: hidden;
+  width: 120px;
+  height: 150px;
+  text-align: left;
+  background-color: rgba(0, 176, 161, 0.3);
+  border-radius: 10px;
+  opacity: 0.6;
+  transition: opacity 2s ease-in-out;
+  font-weight: 700;
+}
+
+/* .text:after {
+  content: "";
+  position: relative;
+  bottom: 2.5px;
+  border-top: 20px solid rgba(0, 176, 161, 0.3);
+  border-top-color: rgba(0, 176, 161, 0.3);
+} */
+
+#student:hover #studentText {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.55s ease-in-out;
+}
+
+#admin:hover #adminText {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.55s ease-in-out;
 }
 </style>

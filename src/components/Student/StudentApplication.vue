@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="!loading">
+      <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
         <div class="project-card">
           <div class="project-title">{{ this.type }}</div>
@@ -30,18 +31,55 @@
               class="form-wrapper"
               v-model="values"
               :schema="schemaList[i]"
-              @submit="submitProfile"
+              @submit="saveApplication"
             />
           </v-stepper-content>
         </template>
       </v-stepper>
-      <v-btn
-        class="my-2"
-        @click="true"
-        style="background-color: #00A99E; color: white;"
-      >
-        Submit
-      </v-btn>
+      <div class="text-center">
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-row class="justify-center" style="padding-top: 2vh">
+              <!-- back to applications list page -->
+              <v-btn class="my-2" @click="goBack()">
+                Back
+              </v-btn>
+              <div style="width: 2vh;"></div>
+              <!-- submit application to pop up -->
+              <v-btn
+                class="my-2"
+                v-bind="attrs"
+                v-on="on"
+                style="background-color: #00A99E; color: white;"
+              >
+                Submit
+              </v-btn>
+            </v-row>
+          </template>
+          <!-- submit application double confirmation pop up -->
+          <v-card>
+            <h4>
+              Are you sure you want to submit the application? You would not be
+              able to make modifications after submitting.
+            </h4>
+            <v-btn
+              class="my-2"
+              style="margin-right: 5px;"
+              @click="dialog = false"
+            >
+              Back
+            </v-btn>
+            <!-- submit application -->
+            <v-btn
+              class="my-2"
+              @click="submitApplication"
+              style="background-color: #00A99E; color: white; margin-left: 5px;"
+            >
+              Confirm
+            </v-btn>
+          </v-card>
+        </v-dialog>
+      </div>
     </div>
     <v-overlay v-if="loading">
       <div>
@@ -56,7 +94,7 @@
 </template>
 
 <script>
-import { db } from "@/firebase/init.js";
+import { db, storage } from "@/firebase/init.js";
 export default {
   name: "StudentApplication",
   props: ["type", "semester"],
@@ -68,7 +106,8 @@ export default {
       userBaseRef: null,
       loading: false,
       steps: [],
-      section: 1
+      section: 1,
+      dialog: false
     };
   },
   computed: {
@@ -77,9 +116,53 @@ export default {
     }
   },
   methods: {
-    async submitProfile() {
+    goBack() {
+      this.$emit("typeChange", null);
+    },
+    async processFiles(values) {
+      // upload firebase storage for files
+      var valuesCopy = Object.assign({}, values);
+      Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+          .filter(key => predicate(obj[key]))
+          .reduce((res, key) => ((res[key] = obj[key]), res), {});
+      var filtered = Object.filter(valuesCopy, value => value["files"] != null);
+      var fileElements = Object.keys(filtered);
+      for (var i = 0; i < fileElements.length; i++) {
+        var temp = [];
+        for (var j = 0; j < filtered[fileElements[i]]["files"].length; j++) {
+          var name = valuesCopy[fileElements[i]]["files"][j]["path"]["name"];
+          var url = await storage
+            .ref()
+            .child(
+              this.user.uid +
+                " " +
+                this.type +
+                " " +
+                fileElements[i] +
+                " " +
+                j +
+                "." +
+                name.split(".").pop()
+            )
+            .put(valuesCopy[fileElements[i]]["files"][j]["file"])
+            .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+            })
+            .then(downloadURL => downloadURL);
+          temp.push({
+            name: name,
+            url: url
+          });
+        }
+        valuesCopy[fileElements[i]] = temp;
+      }
+      return valuesCopy;
+    },
+    async saveApplication() {
       this.loading = true;
       this.values.program = this.type;
+      this.values = await this.processFiles(this.values);
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
       const doc = await userRef.get();
@@ -94,7 +177,8 @@ export default {
         }) === false
           ? applications[this.semester].push({
               type: this.type,
-              status: "started"
+              status: "started",
+              submissionTime: new Date()
             })
           : console.log("application exisited");
       } else {
@@ -102,14 +186,81 @@ export default {
         applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
-          status: "started"
+          status: "started",
+          submissionTime: new Date()
         });
       }
-      console.log(applications);
       await userRef.update({
         applications: applications
       });
       this.$router.go();
+    },
+    async submitApplication() {
+      var pass = true;
+      for (var i = 0; i < this.schema.length; i++) {
+        if (
+          this.schema[i]["validation"] != undefined &&
+          this.schema[i]["validation"] != null &&
+          this.schema[i]["validation"] != "" &&
+          this.schema[i]["type"] != "file"
+        ) {
+          if (
+            this.values[this.schema[i]["name"]] == "" ||
+            this.values[this.schema[i]["name"]] == null
+          ) {
+            pass = false;
+            break;
+          }
+        }
+      }
+      if (pass == false) {
+        alert("Please fill out all required information!");
+      } else {
+        this.loading = true;
+        this.values.program = this.type;
+        this.values = await this.processFiles(this.values);
+        await this.userBaseRef.set(this.values);
+        const userRef = db.collection("users").doc(this.user.uid);
+        const doc = await userRef.get();
+        var applications = null;
+        if (doc.data().applications) {
+          applications = doc.data().applications;
+          if (!doc.data().applications[this.semester]) {
+            applications[this.semester] = [];
+          }
+          var temp = applications[this.semester].some(x => {
+            return x.type == this.type;
+          });
+          if (temp === false) {
+            applications[this.semester].push({
+              type: this.type,
+              status: "submitted",
+              submissionTime: new Date()
+            });
+          } else {
+            for (i = 0; i < applications[this.semester].length; i++) {
+              if (applications[this.semester][i]["type"] == this.type) {
+                applications[this.semester][i] = {
+                  type: this.type,
+                  status: "submitted",
+                  submissionTime: new Date()
+                };
+              }
+            }
+          }
+        } else {
+          applications = {};
+          applications[this.semester].push({
+            type: this.type,
+            status: "submitted",
+            submissionTime: new Date()
+          });
+        }
+        await userRef.update({
+          applications: applications
+        });
+        this.$router.go();
+      }
     }
   },
   async mounted() {
@@ -117,7 +268,7 @@ export default {
     const formRef = db.collection("applicationTemplate").doc(this.type);
     const formSnapshot = await formRef.get();
     const template = formSnapshot.data();
-    this.schema = template["Template"]["schema"];
+    this.schema = template[this.semester]["schema"];
     var temp = [];
     for (let i = 0; i < this.schema.length; i++) {
       if (this.schema[i]["type"] == "hr") {
@@ -130,7 +281,6 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
-    console.log("hello", this.type);
     //grab user application inputs
     this.userBaseRef = db
       .collection("applications")
