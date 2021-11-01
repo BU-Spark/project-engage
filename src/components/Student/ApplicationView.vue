@@ -44,6 +44,11 @@
                       {{ value["description"] }}
                     </v-card-text>
                   </v-row>
+                  <v-row v-if="value['status'] != 'new'">
+                    <v-card-text id="app-desc">
+                      Submission Time: {{ value["submissionTime"] }}
+                    </v-card-text>
+                  </v-row>
                   <v-card-actions v-if="n < 3">
                     <v-btn
                       raised
@@ -164,20 +169,42 @@ export default {
     const apps = doc.data().applications;
     var tempList = [];
     var startedsubmittedList = [];
+    var timeSubmitted = [];
+
     if (apps) {
       await Object.keys(apps).forEach(async function(key) {
         await apps[key].forEach(async element => {
           if (element.type != "Template") {
+            var time = "";
+            if (
+              element.submissionTime != undefined &&
+              element.status == "submitted"
+            ) {
+              time = new Date(element.submissionTime.seconds * 1000);
+              time =
+                time.getFullYear() +
+                "-" +
+                (time.getMonth() + 1) +
+                "-" +
+                time.getDate();
+            }
             var temp = {
               semester: key,
               status: element.status,
-              type: element.type
+              type: element.type,
+              submissionTime: time
             };
             startedsubmittedList.push(JSON.stringify(temp));
+            timeSubmitted.push({
+              semester: key,
+              type: element.type,
+              time: time
+            });
           }
         });
       });
     }
+
     const applications = [
       "Employment Opportunities",
       "Innovation Fellowship | Innovator",
@@ -201,18 +228,24 @@ export default {
         ) {
           let currentDeadline = template[sem]["deadline"];
           let currentDescription = template[sem]["description"];
+          var time = timeSubmitted.filter(function(v) {
+            return v.semester == sem && v.type == element;
+          });
+          time = time[0]["time"];
           var isStarted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "started",
-              type: element
+              type: element,
+              submissionTime: time
             })
           );
           var isSubmitted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "submitted",
-              type: element
+              type: element,
+              submissionTime: time
             })
           );
           if (isStarted) {
@@ -221,7 +254,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "started",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
           if (isSubmitted) {
@@ -230,7 +264,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "submitted",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
           if (!isStarted && !isSubmitted) {
@@ -239,7 +274,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "new",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
         }

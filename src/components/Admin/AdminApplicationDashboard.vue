@@ -186,8 +186,14 @@ export default {
       status: [],
       search: "",
       headers: [
-        { text: "Test", value: "test" },
-        { text: "Name", value: "name" },
+        {
+          text: "Test",
+          value: "test"
+        },
+        {
+          text: "Name",
+          value: "name"
+        },
         {
           text: "Position",
           value: "position",
@@ -204,9 +210,18 @@ export default {
             return this.program.includes(value);
           }
         },
-        { text: "Year", value: "year" },
-        { text: "Gender", value: "gender" },
-        { text: "Email", value: "Email" },
+        {
+          text: "Year",
+          value: "year"
+        },
+        {
+          text: "Gender",
+          value: "gender"
+        },
+        {
+          text: "Email",
+          value: "Email"
+        },
         {
           text: "Status",
           value: "status",
@@ -215,7 +230,10 @@ export default {
             return this.status.includes(this.statusList[value]);
           }
         },
-        { text: "Notes", value: "notes" },
+        {
+          text: "Notes",
+          value: "notes"
+        },
         {}
       ]
     };
@@ -304,6 +322,7 @@ export default {
         this.applications.push(element.data());
       });
     }
+    console.log(this.applications);
   }
 };
 </script>
