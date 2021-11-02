@@ -8,8 +8,8 @@
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
-        v-model="comboBoxDummyModel"
-        @change="onAutoCompleteSelection"
+        v-model="context.model"
+        @change="onAutoCompleteSelection(context.model)"
         @keyup="customOnChangeHandler"
         @paste="customOnChangeHandler"
         :items="items"
@@ -30,8 +30,8 @@
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
-        v-model="comboBoxDummyModel"
-        @change="onAutoCompleteSelection"
+        v-model="context.model"
+        @change="onAutoCompleteSelection(context.model)"
         @keyup="customOnChangeHandler"
         @paste="customOnChangeHandler"
         :items="items"
@@ -63,8 +63,8 @@ export default {
   },
   data() {
     return {
-      comboBoxDummyModel: null,
-      comboBoxModel: null
+      comboBoxDummyModel: [],
+      comboBoxModel: []
     };
   },
   computed: {
@@ -83,7 +83,8 @@ export default {
     }
   },
   methods: {
-    onAutoCompleteSelection() {
+    onAutoCompleteSelection(inputs) {
+      this.comboBoxDummyModel = inputs;
       var index = this.comboBoxDummyModel.length - 1;
       var item = this.comboBoxDummyModel[index];
       var firstWord = item.split(" ")[0];
