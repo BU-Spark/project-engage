@@ -230,7 +230,11 @@ export default {
           var time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;
           });
-          time = time[0]["time"];
+          if (time.length > 0) {
+            time = time[0]["time"];
+          } else {
+            time = "";
+          }
           var isStarted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
