@@ -121,7 +121,6 @@ export default {
       console.log("No such document!");
     } else {
       this.values = doc.data();
-      console.log("Document data:", doc.data());
     }
 
     const formRef = db.collection("applicationTemplate").doc("Base");
@@ -153,6 +152,8 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
+    console.log(this.values);
+    console.log(this.schemaList);
   }
 };
 </script>

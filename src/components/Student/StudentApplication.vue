@@ -280,8 +280,9 @@ export default {
       console.log("No such document!");
     } else {
       this.values = doc.data();
-      console.log("Document data:", doc.data());
     }
+    console.log(this.values);
+    console.log(this.schemaList);
   }
 };
 </script>
