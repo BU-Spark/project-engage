@@ -189,7 +189,8 @@ export default {
           this.schema[i]["validation"] != undefined &&
           this.schema[i]["validation"] != null &&
           this.schema[i]["validation"] != "" &&
-          this.schema[i]["type"] != "file"
+          this.schema[i]["type"] != "file" &&
+          this.schema[i]["type"] != "image"
         ) {
           if (
             this.values[this.schema[i]["name"]] == "" ||
