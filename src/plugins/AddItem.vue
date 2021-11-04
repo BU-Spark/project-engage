@@ -530,11 +530,12 @@ export default {
             ? (this.itemSchema = {
                 label: this.labelFile,
                 name: this.nameFile,
-                type: this.validationFile,
-                validation:
-                  this.validationFile == "file"
-                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                type: "file",
+                // type: this.validationFile,
+                validation: "",
+                // this.validationFile == "file"
+                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
                 multiple: "multiple",
                 help:
                   this.validationFile == "file" && this.multipleFile
@@ -551,11 +552,12 @@ export default {
             : (this.itemSchema = {
                 label: this.labelFile,
                 name: this.nameFile,
-                type: this.validationFile,
-                validation:
-                  this.validationFile == "file"
-                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                type: "file",
+                // type: this.validationFile,
+                validation: "",
+                // this.validationFile == "file"
+                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
                 help:
                   this.validationFile == "file" && this.multipleFile
                     ? "Select one or more PDFs to upload"
