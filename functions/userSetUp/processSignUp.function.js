@@ -36,6 +36,6 @@ function createFirestoreUser(user) {
       uid: user.uid,
       email: user.email,
       photoURL: user.photoURL,
-      applications: []
+      applications: {}
     });
 }
