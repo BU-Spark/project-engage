@@ -222,7 +222,8 @@ export default {
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-        const currDate = year + "-" + month + "-" + day;
+        var monthTemp = month < 10 ? "0" + month : month;
+        const currDate = year + "-" + monthTemp + "-" + day;
         if (
           template[sem] &&
           sem != "Template" &&
