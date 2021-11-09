@@ -35,26 +35,29 @@
                       {{ value["type"] }}
                     </v-card-title>
                   </v-row>
+                  <v-card-text id="card-date">
+                    For: {{ value["semester"] }}
+                  </v-card-text>
                   <!-- Change when due date and text components are added -->
                   <v-card-subtitle id="card-date">
                     Deadline: {{ value["deadline"] }}
                   </v-card-subtitle>
-                  <v-row>
-                    <v-card-text id="app-desc">
-                      {{ value["description"] }}
-                    </v-card-text>
-                  </v-row>
-                  <v-row v-if="value['status'] != 'new'">
-                    <v-card-text id="app-desc">
-                      Submission Date: {{ value["submissionTime"] }}
-                    </v-card-text>
-                  </v-row>
-                  <v-card-actions v-if="n < 3">
+                  <v-card-text id="app-desc">
+                    {{ value["description"] }}
+                  </v-card-text>
+                  <v-card-text v-if="value['status'] != 'new'" id="card-date">
+                    Submission Date: {{ value["submissionTime"] }}
+                  </v-card-text>
+                  <v-card-actions>
                     <v-btn
                       raised
                       id="resume-btn"
                       @click="
-                        resumeApplication(value['type'], value['semester'])
+                        resumeApplication(
+                          value['type'],
+                          value['semester'],
+                          value['status']
+                        )
                       "
                     >
                       {{ actions[n - 1] }}
@@ -74,6 +77,7 @@
       <StudentApplication
         v-bind:type="type"
         v-bind:semester="semester"
+        v-bind:status="statusInd"
         v-on:typeChange="changeType($event)"
       />
     </div>
@@ -99,11 +103,12 @@ export default {
       deadlines: {},
       descriptions: {},
       status: ["new", "started", "submitted"],
-      actions: ["Start", "Resume"],
+      actions: ["Start", "Resume", "View"],
       semester: null,
       semester1: null,
       semester2: null,
       type: null,
+      statusInd: null,
     };
   },
 
@@ -126,9 +131,10 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type, semester) {
+    resumeApplication(type, semester, status) {
       this.type = type;
       this.semester = semester;
+      this.statusInd = status;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
@@ -150,17 +156,18 @@ export default {
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    if (month >= 7 && month <= 11) {
-      this.semester1 = "Fall " + year;
-      this.semester2 = "Spring " + (year + 1);
-    } else if (month >= 0 && month <= 4) {
-      this.semester1 = "Spring " + year;
-      this.semester2 = "Summer " + year;
-    } else {
-      this.semester1 = "Summer " + year;
-      this.semester2 = "Fall " + year;
+    var semList = [];
+    if (month >= 10 || month <= 2) {
+      // Spring application: Oct - Feb
+      semList.push("Spring " + (year + 1));
+    } else if (month >= 1 && month <= 5) {
+      // Summer application: Jan - May
+      semList.push("Summer " + year);
+    } else if (month >= 4 && month <= 8) {
+      // Fall application: Apr - Aug
+      semList.push("Fall " + year);
     }
 
     //grab user application inputs
@@ -178,7 +185,7 @@ export default {
             var time = "";
             if (
               element.submissionTime != undefined &&
-              element.status == "submitted"
+              element.status != "new"
             ) {
               time = new Date(element.submissionTime.seconds * 1000);
               time =
@@ -211,19 +218,16 @@ export default {
       "Innovation Fellowship | UX Designer",
       "Justice Media Co-Lab",
     ];
-    const semesters = [this.semester1, this.semester2];
     await applications.forEach(async (element) => {
       let template = await this.retreiveApplicationTemplate(element);
-      for (const sem of semesters) {
+      for (const sem of semList) {
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var monthTemp = month < 10 ? "0" + month : month;
+        const currDate = year + "-" + monthTemp + "-" + day;
         if (
           template[sem] &&
           sem != "Template" &&
-          template[sem]["deadline"] >=
-            date.getFullYear() +
-              "-" +
-              (date.getMonth() + 1) +
-              "-" +
-              date.getDate()
+          template[sem]["deadline"] >= currDate
         ) {
           let currentDeadline = template[sem]["deadline"];
           let currentDescription = template[sem]["description"];
@@ -372,7 +376,6 @@ v-btn {
   text-overflow: ellipsis;
   margin-left: 2%;
   margin-right: 2%;
-  margin-bottom: 5%;
 }
 
 #card-title {
@@ -386,8 +389,12 @@ v-btn {
 }
 
 #card-date {
-  height: 2%;
   text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  height: 20px;
+  margin-bottom: 15px;
+  margin-top: -15px;
 }
 
 #resume-btn {

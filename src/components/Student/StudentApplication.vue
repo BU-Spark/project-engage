@@ -38,6 +38,7 @@
                 v-bind="attrs"
                 v-on="on"
                 style="background-color: #00A99E; color: white;"
+                v-if="status != 'submitted'"
               >
                 Submit
               </v-btn>
@@ -84,7 +85,7 @@
 import { db, storage } from "@/firebase/init.js";
 export default {
   name: "StudentApplication",
-  props: ["type", "semester"],
+  props: ["type", "semester", "status"],
   data() {
     return {
       schema: [],
@@ -263,6 +264,11 @@ export default {
         this.schemaList.push(temp);
         this.steps.push(this.schema[i]["label"]);
         temp = [];
+      } else if (
+        this.status == "submitted" &&
+        this.schema[i]["type"] == "submit"
+      ) {
+        // don't add the save button
       } else {
         temp.push(this.schema[i]);
       }
