@@ -415,6 +415,12 @@ button[id^="formulate--home"] {
   margin: auto !important;
 }
 
+div[id^="formulate--home"] {
+  width: 50% !important;
+  justify-content: center !important;
+  margin: auto !important;
+}
+
 .formulate-input .formulate-input-label {
   margin: auto;
 }
@@ -423,8 +429,13 @@ button[id^="formulate--home"] {
   margin: auto;
 }
 
-.formulate-input-element.formulate-input-element--select {
+.formulate-input-element {
   margin: auto;
+}
+
+.formulate-input .formulate-input-label {
+  max-width: 100% !important;
+  justify-content: center;
 }
 
 label[id^="formulate--home"] {
