@@ -149,6 +149,9 @@ export default {
   data() {
     return {
       value: {},
+      semester1: "",
+      semester2: "",
+      semester: "",
       schema: null,
       editStatus: false,
       editNotes: false,
@@ -187,21 +190,21 @@ export default {
       search: "",
       headers: [
         {
-          text: "Test",
-          value: "test"
+          text: "First Name",
+          value: "firstname"
         },
         {
-          text: "Name",
-          value: "name"
+          text: "last Name",
+          value: "lastname"
         },
-        {
-          text: "Position",
-          value: "position",
-          filter: value => {
-            if (this.position.length == 0) return true;
-            return this.position.includes(value.toLowerCase());
-          }
-        },
+        // {
+        //   text: "Position",
+        //   value: "position",
+        //   filter: value => {
+        //     if (this.position.length == 0) return true;
+        //     return this.position.includes(value.toLowerCase());
+        //   }
+        // },
         {
           text: "Program",
           value: "program",
@@ -212,7 +215,7 @@ export default {
         },
         {
           text: "Year",
-          value: "year"
+          value: "schoolYear"
         },
         {
           text: "Gender",
@@ -220,7 +223,7 @@ export default {
         },
         {
           text: "Email",
-          value: "Email"
+          value: "email"
         },
         {
           text: "Status",
@@ -264,7 +267,7 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("applications").doc("Fall 2021");
+        const ref = db.collection("applications").doc(this.semester2);
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
@@ -274,7 +277,7 @@ export default {
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = db.collection("applications").doc("Fall 2021");
+          const ref = db.collection("applications").doc(this.semester2);
           const application = await ref
             .collection(this.editItem.program)
             .doc(this.editItem.uid);
@@ -315,14 +318,55 @@ export default {
     }
   },
   async mounted() {
-    const ref = db.collection("applications").doc("Fall 2021");
-    for (let type of this.programList) {
-      const subCol = await ref.collection(type).get();
-      subCol.forEach(element => {
-        this.applications.push(element.data());
-      });
+    const date = new Date();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    if (month >= 7 && month <= 11) {
+      this.semester1 = "Fall " + year;
+      this.semester2 = "Spring " + (year + 1);
+    } else if (month >= 0 && month <= 4) {
+      this.semester1 = "Spring " + year;
+      this.semester2 = "Summer " + year;
+    } else {
+      this.semester1 = "Summer " + year;
+      this.semester2 = "Fall " + year;
     }
-    console.log(this.applications);
+    this.semester = [this.semester2];
+    for (let i = 0; i < this.semester.length; i++) {
+      const ref = db.collection("applications").doc(this.semester[i]);
+      const profileRef = db.collection("applications").doc("Base");
+      for (let type of this.programList) {
+        const subCol = await ref.collection(type).get();
+        subCol.forEach(async element => {
+          let profCol = await profileRef
+            .collection("All")
+            .doc(element.id)
+            .get();
+          if (profCol.data()) {
+            let result = {
+              ...profCol.data(),
+              ...element.data()
+            };
+            if (!("status" in profCol.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 }
+              };
+            }
+            this.applications.push(result);
+          } else {
+            let result = element.data();
+            if (!("status" in element.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 }
+              };
+            }
+            this.applications.push(result);
+          }
+        });
+      }
+    }
   }
 };
 </script>
