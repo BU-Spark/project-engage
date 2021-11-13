@@ -151,6 +151,8 @@ export default {
       this.loading = true;
       this.values.program = this.type;
       this.values = await this.processFiles(this.values);
+      this.values["adminNotes"] = "";
+      this.values["status"] = 0;
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
       const doc = await userRef.get();
@@ -208,6 +210,8 @@ export default {
         this.loading = true;
         this.values.program = this.type;
         this.values = await this.processFiles(this.values);
+        this.values["adminNotes"] = "";
+        this.values["status"] = 1;
         await this.userBaseRef.set(this.values);
         const userRef = db.collection("users").doc(this.user.uid);
         const doc = await userRef.get();
