@@ -5,7 +5,8 @@
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Status</span>
+              <span v-if="editStatus" class="headline">Status</span>
+              <span v-else-if="editNotes" class="headline">Notes</span>
             </v-card-title>
 
             <v-card-text>
