@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.rules != 'required'">
+    <div v-if="this.validation != 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -22,7 +22,7 @@
         chips
       ></v-combobox>
     </div>
-    <div v-if="this.rules == 'required'">
+    <div v-if="this.validation == 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -55,9 +55,9 @@ export default {
       type: Object
     },
     items: {
-      type: String
+      type: Array
     },
-    rules: {
+    validation: {
       type: String
     }
   },
@@ -85,28 +85,32 @@ export default {
   methods: {
     onAutoCompleteSelection(inputs) {
       this.comboBoxDummyModel = inputs;
-      var index = this.comboBoxDummyModel.length - 1;
-      var item = this.comboBoxDummyModel[index];
-      var firstWord = item.split(" ")[0];
-      if (
-        firstWord != "Beginner" &&
-        firstWord != "beginner" &&
-        firstWord != "Intermediate" &&
-        firstWord != "intermediate" &&
-        firstWord != "Expert" &&
-        firstWord != "expert"
-      ) {
-        this.comboBoxDummyModel.splice(this.comboBoxDummyModel.length - 1, 1);
+      console.log(this.comboBoxDummyModel);
+      console.log("this.comboBoxDummyModel");
+      if (this.comboBoxDummyModel != null) {
+        var index = this.comboBoxDummyModel.length - 1;
+        var item = this.comboBoxDummyModel[index];
+        var firstWord = item.split(" ")[0];
+        if (
+          firstWord != "Beginner" &&
+          firstWord != "beginner" &&
+          firstWord != "Intermediate" &&
+          firstWord != "intermediate" &&
+          firstWord != "Expert" &&
+          firstWord != "expert"
+        ) {
+          this.comboBoxDummyModel.splice(this.comboBoxDummyModel.length - 1, 1);
+        }
+        if (
+          firstWord == "beginner" ||
+          firstWord == "intermediate" ||
+          firstWord == "expert"
+        ) {
+          this.comboBoxDummyModel[index] =
+            item.charAt(0).toUpperCase() + item.slice(1);
+        }
+        this.comboBoxModel = this.comboBoxDummyModel;
       }
-      if (
-        firstWord == "beginner" ||
-        firstWord == "intermediate" ||
-        firstWord == "expert"
-      ) {
-        this.comboBoxDummyModel[index] =
-          item.charAt(0).toUpperCase() + item.slice(1);
-      }
-      this.comboBoxModel = this.comboBoxDummyModel;
     },
     customOnChangeHandler() {
       let vm = this;

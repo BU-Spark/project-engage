@@ -1,26 +1,35 @@
 <template>
-  <!-- ??? rule for file still needs fix, when delete file -->
-  <v-stepper v-model="section" vertical>
-    <template v-for="(n, i) in steps">
-      <v-stepper-step
-        :key="`${n}-step`"
-        :complete="section > n"
-        :step="i"
-        editable
-        class="stepperColor"
-      >
-        {{ n }}
-      </v-stepper-step>
-      <v-stepper-content :key="`${n}-content`" :step="i">
-        <FormulateForm
-          class="form-wrapper"
-          v-model="values"
-          :schema="schemaList[i]"
-          @submit="submitProfile"
-        />
-      </v-stepper-content>
-    </template>
-  </v-stepper>
+  <!-- ??? rule for file still needs fix -->
+  <!-- ^mime:application/pdf|^matches:/[firebasestorage]/ -->
+  <!-- [^mime:application/pdf]|[.*\]]/ -->
+  <div>
+    <v-stepper v-model="section" vertical>
+      <template v-for="(n, i) in steps">
+        <v-stepper-step
+          :key="`${n}-step`"
+          :complete="section > n"
+          :step="i"
+          editable
+          class="stepperColor"
+        >
+          {{ n }}
+        </v-stepper-step>
+        <v-stepper-content :key="`${n}-content`" :step="i">
+          <FormulateForm
+            class="form-wrapper"
+            v-model="values"
+            :schema="schemaList[i]"
+            @submit="submitProfile"
+          />
+          <v-row justify="center" style="margin-top: 20px">
+            <v-alert dense text type="success" v-if="message == true">
+              Saved profile!
+            </v-alert>
+          </v-row>
+        </v-stepper-content>
+      </template>
+    </v-stepper>
+  </div>
 </template>
 
 <script>
@@ -38,7 +47,8 @@ export default {
       schemaList: [],
       values: null,
       steps: [],
-      section: 1
+      section: 1,
+      message: false
     };
   },
   props: {
@@ -96,6 +106,8 @@ export default {
         .collection("All")
         .doc(this.user.uid);
       await userBaseRef.set(valuesCopy);
+
+      this.message = true;
     }
   },
   async mounted() {
@@ -109,7 +121,6 @@ export default {
       console.log("No such document!");
     } else {
       this.values = doc.data();
-      console.log("Document data:", doc.data());
     }
 
     const formRef = db.collection("applicationTemplate").doc("Base");
@@ -122,12 +133,27 @@ export default {
         this.schemaList.push(temp);
         this.steps.push(this.schema[i]["label"]);
         temp = [];
-      } else {
+      }
+      // else if (this.schema[i]["type"] == "file") {
+      //     const files = this.values[this.schema[i]["name"]];
+      //     const fileObjects = []
+      //     for (var j = 0; j < files.length; j++) {
+      //         let file = await fetch(files[j]['url']).then(r => r.blob()).then(blobFile => new File([blobFile], files[j]['name'], {
+      //             type: "application/pdf"
+      //         }))
+      //         fileObjects.push(file)
+      //     }
+      //     this.values[this.schema[i]["name"]] = fileObjects
+      //     temp.push(this.schema[i]);
+      // }
+      else {
         temp.push(this.schema[i]);
       }
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
+    console.log(this.values);
+    console.log(this.schemaList);
   }
 };
 </script>
