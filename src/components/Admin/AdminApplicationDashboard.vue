@@ -84,11 +84,19 @@
         </v-card-title>
         <div>
           <v-row>
-            <v-flex mx-1>
+            <!-- <v-flex mx-1>
               <v-select
                 :items="positionList"
                 v-model="position"
                 label="Position"
+                multiple
+              ></v-select>
+            </v-flex> -->
+            <v-flex mx-1>
+              <v-select
+                :items="semester"
+                v-model="chosenSemester"
+                label="Semester"
                 multiple
               ></v-select>
             </v-flex>
@@ -160,6 +168,7 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
+      chosenSemester: [],
       positionList: [
         "team lead",
         "ux designer",
@@ -205,6 +214,14 @@ export default {
         //     return this.position.includes(value.toLowerCase());
         //   }
         // },
+        {
+          text: "Semester",
+          value: "semester",
+          filter: value => {
+            if (this.chosenSemester.length == 0) return true;
+            return this.chosenSemester.includes(value);
+          }
+        },
         {
           text: "Program",
           value: "program",
@@ -255,6 +272,7 @@ export default {
       }
       this.editIndex = this.applications.indexOf(item);
       this.editItem = Object.assign({}, item);
+      console.log(this.editItem);
       this.dialog = true;
     },
     close() {
@@ -272,7 +290,7 @@ export default {
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          notes: this.editItem.notes
+          adminNotes: this.editItem.notes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
@@ -331,7 +349,7 @@ export default {
       this.semester1 = "Summer " + year;
       this.semester2 = "Fall " + year;
     }
-    this.semester = [this.semester2];
+    this.semester = [this.semester1, this.semester2];
     for (let i = 0; i < this.semester.length; i++) {
       const ref = db.collection("applications").doc(this.semester[i]);
       const profileRef = db.collection("applications").doc("Base");
@@ -345,7 +363,8 @@ export default {
           if (profCol.data()) {
             let result = {
               ...profCol.data(),
-              ...element.data()
+              ...element.data(),
+              ...{ uid: element.id, semester: this.semester[i] }
             };
             if (!("status" in profCol.data())) {
               result = {
@@ -355,7 +374,10 @@ export default {
             }
             this.applications.push(result);
           } else {
-            let result = element.data();
+            let result = {
+              ...element.data(),
+              ...{ uid: element.id, semester: this.semester[i] }
+            };
             if (!("status" in element.data())) {
               result = {
                 ...result,
