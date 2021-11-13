@@ -444,6 +444,21 @@ export default {
     },
     addItem() {
       if (
+        this.nameInput == "status" ||
+        this.nameParagraph == "status" ||
+        this.nameDropdown == "status" ||
+        this.nameCombobox == "status" ||
+        this.nameFile == "status" ||
+        this.nameSection == "status" ||
+        this.nameInput == "adminNotes" ||
+        this.nameParagraph == "adminNotes" ||
+        this.nameDropdown == "adminNotes" ||
+        this.nameCombobox == "adminNotes" ||
+        this.nameFile == "adminNotes" ||
+        this.nameSection == "adminNotes"
+      ) {
+        alert('id "status" or "adminNotes" cannot be used');
+      } else if (
         (this.questionSelected == "Input Field" &&
           (!this.labelInput ||
             !this.nameInput ||
