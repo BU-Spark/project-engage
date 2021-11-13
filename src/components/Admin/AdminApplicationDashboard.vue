@@ -5,7 +5,8 @@
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Status</span>
+              <span v-if="editStatus" class="headline">Status</span>
+              <span v-else-if="editNotes" class="headline">Notes</span>
             </v-card-title>
 
             <v-card-text>
@@ -84,11 +85,19 @@
         </v-card-title>
         <div>
           <v-row>
-            <v-flex mx-1>
+            <!-- <v-flex mx-1>
               <v-select
                 :items="positionList"
                 v-model="position"
                 label="Position"
+                multiple
+              ></v-select>
+            </v-flex> -->
+            <v-flex mx-1>
+              <v-select
+                :items="semester"
+                v-model="chosenSemester"
+                label="Semester"
                 multiple
               ></v-select>
             </v-flex>
@@ -149,6 +158,9 @@ export default {
   data() {
     return {
       value: {},
+      semester1: "",
+      semester2: "",
+      semester: "",
       schema: null,
       editStatus: false,
       editNotes: false,
@@ -157,6 +169,7 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
+      chosenSemester: [],
       positionList: [
         "team lead",
         "ux designer",
@@ -187,19 +200,27 @@ export default {
       search: "",
       headers: [
         {
-          text: "Test",
-          value: "test"
+          text: "First Name",
+          value: "firstname"
         },
         {
-          text: "Name",
-          value: "name"
+          text: "last Name",
+          value: "lastname"
         },
+        // {
+        //   text: "Position",
+        //   value: "position",
+        //   filter: value => {
+        //     if (this.position.length == 0) return true;
+        //     return this.position.includes(value.toLowerCase());
+        //   }
+        // },
         {
-          text: "Position",
-          value: "position",
+          text: "Semester",
+          value: "semester",
           filter: value => {
-            if (this.position.length == 0) return true;
-            return this.position.includes(value.toLowerCase());
+            if (this.chosenSemester.length == 0) return true;
+            return this.chosenSemester.includes(value);
           }
         },
         {
@@ -212,7 +233,7 @@ export default {
         },
         {
           text: "Year",
-          value: "year"
+          value: "schoolYear"
         },
         {
           text: "Gender",
@@ -220,7 +241,7 @@ export default {
         },
         {
           text: "Email",
-          value: "Email"
+          value: "email"
         },
         {
           text: "Status",
@@ -252,6 +273,7 @@ export default {
       }
       this.editIndex = this.applications.indexOf(item);
       this.editItem = Object.assign({}, item);
+      console.log(this.editItem);
       this.dialog = true;
     },
     close() {
@@ -264,17 +286,17 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("applications").doc("Fall 2021");
+        const ref = db.collection("applications").doc(this.semester2);
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          notes: this.editItem.notes
+          adminNotes: this.editItem.notes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = db.collection("applications").doc("Fall 2021");
+          const ref = db.collection("applications").doc(this.semester2);
           const application = await ref
             .collection(this.editItem.program)
             .doc(this.editItem.uid);
@@ -315,14 +337,59 @@ export default {
     }
   },
   async mounted() {
-    const ref = db.collection("applications").doc("Fall 2021");
-    for (let type of this.programList) {
-      const subCol = await ref.collection(type).get();
-      subCol.forEach(element => {
-        this.applications.push(element.data());
-      });
+    const date = new Date();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    if (month >= 7 && month <= 11) {
+      this.semester1 = "Fall " + year;
+      this.semester2 = "Spring " + (year + 1);
+    } else if (month >= 0 && month <= 4) {
+      this.semester1 = "Spring " + year;
+      this.semester2 = "Summer " + year;
+    } else {
+      this.semester1 = "Summer " + year;
+      this.semester2 = "Fall " + year;
     }
-    console.log(this.applications);
+    this.semester = [this.semester1, this.semester2];
+    for (let i = 0; i < this.semester.length; i++) {
+      const ref = db.collection("applications").doc(this.semester[i]);
+      const profileRef = db.collection("applications").doc("Base");
+      for (let type of this.programList) {
+        const subCol = await ref.collection(type).get();
+        subCol.forEach(async element => {
+          let profCol = await profileRef
+            .collection("All")
+            .doc(element.id)
+            .get();
+          if (profCol.data()) {
+            let result = {
+              ...profCol.data(),
+              ...element.data(),
+              ...{ uid: element.id, semester: this.semester[i] }
+            };
+            if (!("status" in profCol.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 }
+              };
+            }
+            this.applications.push(result);
+          } else {
+            let result = {
+              ...element.data(),
+              ...{ uid: element.id, semester: this.semester[i] }
+            };
+            if (!("status" in element.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 }
+              };
+            }
+            this.applications.push(result);
+          }
+        });
+      }
+    }
   }
 };
 </script>
