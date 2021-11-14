@@ -1,6 +1,8 @@
 <template>
   <v-layout align-center justify-center>
-    <v-container>
+    <v-container
+      v-if="viewStudentApplication == false && viewStudentProfile == false"
+    >
       <template>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -130,6 +132,18 @@
           :search="search"
           class="elevation-1"
         >
+          <template v-slot:item.firstname="{ item }">
+            <button @click="viewProfile(item)" style="color: #00A99E;">
+              {{ item.firstname }}
+            </button>
+          </template>
+
+          <template v-slot:item.program="{ item }">
+            <button @click="viewApplication(item)" style="color: #00A99E;">
+              {{ item.program }}
+            </button>
+          </template>
+
           <template v-slot:item.status="{ item }">
             <button @click="editApplication(item, 'status')">
               {{ getStatus(item.status) }}
@@ -147,14 +161,33 @@
         <v-btn @click="back">Cancel</v-btn>
       </v-container>
     </v-container>
+    <v-container v-if="viewStudentApplication == true">
+      <ViewStudentApplication
+        v-bind:item="item"
+        v-on:typeChange="backToTable($event)"
+      />
+      <v-btn @click="backToTable">Back</v-btn>
+    </v-container>
+    <v-container v-if="viewStudentProfile == true">
+      <ViewStudentProfile
+        v-bind:item="item"
+        v-on:typeChange="backToTable($event)"
+      />
+      <v-btn @click="backToTable">Back</v-btn>
+    </v-container>
   </v-layout>
 </template>
 
 <script>
 import { db } from "@/firebase/init";
+import ViewStudentApplication from "@/components/Admin/ViewStudentApplication.vue";
+import ViewStudentProfile from "@/components/Admin/ViewStudentProfile.vue";
 export default {
   name: "AdminApplicationDashboard",
-  components: {},
+  components: {
+    ViewStudentApplication,
+    ViewStudentProfile
+  },
   data() {
     return {
       value: {},
@@ -170,6 +203,9 @@ export default {
       applications: [],
       selected: null,
       chosenSemester: [],
+      viewStudentApplication: false,
+      viewStudentProfile: false,
+      item: null,
       positionList: [
         "team lead",
         "ux designer",
@@ -263,6 +299,18 @@ export default {
     back() {
       this.$router.go(-1);
     },
+    backToTable() {
+      this.viewStudentApplication = false;
+      this.viewStudentProfile = false;
+    },
+    viewProfile(item) {
+      this.item = item;
+      this.viewStudentProfile = true;
+    },
+    viewApplication(item) {
+      this.item = item;
+      this.viewStudentApplication = true;
+    },
     editApplication(item, field) {
       if (field == "notes") {
         this.editNotes = true;
@@ -273,7 +321,6 @@ export default {
       }
       this.editIndex = this.applications.indexOf(item);
       this.editItem = Object.assign({}, item);
-      console.log(this.editItem);
       this.dialog = true;
     },
     close() {
@@ -365,24 +412,34 @@ export default {
             let result = {
               ...profCol.data(),
               ...element.data(),
-              ...{ uid: element.id, semester: this.semester[i] }
+              ...{
+                uid: element.id,
+                semester: this.semester[i]
+              }
             };
             if (!("status" in profCol.data())) {
               result = {
                 ...result,
-                ...{ status: 1 }
+                ...{
+                  status: 1
+                }
               };
             }
             this.applications.push(result);
           } else {
             let result = {
               ...element.data(),
-              ...{ uid: element.id, semester: this.semester[i] }
+              ...{
+                uid: element.id,
+                semester: this.semester[i]
+              }
             };
             if (!("status" in element.data())) {
               result = {
                 ...result,
-                ...{ status: 1 }
+                ...{
+                  status: 1
+                }
               };
             }
             this.applications.push(result);
