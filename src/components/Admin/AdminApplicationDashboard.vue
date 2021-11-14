@@ -280,6 +280,10 @@ export default {
           value: "email"
         },
         {
+          text: "Submisson Time",
+          value: "submissionTime"
+        },
+        {
           text: "Status",
           value: "status",
           filter: value => {
@@ -404,6 +408,19 @@ export default {
       for (let type of this.programList) {
         const subCol = await ref.collection(type).get();
         subCol.forEach(async element => {
+          const user = await db
+            .collection("users")
+            .doc(element.id)
+            .get();
+          const applications = user.data().applications[this.semester[i]];
+
+          let submissionTime;
+          for (let i = 0; i < applications.length; i++) {
+            if (applications[i].type == type) {
+              submissionTime = applications[i].submissionTime;
+              submissionTime = new Date(submissionTime.seconds);
+            }
+          }
           let profCol = await profileRef
             .collection("All")
             .doc(element.id)
@@ -414,7 +431,8 @@ export default {
               ...element.data(),
               ...{
                 uid: element.id,
-                semester: this.semester[i]
+                semester: this.semester[i],
+                submissionTime: submissionTime
               }
             };
             if (!("status" in profCol.data())) {
@@ -431,7 +449,8 @@ export default {
               ...element.data(),
               ...{
                 uid: element.id,
-                semester: this.semester[i]
+                semester: this.semester[i],
+                submissionTime: submissionTime
               }
             };
             if (!("status" in element.data())) {
