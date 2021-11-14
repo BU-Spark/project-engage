@@ -157,9 +157,6 @@
           </template>
         </v-data-table>
       </template>
-      <v-container>
-        <v-btn @click="back">Cancel</v-btn>
-      </v-container>
     </v-container>
     <v-container v-if="viewStudentApplication == true">
       <ViewStudentApplication
