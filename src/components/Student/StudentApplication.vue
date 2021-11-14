@@ -162,18 +162,28 @@ export default {
         if (!doc.data().applications[this.semester]) {
           applications[this.semester] = [];
         }
-        applications[this.semester].some(x => {
+        var temp = applications[this.semester].some(x => {
           return x.type == this.type;
-        }) === false
-          ? applications[this.semester].push({
-              type: this.type,
-              status: "started",
-              submissionTime: new Date()
-            })
-          : console.log("application exisited");
+        });
+        if (temp === false) {
+          applications[this.semester].push({
+            type: this.type,
+            status: "started",
+            submissionTime: new Date()
+          });
+        } else {
+          for (var i = 0; i < applications[this.semester].length; i++) {
+            if (applications[this.semester][i]["type"] == this.type) {
+              applications[this.semester][i] = {
+                type: this.type,
+                status: "started",
+                submissionTime: new Date()
+              };
+            }
+          }
+        }
       } else {
         applications = {};
-        applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
           status: "started",

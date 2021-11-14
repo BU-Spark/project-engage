@@ -444,20 +444,64 @@ export default {
     },
     addItem() {
       if (
+        this.nameInput == "firstname" ||
+        this.nameParagraph == "firstname" ||
+        this.nameDropdown == "firstname" ||
+        this.nameCombobox == "firstname" ||
+        this.nameFile == "firstname" ||
+        this.nameSection == "firstname" ||
+        this.nameInput == "lastname" ||
+        this.nameParagraph == "lastname" ||
+        this.nameDropdown == "lastname" ||
+        this.nameCombobox == "lastname" ||
+        this.nameFile == "lastname" ||
+        this.nameSection == "lastname" ||
+        this.nameInput == "semester" ||
+        this.nameParagraph == "semester" ||
+        this.nameDropdown == "semester" ||
+        this.nameCombobox == "semester" ||
+        this.nameFile == "semester" ||
+        this.nameSection == "semester" ||
+        this.nameInput == "program" ||
+        this.nameParagraph == "program" ||
+        this.nameDropdown == "program" ||
+        this.nameCombobox == "program" ||
+        this.nameFile == "program" ||
+        this.nameSection == "program" ||
+        this.nameInput == "schoolYear" ||
+        this.nameParagraph == "schoolYear" ||
+        this.nameDropdown == "schoolYear" ||
+        this.nameCombobox == "schoolYear" ||
+        this.nameFile == "schoolYear" ||
+        this.nameSection == "schoolYear" ||
+        this.nameInput == "gender" ||
+        this.nameParagraph == "gender" ||
+        this.nameDropdown == "gender" ||
+        this.nameCombobox == "gender" ||
+        this.nameFile == "gender" ||
+        this.nameSection == "gender" ||
+        this.nameInput == "email" ||
+        this.nameParagraph == "email" ||
+        this.nameDropdown == "email" ||
+        this.nameCombobox == "email" ||
+        this.nameFile == "email" ||
+        this.nameSection == "email" ||
         this.nameInput == "status" ||
         this.nameParagraph == "status" ||
         this.nameDropdown == "status" ||
         this.nameCombobox == "status" ||
         this.nameFile == "status" ||
         this.nameSection == "status" ||
-        this.nameInput == "adminNotes" ||
-        this.nameParagraph == "adminNotes" ||
-        this.nameDropdown == "adminNotes" ||
-        this.nameCombobox == "adminNotes" ||
-        this.nameFile == "adminNotes" ||
-        this.nameSection == "adminNotes"
+        this.nameInput == "note" ||
+        this.nameParagraph == "note" ||
+        this.nameDropdown == "note" ||
+        this.nameCombobox == "note" ||
+        this.nameFile == "note" ||
+        this.nameSection == "note"
       ) {
-        alert('id "status" or "adminNotes" cannot be used');
+        alert(
+          'id "firstname", "lastname", "semester", "program", "schoolYear", "gender", "email", "status", or "note" cannot be used'
+        );
       } else if (
         (this.questionSelected == "Input Field" &&
           (!this.labelInput ||
