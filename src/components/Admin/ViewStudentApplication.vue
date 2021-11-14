@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!loading">
+    <div>
       <h3>Student Application</h3>
 
       <!-- student info -->
@@ -92,7 +92,6 @@ export default {
       schemaList: [],
       values: null,
       userBaseRef: null,
-      loading: false,
       steps: [],
       section: 1,
       dialog: false
