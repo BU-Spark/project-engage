@@ -23,7 +23,10 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Under Review" :value="2"></v-radio>
+                          <v-radio
+                            label="Under Review"
+                            value="Interviewing"
+                          ></v-radio>
                         </td>
                       </tr>
                       <tr>
@@ -33,10 +36,12 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Reviewed" :value="3"></v-radio>
+                          <v-radio
+                            label="Interviewed"
+                            value="Interviewed"
+                          ></v-radio>
                         </td>
                       </tr>
-
                       <tr>
                         <td class="text-center">
                           <svg height="30" width="50">
@@ -44,7 +49,7 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Accepted" :value="5"></v-radio>
+                          <v-radio label="Accepted" value="Accepted"></v-radio>
                         </td>
                       </tr>
                       <tr>
@@ -54,7 +59,7 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Rejected" :value="6"></v-radio>
+                          <v-radio label="Rejected" value="Rejected"></v-radio>
                         </td>
                       </tr>
                     </v-radio-group>
@@ -146,7 +151,7 @@
 
           <template v-slot:item.status="{ item }">
             <button @click="editApplication(item, 'status')">
-              {{ getStatus(item.status) }}
+              {{ item.status }}
             </button>
           </template>
 
@@ -344,44 +349,24 @@ export default {
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = db.collection("applications").doc(this.semester2);
-          const application = await ref
-            .collection(this.editItem.program)
-            .doc(this.editItem.uid);
-          await application.update({
-            status: this.editItem.status
+          const ref = await db.collection("users").doc(this.editItem.uid);
+          let applications = await ref.get();
+          applications = applications.data().applications[
+            this.editItem.semester
+          ];
+          for (let i = 0; i < applications.length; i++) {
+            if (applications[i].type == this.editItem.program) {
+              applications[i].status = this.editItem.status;
+            }
+          }
+          await ref.update({
+            applications: applications
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
 
       this.close();
-    },
-    getStatus(status) {
-      if (status == 0) {
-        return "started";
-      }
-      if (status == 1) {
-        return "submitted";
-      }
-      if (status == 2) {
-        return "under review";
-      }
-      if (status == 3) {
-        return "reviewed";
-      }
-      if (status == 4) {
-        return "interviewing";
-      }
-      if (status == 5) {
-        return "accepted";
-      }
-      if (status == 6) {
-        return "rejcted";
-      }
-      if (status == 7) {
-        return "declined";
-      }
     }
   },
   async mounted() {
@@ -412,10 +397,13 @@ export default {
           const applications = user.data().applications[this.semester[i]];
 
           let submissionTime;
+          let status;
+          let result;
           for (let i = 0; i < applications.length; i++) {
             if (applications[i].type == type) {
               submissionTime = applications[i].submissionTime;
               submissionTime = new Date(submissionTime.seconds);
+              status = applications[i].status;
             }
           }
           let profCol = await profileRef
@@ -423,41 +411,30 @@ export default {
             .doc(element.id)
             .get();
           if (profCol.data()) {
-            let result = {
+            result = {
               ...profCol.data(),
-              ...element.data(),
+              ...element.data()
+            };
+            result = {
+              ...result,
               ...{
                 uid: element.id,
                 semester: this.semester[i],
-                submissionTime: submissionTime
+                submissionTime: submissionTime,
+                status: status
               }
             };
-            if (!("status" in profCol.data())) {
-              result = {
-                ...result,
-                ...{
-                  status: 1
-                }
-              };
-            }
             this.applications.push(result);
           } else {
-            let result = {
+            result = {
               ...element.data(),
               ...{
                 uid: element.id,
                 semester: this.semester[i],
-                submissionTime: submissionTime
+                submissionTime: submissionTime,
+                status: status
               }
             };
-            if (!("status" in element.data())) {
-              result = {
-                ...result,
-                ...{
-                  status: 1
-                }
-              };
-            }
             this.applications.push(result);
           }
         });
