@@ -2,7 +2,9 @@
   <div>
     <div v-if="this.validation != 'required'">
       <v-combobox
-        :class="`formulate-input-element formulate-input-element--${context.type}`"
+        :class="
+          `formulate-input-element formulate-input-element--${context.type}`
+        "
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
@@ -12,7 +14,9 @@
         @paste="customOnChangeHandler"
         :items="items"
         persistent-hint
-        :hint="'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'"
+        :hint="
+          'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'
+        "
         label="Select"
         multiple
         chips
@@ -20,7 +24,9 @@
     </div>
     <div v-if="this.validation == 'required'">
       <v-combobox
-        :class="`formulate-input-element formulate-input-element--${context.type}`"
+        :class="
+          `formulate-input-element formulate-input-element--${context.type}`
+        "
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
@@ -30,7 +36,9 @@
         @paste="customOnChangeHandler"
         :items="items"
         persistent-hint
-        :hint="'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'"
+        :hint="
+          'Levels: Beginner, Intermediate, Expert (Format: Beginner Python, Intermediate UX Design, Expert Frontend)'
+        "
         label="Select"
         :rules="[() => !!context.model || 'This field is required']"
         multiple
@@ -44,19 +52,19 @@
 export default {
   props: {
     context: {
-      type: Object,
+      type: Object
     },
     items: {
-      type: Array,
+      type: Array
     },
     validation: {
-      type: String,
-    },
+      type: String
+    }
   },
   data() {
     return {
       comboBoxDummyModel: [],
-      comboBoxModel: [],
+      comboBoxModel: []
     };
   },
   computed: {
@@ -72,7 +80,7 @@ export default {
       // }
       errors.push("Please follow the input format");
       return errors;
-    },
+    }
   },
   methods: {
     onAutoCompleteSelection(inputs) {
@@ -106,12 +114,12 @@ export default {
     },
     customOnChangeHandler() {
       let vm = this;
-      setTimeout(function () {
+      setTimeout(function() {
         if (vm.$refs.numberComboBox) {
           vm.comboBoxModel = vm.$refs.numberComboBox.internalSearch;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div id="main-container">
-    <h2 style="padding-bottom: 10px">{{ this.type }}</h2>
+    <h2 style="padding-bottom: 10px;">{{ this.type }}</h2>
     <div v-if="baseProfile">
       <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
         <v-stepper-header>
@@ -92,7 +92,9 @@
         Please fill out your Spark! Student Profile first before you can submit
         applications!
       </h2>
-      <h3>(upper left hand corner)</h3>
+      <h3>
+        (upper left hand corner)
+      </h3>
     </div>
   </div>
 </template>
@@ -101,12 +103,12 @@ import { db } from "@/firebase/init.js";
 import StudentApplication from "@/components/Student/StudentApplication.vue";
 export default {
   components: {
-    StudentApplication,
+    StudentApplication
   },
   computed: {
     user() {
       return this.$store.state.user;
-    },
+    }
   },
   data() {
     return {
@@ -122,6 +124,7 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
+      baseProfile: false
     };
   },
 
@@ -130,7 +133,7 @@ export default {
       if (this.e1 > val) {
         this.e1 = val;
       }
-    },
+    }
   },
 
   methods: {
@@ -164,7 +167,7 @@ export default {
         }
       }
       return infoList;
-    },
+    }
   },
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
@@ -204,8 +207,8 @@ export default {
     var timeSubmitted = [];
 
     if (apps) {
-      await Object.keys(apps).forEach(async function (key) {
-        await apps[key].forEach(async (element) => {
+      await Object.keys(apps).forEach(async function(key) {
+        await apps[key].forEach(async element => {
           if (element.type != "Template") {
             var time = "";
             if (
@@ -224,13 +227,13 @@ export default {
               semester: key,
               status: element.status,
               type: element.type,
-              submissionTime: time,
+              submissionTime: time
             };
             startedsubmittedList.push(JSON.stringify(temp));
             timeSubmitted.push({
               semester: key,
               type: element.type,
-              time: time,
+              time: time
             });
           }
         });
@@ -241,9 +244,9 @@ export default {
       "Innovation Fellowship | Innovator",
       "Innovation Fellowship | Technical Teammate",
       "Innovation Fellowship | UX Designer",
-      "Justice Media Co-Lab",
+      "Justice Media Co-Lab"
     ];
-    await applications.forEach(async (element) => {
+    await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
@@ -256,7 +259,7 @@ export default {
         ) {
           let currentDeadline = template[sem]["deadline"];
           let currentDescription = template[sem]["description"];
-          var time = timeSubmitted.filter(function (v) {
+          var time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;
           });
           if (time.length > 0) {
@@ -269,7 +272,7 @@ export default {
               semester: sem,
               status: "started",
               type: element,
-              submissionTime: time,
+              submissionTime: time
             })
           );
           var isSubmitted = startedsubmittedList.includes(
@@ -277,7 +280,7 @@ export default {
               semester: sem,
               status: "submitted",
               type: element,
-              submissionTime: time,
+              submissionTime: time
             })
           );
           if (isStarted) {
@@ -287,7 +290,7 @@ export default {
               description: currentDescription,
               status: "started",
               semester: sem,
-              submissionTime: time,
+              submissionTime: time
             });
           }
           if (isSubmitted) {
@@ -297,7 +300,7 @@ export default {
               description: currentDescription,
               status: "submitted",
               semester: sem,
-              submissionTime: time,
+              submissionTime: time
             });
           }
           if (!isStarted && !isSubmitted) {
@@ -307,14 +310,14 @@ export default {
               description: currentDescription,
               status: "new",
               semester: sem,
-              submissionTime: time,
+              submissionTime: time
             });
           }
         }
       }
     });
     this.information = tempList;
-  },
+  }
 };
 </script>
 <style scoped>
