@@ -197,6 +197,7 @@ export default {
     } else {
       this.baseProfile = true;
     }
+    console.log(this.baseProfile);
 
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
