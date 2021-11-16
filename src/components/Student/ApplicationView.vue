@@ -1,85 +1,100 @@
 <template>
   <div id="main-container">
     <h2 style="padding-bottom: 10px;">{{ this.type }}</h2>
-    <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
-      <v-stepper-header>
-        <template v-for="n in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="e1 > n"
-            :step="n"
-            editable
-          >
-            {{ status[n - 1] }}
-          </v-stepper-step>
+    <div v-if="baseProfile">
+      <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
+        <v-stepper-header>
+          <template v-for="n in steps">
+            <v-stepper-step
+              :key="`${n}-step`"
+              :complete="e1 > n"
+              :step="n"
+              editable
+            >
+              {{ status[n - 1] }}
+            </v-stepper-step>
 
-          <v-divider v-if="n !== steps" :key="n"></v-divider>
-        </template>
-      </v-stepper-header>
-      <v-stepper-items>
-        <v-row no-gutters>
-          <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
-            <v-row>
-              <v-col
-                cols="12"
-                md="4"
-                v-for="(value, i) in filterInfo(information, n)"
-                :key="i"
-              >
-                <v-card
-                  id="card-component"
-                  v-if="value['status'] == status[n - 1]"
+            <v-divider v-if="n !== steps" :key="n"></v-divider>
+          </template>
+        </v-stepper-header>
+        <v-stepper-items>
+          <v-row no-gutters>
+            <v-stepper-content
+              v-for="n in steps"
+              :key="`${n}-content`"
+              :step="n"
+            >
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="4"
+                  v-for="(value, i) in filterInfo(information, n)"
+                  :key="i"
                 >
-                  <v-row>
-                    <v-card-title id="card-title">
-                      {{ value["type"] }}
-                    </v-card-title>
-                  </v-row>
-                  <v-card-text id="card-date">
-                    For: {{ value["semester"] }}
-                  </v-card-text>
-                  <!-- Change when due date and text components are added -->
-                  <v-card-subtitle id="card-date">
-                    Deadline: {{ value["deadline"] }}
-                  </v-card-subtitle>
-                  <v-card-text id="app-desc">
-                    {{ value["description"] }}
-                  </v-card-text>
-                  <v-card-text v-if="value['status'] != 'new'" id="card-date">
-                    Submission Date: {{ value["submissionTime"] }}
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-btn
-                      raised
-                      id="resume-btn"
-                      @click="
-                        resumeApplication(
-                          value['type'],
-                          value['semester'],
-                          value['status']
-                        )
-                      "
-                    >
-                      {{ actions[n - 1] }}
-                      <v-icon aria-hidden="false" id="resume-app-btn"
-                        >mdi-arrow-right-drop-circle</v-icon
+                  <v-card
+                    id="card-component"
+                    v-if="value['status'] == status[n - 1]"
+                  >
+                    <v-row>
+                      <v-card-title id="card-title">
+                        {{ value["type"] }}
+                      </v-card-title>
+                    </v-row>
+                    <v-card-text id="card-date">
+                      For: {{ value["semester"] }}
+                    </v-card-text>
+                    <!-- Change when due date and text components are added -->
+                    <v-card-subtitle id="card-date">
+                      Deadline: {{ value["deadline"] }}
+                    </v-card-subtitle>
+                    <v-card-text id="app-desc">
+                      {{ value["description"] }}
+                    </v-card-text>
+                    <v-card-text v-if="value['status'] != 'new'" id="card-date">
+                      Submission Date: {{ value["submissionTime"] }}
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        raised
+                        id="resume-btn"
+                        @click="
+                          resumeApplication(
+                            value['type'],
+                            value['semester'],
+                            value['status']
+                          )
+                        "
                       >
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-stepper-content>
-        </v-row>
-      </v-stepper-items>
-    </v-stepper>
-    <div v-else>
-      <StudentApplication
-        v-bind:type="type"
-        v-bind:semester="semester"
-        v-bind:status="statusInd"
-        v-on:typeChange="changeType($event)"
-      />
+                        {{ actions[n - 1] }}
+                        <v-icon aria-hidden="false" id="resume-app-btn"
+                          >mdi-arrow-right-drop-circle</v-icon
+                        >
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-stepper-content>
+          </v-row>
+        </v-stepper-items>
+      </v-stepper>
+      <div v-else>
+        <StudentApplication
+          v-bind:type="type"
+          v-bind:semester="semester"
+          v-bind:status="statusInd"
+          v-on:typeChange="changeType($event)"
+        />
+      </div>
+    </div>
+    <div v-else class="title">
+      <h2>
+        Please fill out your Spark! Student Profile first before you can submit
+        applications!
+      </h2>
+      <h3>
+        (upper left hand corner)
+      </h3>
     </div>
   </div>
 </template>
@@ -108,7 +123,8 @@ export default {
       semester1: null,
       semester2: null,
       type: null,
-      statusInd: null
+      statusInd: null,
+      baseProfile: false
     };
   },
 
@@ -168,6 +184,18 @@ export default {
     } else if (month >= 4 && month <= 8) {
       // Fall application: Apr - Aug
       semList.push("Fall " + year);
+    }
+    //check if user base profile is complete
+    const base = await db
+      .collection("applications")
+      .doc("Base")
+      .collection("All")
+      .doc(this.user.uid)
+      .get();
+    if (!base.exists) {
+      this.baseProfile = false;
+    } else {
+      this.baseProfile = true;
     }
 
     //grab user application inputs
@@ -419,5 +447,8 @@ v-btn {
 .stepperColor {
   background-color: #e3eee5;
   border-radius: 2.5em;
+}
+.title {
+  margin-top: 15%;
 }
 </style>
