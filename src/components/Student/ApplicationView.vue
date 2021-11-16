@@ -122,7 +122,6 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
-      baseProfile: false,
     };
   },
 

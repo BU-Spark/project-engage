@@ -138,13 +138,13 @@
           class="elevation-1"
         >
           <template v-slot:item.firstname="{ item }">
-            <button @click="viewProfile(item)" style="color: #00A99E;">
+            <button @click="viewProfile(item)" style="color: #00a99e">
               {{ item.firstname }}
             </button>
           </template>
 
           <template v-slot:item.program="{ item }">
-            <button @click="viewApplication(item)" style="color: #00A99E;">
+            <button @click="viewApplication(item)" style="color: #00a99e">
               {{ item.program }}
             </button>
           </template>
@@ -188,7 +188,7 @@ export default {
   name: "AdminApplicationDashboard",
   components: {
     ViewStudentApplication,
-    ViewStudentProfile
+    ViewStudentProfile,
   },
   data() {
     return {
@@ -205,14 +205,11 @@ export default {
       applications: [],
       selected: null,
       chosenSemester: [],
-      viewStudentApplication: false,
-      viewStudentProfile: false,
-      item: null,
       positionList: [
         "team lead",
         "ux designer",
         "frontend developer",
-        "backend developer"
+        "backend developer",
       ],
       position: [],
       programList: [
@@ -221,7 +218,7 @@ export default {
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab",
-        "X-Lab"
+        "X-Lab",
       ],
       program: [],
       statusList: [
@@ -232,18 +229,18 @@ export default {
         "interviewing",
         "accepted",
         "rejcted",
-        "declined"
+        "declined",
       ],
       status: [],
       search: "",
       headers: [
         {
           text: "First Name",
-          value: "firstname"
+          value: "firstname",
         },
         {
           text: "last Name",
-          value: "lastname"
+          value: "lastname",
         },
         // {
         //   text: "Position",
@@ -256,49 +253,45 @@ export default {
         {
           text: "Semester",
           value: "semester",
-          filter: value => {
+          filter: (value) => {
             if (this.chosenSemester.length == 0) return true;
             return this.chosenSemester.includes(value);
-          }
+          },
         },
         {
           text: "Program",
           value: "program",
-          filter: value => {
+          filter: (value) => {
             if (this.program.length == 0) return true;
             return this.program.includes(value);
-          }
+          },
         },
         {
           text: "Year",
-          value: "schoolYear"
+          value: "schoolYear",
         },
         {
           text: "Gender",
-          value: "gender"
+          value: "gender",
         },
         {
           text: "Email",
-          value: "email"
-        },
-        {
-          text: "Submisson Time",
-          value: "submissionTime"
+          value: "email",
         },
         {
           text: "Status",
           value: "status",
-          filter: value => {
+          filter: (value) => {
             if (this.status.length == 0) return true;
             return this.status.includes(this.statusList[value]);
-          }
+          },
         },
         {
           text: "Notes",
-          value: "notes"
+          value: "notes",
         },
-        {}
-      ]
+        {},
+      ],
     };
   },
   methods: {
@@ -327,6 +320,7 @@ export default {
       }
       this.editIndex = this.applications.indexOf(item);
       this.editItem = Object.assign({}, item);
+      console.log(this.editItem);
       this.dialog = true;
     },
     close() {
@@ -344,30 +338,24 @@ export default {
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          adminNotes: this.editItem.notes
+          adminNotes: this.editItem.notes,
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = await db.collection("users").doc(this.editItem.uid);
-          let applications = await ref.get();
-          applications = applications.data().applications[
-            this.editItem.semester
-          ];
-          for (let i = 0; i < applications.length; i++) {
-            if (applications[i].type == this.editItem.program) {
-              applications[i].status = this.editItem.status;
-            }
-          }
-          await ref.update({
-            applications: applications
+          const ref = db.collection("applications").doc(this.semester2);
+          const application = await ref
+            .collection(this.editItem.program)
+            .doc(this.editItem.uid);
+          await application.update({
+            status: this.editItem.status,
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
 
       this.close();
-    }
+    },
   },
   async mounted() {
     const date = new Date();
@@ -389,57 +377,40 @@ export default {
       const profileRef = db.collection("applications").doc("Base");
       for (let type of this.programList) {
         const subCol = await ref.collection(type).get();
-        subCol.forEach(async element => {
-          const user = await db
-            .collection("users")
-            .doc(element.id)
-            .get();
-          const applications = user.data().applications[this.semester[i]];
-
-          let submissionTime;
-          let status;
-          let result;
-          for (let i = 0; i < applications.length; i++) {
-            if (applications[i].type == type) {
-              submissionTime = applications[i].submissionTime;
-              submissionTime = new Date(submissionTime.seconds);
-              status = applications[i].status;
-            }
-          }
+        subCol.forEach(async (element) => {
           let profCol = await profileRef
             .collection("All")
             .doc(element.id)
             .get();
           if (profCol.data()) {
-            result = {
+            let result = {
               ...profCol.data(),
-              ...element.data()
+              ...element.data(),
+              ...{ uid: element.id, semester: this.semester[i] },
             };
-            result = {
-              ...result,
-              ...{
-                uid: element.id,
-                semester: this.semester[i],
-                submissionTime: submissionTime,
-                status: status
-              }
-            };
+            if (!("status" in profCol.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 },
+              };
+            }
             this.applications.push(result);
           } else {
-            result = {
+            let result = {
               ...element.data(),
-              ...{
-                uid: element.id,
-                semester: this.semester[i],
-                submissionTime: submissionTime,
-                status: status
-              }
+              ...{ uid: element.id, semester: this.semester[i] },
             };
+            if (!("status" in element.data())) {
+              result = {
+                ...result,
+                ...{ status: 1 },
+              };
+            }
             this.applications.push(result);
           }
         });
       }
     }
-  }
+  },
 };
 </script>
