@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.rules != 'required'">
+    <div v-if="this.validation != 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -14,7 +14,7 @@
         chips
       ></v-combobox>
     </div>
-    <div v-if="this.rules == 'required'">
+    <div v-if="this.validation == 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -41,7 +41,7 @@ export default {
     items: {
       type: Array
     },
-    rules: {
+    validation: {
       type: String
     }
   }

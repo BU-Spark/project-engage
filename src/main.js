@@ -21,7 +21,7 @@ Vue.use(VueFormulate, {
       classification: "combobox",
       component: "VueFormulateCombobox",
       slotProps: {
-        component: ["items", "rules"]
+        component: ["items", "validation"]
       }
     },
     comboboxSpecial: {

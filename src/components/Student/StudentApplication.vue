@@ -51,6 +51,7 @@
                 v-bind="attrs"
                 v-on="on"
                 style="background-color: #00A99E; color: white;"
+                v-if="status != 'submitted'"
               >
                 Submit
               </v-btn>
@@ -97,7 +98,7 @@
 import { db, storage } from "@/firebase/init.js";
 export default {
   name: "StudentApplication",
-  props: ["type", "semester"],
+  props: ["type", "semester", "status"],
   data() {
     return {
       schema: [],
@@ -163,6 +164,8 @@ export default {
       this.loading = true;
       this.values.program = this.type;
       this.values = await this.processFiles(this.values);
+      this.values["adminNotes"] = "";
+      this.values["status"] = 0;
       await this.userBaseRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
       const doc = await userRef.get();
@@ -172,18 +175,28 @@ export default {
         if (!doc.data().applications[this.semester]) {
           applications[this.semester] = [];
         }
-        applications[this.semester].some(x => {
+        var temp = applications[this.semester].some(x => {
           return x.type == this.type;
-        }) === false
-          ? applications[this.semester].push({
-              type: this.type,
-              status: "started",
-              submissionTime: new Date()
-            })
-          : console.log("application exisited");
+        });
+        if (temp === false) {
+          applications[this.semester].push({
+            type: this.type,
+            status: "started",
+            submissionTime: new Date()
+          });
+        } else {
+          for (var i = 0; i < applications[this.semester].length; i++) {
+            if (applications[this.semester][i]["type"] == this.type) {
+              applications[this.semester][i] = {
+                type: this.type,
+                status: "started",
+                submissionTime: new Date()
+              };
+            }
+          }
+        }
       } else {
         applications = {};
-        applications[this.semester] = [];
         applications[this.semester].push({
           type: this.type,
           status: "started",
@@ -202,7 +215,8 @@ export default {
           this.schema[i]["validation"] != undefined &&
           this.schema[i]["validation"] != null &&
           this.schema[i]["validation"] != "" &&
-          this.schema[i]["type"] != "file"
+          this.schema[i]["type"] != "file" &&
+          this.schema[i]["type"] != "image"
         ) {
           if (
             this.values[this.schema[i]["name"]] == "" ||
@@ -219,6 +233,8 @@ export default {
         this.loading = true;
         this.values.program = this.type;
         this.values = await this.processFiles(this.values);
+        this.values["adminNotes"] = "";
+        this.values["status"] = 1;
         await this.userBaseRef.set(this.values);
         const userRef = db.collection("users").doc(this.user.uid);
         const doc = await userRef.get();
@@ -275,6 +291,11 @@ export default {
         this.schemaList.push(temp);
         this.steps.push(this.schema[i]["label"]);
         temp = [];
+      } else if (
+        this.status == "submitted" &&
+        this.schema[i]["type"] == "submit"
+      ) {
+        // don't add the save button
       } else {
         temp.push(this.schema[i]);
       }
@@ -292,8 +313,9 @@ export default {
       console.log("No such document!");
     } else {
       this.values = doc.data();
-      console.log("Document data:", doc.data());
     }
+    console.log(this.values);
+    console.log(this.schemaList);
   }
 };
 </script>

@@ -1,75 +1,99 @@
 <template>
   <div id="main-container">
-    <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
-      <v-stepper-header>
-        <template v-for="n in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="e1 > n"
-            :step="n"
-            editable
-          >
-            {{ status[n - 1] }}
-          </v-stepper-step>
+    <div v-if="baseProfile">
+      <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
+        <v-stepper-header>
+          <template v-for="n in steps">
+            <v-stepper-step
+              :key="`${n}-step`"
+              :complete="e1 > n"
+              :step="n"
+              editable
+            >
+              {{ status[n - 1] }}
+            </v-stepper-step>
 
-          <v-divider v-if="n !== steps" :key="n"></v-divider>
-        </template>
-      </v-stepper-header>
-      <v-stepper-items>
-        <v-row no-gutters>
-          <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
-            <v-row>
-              <v-col
-                cols="12"
-                md="4"
-                v-for="(value, i) in filterInfo(information, n)"
-                :key="i"
-              >
-                <v-card
-                  id="card-component"
-                  v-if="value['status'] == status[n - 1]"
+            <v-divider v-if="n !== steps" :key="n"></v-divider>
+          </template>
+        </v-stepper-header>
+        <v-stepper-items>
+          <v-row no-gutters>
+            <v-stepper-content
+              v-for="n in steps"
+              :key="`${n}-content`"
+              :step="n"
+            >
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="4"
+                  v-for="(value, i) in filterInfo(information, n)"
+                  :key="i"
                 >
-                  <v-row>
-                    <v-card-title id="card-title">
-                      {{ value["type"] }}
-                    </v-card-title>
-                  </v-row>
-                  <!-- Change when due date and text components are added -->
-                  <v-card-subtitle id="card-date">
-                    {{ value["deadline"] }}
-                  </v-card-subtitle>
-                  <v-row>
+                  <v-card
+                    id="card-component"
+                    v-if="value['status'] == status[n - 1]"
+                  >
+                    <v-row>
+                      <v-card-title id="card-title">
+                        {{ value["type"] }}
+                      </v-card-title>
+                    </v-row>
+                    <v-card-text id="card-date">
+                      For: {{ value["semester"] }}
+                    </v-card-text>
+                    <!-- Change when due date and text components are added -->
+                    <v-card-subtitle id="card-date">
+                      Deadline: {{ value["deadline"] }}
+                    </v-card-subtitle>
                     <v-card-text id="app-desc">
                       {{ value["description"] }}
                     </v-card-text>
-                  </v-row>
-                  <v-card-actions v-if="n < 3">
-                    <v-btn
-                      raised
-                      id="resume-btn"
-                      @click="
-                        resumeApplication(value['type'], value['semester'])
-                      "
-                    >
-                      {{ actions[n - 1] }}
-                      <v-icon aria-hidden="false" id="resume-app-btn"
-                        >mdi-arrow-right-drop-circle</v-icon
+                    <v-card-text v-if="value['status'] != 'new'" id="card-date">
+                      Submission Date: {{ value["submissionTime"] }}
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        raised
+                        id="resume-btn"
+                        @click="
+                          resumeApplication(
+                            value['type'],
+                            value['semester'],
+                            value['status']
+                          )
+                        "
                       >
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-stepper-content>
-        </v-row>
-      </v-stepper-items>
-    </v-stepper>
-    <div v-else>
-      <StudentApplication
-        v-bind:type="type"
-        v-bind:semester="semester"
-        v-on:typeChange="changeType($event)"
-      />
+                        {{ actions[n - 1] }}
+                        <v-icon aria-hidden="false" id="resume-app-btn"
+                          >mdi-arrow-right-drop-circle</v-icon
+                        >
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-stepper-content>
+          </v-row>
+        </v-stepper-items>
+      </v-stepper>
+      <div v-else>
+        <StudentApplication
+          v-bind:type="type"
+          v-bind:semester="semester"
+          v-bind:status="statusInd"
+          v-on:typeChange="changeType($event)"
+        />
+      </div>
+    </div>
+    <div v-else class="title">
+      <h2>
+        Please fill out your Spark! Student Profile first before you can submit
+        applications!
+      </h2>
+      <h3>
+        (upper left hand corner)
+      </h3>
     </div>
   </div>
 </template>
@@ -93,9 +117,13 @@ export default {
       deadlines: {},
       descriptions: {},
       status: ["new", "started", "submitted"],
-      actions: ["Start", "Resume"],
+      actions: ["Start", "Resume", "View"],
       semester: null,
-      type: null
+      semester1: null,
+      semester2: null,
+      type: null,
+      statusInd: null,
+      baseProfile: false
     };
   },
 
@@ -118,9 +146,10 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type, semester) {
+    resumeApplication(type, semester, status) {
       this.type = type;
       this.semester = semester;
+      this.statusInd = status;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
@@ -142,15 +171,31 @@ export default {
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
-    // const month = date.getMonth();
-    // const year = date.getFullYear();
-    // if (month >= 7 && month <= 11) {
-    //     this.semester = "Fall " + year;
-    // } else if (month >= 0 && month <= 4) {
-    //     this.semester = "Spring " + year;
-    // } else {
-    //     this.semester = "Summer " + year;
-    // }
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    var semList = [];
+    if (month >= 10 || month <= 2) {
+      // Spring application: Oct - Feb
+      semList.push("Spring " + (year + 1));
+    } else if (month >= 1 && month <= 5) {
+      // Summer application: Jan - May
+      semList.push("Summer " + year);
+    } else if (month >= 4 && month <= 8) {
+      // Fall application: Apr - Aug
+      semList.push("Fall " + year);
+    }
+    //check if user base profile is complete
+    const base = await db
+      .collection("applications")
+      .doc("Base")
+      .collection("All")
+      .doc(this.user.uid)
+      .get();
+    if (!base.exists) {
+      this.baseProfile = false;
+    } else {
+      this.baseProfile = true;
+    }
 
     //grab user application inputs
     const userRef = db.collection("users").doc(this.user.uid);
@@ -158,16 +203,37 @@ export default {
     const apps = doc.data().applications;
     var tempList = [];
     var startedsubmittedList = [];
+    var timeSubmitted = [];
+
     if (apps) {
       await Object.keys(apps).forEach(async function(key) {
         await apps[key].forEach(async element => {
           if (element.type != "Template") {
+            var time = "";
+            if (
+              element.submissionTime != undefined &&
+              element.status != "new"
+            ) {
+              time = new Date(element.submissionTime.seconds * 1000);
+              time =
+                time.getFullYear() +
+                "-" +
+                (time.getMonth() + 1) +
+                "-" +
+                time.getDate();
+            }
             var temp = {
               semester: key,
               status: element.status,
-              type: element.type
+              type: element.type,
+              submissionTime: time
             };
             startedsubmittedList.push(JSON.stringify(temp));
+            timeSubmitted.push({
+              semester: key,
+              type: element.type,
+              time: time
+            });
           }
         });
       });
@@ -181,32 +247,39 @@ export default {
     ];
     await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
-      for (var sem in template) {
+      for (const sem of semList) {
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var monthTemp = month < 10 ? "0" + month : month;
+        const currDate = year + "-" + monthTemp + "-" + day;
         if (
+          template[sem] &&
           sem != "Template" &&
-          template[sem]["deadline"] >=
-            date.getFullYear() +
-              "-" +
-              (date.getMonth() + 1) +
-              "-" +
-              date.getDate()
+          template[sem]["deadline"] >= currDate
         ) {
-          // console.log("startedsubmittedList")
-          console.log(sem);
           let currentDeadline = template[sem]["deadline"];
           let currentDescription = template[sem]["description"];
+          var time = timeSubmitted.filter(function(v) {
+            return v.semester == sem && v.type == element;
+          });
+          if (time.length > 0) {
+            time = time[0]["time"];
+          } else {
+            time = "";
+          }
           var isStarted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "started",
-              type: element
+              type: element,
+              submissionTime: time
             })
           );
           var isSubmitted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "submitted",
-              type: element
+              type: element,
+              submissionTime: time
             })
           );
           if (isStarted) {
@@ -215,7 +288,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "started",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
           if (isSubmitted) {
@@ -224,7 +298,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "submitted",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
           if (!isStarted && !isSubmitted) {
@@ -233,7 +308,8 @@ export default {
               deadline: currentDeadline,
               description: currentDescription,
               status: "new",
-              semester: sem
+              semester: sem,
+              submissionTime: time
             });
           }
         }
@@ -330,7 +406,6 @@ v-btn {
   text-overflow: ellipsis;
   margin-left: 2%;
   margin-right: 2%;
-  margin-bottom: 5%;
 }
 
 #card-title {
@@ -344,8 +419,12 @@ v-btn {
 }
 
 #card-date {
-  height: 2%;
   text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  height: 20px;
+  margin-bottom: 15px;
+  margin-top: -15px;
 }
 
 #resume-btn {
@@ -374,5 +453,9 @@ v-btn {
 
 .v-sheet.v-stepper:not(.v-sheet--outlined) {
   box-shadow: none !important;
+}
+
+.title {
+  margin-top: 15%;
 }
 </style>

@@ -1,11 +1,14 @@
 <template>
   <v-layout align-center justify-center>
-    <v-container>
+    <v-container
+      v-if="viewStudentApplication == false && viewStudentProfile == false"
+    >
       <template>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Status</span>
+              <span v-if="editStatus" class="headline">Status</span>
+              <span v-else-if="editNotes" class="headline">Notes</span>
             </v-card-title>
 
             <v-card-text>
@@ -20,7 +23,10 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Under Review" :value="2"></v-radio>
+                          <v-radio
+                            label="Under Review"
+                            value="Interviewing"
+                          ></v-radio>
                         </td>
                       </tr>
                       <tr>
@@ -30,10 +36,12 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Reviewed" :value="3"></v-radio>
+                          <v-radio
+                            label="Interviewed"
+                            value="Interviewed"
+                          ></v-radio>
                         </td>
                       </tr>
-
                       <tr>
                         <td class="text-center">
                           <svg height="30" width="50">
@@ -41,7 +49,7 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Accepted" :value="5"></v-radio>
+                          <v-radio label="Accepted" value="Accepted"></v-radio>
                         </td>
                       </tr>
                       <tr>
@@ -51,7 +59,7 @@
                           </svg>
                         </td>
                         <td class="text-center">
-                          <v-radio label="Rejected" :value="6"></v-radio>
+                          <v-radio label="Rejected" value="Rejected"></v-radio>
                         </td>
                       </tr>
                     </v-radio-group>
@@ -84,11 +92,19 @@
         </v-card-title>
         <div>
           <v-row>
-            <v-flex mx-1>
+            <!-- <v-flex mx-1>
               <v-select
                 :items="positionList"
                 v-model="position"
                 label="Position"
+                multiple
+              ></v-select>
+            </v-flex> -->
+            <v-flex mx-1>
+              <v-select
+                :items="semester"
+                v-model="chosenSemester"
+                label="Semester"
                 multiple
               ></v-select>
             </v-flex>
@@ -121,9 +137,21 @@
           :search="search"
           class="elevation-1"
         >
+          <template v-slot:item.firstname="{ item }">
+            <button @click="viewProfile(item)" style="color: #00A99E;">
+              {{ item.firstname }}
+            </button>
+          </template>
+
+          <template v-slot:item.program="{ item }">
+            <button @click="viewApplication(item)" style="color: #00A99E;">
+              {{ item.program }}
+            </button>
+          </template>
+
           <template v-slot:item.status="{ item }">
             <button @click="editApplication(item, 'status')">
-              {{ getStatus(item.status) }}
+              {{ item.status }}
             </button>
           </template>
 
@@ -134,21 +162,40 @@
           </template>
         </v-data-table>
       </template>
-      <v-container>
-        <v-btn @click="back">Cancel</v-btn>
-      </v-container>
+    </v-container>
+    <v-container v-if="viewStudentApplication == true">
+      <ViewStudentApplication
+        v-bind:item="item"
+        v-on:typeChange="backToTable($event)"
+      />
+      <v-btn @click="backToTable">Back</v-btn>
+    </v-container>
+    <v-container v-if="viewStudentProfile == true">
+      <ViewStudentProfile
+        v-bind:item="item"
+        v-on:typeChange="backToTable($event)"
+      />
+      <v-btn @click="backToTable">Back</v-btn>
     </v-container>
   </v-layout>
 </template>
 
 <script>
 import { db } from "@/firebase/init";
+import ViewStudentApplication from "@/components/Admin/ViewStudentApplication.vue";
+import ViewStudentProfile from "@/components/Admin/ViewStudentProfile.vue";
 export default {
   name: "AdminApplicationDashboard",
-  components: {},
+  components: {
+    ViewStudentApplication,
+    ViewStudentProfile
+  },
   data() {
     return {
       value: {},
+      semester1: "",
+      semester2: "",
+      semester: "",
       schema: null,
       editStatus: false,
       editNotes: false,
@@ -157,6 +204,10 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
+      chosenSemester: [],
+      viewStudentApplication: false,
+      viewStudentProfile: false,
+      item: null,
       positionList: [
         "team lead",
         "ux designer",
@@ -186,14 +237,28 @@ export default {
       status: [],
       search: "",
       headers: [
-        { text: "Test", value: "test" },
-        { text: "Name", value: "name" },
         {
-          text: "Position",
-          value: "position",
+          text: "First Name",
+          value: "firstname"
+        },
+        {
+          text: "last Name",
+          value: "lastname"
+        },
+        // {
+        //   text: "Position",
+        //   value: "position",
+        //   filter: value => {
+        //     if (this.position.length == 0) return true;
+        //     return this.position.includes(value.toLowerCase());
+        //   }
+        // },
+        {
+          text: "Semester",
+          value: "semester",
           filter: value => {
-            if (this.position.length == 0) return true;
-            return this.position.includes(value.toLowerCase());
+            if (this.chosenSemester.length == 0) return true;
+            return this.chosenSemester.includes(value);
           }
         },
         {
@@ -204,9 +269,22 @@ export default {
             return this.program.includes(value);
           }
         },
-        { text: "Year", value: "year" },
-        { text: "Gender", value: "gender" },
-        { text: "Email", value: "Email" },
+        {
+          text: "Year",
+          value: "schoolYear"
+        },
+        {
+          text: "Gender",
+          value: "gender"
+        },
+        {
+          text: "Email",
+          value: "email"
+        },
+        {
+          text: "Submisson Time",
+          value: "submissionTime"
+        },
         {
           text: "Status",
           value: "status",
@@ -215,7 +293,10 @@ export default {
             return this.status.includes(this.statusList[value]);
           }
         },
-        { text: "Notes", value: "notes" },
+        {
+          text: "Notes",
+          value: "notes"
+        },
         {}
       ]
     };
@@ -223,6 +304,18 @@ export default {
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    backToTable() {
+      this.viewStudentApplication = false;
+      this.viewStudentProfile = false;
+    },
+    viewProfile(item) {
+      this.item = item;
+      this.viewStudentProfile = true;
+    },
+    viewApplication(item) {
+      this.item = item;
+      this.viewStudentApplication = true;
     },
     editApplication(item, field) {
       if (field == "notes") {
@@ -246,63 +339,106 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("applications").doc("Fall 2021");
+        const ref = db.collection("applications").doc(this.semester2);
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          notes: this.editItem.notes
+          adminNotes: this.editItem.notes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = db.collection("applications").doc("Fall 2021");
-          const application = await ref
-            .collection(this.editItem.program)
-            .doc(this.editItem.uid);
-          await application.update({
-            status: this.editItem.status
+          const ref = await db.collection("users").doc(this.editItem.uid);
+          let applications = await ref.get();
+          applications = applications.data().applications[
+            this.editItem.semester
+          ];
+          for (let i = 0; i < applications.length; i++) {
+            if (applications[i].type == this.editItem.program) {
+              applications[i].status = this.editItem.status;
+            }
+          }
+          await ref.update({
+            applications: applications
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
 
       this.close();
-    },
-    getStatus(status) {
-      if (status == 0) {
-        return "started";
-      }
-      if (status == 1) {
-        return "submitted";
-      }
-      if (status == 2) {
-        return "under review";
-      }
-      if (status == 3) {
-        return "reviewed";
-      }
-      if (status == 4) {
-        return "interviewing";
-      }
-      if (status == 5) {
-        return "accepted";
-      }
-      if (status == 6) {
-        return "rejcted";
-      }
-      if (status == 7) {
-        return "declined";
-      }
     }
   },
   async mounted() {
-    const ref = db.collection("applications").doc("Fall 2021");
-    for (let type of this.programList) {
-      const subCol = await ref.collection(type).get();
-      subCol.forEach(element => {
-        this.applications.push(element.data());
-      });
+    const date = new Date();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    if (month >= 7 && month <= 11) {
+      this.semester1 = "Fall " + year;
+      this.semester2 = "Spring " + (year + 1);
+    } else if (month >= 0 && month <= 4) {
+      this.semester1 = "Spring " + year;
+      this.semester2 = "Summer " + year;
+    } else {
+      this.semester1 = "Summer " + year;
+      this.semester2 = "Fall " + year;
+    }
+    this.semester = [this.semester1, this.semester2];
+    for (let i = 0; i < this.semester.length; i++) {
+      const ref = db.collection("applications").doc(this.semester[i]);
+      const profileRef = db.collection("applications").doc("Base");
+      for (let type of this.programList) {
+        const subCol = await ref.collection(type).get();
+        subCol.forEach(async element => {
+          const user = await db
+            .collection("users")
+            .doc(element.id)
+            .get();
+          const applications = user.data().applications[this.semester[i]];
+
+          let submissionTime;
+          let status;
+          let result;
+          for (let i = 0; i < applications.length; i++) {
+            if (applications[i].type == type) {
+              submissionTime = applications[i].submissionTime;
+              submissionTime = new Date(submissionTime.seconds);
+              status = applications[i].status;
+            }
+          }
+          let profCol = await profileRef
+            .collection("All")
+            .doc(element.id)
+            .get();
+          if (profCol.data()) {
+            result = {
+              ...profCol.data(),
+              ...element.data()
+            };
+            result = {
+              ...result,
+              ...{
+                uid: element.id,
+                semester: this.semester[i],
+                submissionTime: submissionTime,
+                status: status
+              }
+            };
+            this.applications.push(result);
+          } else {
+            result = {
+              ...element.data(),
+              ...{
+                uid: element.id,
+                semester: this.semester[i],
+                submissionTime: submissionTime,
+                status: status
+              }
+            };
+            this.applications.push(result);
+          }
+        });
+      }
     }
   }
 };

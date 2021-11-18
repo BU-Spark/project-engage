@@ -444,6 +444,65 @@ export default {
     },
     addItem() {
       if (
+        this.nameInput == "firstname" ||
+        this.nameParagraph == "firstname" ||
+        this.nameDropdown == "firstname" ||
+        this.nameCombobox == "firstname" ||
+        this.nameFile == "firstname" ||
+        this.nameSection == "firstname" ||
+        this.nameInput == "lastname" ||
+        this.nameParagraph == "lastname" ||
+        this.nameDropdown == "lastname" ||
+        this.nameCombobox == "lastname" ||
+        this.nameFile == "lastname" ||
+        this.nameSection == "lastname" ||
+        this.nameInput == "semester" ||
+        this.nameParagraph == "semester" ||
+        this.nameDropdown == "semester" ||
+        this.nameCombobox == "semester" ||
+        this.nameFile == "semester" ||
+        this.nameSection == "semester" ||
+        this.nameInput == "program" ||
+        this.nameParagraph == "program" ||
+        this.nameDropdown == "program" ||
+        this.nameCombobox == "program" ||
+        this.nameFile == "program" ||
+        this.nameSection == "program" ||
+        this.nameInput == "schoolYear" ||
+        this.nameParagraph == "schoolYear" ||
+        this.nameDropdown == "schoolYear" ||
+        this.nameCombobox == "schoolYear" ||
+        this.nameFile == "schoolYear" ||
+        this.nameSection == "schoolYear" ||
+        this.nameInput == "gender" ||
+        this.nameParagraph == "gender" ||
+        this.nameDropdown == "gender" ||
+        this.nameCombobox == "gender" ||
+        this.nameFile == "gender" ||
+        this.nameSection == "gender" ||
+        this.nameInput == "email" ||
+        this.nameParagraph == "email" ||
+        this.nameDropdown == "email" ||
+        this.nameCombobox == "email" ||
+        this.nameFile == "email" ||
+        this.nameSection == "email" ||
+        this.nameInput == "status" ||
+        this.nameParagraph == "status" ||
+        this.nameDropdown == "status" ||
+        this.nameCombobox == "status" ||
+        this.nameFile == "status" ||
+        this.nameSection == "status" ||
+        this.nameInput == "note" ||
+        this.nameParagraph == "note" ||
+        this.nameDropdown == "note" ||
+        this.nameCombobox == "note" ||
+        this.nameFile == "note" ||
+        this.nameSection == "note"
+      ) {
+        alert(
+          'id "firstname", "lastname", "semester", "program", "schoolYear", "gender", "email", "status", or "note" cannot be used'
+        );
+      } else if (
         (this.questionSelected == "Input Field" &&
           (!this.labelInput ||
             !this.nameInput ||
@@ -530,11 +589,12 @@ export default {
             ? (this.itemSchema = {
                 label: this.labelFile,
                 name: this.nameFile,
-                type: this.validationFile,
-                validation:
-                  this.validationFile == "file"
-                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                type: "file",
+                // type: this.validationFile,
+                validation: "",
+                // this.validationFile == "file"
+                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
                 multiple: "multiple",
                 help:
                   this.validationFile == "file" && this.multipleFile
@@ -551,11 +611,12 @@ export default {
             : (this.itemSchema = {
                 label: this.labelFile,
                 name: this.nameFile,
-                type: this.validationFile,
-                validation:
-                  this.validationFile == "file"
-                    ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                    : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                type: "file",
+                // type: this.validationFile,
+                validation: "",
+                // this.validationFile == "file"
+                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
+                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
                 help:
                   this.validationFile == "file" && this.multipleFile
                     ? "Select one or more PDFs to upload"

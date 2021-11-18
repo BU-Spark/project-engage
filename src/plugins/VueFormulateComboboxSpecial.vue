@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.rules != 'required'">
+    <div v-if="this.validation != 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -8,8 +8,8 @@
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
-        v-model="comboBoxDummyModel"
-        @change="onAutoCompleteSelection"
+        v-model="context.model"
+        @change="onAutoCompleteSelection(context.model)"
         @keyup="customOnChangeHandler"
         @paste="customOnChangeHandler"
         :items="items"
@@ -22,7 +22,7 @@
         chips
       ></v-combobox>
     </div>
-    <div v-if="this.rules == 'required'">
+    <div v-if="this.validation == 'required'">
       <v-combobox
         :class="
           `formulate-input-element formulate-input-element--${context.type}`
@@ -30,8 +30,8 @@
         :data-type="context.type"
         v-bind="context.attributes"
         ref="numberComboBox"
-        v-model="comboBoxDummyModel"
-        @change="onAutoCompleteSelection"
+        v-model="context.model"
+        @change="onAutoCompleteSelection(context.model)"
         @keyup="customOnChangeHandler"
         @paste="customOnChangeHandler"
         :items="items"
@@ -55,16 +55,16 @@ export default {
       type: Object
     },
     items: {
-      type: String
+      type: Array
     },
-    rules: {
+    validation: {
       type: String
     }
   },
   data() {
     return {
-      comboBoxDummyModel: null,
-      comboBoxModel: null
+      comboBoxDummyModel: [],
+      comboBoxModel: []
     };
   },
   computed: {
@@ -83,29 +83,34 @@ export default {
     }
   },
   methods: {
-    onAutoCompleteSelection() {
-      var index = this.comboBoxDummyModel.length - 1;
-      var item = this.comboBoxDummyModel[index];
-      var firstWord = item.split(" ")[0];
-      if (
-        firstWord != "Beginner" &&
-        firstWord != "beginner" &&
-        firstWord != "Intermediate" &&
-        firstWord != "intermediate" &&
-        firstWord != "Expert" &&
-        firstWord != "expert"
-      ) {
-        this.comboBoxDummyModel.splice(this.comboBoxDummyModel.length - 1, 1);
+    onAutoCompleteSelection(inputs) {
+      this.comboBoxDummyModel = inputs;
+      console.log(this.comboBoxDummyModel);
+      console.log("this.comboBoxDummyModel");
+      if (this.comboBoxDummyModel != null) {
+        var index = this.comboBoxDummyModel.length - 1;
+        var item = this.comboBoxDummyModel[index];
+        var firstWord = item.split(" ")[0];
+        if (
+          firstWord != "Beginner" &&
+          firstWord != "beginner" &&
+          firstWord != "Intermediate" &&
+          firstWord != "intermediate" &&
+          firstWord != "Expert" &&
+          firstWord != "expert"
+        ) {
+          this.comboBoxDummyModel.splice(this.comboBoxDummyModel.length - 1, 1);
+        }
+        if (
+          firstWord == "beginner" ||
+          firstWord == "intermediate" ||
+          firstWord == "expert"
+        ) {
+          this.comboBoxDummyModel[index] =
+            item.charAt(0).toUpperCase() + item.slice(1);
+        }
+        this.comboBoxModel = this.comboBoxDummyModel;
       }
-      if (
-        firstWord == "beginner" ||
-        firstWord == "intermediate" ||
-        firstWord == "expert"
-      ) {
-        this.comboBoxDummyModel[index] =
-          item.charAt(0).toUpperCase() + item.slice(1);
-      }
-      this.comboBoxModel = this.comboBoxDummyModel;
     },
     customOnChangeHandler() {
       let vm = this;
