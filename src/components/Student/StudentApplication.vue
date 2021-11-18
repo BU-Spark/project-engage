@@ -455,4 +455,12 @@ label[id^="formulate--home"] {
 .v-input {
   margin: auto !important;
 }
+
+.formulate-input .formulate-input-element {
+  max-width: 25em !important;
+}
+
+.v-stepper__step__step {
+  font-size: 0 !important;
+}
 </style>
