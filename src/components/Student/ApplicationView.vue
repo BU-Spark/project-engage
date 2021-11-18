@@ -60,7 +60,9 @@
                           resumeApplication(
                             value['type'],
                             value['semester'],
-                            value['status']
+                            value['status'],
+                            value['deadline'],
+                            value['description']
                           )
                         "
                       >
@@ -166,6 +168,26 @@ export default {
         }
       }
       return infoList;
+    },
+    reformatDeadline(deadline) {
+      const year = deadline.substring(0, 4);
+      const month = deadline.substring(5, 7) - 1;
+      const day = deadline.substring(8, 10);
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      return months[month] + " " + day + ", " + year;
     }
   },
   async mounted() {
@@ -256,7 +278,9 @@ export default {
           sem != "Template" &&
           template[sem]["deadline"] >= currDate
         ) {
-          let currentDeadline = template[sem]["deadline"];
+          let currentDeadline = this.reformatDeadline(
+            template[sem]["deadline"]
+          );
           let currentDescription = template[sem]["description"];
           var time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;

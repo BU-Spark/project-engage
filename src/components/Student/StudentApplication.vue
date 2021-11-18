@@ -5,15 +5,9 @@
       <v-stepper v-model="section" vertical>
         <div class="project-card">
           <div class="project-title">{{ this.type }}</div>
-          <div class="project-deadline">Due Thursday, February 4th, 2021</div>
+          <div class="project-deadline">Due {{ this.deadline }}</div>
           <div class="project-description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            {{ this.description }}
           </div>
         </div>
         <template v-for="(n, i) in steps">
@@ -108,7 +102,9 @@ export default {
       loading: false,
       steps: [],
       section: 1,
-      dialog: false
+      dialog: false,
+      deadline: "",
+      description: ""
     };
   },
   computed: {
@@ -277,6 +273,26 @@ export default {
         });
         this.$router.go();
       }
+    },
+    reformatDeadline(deadline) {
+      const year = deadline.substring(0, 4);
+      const month = deadline.substring(5, 7) - 1;
+      const day = deadline.substring(8, 10);
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      return months[month] + " " + day + ", " + year;
     }
   },
   async mounted() {
@@ -286,6 +302,8 @@ export default {
     const template = formSnapshot.data();
     this.schema = template[this.semester]["schema"];
     var temp = [];
+    this.deadline = this.reformatDeadline(template[this.semester]["deadline"]);
+    this.description = template[this.semester]["description"];
     for (let i = 0; i < this.schema.length; i++) {
       if (this.schema[i]["type"] == "hr") {
         this.schemaList.push(temp);
@@ -302,6 +320,7 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
+
     //grab user application inputs
     this.userBaseRef = db
       .collection("applications")
