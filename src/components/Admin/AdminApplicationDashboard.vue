@@ -399,7 +399,9 @@ export default {
           for (let i = 0; i < applications.length; i++) {
             if (applications[i].type == type) {
               submissionTime = applications[i].submissionTime;
-              submissionTime = new Date(submissionTime.seconds);
+              submissionTime = new Date(
+                submissionTime.seconds * 1000
+              ).toLocaleString("en-US", { timeZone: "America/New_York" });
               status = applications[i].status;
             }
           }
