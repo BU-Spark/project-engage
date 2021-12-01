@@ -1,8 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-container
-      v-if="viewStudentApplication == false && viewStudentProfile == false"
-    >
+    <v-container v-if="!viewStudentApplications && !viewStudentProfiles">
       <template>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -163,14 +161,14 @@
         </v-data-table>
       </template>
     </v-container>
-    <v-container v-if="viewStudentApplication == true">
+    <v-container v-if="viewStudentApplications">
       <ViewStudentApplication
         v-bind:item="item"
         v-on:typeChange="backToTable($event)"
       />
       <v-btn @click="backToTable">Back</v-btn>
     </v-container>
-    <v-container v-if="viewStudentProfile == true">
+    <v-container v-else-if="viewStudentProfiles">
       <ViewStudentProfile
         v-bind:item="item"
         v-on:typeChange="backToTable($event)"
@@ -205,9 +203,8 @@ export default {
       applications: [],
       selected: null,
       chosenSemester: [],
-      viewStudentApplication: false,
-      viewStudentProfile: false,
-      item: null,
+      viewStudentApplications: false,
+      viewStudentProfiles: false,
       positionList: [
         "team lead",
         "ux designer",
@@ -306,16 +303,16 @@ export default {
       this.$router.go(-1);
     },
     backToTable() {
-      this.viewStudentApplication = false;
-      this.viewStudentProfile = false;
+      this.viewStudentApplications = false;
+      this.viewStudentProfiles = false;
     },
     viewProfile(item) {
       this.item = item;
-      this.viewStudentProfile = true;
+      this.viewStudentProfiles = true;
     },
     viewApplication(item) {
       this.item = item;
-      this.viewStudentApplication = true;
+      this.viewStudentApplications = true;
     },
     editApplication(item, field) {
       if (field == "notes") {
@@ -402,7 +399,9 @@ export default {
           for (let i = 0; i < applications.length; i++) {
             if (applications[i].type == type) {
               submissionTime = applications[i].submissionTime;
-              submissionTime = new Date(submissionTime.seconds);
+              submissionTime = new Date(
+                submissionTime.seconds * 1000
+              ).toLocaleString("en-US", { timeZone: "America/New_York" });
               status = applications[i].status;
             }
           }
