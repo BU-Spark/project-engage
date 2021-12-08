@@ -305,7 +305,7 @@
                 type="image"
                 :label="`${labelFile}`"
                 help="Select one or more png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
                 multiple
               />
             </div>
@@ -314,7 +314,7 @@
                 type="image"
                 :label="`${labelFile}`"
                 help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
               />
             </div>
           </v-card>
@@ -590,11 +590,7 @@ export default {
                 label: this.labelFile,
                 name: this.nameFile,
                 type: "file",
-                // type: this.validationFile,
-                validation: "",
-                // this.validationFile == "file"
-                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                validation: "checkFileType",
                 multiple: "multiple",
                 help:
                   this.validationFile == "file" && this.multipleFile
@@ -602,9 +598,9 @@ export default {
                     : this.validationFile == "file" && !this.multipleFile
                     ? "Select one PDF to upload"
                     : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more png, jpg or gif to upload."
+                    ? "Select one or more jpeg, jpg, png or gif to upload."
                     : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a png, jpg or gif to upload."
+                    ? "Select a jpeg, jpg, png or gif to upload."
                     : "",
                 rules: null
               })
@@ -612,20 +608,16 @@ export default {
                 label: this.labelFile,
                 name: this.nameFile,
                 type: "file",
-                // type: this.validationFile,
-                validation: "",
-                // this.validationFile == "file"
-                //   ? "^mime:application/pdf|^matches:/[firebasestorage]/"
-                //   : "^mime:image/jpeg,image/png,image/gif|^matches:/[firebasestorage]/",
+                validation: "checkFileType",
                 help:
                   this.validationFile == "file" && this.multipleFile
                     ? "Select one or more PDFs to upload"
                     : this.validationFile == "file" && !this.multipleFile
                     ? "Select one PDF to upload"
                     : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more png, jpg or gif to upload."
+                    ? "Select one or more jpeg, jpg, png or gif to upload."
                     : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a png, jpg or gif to upload."
+                    ? "Select a jpeg, jpg, png or gif to upload."
                     : "",
                 rules: null
               });
