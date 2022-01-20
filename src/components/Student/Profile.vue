@@ -1,7 +1,4 @@
 <template>
-  <!-- ??? rule for file still needs fix -->
-  <!-- ^mime:application/pdf|^matches:/[firebasestorage]/ -->
-  <!-- [^mime:application/pdf]|[.*\]]/ -->
   <div>
     <v-stepper v-model="section" vertical>
       <template v-for="(n, i) in steps">
@@ -133,20 +130,7 @@ export default {
         this.schemaList.push(temp);
         this.steps.push(this.schema[i]["label"]);
         temp = [];
-      }
-      // else if (this.schema[i]["type"] == "file") {
-      //     const files = this.values[this.schema[i]["name"]];
-      //     const fileObjects = []
-      //     for (var j = 0; j < files.length; j++) {
-      //         let file = await fetch(files[j]['url']).then(r => r.blob()).then(blobFile => new File([blobFile], files[j]['name'], {
-      //             type: "application/pdf"
-      //         }))
-      //         fileObjects.push(file)
-      //     }
-      //     this.values[this.schema[i]["name"]] = fileObjects
-      //     temp.push(this.schema[i]);
-      // }
-      else {
+      } else {
         temp.push(this.schema[i]);
       }
     }
