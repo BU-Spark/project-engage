@@ -173,11 +173,14 @@ export default {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
     const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+    var year = date.getFullYear();
     var semList = [];
     if (month >= 10 || month <= 2) {
       // Spring application: Oct - Feb
-      semList.push("Spring " + (year + 1));
+      if (month == 10 || month == 11 || month == 12) {
+        year += 1;
+      }
+      semList.push("Spring " + year);
     } else if (month >= 1 && month <= 5) {
       // Summer application: Jan - May
       semList.push("Summer " + year);
@@ -283,6 +286,7 @@ export default {
               submissionTime: time
             })
           );
+
           if (isStarted) {
             tempList.push({
               type: element,
