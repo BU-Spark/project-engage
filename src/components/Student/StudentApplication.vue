@@ -3,6 +3,13 @@
     <div v-if="!loading">
       <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
+        <div class="project-card">
+          <div class="project-title">{{ this.type }}</div>
+          <div class="project-deadline">Due {{ this.deadline }}</div>
+          <div class="project-description">
+            {{ this.description }}
+          </div>
+        </div>
         <template v-for="(n, i) in steps">
           <v-stepper-step
             :key="`${n}-step`"
@@ -95,7 +102,9 @@ export default {
       loading: false,
       steps: [],
       section: 1,
-      dialog: false
+      dialog: false,
+      deadline: "",
+      description: ""
     };
   },
   computed: {
@@ -264,6 +273,26 @@ export default {
         });
         this.$router.go();
       }
+    },
+    reformatDeadline(deadline) {
+      const year = deadline.substring(0, 4);
+      const month = deadline.substring(5, 7) - 1;
+      const day = deadline.substring(8, 10);
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      return months[month] + " " + day + ", " + year;
     }
   },
   async mounted() {
@@ -273,6 +302,8 @@ export default {
     const template = formSnapshot.data();
     this.schema = template[this.semester]["schema"];
     var temp = [];
+    this.deadline = this.reformatDeadline(template[this.semester]["deadline"]);
+    this.description = template[this.semester]["description"];
     for (let i = 0; i < this.schema.length; i++) {
       if (this.schema[i]["type"] == "hr") {
         this.schemaList.push(temp);
@@ -289,6 +320,7 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
+
     //grab user application inputs
     this.userBaseRef = db
       .collection("applications")
@@ -367,5 +399,105 @@ div#rightSideDashboard {
 .stepperColor {
   background-color: #f1f8f3;
   border-radius: 2.5em;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f8f3;
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  -webkit-box-shadow: 0 4px 3px -3px black;
+  -moz-box-shadow: 0 4px 3px -3px black;
+  box-shadow: 0 4px 3px -3px black;
+}
+
+.project-title {
+  font-weight: 900;
+  font-size: 30px;
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 3vh;
+}
+
+.project-deadline {
+  font-weight: 850;
+  text-align: left;
+  padding-left: 3.1rem;
+  margin-top: -1vh;
+  margin-bottom: 1.5vh;
+}
+
+.project-description {
+  text-align: left;
+  padding-left: 3.1rem;
+  padding-right: 3rem;
+  padding-bottom: 3vh;
+}
+</style>
+
+<style>
+.formulate-input-element.formulate-input-element--submit {
+  background-color: #f1f8f3 !important;
+  justify-content: center !important;
+}
+
+.v-messages {
+  background-color: #f1f8f3 !important;
+}
+
+.v-sheet.v-stepper:not(.v-sheet--outlined) {
+  box-shadow: none;
+}
+
+button[id^="formulate--home"] {
+  width: 50% !important;
+  justify-content: center !important;
+  margin: auto !important;
+}
+
+div[id^="formulate--home"] {
+  width: 50% !important;
+  justify-content: center !important;
+  margin: auto !important;
+}
+
+.formulate-input .formulate-input-label {
+  margin: auto;
+}
+
+.v-input.v-textarea.theme--light.v-text-field.v-text-field--is-booted.formulate-input-element.formulate-input-element--textarea {
+  margin: auto;
+}
+
+.formulate-input-element {
+  margin: auto;
+}
+
+.formulate-input .formulate-input-label {
+  max-width: 100% !important;
+  justify-content: center;
+}
+
+label[id^="formulate--home"] {
+  width: 60% !important;
+}
+
+.formulate-input-element.formulate-input-element--submit {
+  margin: auto;
+  margin-top: 3rem !important;
+}
+
+.formulate-input-element.formulate-input-element--text {
+  margin: auto;
+}
+
+.formulate-input .formulate-input-errors,
+.v-input {
+  margin: auto !important;
+}
+
+.formulate-input .formulate-input-element {
+  max-width: 25em !important;
 }
 </style>
