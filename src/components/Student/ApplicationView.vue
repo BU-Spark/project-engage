@@ -1,6 +1,5 @@
 <template>
   <div id="main-container">
-    <h2 style="padding-bottom: 10px;">{{ this.type }}</h2>
     <div v-if="baseProfile">
       <v-stepper v-model="e1" v-if="!type" class="stepperColor" :flat="true">
         <v-stepper-header>
@@ -61,7 +60,9 @@
                           resumeApplication(
                             value['type'],
                             value['semester'],
-                            value['status']
+                            value['status'],
+                            value['deadline'],
+                            value['description']
                           )
                         "
                       >
@@ -167,6 +168,26 @@ export default {
         }
       }
       return infoList;
+    },
+    reformatDeadline(deadline) {
+      const year = deadline.substring(0, 4);
+      const month = deadline.substring(5, 7) - 1;
+      const day = deadline.substring(8, 10);
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      return months[month] + " " + day + ", " + year;
     }
   },
   async mounted() {
@@ -260,7 +281,9 @@ export default {
           sem != "Template" &&
           template[sem]["deadline"] >= currDate
         ) {
-          let currentDeadline = template[sem]["deadline"];
+          let currentDeadline = this.reformatDeadline(
+            template[sem]["deadline"]
+          );
           let currentDescription = template[sem]["description"];
           var time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;
@@ -336,15 +359,14 @@ v-btn {
 }
 
 #main-container {
-  border-radius: 60px;
-  background-color: #e3eee5;
+  /* border-radius: 60px;
+  background-color: #e3eee5; */
   color: black;
   font-weight: 750;
   padding: 25px;
   min-height: 570px !important;
   text-align: center;
   min-height: 70vh;
-  margin-top: 2vh;
   margin-left: 2vw;
   margin-right: 2vw;
 }
@@ -396,6 +418,10 @@ v-btn {
 
 #card-component {
   border-radius: 40px;
+  /* text-align: left;
+  white-space: pre-line;
+  padding-left: 10px;
+  overflow: auto; */
   padding: 2px 2px 2px 2px;
   margin: 2% 2% 2% 2%;
 }
@@ -452,6 +478,11 @@ v-btn {
   background-color: #e3eee5;
   border-radius: 2.5em;
 }
+
+.v-sheet.v-stepper:not(.v-sheet--outlined) {
+  box-shadow: none !important;
+}
+
 .title {
   margin-top: 15%;
 }
