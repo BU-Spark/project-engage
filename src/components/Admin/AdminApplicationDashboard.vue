@@ -66,7 +66,7 @@
               </v-container>
 
               <v-container v-else-if="editNotes">
-                <v-textarea v-model="editItem.notes" />
+                <v-textarea v-model="editItem.adminNotes" />
               </v-container>
             </v-card-text>
 
@@ -136,13 +136,13 @@
           class="elevation-1"
         >
           <template v-slot:item.firstname="{ item }">
-            <button @click="viewProfile(item)" style="color: #00A99E;">
+            <button @click="viewProfile(item)" style="color: #00a99e">
               {{ item.firstname }}
             </button>
           </template>
 
           <template v-slot:item.program="{ item }">
-            <button @click="viewApplication(item)" style="color: #00A99E;">
+            <button @click="viewApplication(item)" style="color: #00a99e">
               {{ item.program }}
             </button>
           </template>
@@ -153,9 +153,9 @@
             </button>
           </template>
 
-          <template v-slot:item.notes="{ item }">
+          <template v-slot:item.adminNotes="{ item }">
             <button @click="editApplication(item, 'notes')">
-              {{ item.notes ? item.notes : "Add Notes" }}
+              {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
             </button>
           </template>
         </v-data-table>
@@ -292,7 +292,7 @@ export default {
         },
         {
           text: "Notes",
-          value: "notes"
+          value: "adminNotes"
         },
         {}
       ]
@@ -336,12 +336,13 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("applications").doc(this.semester2);
+        console.log(this.editItem);
+        const ref = db.collection("applications").doc(this.editItem.semester);
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          adminNotes: this.editItem.notes
+          adminNotes: this.editItem.adminNotes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
@@ -392,17 +393,18 @@ export default {
             .doc(element.id)
             .get();
           const applications = user.data().applications[this.semester[i]];
-
           let submissionTime;
           let status;
           let result;
-          for (let i = 0; i < applications.length; i++) {
-            if (applications[i].type == type) {
-              submissionTime = applications[i].submissionTime;
-              submissionTime = new Date(
-                submissionTime.seconds * 1000
-              ).toLocaleString("en-US", { timeZone: "America/New_York" });
-              status = applications[i].status;
+          if (applications) {
+            for (let i = 0; i < applications.length; i++) {
+              if (applications[i].type == type) {
+                submissionTime = applications[i].submissionTime;
+                submissionTime = new Date(
+                  submissionTime.seconds * 1000
+                ).toLocaleString("en-US", { timeZone: "America/New_York" });
+                status = applications[i].status;
+              }
             }
           }
           let profCol = await profileRef
