@@ -66,7 +66,7 @@
               </v-container>
 
               <v-container v-else-if="editNotes">
-                <v-textarea v-model="editItem.notes" />
+                <v-textarea v-model="editItem.adminNotes" />
               </v-container>
             </v-card-text>
 
@@ -153,9 +153,9 @@
             </button>
           </template>
 
-          <template v-slot:item.notes="{ item }">
+          <template v-slot:item.adminNotes="{ item }">
             <button @click="editApplication(item, 'notes')">
-              {{ item.notes ? item.notes : "Add Notes" }}
+              {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
             </button>
           </template>
         </v-data-table>
@@ -186,7 +186,7 @@ export default {
   name: "AdminApplicationDashboard",
   components: {
     ViewStudentApplication,
-    ViewStudentProfile,
+    ViewStudentProfile
   },
   data() {
     return {
@@ -209,7 +209,7 @@ export default {
         "team lead",
         "ux designer",
         "frontend developer",
-        "backend developer",
+        "backend developer"
       ],
       position: [],
       programList: [
@@ -218,7 +218,7 @@ export default {
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab",
-        "X-Lab",
+        "X-Lab"
       ],
       program: [],
       statusList: [
@@ -229,18 +229,18 @@ export default {
         "interviewing",
         "accepted",
         "rejcted",
-        "declined",
+        "declined"
       ],
       status: [],
       search: "",
       headers: [
         {
           text: "First Name",
-          value: "firstname",
+          value: "firstname"
         },
         {
           text: "last Name",
-          value: "lastname",
+          value: "lastname"
         },
         // {
         //   text: "Position",
@@ -253,49 +253,49 @@ export default {
         {
           text: "Semester",
           value: "semester",
-          filter: (value) => {
+          filter: value => {
             if (this.chosenSemester.length == 0) return true;
             return this.chosenSemester.includes(value);
-          },
+          }
         },
         {
           text: "Program",
           value: "program",
-          filter: (value) => {
+          filter: value => {
             if (this.program.length == 0) return true;
             return this.program.includes(value);
-          },
+          }
         },
         {
           text: "Year",
-          value: "schoolYear",
+          value: "schoolYear"
         },
         {
           text: "Gender",
-          value: "gender",
+          value: "gender"
         },
         {
           text: "Email",
-          value: "email",
+          value: "email"
         },
         {
           text: "Submisson Time",
-          value: "submissionTime",
+          value: "submissionTime"
         },
         {
           text: "Status",
           value: "status",
-          filter: (value) => {
+          filter: value => {
             if (this.status.length == 0) return true;
             return this.status.includes(this.statusList[value]);
-          },
+          }
         },
         {
           text: "Notes",
-          value: "notes",
+          value: "adminNotes"
         },
-        {},
-      ],
+        {}
+      ]
     };
   },
   methods: {
@@ -336,34 +336,36 @@ export default {
     async save() {
       //might chage base on how the application is submitted on the student side.
       if (this.editNotes) {
-        const ref = db.collection("applications").doc(this.semester2);
+        console.log(this.editItem);
+        const ref = db.collection("applications").doc(this.editItem.semester);
         const application = await ref
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          adminNotes: this.editItem.notes,
+          adminNotes: this.editItem.adminNotes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
           const ref = await db.collection("users").doc(this.editItem.uid);
           let applications = await ref.get();
-          applications =
-            applications.data().applications[this.editItem.semester];
+          applications = applications.data().applications[
+            this.editItem.semester
+          ];
           for (let i = 0; i < applications.length; i++) {
             if (applications[i].type == this.editItem.program) {
               applications[i].status = this.editItem.status;
             }
           }
           await ref.update({
-            applications: applications,
+            applications: applications
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
 
       this.close();
-    },
+    }
   },
   async mounted() {
     const date = new Date();
@@ -385,20 +387,24 @@ export default {
       const profileRef = db.collection("applications").doc("Base");
       for (let type of this.programList) {
         const subCol = await ref.collection(type).get();
-        subCol.forEach(async (element) => {
-          const user = await db.collection("users").doc(element.id).get();
+        subCol.forEach(async element => {
+          const user = await db
+            .collection("users")
+            .doc(element.id)
+            .get();
           const applications = user.data().applications[this.semester[i]];
-
           let submissionTime;
           let status;
           let result;
-          for (let i = 0; i < applications.length; i++) {
-            if (applications[i].type == type) {
-              submissionTime = applications[i].submissionTime;
-              submissionTime = new Date(
-                submissionTime.seconds * 1000
-              ).toLocaleString("en-US", { timeZone: "America/New_York" });
-              status = applications[i].status;
+          if (applications) {
+            for (let i = 0; i < applications.length; i++) {
+              if (applications[i].type == type) {
+                submissionTime = applications[i].submissionTime;
+                submissionTime = new Date(
+                  submissionTime.seconds * 1000
+                ).toLocaleString("en-US", { timeZone: "America/New_York" });
+                status = applications[i].status;
+              }
             }
           }
           let profCol = await profileRef
@@ -408,7 +414,7 @@ export default {
           if (profCol.data()) {
             result = {
               ...profCol.data(),
-              ...element.data(),
+              ...element.data()
             };
             result = {
               ...result,
@@ -416,8 +422,8 @@ export default {
                 uid: element.id,
                 semester: this.semester[i],
                 submissionTime: submissionTime,
-                status: status,
-              },
+                status: status
+              }
             };
             this.applications.push(result);
           } else {
@@ -427,14 +433,14 @@ export default {
                 uid: element.id,
                 semester: this.semester[i],
                 submissionTime: submissionTime,
-                status: status,
-              },
+                status: status
+              }
             };
             this.applications.push(result);
           }
         });
       }
     }
-  },
+  }
 };
 </script>
