@@ -18,17 +18,20 @@ Vue.config.productionTip = false;
 Vue.use(VueFormulate, {
   rules: {
     checkFileType: ({ value }) => {
-      var lstFiles = value.files;
-      for (var i = 0; i < lstFiles.length; i++) {
-        if (
-          (lstFiles[i].file.type != "application/pdf" ||
-            lstFiles[i].file.type != "application/jpeg" ||
-            lstFiles[i].file.type != "application/jpg" ||
-            lstFiles[i].file.type != "application/png" ||
-            lstFiles[i].file.type != "application/gif") &&
-          lstFiles[i].file.type != false
-        ) {
-          return false;
+      if (value.files) {
+        var lstFiles = value.files;
+        // check if resume file type is one of the following
+        for (var i = 0; i < lstFiles.length; i++) {
+          if (lstFiles[i].file.type == false) {
+            continue;
+          } else if (
+            lstFiles[i].file.type != "application/pdf" &&
+            lstFiles[i].file.type != "image/jpeg" &&
+            lstFiles[i].file.type != "image/jpg" &&
+            lstFiles[i].file.type != "image/png"
+          ) {
+            return false;
+          }
         }
       }
       return true;

@@ -213,6 +213,7 @@ import GoogleLoginButton from "@/components/Login/GoogleLoginButton";
 import AdminIcon from "@/components/Login/admin.vue";
 import StudentIcon from "@/components/Login/student.vue";
 import AdminLogin from "@/views/AdminLogin";
+import { auth } from "@/firebase/init.js";
 export default {
   name: "LoginForm",
   roleSelected: null,
@@ -241,9 +242,6 @@ export default {
     };
   },
   methods: {
-    applicationForm() {
-      this.$router.push("/application");
-    },
     clickedRole(role) {
       this.roleSelected = role;
       if (role == "student") {
@@ -256,6 +254,11 @@ export default {
       if (this.roleSelected != null) {
         this.view = page;
       }
+    }
+  },
+  async mounted() {
+    if (auth.currentUser) {
+      this.$router.push("/home");
     }
   }
 };
@@ -282,7 +285,6 @@ export default {
 #studentText {
   left: 20px;
 }
-
 /* #studentText:after {
   left: 10px;
   border-right: 20px solid transparent;
@@ -291,7 +293,6 @@ export default {
 #adminText {
   right: 20px;
 }
-
 /* #adminText:after {
   right: 90px;
   border-left: 20px solid transparent;
@@ -310,7 +311,6 @@ export default {
   transition: opacity 2s ease-in-out;
   font-weight: 700;
 }
-
 /* .text:after {
   content: "";
   position: relative;
