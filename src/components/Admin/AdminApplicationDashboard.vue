@@ -287,7 +287,10 @@ export default {
           value: "status",
           filter: value => {
             if (this.status.length == 0) return true;
-            return this.status.includes(this.statusList[value]);
+            console.log(this.status);
+            if (value) {
+              return this.status.includes(value);
+            }
           }
         },
         {
