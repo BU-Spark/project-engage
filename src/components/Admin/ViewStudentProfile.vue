@@ -1,6 +1,22 @@
 <template>
   <div>
     <div>
+      <FormulateForm
+        class="form-wrapper"
+        v-model="values"
+        :schema="[
+          {
+            label: 'Resume',
+            type: 'button',
+            name: 'resume',
+            '@click': e =>
+              openDocument(
+                'https://firebasestorage.googleapis.com/v0/b/spark-project-engage.appspot.com/o/14PFYGIpmcSiE5ySNgKwNoaApE52%20Base%20resume%200.pdf?alt=media&token=a8bf00bf-e2ed-4681-b6bc-91ed51638410'
+              )
+          }
+        ]"
+      />
+
       <h3>Student Profile</h3>
 
       <!-- student info -->
@@ -107,6 +123,9 @@ export default {
   methods: {
     goBack() {
       this.$emit("typeChange", null);
+    },
+    openDocument(document) {
+      window.open(document);
     }
   },
   async mounted() {
@@ -150,18 +169,23 @@ export default {
       } else if (this.item.status == 1 && this.schema[i]["type"] == "submit") {
         // don't add the save button
       } else if (this.schema[i]["type"] == "file") {
+        let label = this.schema[i]["label"];
+        let name = this.schema[i]["name"];
+        let files = this.values[this.schema[i]["name"]];
+        files = files.map(file => {
+          return {
+            label: label,
+            name: name,
+            type: "button",
+            "@click": () => this.openDocument(file.url)
+          };
+        });
         this.schema[i] = {
-          label: this.schema[i]["label"],
+          type: "group",
           name: this.schema[i]["name"],
-          type: "textarea"
+          label: this.schema[i]["label"],
+          children: files
         };
-        if (this.values[this.schema[i]["name"]]) {
-          var tempStr = "";
-          for (var j = 0; j < this.values[this.schema[i]["name"]].length; j++) {
-            tempStr += this.values[this.schema[i]["name"]][j]["url"] + "\n";
-          }
-          this.values[this.schema[i]["name"]] = tempStr;
-        }
         temp.push(this.schema[i]);
       } else {
         temp.push(this.schema[i]);
