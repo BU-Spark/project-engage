@@ -51,9 +51,10 @@
 import { db } from "@/firebase/init.js";
 export default {
   name: "ViewStudentProfile",
-  props: ["item"],
+  // props: ["item"],
   data() {
     return {
+      item: null,
       headers: [
         {
           text: "Name",
@@ -107,9 +108,14 @@ export default {
   methods: {
     goBack() {
       this.$emit("typeChange", null);
+    },
+    openDocument(document) {
+      window.open(document);
     }
   },
   async mounted() {
+    let params = JSON.parse(localStorage["params"]);
+    this.item = params["item"];
     this.information = [
       {
         name: this.item.firstname + " " + this.item.lastname,
@@ -150,18 +156,23 @@ export default {
       } else if (this.item.status == 1 && this.schema[i]["type"] == "submit") {
         // don't add the save button
       } else if (this.schema[i]["type"] == "file") {
+        let label = this.schema[i]["label"];
+        let name = this.schema[i]["name"];
+        let files = this.values[this.schema[i]["name"]];
+        files = files.map(file => {
+          return {
+            label: label,
+            name: name,
+            type: "button",
+            "@click": () => this.openDocument(file.url)
+          };
+        });
         this.schema[i] = {
-          label: this.schema[i]["label"],
+          type: "group",
           name: this.schema[i]["name"],
-          type: "textarea"
+          label: this.schema[i]["label"],
+          children: files
         };
-        if (this.values[this.schema[i]["name"]]) {
-          var tempStr = "";
-          for (var j = 0; j < this.values[this.schema[i]["name"]].length; j++) {
-            tempStr += this.values[this.schema[i]["name"]][j]["url"] + "\n";
-          }
-          this.values[this.schema[i]["name"]] = tempStr;
-        }
         temp.push(this.schema[i]);
       } else {
         temp.push(this.schema[i]);

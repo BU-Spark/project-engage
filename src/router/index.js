@@ -44,6 +44,24 @@ const routes = [
       isAdmin: true
     }
   },
+  {
+    path: "/studentProfile",
+    name: "studentProfile",
+    component: () => import("@/components/Admin/ViewStudentProfile.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/studentApp",
+    name: "studentApp",
+    component: () => import("@/components/Admin/ViewStudentApplication.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
   {
     path: "*",

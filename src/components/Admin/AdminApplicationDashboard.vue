@@ -1,6 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-container v-if="!viewStudentApplications && !viewStudentProfiles">
+    <v-container>
       <template>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -161,33 +161,14 @@
         </v-data-table>
       </template>
     </v-container>
-    <v-container v-if="viewStudentApplications">
-      <ViewStudentApplication
-        v-bind:item="item"
-        v-on:typeChange="backToTable($event)"
-      />
-      <v-btn @click="backToTable">Back</v-btn>
-    </v-container>
-    <v-container v-else-if="viewStudentProfiles">
-      <ViewStudentProfile
-        v-bind:item="item"
-        v-on:typeChange="backToTable($event)"
-      />
-      <v-btn @click="backToTable">Back</v-btn>
-    </v-container>
   </v-layout>
 </template>
 
 <script>
 import { db } from "@/firebase/init";
-import ViewStudentApplication from "@/components/Admin/ViewStudentApplication.vue";
-import ViewStudentProfile from "@/components/Admin/ViewStudentProfile.vue";
 export default {
   name: "AdminApplicationDashboard",
-  components: {
-    ViewStudentApplication,
-    ViewStudentProfile
-  },
+  components: {},
   data() {
     return {
       value: {},
@@ -204,7 +185,6 @@ export default {
       selected: null,
       chosenSemester: [],
       viewStudentApplications: false,
-      viewStudentProfiles: false,
       positionList: [
         "team lead",
         "ux designer",
@@ -305,17 +285,25 @@ export default {
     back() {
       this.$router.go(-1);
     },
-    backToTable() {
-      this.viewStudentApplications = false;
-      this.viewStudentProfiles = false;
-    },
     viewProfile(item) {
+      let route = this.$router.resolve({
+        name: "studentProfile"
+      });
+      window.localStorage["params"] = JSON.stringify({
+        item: item
+      });
+      window.open(route.href, "_blank");
       this.item = item;
-      this.viewStudentProfiles = true;
     },
     viewApplication(item) {
+      let route = this.$router.resolve({
+        name: "studentApp"
+      });
+      window.localStorage["params"] = JSON.stringify({
+        item: item
+      });
+      window.open(route.href, "_blank");
       this.item = item;
-      this.viewStudentApplications = true;
     },
     editApplication(item, field) {
       if (field == "notes") {
@@ -405,7 +393,9 @@ export default {
                 submissionTime = applications[i].submissionTime;
                 submissionTime = new Date(
                   submissionTime.seconds * 1000
-                ).toLocaleString("en-US", { timeZone: "America/New_York" });
+                ).toLocaleString("en-US", {
+                  timeZone: "America/New_York"
+                });
                 status = applications[i].status;
               }
             }
