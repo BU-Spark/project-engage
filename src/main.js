@@ -26,6 +26,9 @@ Vue.use(VueFormulate, {
             continue;
           } else if (
             lstFiles[i].file.type != "application/pdf" &&
+            lstFiles[i].file.type != "application/msword" &&
+            lstFiles[i].file.type !=
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document" &&
             lstFiles[i].file.type != "image/jpeg" &&
             lstFiles[i].file.type != "image/jpg" &&
             lstFiles[i].file.type != "image/png"
