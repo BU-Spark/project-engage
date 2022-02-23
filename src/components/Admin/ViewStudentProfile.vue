@@ -1,22 +1,6 @@
 <template>
   <div>
     <div>
-      <FormulateForm
-        class="form-wrapper"
-        v-model="values"
-        :schema="[
-          {
-            label: 'Resume',
-            type: 'button',
-            name: 'resume',
-            '@click': e =>
-              openDocument(
-                'https://firebasestorage.googleapis.com/v0/b/spark-project-engage.appspot.com/o/14PFYGIpmcSiE5ySNgKwNoaApE52%20Base%20resume%200.pdf?alt=media&token=a8bf00bf-e2ed-4681-b6bc-91ed51638410'
-              )
-          }
-        ]"
-      />
-
       <h3>Student Profile</h3>
 
       <!-- student info -->
@@ -67,9 +51,10 @@
 import { db } from "@/firebase/init.js";
 export default {
   name: "ViewStudentProfile",
-  props: ["item"],
+  // props: ["item"],
   data() {
     return {
+      item: null,
       headers: [
         {
           text: "Name",
@@ -129,6 +114,8 @@ export default {
     }
   },
   async mounted() {
+    let params = JSON.parse(localStorage["params"]);
+    this.item = params["item"];
     this.information = [
       {
         name: this.item.firstname + " " + this.item.lastname,

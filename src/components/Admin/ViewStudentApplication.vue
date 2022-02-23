@@ -108,6 +108,9 @@ export default {
     }
   },
   async mounted() {
+    let params = JSON.parse(localStorage["params"]);
+    this.item = params["item"];
+
     this.information = [
       {
         name: this.item.firstname + " " + this.item.lastname,
