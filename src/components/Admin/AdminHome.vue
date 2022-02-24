@@ -188,7 +188,7 @@
     <!-- different pages -->
     <InviteAdmin v-if="page == 0" />
     <EmailUI v-if="page == 0" />
-    <AdminApplicationDashboard v-if="page == 1" />
+    <AdminApplicationDashboard v-if="page == 1" :key="refreshKey" />
     <ApplicationFormListDisplay v-if="page == 2" />
     <Profile v-if="page == 3" />
     <div v-if="page == 5">
@@ -218,7 +218,8 @@ export default {
   data() {
     return {
       page: 0,
-      window
+      window,
+      refreshKey: 0
     };
   },
   computed: {
@@ -228,7 +229,11 @@ export default {
   },
   methods: {
     updatePageBody(index) {
+      console.log(index);
       this.page = index;
+      if (this.page == 1 && index == 1) {
+        this.refreshKey += 1;
+      }
     },
     changeRoutes(route) {
       this.$router.push(route);
