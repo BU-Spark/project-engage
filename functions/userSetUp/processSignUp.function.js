@@ -39,7 +39,7 @@ function createFirestoreUser(user) {
       applications: {},
       employmentOpportunitiesSubmission: {
         semester: "",
-        status: "false"
+        status: "new"
       }
     });
 }
