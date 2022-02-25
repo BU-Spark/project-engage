@@ -244,8 +244,10 @@ export default {
       template
         .update({
           [`${this.semester}.schema`]: this.schema,
-          [`${this.semester}.deadline`]: this.date,
+          [`${this.semester}.deadline`]: this.date ? this.description : "",
           [`${this.semester}.description`]: this.description
+            ? this.description
+            : ""
         })
         .then(() => {
           console.log("submitted");
@@ -284,7 +286,6 @@ export default {
     // this.date = this.parseDate(this.dateFormatted);
     this.date = await this.$route.params.deadline;
     this.description = await this.$route.params.description;
-    console.log(this.description);
   }
 };
 </script>

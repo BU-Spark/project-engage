@@ -361,7 +361,6 @@ export default {
         data => data.label === itemSelected
       );
       let elementInfo = this.schemaArray[this.currElementIndex];
-      console.log(elementInfo.type);
       if (elementInfo.type == "text" || elementInfo.type == undefined) {
         this.questionSelected = this.items[0];
         this.labelInput = elementInfo.label;
@@ -584,7 +583,7 @@ export default {
           };
         }
 
-        this.schemaArray.splice(this.currElementIndex, 0, this.itemSchema);
+        this.schemaArray[this.currElementIndex] = this.itemSchema;
         this.$emit("editItem", false);
         this.$emit("itemEdited", this.schemaArray);
         alert("You have successfully edited the item!");
@@ -602,7 +601,6 @@ export default {
     },
     // remove all field values when admin switches a question type
     eraseFields() {
-      console.log("here2");
       this.labelInput = null;
       this.nameInput = null;
       this.validationInput = false;
