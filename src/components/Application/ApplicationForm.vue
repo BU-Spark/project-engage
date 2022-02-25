@@ -46,29 +46,41 @@
       style="outline-color: #00A99E;"
     ></v-textarea>
 
-    <!-- delete / add item selection -->
-    <DeleteItem
-      v-if="this.deleteItem && !this.addItem"
-      :schema="schema"
-      @deleteItem="changeDeleteItemState()"
-      @itemDeleted="deleteField"
-    />
-    <v-btn
-      v-if="!this.deleteItem && !this.addItem"
-      @click="changeDeleteItemState()"
-      >Delete Item</v-btn
-    >
-
+    <!-- add / delete item selection -->
     <AddItem
-      v-if="this.addItem && !this.deleteItem"
+      v-if="this.addItem && !this.deleteItem && !this.editItem"
       :schema="schema"
       @addItem="changeAddItemState()"
       @itemAdded="addField"
     />
     <v-btn
-      v-if="!this.addItem && !this.deleteItem"
+      v-if="!this.addItem && !this.deleteItem && !this.editItem"
       @click="changeAddItemState()"
       >Add Item</v-btn
+    >
+
+    <DeleteItem
+      v-if="this.deleteItem && !this.addItem && !this.editItem"
+      :schema="schema"
+      @deleteItem="changeDeleteItemState()"
+      @itemDeleted="deleteField"
+    />
+    <v-btn
+      v-if="!this.deleteItem && !this.addItem && !this.editItem"
+      @click="changeDeleteItemState()"
+      >Delete Item</v-btn
+    >
+
+    <EditItem
+      v-if="this.editItem && !this.deleteItem && !this.addItem"
+      :schema="schema"
+      @editItem="changeEditItemState()"
+      @itemEdited="editField"
+    />
+    <v-btn
+      v-if="!this.editItem && !this.deleteItem && !this.addItem"
+      @click="changeEditItemState()"
+      >Edit Item</v-btn
     >
 
     <!-- display form format -->
@@ -90,23 +102,6 @@
               v-model="values"
               :schema="schemaList[i]"
             />
-            <!-- <v-btn
-              v-if="i < steps.length - 1"
-              color="primary"
-              @click="nextStep(n, 'continue')"
-            >
-              Continue
-            </v-btn> -->
-            <!-- <v-btn text v-if="i != 0" @click="nextStep(n, 'back')">
-              Back
-            </v-btn> -->
-            <!-- <v-btn
-              v-if="i == steps.length - 1"
-              color="primary"
-              @click="nextStep(n)"
-            >
-              Submit
-            </v-btn> -->
           </v-stepper-content>
         </template>
       </v-stepper>
@@ -123,12 +118,14 @@ import { db } from "@/firebase/init";
 import "@/assets/formulate.css";
 import AddItem from "@/plugins/AddItem.vue";
 import DeleteItem from "@/plugins/DeleteItem.vue";
+import EditItem from "@/plugins/EditItem.vue";
 
 export default {
   name: "ApplicationForm",
   components: {
     AddItem,
-    DeleteItem
+    DeleteItem,
+    EditItem
   },
   data() {
     return {
@@ -137,6 +134,7 @@ export default {
       menu: false,
       addItem: false,
       deleteItem: false,
+      editItem: false,
       value: {},
       applicationType: "",
       semester: "",
@@ -204,13 +202,37 @@ export default {
       this.schemaList.push(temp);
       this.schemaList = this.schemaList.filter(e => e.length);
     },
+    editField(value) {
+      this.schema = value;
+      this.schemaList = [];
+      var temp = [];
+      this.steps = [];
+      for (let i = 0; i < this.schema.length; i++) {
+        if (this.schema[i]["type"] == "hr") {
+          this.schemaList.push(temp);
+          this.steps.push(this.schema[i]["label"]);
+          temp = [];
+        } else {
+          temp.push(this.schema[i]);
+        }
+      }
+      this.schemaList.push(temp);
+      this.schemaList = this.schemaList.filter(e => e.length);
+    },
     changeAddItemState() {
       this.addItem = !this.addItem;
       this.deleteItem = false;
+      this.editItem = false;
     },
     changeDeleteItemState() {
       this.deleteItem = !this.deleteItem;
       this.addItem = false;
+      this.editItem = false;
+    },
+    changeEditItemState() {
+      this.editItem = !this.editItem;
+      this.addItem = false;
+      this.deleteItem = false;
     },
     cancel() {
       this.$router.go(-1);
