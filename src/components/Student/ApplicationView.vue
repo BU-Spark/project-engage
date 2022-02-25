@@ -195,6 +195,8 @@ export default {
     const date = new Date();
     const month = date.getMonth() + 1;
     var year = date.getFullYear();
+    const day = date.getDate();
+    console.log(day);
     var semList = [];
     if (month >= 10 || month <= 2) {
       // Spring application: Oct - Feb
@@ -202,10 +204,12 @@ export default {
         year += 1;
       }
       semList.push("Spring " + year);
-    } else if (month >= 1 && month <= 5) {
+    }
+    if (month >= 1 && month <= 5) {
       // Summer application: Jan - May
       semList.push("Summer " + year);
-    } else if (month >= 4 && month <= 8) {
+    }
+    if ((month == 2 && day >= 28) || (month >= 3 && month <= 8)) {
       // Fall application: Apr - Aug
       semList.push("Fall " + year);
     }
@@ -268,7 +272,9 @@ export default {
       "Innovation Fellowship | Innovator",
       "Innovation Fellowship | Technical Teammate",
       "Innovation Fellowship | UX Designer",
-      "Justice Media Co-Lab"
+      "Justice Media Co-Lab",
+      "Civic Tech Co-Lab Interest Form",
+      "Internship Application"
     ];
     await applications.forEach(async element => {
       let template = await this.retreiveApplicationTemplate(element);
