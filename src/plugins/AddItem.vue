@@ -267,13 +267,6 @@
             :rules="[checkid, rules.required]"
             outlined
           ></v-text-field>
-          <v-select
-            :items="['image', 'file']"
-            v-model="validationFile"
-            label="Choose allowed file type"
-            outlined
-            :rules="[() => !!validationFile || 'This field is required']"
-          ></v-select>
           <v-checkbox
             v-model="multipleFile"
             :label="`Allow multiple files? ${multipleFile.toString()}`"
@@ -283,38 +276,19 @@
         <v-col cols="12" sm="6" class="pa-5">
           <v-card class="pa-10 mb-4" outlined tile>
             <h4>Preview</h4>
-            <div v-if="validationFile == 'file' && multipleFile">
+            <div v-if="multipleFile">
               <FormulateInput
                 type="file"
                 :label="`${labelFile}`"
                 help="Select one or more PDFs to upload"
-                validation="mime:application/pdf"
                 multiple
               />
             </div>
-            <div v-if="validationFile == 'file' && !multipleFile">
+            <div v-if="!multipleFile">
               <FormulateInput
                 type="file"
                 :label="`${labelFile}`"
                 help="Select one PDF to upload"
-                validation="mime:application/pdf"
-              />
-            </div>
-            <div v-if="validationFile == 'image' && multipleFile">
-              <FormulateInput
-                type="image"
-                :label="`${labelFile}`"
-                help="Select one or more png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
-                multiple
-              />
-            </div>
-            <div v-if="validationFile == 'image' && !multipleFile">
-              <FormulateInput
-                type="image"
-                :label="`${labelFile}`"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
               />
             </div>
           </v-card>
@@ -532,11 +506,10 @@ export default {
         (!this.labelFile ||
           !this.nameFile ||
           this.schema.some(el => el.name === this.nameFile) ||
-          !this.validationFile ||
           (!this.itemSelected && this.schemaArray.length > 0))
       ) {
         alert(
-          'Please fill in "Label", fill out "id" and check for duplication, choose a file type, or select "Choose where to add the question"'
+          'Please fill in "Label", fill out "id" and check for duplication, or select "Choose where to add the question"'
         );
       } else if (
         this.questionSelected == "New Section" &&
@@ -593,14 +566,10 @@ export default {
                 validation: "checkFileType",
                 multiple: "multiple",
                 help:
-                  this.validationFile == "file" && this.multipleFile
-                    ? "Select one or more PDFs to upload"
-                    : this.validationFile == "file" && !this.multipleFile
-                    ? "Select one PDF to upload"
-                    : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more jpeg, jpg, png or gif to upload."
-                    : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a jpeg, jpg, png or gif to upload."
+                  this.validationFile && this.multipleFile
+                    ? "Select one or more files (pdf, doc, docx, jpeg, jpg, png) to upload"
+                    : this.validationFile && !this.multipleFile
+                    ? "Select one file (pdf, doc, docx, jpeg, jpg, png) to upload"
                     : "",
                 rules: null
               })
@@ -610,14 +579,10 @@ export default {
                 type: "file",
                 validation: "checkFileType",
                 help:
-                  this.validationFile == "file" && this.multipleFile
-                    ? "Select one or more PDFs to upload"
-                    : this.validationFile == "file" && !this.multipleFile
-                    ? "Select one PDF to upload"
-                    : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more jpeg, jpg, png or gif to upload."
-                    : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a jpeg, jpg, png or gif to upload."
+                  this.validationFile && this.multipleFile
+                    ? "Select one or more files (pdf, doc, docx, jpeg, jpg, png) to upload"
+                    : this.validationFile && !this.multipleFile
+                    ? "Select one file (pdf, doc, docx, jpeg, jpg, png) to upload"
                     : "",
                 rules: null
               });
@@ -688,7 +653,7 @@ export default {
       this.itemSelected = null;
       this.labelFile = null;
       this.nameFile = null;
-      this.validationFile = null;
+      this.validationFile = false;
       this.multipleFile = false;
       this.labelSection = null;
       this.nameSection = null;

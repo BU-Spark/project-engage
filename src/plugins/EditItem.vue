@@ -233,13 +233,6 @@
             :rules="[checkid, rules.required]"
             outlined
           ></v-text-field>
-          <v-select
-            :items="['image', 'file']"
-            v-model="validationFile"
-            label="Choose allowed file type"
-            outlined
-            :rules="[() => !!validationFile || 'This field is required']"
-          ></v-select>
           <v-checkbox
             v-model="multipleFile"
             :label="`Allow multiple files? ${multipleFile.toString()}`"
@@ -249,38 +242,19 @@
         <v-col cols="12" sm="6" class="pa-5">
           <v-card class="pa-10 mb-4" outlined tile>
             <h4>Preview</h4>
-            <div v-if="validationFile == 'file' && multipleFile">
+            <div v-if="multipleFile">
               <FormulateInput
                 type="file"
                 :label="`${labelFile}`"
                 help="Select one or more PDFs to upload"
-                validation="mime:application/pdf"
                 multiple
               />
             </div>
-            <div v-if="validationFile == 'file' && !multipleFile">
+            <div v-if="!multipleFile">
               <FormulateInput
                 type="file"
                 :label="`${labelFile}`"
-                help="Select one PDF to upload"
-                validation="mime:application/pdf"
-              />
-            </div>
-            <div v-if="validationFile == 'image' && multipleFile">
-              <FormulateInput
-                type="image"
-                :label="`${labelFile}`"
-                help="Select one or more png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
-                multiple
-              />
-            </div>
-            <div v-if="validationFile == 'image' && !multipleFile">
-              <FormulateInput
-                type="image"
-                :label="`${labelFile}`"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/jpg,image/png,image/gif"
+                help="Select one file to upload"
               />
             </div>
           </v-card>
@@ -372,7 +346,7 @@ export default {
       // fields required for "File"
       labelFile: null,
       nameFile: null,
-      validationFile: null,
+      validationFile: false,
       multipleFile: false,
       // fields required for "New Section"
       labelSection: null,
@@ -382,18 +356,20 @@ export default {
   computed: {},
   methods: {
     getQuestionType(itemSelected) {
+      this.eraseFields();
       this.currElementIndex = this.schemaArray.findIndex(
         data => data.label === itemSelected
       );
       let elementInfo = this.schemaArray[this.currElementIndex];
-      if (elementInfo.type == "text") {
+      console.log(elementInfo.type);
+      if (elementInfo.type == "text" || elementInfo.type == undefined) {
         this.questionSelected = this.items[0];
         this.labelInput = elementInfo.label;
         this.nameInput = elementInfo.name;
         this.validationInput =
-          elementInfo.validation != undefined ||
-          elementInfo.validation != "" ||
-          elementInfo.validation != "false"
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
             ? true
             : false;
       } else if (elementInfo.type == "textarea") {
@@ -401,9 +377,9 @@ export default {
         this.labelParagraph = elementInfo.label;
         this.nameParagraph = elementInfo.name;
         this.validationParagraph =
-          elementInfo.validation != undefined ||
-          elementInfo.validation != "" ||
-          elementInfo.validation != "false"
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
             ? true
             : false;
       } else if (elementInfo.type == "select") {
@@ -412,22 +388,25 @@ export default {
         this.nameDropdown = elementInfo.name;
         this.optionsDropdown = elementInfo.options;
         this.validationDropdown =
-          elementInfo.validation != undefined ||
-          elementInfo.validation != "" ||
-          elementInfo.validation != "false"
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
             ? true
             : false;
         this.multipleDropdown =
           elementInfo.multiple == "multiple" ? true : false;
-      } else if (elementInfo.type == "combobox") {
+      } else if (
+        elementInfo.type == "combobox" ||
+        elementInfo.type == "comboboxSpecial"
+      ) {
         this.questionSelected = this.items[3];
         this.labelCombobox = elementInfo.label;
         this.nameCombobox = elementInfo.name;
         this.itemsCombobox = elementInfo.items;
         this.validationCombobox =
-          elementInfo.validation != undefined ||
-          elementInfo.validation != "" ||
-          elementInfo.validation != "false"
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
             ? true
             : false;
         this.placeholderCombobox = elementInfo.placeholder;
@@ -436,15 +415,15 @@ export default {
         this.labelFile = elementInfo.label;
         this.nameFile = elementInfo.name;
         this.validationFile =
-          elementInfo.validation != undefined ||
-          elementInfo.validation != "" ||
-          elementInfo.validation != "false"
+          elementInfo.validation == undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
             ? true
             : false;
         this.multipleFile =
-          elementInfo.multiple != undefined ||
-          elementInfo.multiple != "" ||
-          elementInfo.multiple != "false"
+          elementInfo.multiple != undefined &&
+          elementInfo.multiple != "" &&
+          elementInfo.multiple != false
             ? true
             : false;
       } else {
@@ -452,7 +431,10 @@ export default {
       }
     },
     checkid(val) {
-      if (this.schema.some(el => el.name === val) == true) {
+      if (
+        this.schema.some(el => el.name === val) == true &&
+        this.schema[this.currElementIndex].name != val
+      ) {
         return `Name "${val}" already exist`;
       } else {
         return true;
@@ -560,7 +542,7 @@ export default {
           this.itemSchema = {
             label: this.labelCombobox,
             name: this.nameCombobox,
-            type: "combobox",
+            type: this.schemaArray[this.currElementIndex].type,
             items: this.itemsCombobox,
             validation: this.validationCombobox ? "required" : null,
             placeholder: this.placeholderCombobox
@@ -574,14 +556,10 @@ export default {
                 validation: "checkFileType",
                 multiple: "multiple",
                 help:
-                  this.validationFile == "file" && this.multipleFile
-                    ? "Select one or more PDFs to upload"
-                    : this.validationFile == "file" && !this.multipleFile
-                    ? "Select one PDF to upload"
-                    : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more jpeg, jpg, png or gif to upload."
-                    : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a jpeg, jpg, png or gif to upload."
+                  this.validationFile && this.multipleFile
+                    ? "Select one or more files (pdf, doc, docx, jpeg, jpg, png) to upload"
+                    : this.validationFile && !this.multipleFile
+                    ? "Select one file (pdf, doc, docx, jpeg, jpg, png) to upload"
                     : "",
                 rules: null
               })
@@ -591,14 +569,10 @@ export default {
                 type: "file",
                 validation: "checkFileType",
                 help:
-                  this.validationFile == "file" && this.multipleFile
-                    ? "Select one or more PDFs to upload"
-                    : this.validationFile == "file" && !this.multipleFile
-                    ? "Select one PDF to upload"
-                    : this.validationFile == "image" && this.multipleFile
-                    ? "Select one or more jpeg, jpg, png or gif to upload."
-                    : this.validationFile == "image" && !this.multipleFile
-                    ? "Select a jpeg, jpg, png or gif to upload."
+                  this.validationFile && this.multipleFile
+                    ? "Select one or more files (pdf, doc, docx, jpeg, jpg, png) to upload"
+                    : this.validationFile && !this.multipleFile
+                    ? "Select one file (pdf, doc, docx, jpeg, jpg, png) to upload"
                     : "",
                 rules: null
               });
@@ -628,6 +602,7 @@ export default {
     },
     // remove all field values when admin switches a question type
     eraseFields() {
+      console.log("here2");
       this.labelInput = null;
       this.nameInput = null;
       this.validationInput = false;
@@ -653,7 +628,7 @@ export default {
       this.itemSelected = null;
       this.labelFile = null;
       this.nameFile = null;
-      this.validationFile = null;
+      this.validationFile = false;
       this.multipleFile = false;
       this.labelSection = null;
       this.nameSection = null;
