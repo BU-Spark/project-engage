@@ -15,14 +15,14 @@
 
       <!-- application form display -->
       <div
-        v-if="this.schema.length != 0"
+        v-if="this.schema.length != 0 && steps[0] != 'Test'"
         style="margin-top: 30px;margin-bottom: 30px;"
       >
         <v-stepper v-model="section" vertical>
           <template v-for="(n, i) in steps">
             <v-stepper-step
               :key="`${n}-step`"
-              :complete="section > n"
+              :complete="section > i"
               :step="i"
               editable
               class="stepperColor"
@@ -94,8 +94,8 @@ export default {
       schemaList: [],
       values: null,
       userBaseRef: null,
-      steps: [],
-      section: 1,
+      steps: ["Test"], // set dummy value to allow first section to open automatically
+      section: 0,
       dialog: false,
       preview: null
     };
@@ -180,6 +180,7 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
+    this.steps.shift(); // delete the dummy value
   }
 };
 </script>

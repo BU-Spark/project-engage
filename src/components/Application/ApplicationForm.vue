@@ -85,26 +85,28 @@
 
     <!-- display form format -->
     <template>
-      <v-stepper v-model="section" vertical>
-        <template v-for="(n, i) in steps">
-          <v-stepper-step
-            :key="`${n}-step`"
-            :complete="section > n"
-            :step="i"
-            editable
-            class="stepperColor"
-          >
-            {{ n }}
-          </v-stepper-step>
-          <v-stepper-content :key="`${n}-content`" :step="i">
-            <FormulateForm
-              class="form-wrapper"
-              v-model="values"
-              :schema="schemaList[i]"
-            />
-          </v-stepper-content>
-        </template>
-      </v-stepper>
+      <div v-if="steps[0] != 'Test'">
+        <v-stepper v-model="section" vertical>
+          <template v-for="(n, i) in steps">
+            <v-stepper-step
+              :key="`${n}-step`"
+              :complete="section > i"
+              :step="i"
+              editable
+              class="stepperColor"
+            >
+              {{ n }}
+            </v-stepper-step>
+            <v-stepper-content :key="`${n}-content`" :step="i">
+              <FormulateForm
+                class="form-wrapper"
+                v-model="values"
+                :schema="schemaList[i]"
+              />
+            </v-stepper-content>
+          </template>
+        </v-stepper>
+      </div>
     </template>
 
     <!-- cancel to stop editing or submit to save template -->
@@ -142,8 +144,8 @@ export default {
       schemaList: [],
       search: null,
       valid: false,
-      steps: [],
-      section: 1,
+      steps: ["Test"], // set dummy value to allow first section to open automatically
+      section: 0,
       description: ""
     };
   },
@@ -286,6 +288,7 @@ export default {
     // this.date = this.parseDate(this.dateFormatted);
     this.date = await this.$route.params.deadline;
     this.description = await this.$route.params.description;
+    this.steps.shift(); // delete the dummy value
   }
 };
 </script>

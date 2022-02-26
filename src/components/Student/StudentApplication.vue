@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!loading">
+    <div v-if="!loading && steps[0] != 'Test'">
       <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
         <div class="project-card">
@@ -13,7 +13,7 @@
         <template v-for="(n, i) in steps">
           <v-stepper-step
             :key="`${n}-step`"
-            :complete="section > n"
+            :complete="section > i"
             :step="i"
             editable
             class="stepperColor"
@@ -114,8 +114,8 @@ export default {
       values: null,
       applicationsRef: null,
       loading: false,
-      steps: [],
-      section: 1,
+      steps: ["Test"], // set dummy value to allow first section to open automatically
+      section: 0,
       dialog: false,
       deadline: "",
       description: "",
@@ -373,8 +373,7 @@ export default {
     } else {
       this.values = doc.data();
     }
-    console.log(this.values);
-    console.log(this.schemaList);
+    this.steps.shift(); // delete the dummy value
   }
 };
 </script>
