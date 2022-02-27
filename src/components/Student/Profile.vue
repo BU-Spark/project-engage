@@ -103,8 +103,10 @@ export default {
         .collection("All")
         .doc(this.user.uid);
       await userBaseRef.set(valuesCopy);
-
       this.message = true;
+      setTimeout(() => {
+        this.message = false;
+      }, 3000);
     }
   },
   async mounted() {
