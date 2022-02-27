@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!loading">
+    <div v-if="!loading && steps[0] != 'Test'">
       <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
         <div class="project-card">
@@ -13,7 +13,7 @@
         <template v-for="(n, i) in steps">
           <v-stepper-step
             :key="`${n}-step`"
-            :complete="section > n"
+            :complete="section > i"
             :step="i"
             editable
             class="stepperColor"
@@ -30,6 +30,18 @@
           </v-stepper-content>
         </template>
       </v-stepper>
+      <v-col
+        class="d-flex"
+        cols="12"
+        sm="6"
+        v-if="type == 'Employment Opportunities' && status == 'submitted'"
+      >
+        <v-select
+          :items="['Continue', 'Opt-Out']"
+          label="Would you like to continue this offer for next semester?"
+          v-model="empStatus"
+        ></v-select>
+      </v-col>
       <div class="text-center">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on, attrs }">
@@ -45,7 +57,9 @@
                 v-bind="attrs"
                 v-on="on"
                 style="background-color: #00A99E; color: white;"
-                v-if="status != 'submitted'"
+                v-if="
+                  status != 'submitted' || type == 'Employment Opportunities'
+                "
               >
                 Submit
               </v-btn>
@@ -98,13 +112,14 @@ export default {
       schema: [],
       schemaList: [],
       values: null,
-      userBaseRef: null,
+      applicationsRef: null,
       loading: false,
-      steps: [],
-      section: 1,
+      steps: ["Test"], // set dummy value to allow first section to open automatically
+      section: 0,
       dialog: false,
       deadline: "",
-      description: ""
+      description: "",
+      empStatus: ""
     };
   },
   computed: {
@@ -162,7 +177,7 @@ export default {
       this.values = await this.processFiles(this.values);
       this.values["adminNotes"] = "";
       this.values["status"] = 0;
-      await this.userBaseRef.set(this.values);
+      await this.applicationsRef.set(this.values);
       const userRef = db.collection("users").doc(this.user.uid);
       const doc = await userRef.get();
       var applications = null;
@@ -199,6 +214,14 @@ export default {
           submissionTime: new Date()
         });
       }
+      if (this.type == "Employment Opportunities") {
+        await userRef.update({
+          employmentOpportunitiesSubmission: {
+            semester: this.semester,
+            status: "started"
+          }
+        });
+      }
       await userRef.update({
         applications: applications
       });
@@ -231,7 +254,7 @@ export default {
         this.values = await this.processFiles(this.values);
         this.values["adminNotes"] = "";
         this.values["status"] = 1;
-        await this.userBaseRef.set(this.values);
+        await this.applicationsRef.set(this.values);
         const userRef = db.collection("users").doc(this.user.uid);
         const doc = await userRef.get();
         var applications = null;
@@ -266,6 +289,23 @@ export default {
             type: this.type,
             status: "submitted",
             submissionTime: new Date()
+          });
+        }
+        if (this.type == "Employment Opportunities") {
+          let status = "submitted";
+          if (this.empStatus == "Continued") {
+            status = "submitted";
+          } else if (this.empStatus == "Opt-Out") {
+            status = "opt-out";
+            this.values["status"] = -1;
+          } else {
+            status = "submitted";
+          }
+          await userRef.update({
+            employmentOpportunitiesSubmission: {
+              semester: this.semester,
+              status: status
+            }
           });
         }
         await userRef.update({
@@ -322,19 +362,18 @@ export default {
     this.schemaList = this.schemaList.filter(e => e.length);
 
     //grab user application inputs
-    this.userBaseRef = db
+    this.applicationsRef = db
       .collection("applications")
       .doc(this.semester)
       .collection(this.type)
       .doc(this.user.uid);
-    const doc = await this.userBaseRef.get();
+    const doc = await this.applicationsRef.get();
     if (!doc.exists) {
       console.log("No such document!");
     } else {
       this.values = doc.data();
     }
-    console.log(this.values);
-    console.log(this.schemaList);
+    this.steps.shift(); // delete the dummy value
   }
 };
 </script>

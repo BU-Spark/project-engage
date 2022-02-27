@@ -1,11 +1,13 @@
 <template>
   <div>
-    <!-- admin chooses a question type -->
+    <!-- admin chooses a question to edit -->
     <v-select
-      :items="items"
-      v-model="questionSelected"
-      v-on:change="eraseFields"
-      label="Type of question to add to the form"
+      :items="schemaArray"
+      item-text="label"
+      v-model="itemSelected"
+      v-validate="required"
+      label="Choose an item to edit"
+      v-on:change="getQuestionType(itemSelected)"
       outlined
     ></v-select>
 
@@ -44,15 +46,6 @@
               v-model="tempInput"
             />
           </v-card>
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -92,15 +85,6 @@
               v-model="tempParagraph"
             />
           </v-card>
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -170,15 +154,6 @@
               />
             </div>
           </v-card>
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -238,15 +213,6 @@
               v-model="tempCombobox"
             />
           </v-card>
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -288,19 +254,10 @@
               <FormulateInput
                 type="file"
                 :label="`${labelFile}`"
-                help="Select one PDF to upload"
+                help="Select one file to upload"
               />
             </div>
           </v-card>
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -326,23 +283,11 @@
             outlined
           ></v-text-field>
         </v-col>
-        <!-- View FormulateInput "Input Field" UI -->
-        <v-col cols="12" sm="6" class="pa-5">
-          <v-select
-            :items="schemaArray"
-            item-text="label"
-            v-model="itemSelected"
-            v-validate="required"
-            label="Choose where to add the question (before...)"
-            :rules="[() => !!itemSelected || 'This field is required']"
-            outlined
-          ></v-select>
-        </v-col>
       </v-row>
     </v-container>
 
     <v-btn @click="cancelItem()">Cancel</v-btn>
-    <v-btn @click="addItem()">Confirm Add</v-btn>
+    <v-btn @click="editItem()">Confirm Edit</v-btn>
   </div>
 </template>
 
@@ -355,9 +300,10 @@ export default {
   },
   data() {
     return {
-      // types of questions the admin can select to add to the form
+      // types of questions, pair the current selected item to the type of question
       schemaArray: this.schema,
       itemSelected: null,
+      currElementIndex: null,
       items: [
         "Input Field",
         "Paragraph",
@@ -400,7 +346,7 @@ export default {
       // fields required for "File"
       labelFile: null,
       nameFile: null,
-      validationFile: null,
+      validationFile: false,
       multipleFile: false,
       // fields required for "New Section"
       labelSection: null,
@@ -409,117 +355,214 @@ export default {
   },
   computed: {},
   methods: {
+    getQuestionType(itemSelected) {
+      this.eraseFields();
+      this.currElementIndex = this.schemaArray.findIndex(
+        data => data.label === itemSelected
+      );
+      let elementInfo = this.schemaArray[this.currElementIndex];
+      if (elementInfo.type == "text" || elementInfo.type == undefined) {
+        this.questionSelected = this.items[0];
+        this.labelInput = elementInfo.label;
+        this.nameInput = elementInfo.name;
+        this.validationInput =
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
+            ? true
+            : false;
+      } else if (elementInfo.type == "textarea") {
+        this.questionSelected = this.items[1];
+        this.labelParagraph = elementInfo.label;
+        this.nameParagraph = elementInfo.name;
+        this.validationParagraph =
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
+            ? true
+            : false;
+      } else if (elementInfo.type == "select") {
+        this.questionSelected = this.items[2];
+        this.labelDropdown = elementInfo.label;
+        this.nameDropdown = elementInfo.name;
+        this.optionsDropdown = elementInfo.options;
+        this.validationDropdown =
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
+            ? true
+            : false;
+        this.multipleDropdown =
+          elementInfo.multiple == "multiple" ? true : false;
+      } else if (
+        elementInfo.type == "combobox" ||
+        elementInfo.type == "comboboxSpecial"
+      ) {
+        this.questionSelected = this.items[3];
+        this.labelCombobox = elementInfo.label;
+        this.nameCombobox = elementInfo.name;
+        this.itemsCombobox = elementInfo.items;
+        this.validationCombobox =
+          elementInfo.validation != undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
+            ? true
+            : false;
+        this.placeholderCombobox = elementInfo.placeholder;
+      } else if (elementInfo.type == "file") {
+        this.questionSelected = this.items[4];
+        this.labelFile = elementInfo.label;
+        this.nameFile = elementInfo.name;
+        this.validationFile =
+          elementInfo.validation == undefined &&
+          elementInfo.validation != "" &&
+          elementInfo.validation != false
+            ? true
+            : false;
+        this.multipleFile =
+          elementInfo.multiple != undefined &&
+          elementInfo.multiple != "" &&
+          elementInfo.multiple != false
+            ? true
+            : false;
+      } else {
+        this.questionSelected = null;
+      }
+    },
     checkid(val) {
-      if (this.schema.some(el => el.name === val) == true) {
+      if (
+        this.schema.some(el => el.name === val) == true &&
+        this.schema[this.currElementIndex].name != val
+      ) {
         return `Name "${val}" already exist`;
       } else {
         return true;
       }
     },
-    addItem() {
+    editItem() {
       if (
-        this.nameInput == "firstname" ||
-        this.nameParagraph == "firstname" ||
-        this.nameDropdown == "firstname" ||
-        this.nameCombobox == "firstname" ||
-        this.nameFile == "firstname" ||
-        this.nameSection == "firstname" ||
-        this.nameInput == "lastname" ||
-        this.nameParagraph == "lastname" ||
-        this.nameDropdown == "lastname" ||
-        this.nameCombobox == "lastname" ||
-        this.nameFile == "lastname" ||
-        this.nameSection == "lastname" ||
-        this.nameInput == "semester" ||
-        this.nameParagraph == "semester" ||
-        this.nameDropdown == "semester" ||
-        this.nameCombobox == "semester" ||
-        this.nameFile == "semester" ||
-        this.nameSection == "semester" ||
-        this.nameInput == "program" ||
-        this.nameParagraph == "program" ||
-        this.nameDropdown == "program" ||
-        this.nameCombobox == "program" ||
-        this.nameFile == "program" ||
-        this.nameSection == "program" ||
-        this.nameInput == "schoolYear" ||
-        this.nameParagraph == "schoolYear" ||
-        this.nameDropdown == "schoolYear" ||
-        this.nameCombobox == "schoolYear" ||
-        this.nameFile == "schoolYear" ||
-        this.nameSection == "schoolYear" ||
-        this.nameInput == "gender" ||
-        this.nameParagraph == "gender" ||
-        this.nameDropdown == "gender" ||
-        this.nameCombobox == "gender" ||
-        this.nameFile == "gender" ||
-        this.nameSection == "gender" ||
-        this.nameInput == "email" ||
-        this.nameParagraph == "email" ||
-        this.nameDropdown == "email" ||
-        this.nameCombobox == "email" ||
-        this.nameFile == "email" ||
-        this.nameSection == "email" ||
-        this.nameInput == "status" ||
-        this.nameParagraph == "status" ||
-        this.nameDropdown == "status" ||
-        this.nameCombobox == "status" ||
-        this.nameFile == "status" ||
-        this.nameSection == "status" ||
-        this.nameInput == "note" ||
-        this.nameParagraph == "note" ||
-        this.nameDropdown == "note" ||
-        this.nameCombobox == "note" ||
-        this.nameFile == "note" ||
-        this.nameSection == "note"
+        (this.nameInput == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameParagraph == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameDropdown == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameCombobox == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameFile == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameSection == "firstname" &&
+          this.schema[this.currElementIndex].name != "firstname") ||
+        (this.nameInput == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameParagraph == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameDropdown == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameCombobox == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameFile == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameSection == "lastname" &&
+          this.schema[this.currElementIndex].name != "lastname") ||
+        (this.nameInput == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameParagraph == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameDropdown == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameCombobox == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameFile == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameSection == "semester" &&
+          this.schema[this.currElementIndex].name != "semester") ||
+        (this.nameInput == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameParagraph == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameDropdown == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameCombobox == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameFile == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameSection == "program" &&
+          this.schema[this.currElementIndex].name != "program") ||
+        (this.nameInput == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameParagraph == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameDropdown == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameCombobox == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameFile == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameSection == "schoolYear" &&
+          this.schema[this.currElementIndex].name != "schoolYear") ||
+        (this.nameInput == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameParagraph == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameDropdown == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameCombobox == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameFile == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameSection == "gender" &&
+          this.schema[this.currElementIndex].name != "gender") ||
+        (this.nameInput == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameParagraph == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameDropdown == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameCombobox == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameFile == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameSection == "email" &&
+          this.schema[this.currElementIndex].name != "email") ||
+        (this.nameInput == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameParagraph == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameDropdown == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameCombobox == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameFile == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameSection == "status" &&
+          this.schema[this.currElementIndex].name != "status") ||
+        (this.nameInput == "note" &&
+          this.schema[this.currElementIndex].name != "note") ||
+        (this.nameParagraph == "note" &&
+          this.schema[this.currElementIndex].name != "note") ||
+        (this.nameDropdown == "note" &&
+          this.schema[this.currElementIndex].name != "note") ||
+        (this.nameCombobox == "note" &&
+          this.schema[this.currElementIndex].name != "note") ||
+        (this.nameFile == "note" &&
+          this.schema[this.currElementIndex].name != "note") ||
+        (this.nameSection == "note" &&
+          this.schema[this.currElementIndex].name != "note")
       ) {
         alert(
           'id "firstname", "lastname", "semester", "program", "schoolYear", "gender", "email", "status", or "note" cannot be used'
-        );
-      } else if (
-        (this.questionSelected == "Input Field" &&
-          (!this.labelInput ||
-            !this.nameInput ||
-            this.schema.some(el => el.name === this.nameInput) ||
-            (!this.itemSelected && this.schemaArray.length > 0))) ||
-        (this.questionSelected == "Paragraph" &&
-          (!this.labelParagraph ||
-            !this.nameParagraph ||
-            this.schema.some(el => el.name === this.nameParagraph) ||
-            (!this.itemSelected && this.schemaArray.length > 0))) ||
-        (this.questionSelected == "Select" &&
-          (!this.labelDropdown ||
-            !this.nameDropdown ||
-            this.schema.some(el => el.name === this.nameDropdown) ||
-            (!this.itemSelected && this.schemaArray.length > 0))) ||
-        (this.questionSelected == "Combobox" &&
-          (!this.labelCombobox ||
-            !this.nameCombobox ||
-            this.schema.some(el => el.name === this.nameCombobox) ||
-            (!this.itemSelected && this.schemaArray.length > 0)))
-      ) {
-        alert(
-          'Please fill in "Label", fill out "id" and check for duplication, or select "Choose where to add the question"'
         );
       } else if (
         this.questionSelected == "File" &&
         (!this.labelFile ||
           !this.nameFile ||
           this.schema.some(el => el.name === this.nameFile) ||
+          !this.validationFile ||
           (!this.itemSelected && this.schemaArray.length > 0))
       ) {
         alert(
-          'Please fill in "Label", fill out "id" and check for duplication, or select "Choose where to add the question"'
-        );
-      } else if (
-        this.questionSelected == "New Section" &&
-        (!this.labelSection ||
-          !this.nameSection ||
-          this.schema.some(el => el.name === this.nameSection) ||
-          (!this.itemSelected && this.schemaArray.length > 0))
-      ) {
-        alert(
-          'Please fill in "Section name", "id", or select "Choose where to add the question"'
+          'Please fill in "Label", fill out "id" and check for duplication, choose a file type, or select "Choose where to add the question"'
         );
       } else {
         if (this.questionSelected == this.items[0]) {
@@ -552,7 +595,7 @@ export default {
           this.itemSchema = {
             label: this.labelCombobox,
             name: this.nameCombobox,
-            type: "combobox",
+            type: this.schemaArray[this.currElementIndex].type,
             items: this.itemsCombobox,
             validation: this.validationCombobox ? "required" : null,
             placeholder: this.placeholderCombobox
@@ -593,31 +636,15 @@ export default {
             type: "hr"
           };
         }
-        var index = 0;
-        if (this.schemaArray.length > 0) {
-          index = this.schemaArray.findIndex(
-            x => x.label === this.itemSelected
-          );
-        }
-        if (this.schemaArray.length <= 0) {
-          this.schemaArray = [this.itemSchema];
-        } else {
-          this.schemaArray.splice(index, 0, this.itemSchema);
-        }
-        if (this.questionSelected == this.items[5] && index != 0) {
-          this.schemaArray.splice(index, 0, {
-            label: "Save",
-            name: "submit",
-            type: "submit"
-          });
-        }
-        this.$emit("addItem", false);
-        this.$emit("itemAdded", this.schemaArray);
-        alert("You have successfully added an item!");
+
+        this.schemaArray[this.currElementIndex] = this.itemSchema;
+        this.$emit("editItem", false);
+        this.$emit("itemEdited", this.schemaArray);
+        alert("You have successfully edited the item!");
       }
     },
     cancelItem() {
-      this.$emit("addItem", false);
+      this.$emit("editItem", false);
     },
     checkValidation(variable) {
       if (variable) {

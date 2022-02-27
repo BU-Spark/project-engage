@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div v-if="steps[0] != 'Test'">
     <v-stepper v-model="section" vertical>
       <template v-for="(n, i) in steps">
         <v-stepper-step
           :key="`${n}-step`"
-          :complete="section > n"
+          :complete="section > i"
           :step="i"
           editable
           class="stepperColor"
@@ -43,8 +43,8 @@ export default {
       schema: [],
       schemaList: [],
       values: null,
-      steps: [],
-      section: 1,
+      steps: ["Test"], // set dummy value to allow first section to open automatically
+      section: 0,
       message: false
     };
   },
@@ -103,8 +103,10 @@ export default {
         .collection("All")
         .doc(this.user.uid);
       await userBaseRef.set(valuesCopy);
-
       this.message = true;
+      setTimeout(() => {
+        this.message = false;
+      }, 3000);
     }
   },
   async mounted() {
@@ -136,8 +138,7 @@ export default {
     }
     this.schemaList.push(temp);
     this.schemaList = this.schemaList.filter(e => e.length);
-    console.log(this.values);
-    console.log(this.schemaList);
+    this.steps.shift(); // delete the dummy value
   }
 };
 </script>
