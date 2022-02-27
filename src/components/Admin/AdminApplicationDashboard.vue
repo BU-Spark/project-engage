@@ -189,7 +189,7 @@ export default {
         "team lead",
         "ux designer",
         "frontend developer",
-        "backend developer"
+        "backend developer",
       ],
       position: [],
       programList: [
@@ -198,7 +198,7 @@ export default {
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
         "Justice Media Co-Lab",
-        "X-Lab"
+        "X-Lab",
       ],
       program: [],
       statusList: [
@@ -209,18 +209,18 @@ export default {
         "interviewing",
         "accepted",
         "rejcted",
-        "declined"
+        "declined",
       ],
       status: [],
       search: "",
       headers: [
         {
           text: "First Name",
-          value: "firstname"
+          value: "firstname",
         },
         {
           text: "last Name",
-          value: "lastname"
+          value: "lastname",
         },
         // {
         //   text: "Position",
@@ -233,52 +233,52 @@ export default {
         {
           text: "Semester",
           value: "semester",
-          filter: value => {
+          filter: (value) => {
             if (this.chosenSemester.length == 0) return true;
             return this.chosenSemester.includes(value);
-          }
+          },
         },
         {
           text: "Program",
           value: "program",
-          filter: value => {
+          filter: (value) => {
             if (this.program.length == 0) return true;
             return this.program.includes(value);
-          }
+          },
         },
         {
           text: "Year",
-          value: "schoolYear"
+          value: "schoolYear",
         },
         {
           text: "Gender",
-          value: "gender"
+          value: "gender",
         },
         {
           text: "Email",
-          value: "email"
+          value: "email",
         },
         {
           text: "Submisson Time",
-          value: "submissionTime"
+          value: "submissionTime",
         },
         {
           text: "Status",
           value: "status",
-          filter: value => {
+          filter: (value) => {
             if (this.status.length == 0) return true;
             console.log(this.status);
             if (value) {
               return this.status.includes(value);
             }
-          }
+          },
         },
         {
           text: "Notes",
-          value: "adminNotes"
+          value: "adminNotes",
         },
-        {}
-      ]
+        {},
+      ],
     };
   },
   methods: {
@@ -287,20 +287,20 @@ export default {
     },
     viewProfile(item) {
       let route = this.$router.resolve({
-        name: "studentProfile"
+        name: "studentProfile",
       });
       window.localStorage["params"] = JSON.stringify({
-        item: item
+        item: item,
       });
       window.open(route.href, "_blank");
       this.item = item;
     },
     viewApplication(item) {
       let route = this.$router.resolve({
-        name: "studentApp"
+        name: "studentApp",
       });
       window.localStorage["params"] = JSON.stringify({
-        item: item
+        item: item,
       });
       window.open(route.href, "_blank");
       this.item = item;
@@ -333,30 +333,29 @@ export default {
           .collection(this.editItem.program)
           .doc(this.editItem.uid);
         await application.update({
-          adminNotes: this.editItem.adminNotes
+          adminNotes: this.editItem.adminNotes,
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
       } else if (this.editStatus) {
         if (this.editItem.status) {
           const ref = await db.collection("users").doc(this.editItem.uid);
           let applications = await ref.get();
-          applications = applications.data().applications[
-            this.editItem.semester
-          ];
+          applications =
+            applications.data().applications[this.editItem.semester];
           for (let i = 0; i < applications.length; i++) {
             if (applications[i].type == this.editItem.program) {
               applications[i].status = this.editItem.status;
             }
           }
           await ref.update({
-            applications: applications
+            applications: applications,
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
 
       this.close();
-    }
+    },
   },
   async mounted() {
     const date = new Date();
@@ -378,11 +377,8 @@ export default {
       const profileRef = db.collection("applications").doc("Base");
       for (let type of this.programList) {
         const subCol = await ref.collection(type).get();
-        subCol.forEach(async element => {
-          const user = await db
-            .collection("users")
-            .doc(element.id)
-            .get();
+        subCol.forEach(async (element) => {
+          const user = await db.collection("users").doc(element.id).get();
           const applications = user.data().applications[this.semester[i]];
           let submissionTime;
           let status;
@@ -394,7 +390,7 @@ export default {
                 submissionTime = new Date(
                   submissionTime.seconds * 1000
                 ).toLocaleString("en-US", {
-                  timeZone: "America/New_York"
+                  timeZone: "America/New_York",
                 });
                 status = applications[i].status;
               }
@@ -407,7 +403,7 @@ export default {
           if (profCol.data()) {
             result = {
               ...profCol.data(),
-              ...element.data()
+              ...element.data(),
             };
             result = {
               ...result,
@@ -415,8 +411,8 @@ export default {
                 uid: element.id,
                 semester: this.semester[i],
                 submissionTime: submissionTime,
-                status: status
-              }
+                status: status,
+              },
             };
             this.applications.push(result);
           } else {
@@ -426,14 +422,14 @@ export default {
                 uid: element.id,
                 semester: this.semester[i],
                 submissionTime: submissionTime,
-                status: status
-              }
+                status: status,
+              },
             };
             this.applications.push(result);
           }
         });
       }
     }
-  }
+  },
 };
 </script>
