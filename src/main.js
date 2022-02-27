@@ -21,6 +21,7 @@ Vue.use(VueFormulate, {
       if (value.files) {
         var lstFiles = value.files;
         // check if resume file type is one of the following
+        // .pdf, .doc, .docx, .jpeg, .jpg, .png
         for (var i = 0; i < lstFiles.length; i++) {
           if (lstFiles[i].file.type == false) {
             continue;

@@ -125,7 +125,8 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
-      baseProfile: false
+      baseProfile: false,
+      employmentOppStatus: null
     };
   },
 
@@ -343,6 +344,31 @@ export default {
         }
       }
     });
+    let template = await this.retreiveApplicationTemplate(
+      "Employment Opportunities"
+    );
+    this.employmentOppStatus = doc.data().employmentOpportunitiesSubmission.status;
+    let empTemplate = template["Ongoing"];
+    if (this.employmentOppStatus == "opt-out") {
+      tempList.push({
+        type: "Employment Opportunities",
+        deadline: "Ongoing",
+        description: empTemplate["description"],
+        status: "new",
+        semester: semList[semList.length - 1],
+        submissionTime: "test"
+      });
+    } else {
+      tempList.push({
+        type: "Employment Opportunities",
+        deadline: "Ongoing",
+        description: empTemplate["description"],
+        status: this.employmentOppStatus,
+        semester: semList[semList.length - 1],
+        submissionTime: "test"
+      });
+    }
+
     this.information = tempList;
   }
 };
