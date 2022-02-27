@@ -263,6 +263,12 @@ export default {
           text: "Submisson Time",
           value: "submissionTime",
           sort: (d1, d2) => {
+            if (d1 == null) {
+              return 1;
+            }
+            if (d2 == null) {
+              return -1;
+            }
             var da1 = new Date(d1);
             var da2 = new Date(d2);
             var date1 = Date.UTC(
@@ -281,7 +287,7 @@ export default {
               da2.getUTCMinutes(),
               da2.getUTCSeconds()
             );
-            return date1 - date2;
+            return date2 - date1;
           }
         },
         {
