@@ -30,7 +30,7 @@
           </v-stepper-content>
         </template>
       </v-stepper>
-      <v-col
+      <!-- <v-col
         class="d-flex"
         cols="12"
         sm="6"
@@ -41,7 +41,7 @@
           label="Would you like to continue this offer for next semester?"
           v-model="empStatus"
         ></v-select>
-      </v-col>
+      </v-col> -->
       <div class="text-center">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on, attrs }">
@@ -52,7 +52,7 @@
               </v-btn>
               <div style="width: 2vh;"></div>
               <!-- submit application to pop up -->
-              <v-btn
+              <!-- <v-btn
                 class="my-2"
                 v-bind="attrs"
                 v-on="on"
@@ -60,6 +60,13 @@
                 v-if="
                   status != 'submitted' || type == 'Employment Opportunities'
                 "
+              > -->
+              <v-btn
+                class="my-2"
+                v-bind="attrs"
+                v-on="on"
+                style="background-color: #00A99E; color: white;"
+                v-if="status != 'submitted'"
               >
                 Submit
               </v-btn>
@@ -214,14 +221,14 @@ export default {
           submissionTime: new Date()
         });
       }
-      if (this.type == "Employment Opportunities") {
-        await userRef.update({
-          employmentOpportunitiesSubmission: {
-            semester: this.semester,
-            status: "started"
-          }
-        });
-      }
+      // if (this.type == "Employment Opportunities") {
+      //   await userRef.update({
+      //     employmentOpportunitiesSubmission: {
+      //       semester: this.semester,
+      //       status: "started"
+      //     }
+      //   });
+      // }
       await userRef.update({
         applications: applications
       });
@@ -291,23 +298,23 @@ export default {
             submissionTime: new Date()
           });
         }
-        if (this.type == "Employment Opportunities") {
-          let status = "submitted";
-          if (this.empStatus == "Continued") {
-            status = "submitted";
-          } else if (this.empStatus == "Opt-Out") {
-            status = "opt-out";
-            this.values["status"] = -1;
-          } else {
-            status = "submitted";
-          }
-          await userRef.update({
-            employmentOpportunitiesSubmission: {
-              semester: this.semester,
-              status: status
-            }
-          });
-        }
+        // if (this.type == "Employment Opportunities") {
+        //   let status = "submitted";
+        //   if (this.empStatus == "Continued") {
+        //     status = "submitted";
+        //   } else if (this.empStatus == "Opt-Out") {
+        //     status = "opt-out";
+        //     this.values["status"] = -1;
+        //   } else {
+        //     status = "submitted";
+        //   }
+        //   await userRef.update({
+        //     employmentOpportunitiesSubmission: {
+        //       semester: this.semester,
+        //       status: status
+        //     }
+        //   });
+        // }
         await userRef.update({
           applications: applications
         });
