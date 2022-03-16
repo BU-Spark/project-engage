@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- navbar -->
-    <!-- 0: Dashboard, 1: Application, 2: Programs, 3: Profile, 4: Notification icon, 5: Profile icon -->
+    <!-- Dashboard: /home, Application: /studentApplications, Programs: /applicationForms, USER_NAME: /profile -->
     <!-- mainly for web display: if window > 1017 -->
     <div v-if="window > 1017">
       <div id="dashboard-container" class="flex-row align-center">
@@ -18,50 +18,45 @@
               <v-btn
                 elevation="0"
                 class="nav-btn"
-                @click="updatePageBody(0)"
-                :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
+                @click="changeRoutes('/home')"
+                :class="
+                  this.$route.name == 'home'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Dashboard
               </v-btn>
               <v-btn
                 elevation="0"
                 class="nav-btn"
-                @click="updatePageBody(1)"
-                :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
+                @click="changeRoutes('/studentApplications')"
+                :class="
+                  this.$route.name == 'studentApplications'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Application
               </v-btn>
               <v-btn
                 elevation="0"
                 class="nav-btn"
-                @click="updatePageBody(2)"
-                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
+                @click="changeRoutes('/applicationForms')"
+                :class="
+                  this.$route.name == 'applicationForms'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Programs
               </v-btn>
-              <v-btn
-                elevation="0"
-                class="nav-btn"
-                @click="updatePageBody(3)"
-                :class="this.page == 3 ? 'primary--text text--darken-1' : ''"
-              >
-                Profile
-              </v-btn>
             </div>
             <div id="dashboard-container3" class="pa-8 rounded-l-pill">
-              <v-btn class="main-action" elevation="0">
-                <v-icon
-                  aria-hidden="false"
-                  style="color: #00a99e"
-                  @click="updatePageBody(4)"
-                >
-                  mdi-bell
-                </v-icon>
-              </v-btn>
               <v-btn
                 class="main-action"
                 elevation="0"
-                @click="updatePageBody(5)"
+                @click="changeRoutes('/profile')"
               >
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
@@ -70,6 +65,13 @@
                   &nbsp; &nbsp; {{ this.user.displayName }}
                 </div>
               </v-btn>
+              <v-icon
+                aria-hidden="false"
+                style="color: white; font-size:xx-large;"
+                @click="signOut()"
+              >
+                mdi-logout
+              </v-icon>
             </div>
           </div>
         </div>
@@ -108,9 +110,11 @@
                     <v-btn
                       elevation="0"
                       class="nav-btn"
-                      @click="updatePageBody(0)"
+                      @click="changeRoutes('/home')"
                       :class="
-                        this.page == 0 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'home'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Dashboard
@@ -120,9 +124,11 @@
                     <v-btn
                       elevation="0"
                       class="nav-btn"
-                      @click="updatePageBody(1)"
+                      @click="changeRoutes('/studentApplications')"
                       :class="
-                        this.page == 1 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'studentApplications'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Application
@@ -132,9 +138,11 @@
                     <v-btn
                       elevation="0"
                       class="nav-btn"
-                      @click="updatePageBody(2)"
+                      @click="changeRoutes('/applicationForms')"
                       :class="
-                        this.page == 2 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'applicationForms'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Programs
@@ -142,32 +150,9 @@
                   </v-list-item>
                   <v-list-item>
                     <v-btn
-                      elevation="0"
-                      class="nav-btn"
-                      @click="updatePageBody(3)"
-                      :class="
-                        this.page == 3 ? 'primary--text text--darken-1' : ''
-                      "
-                    >
-                      Profile
-                    </v-btn>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-btn class="main-action" elevation="0">
-                      <v-icon
-                        aria-hidden="false"
-                        style="color: #00a99e"
-                        @click="updatePageBody(4)"
-                      >
-                        mdi-bell
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-btn
                       class="main-action"
                       elevation="0"
-                      @click="updatePageBody(5)"
+                      @click="changeRoutes('/profile')"
                     >
                       <v-icon aria-hidden="false" style="color: #00a99e">
                         mdi-account-circle
@@ -177,6 +162,17 @@
                       </div>
                     </v-btn>
                   </v-list-item>
+                  <v-list-item>
+                    <v-btn class="main-action" elevation="0">
+                      <v-icon
+                        aria-hidden="false"
+                        style="color: #00a99e; font-size:xx-large;"
+                        @click="signOut()"
+                      >
+                        mdi-logout
+                      </v-icon>
+                    </v-btn>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>
@@ -184,42 +180,16 @@
         </div>
       </div>
     </div>
-
-    <!-- different pages -->
-    <InviteAdmin v-if="page == 0" />
-    <EmailUI v-if="page == 0" />
-    <AdminApplicationDashboard v-if="page == 1" :key="refreshKey" />
-    <ApplicationFormListDisplay v-if="page == 2" />
-    <Profile v-if="page == 3" />
-    <div v-if="page == 5">
-      <v-btn class="main-action" elevation="0" @click="signOut()">
-        Sign Out
-      </v-btn>
-    </div>
   </div>
 </template>
 
 <script>
-import EmailUI from "@/components/Admin/EmailUI.vue";
-import InviteAdmin from "@/components/Admin/InviteAdmin.vue";
-import AdminApplicationDashboard from "@/components/Admin/AdminApplicationDashboard.vue";
-import ApplicationFormListDisplay from "@/components/Application/ApplicationFormListDisplay.vue";
-import Profile from "@/components/Student/Profile.vue";
-
 export default {
-  name: "AdminHome",
-  components: {
-    EmailUI,
-    ApplicationFormListDisplay,
-    Profile,
-    InviteAdmin,
-    AdminApplicationDashboard
-  },
+  name: "AdminNavbar",
+  components: {},
   data() {
     return {
-      page: 0,
-      window,
-      refreshKey: 0
+      window
     };
   },
   computed: {
@@ -228,14 +198,8 @@ export default {
     }
   },
   methods: {
-    updatePageBody(index) {
-      console.log(index);
-      this.page = index;
-      if (this.page == 1 && index == 1) {
-        this.refreshKey += 1;
-      }
-    },
     changeRoutes(route) {
+      console.log(route);
       this.$router.push(route);
     },
     async signOut() {

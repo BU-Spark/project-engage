@@ -80,7 +80,7 @@
         </v-stepper-items>
       </v-stepper>
       <div v-else>
-        <StudentApplication
+        <Application
           v-bind:type="type"
           v-bind:semester="semester"
           v-bind:status="statusInd"
@@ -93,23 +93,21 @@
         Please fill out your Spark! Student Profile first before you can submit
         applications!
       </h2>
-      <h3>
-        (upper left hand corner)
-      </h3>
+      <h3>(upper left hand corner)</h3>
     </div>
   </div>
 </template>
 <script>
 import { db } from "@/firebase/init.js";
-import StudentApplication from "@/components/Student/StudentApplication.vue";
+import Application from "@/components/Student/Application.vue";
 export default {
   components: {
-    StudentApplication
+    Application,
   },
   computed: {
     user() {
       return this.$store.state.user;
-    }
+    },
   },
   data() {
     return {
@@ -125,7 +123,7 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
-      baseProfile: false
+      baseProfile: false,
       // employmentOppStatus: null
     };
   },
@@ -135,7 +133,7 @@ export default {
       if (this.e1 > val) {
         this.e1 = val;
       }
-    }
+    },
   },
 
   methods: {
@@ -186,10 +184,10 @@ export default {
         "September",
         "October",
         "November",
-        "December"
+        "December",
       ];
       return months[month] + " " + day + ", " + year;
-    }
+    },
   },
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
@@ -236,8 +234,8 @@ export default {
     var timeSubmitted = [];
 
     if (apps) {
-      await Object.keys(apps).forEach(async function(key) {
-        await apps[key].forEach(async element => {
+      await Object.keys(apps).forEach(async function (key) {
+        await apps[key].forEach(async (element) => {
           if (element.type != "Template") {
             var time = "";
             if (
@@ -256,13 +254,13 @@ export default {
               semester: key,
               status: element.status,
               type: element.type,
-              submissionTime: time
+              submissionTime: time,
             };
             startedsubmittedList.push(JSON.stringify(temp));
             timeSubmitted.push({
               semester: key,
               type: element.type,
-              time: time
+              time: time,
             });
           }
         });
@@ -275,9 +273,9 @@ export default {
       "Innovation Fellowship | UX Designer",
       "Justice Media Co-Lab",
       "Civic Tech Co-Lab Interest Form",
-      "Internship Application"
+      "Internship Application",
     ];
-    await applications.forEach(async element => {
+    await applications.forEach(async (element) => {
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
@@ -292,7 +290,7 @@ export default {
             template[sem]["deadline"]
           );
           let currentDescription = template[sem]["description"];
-          var time = timeSubmitted.filter(function(v) {
+          var time = timeSubmitted.filter(function (v) {
             return v.semester == sem && v.type == element;
           });
           if (time.length > 0) {
@@ -305,7 +303,7 @@ export default {
               semester: sem,
               status: "started",
               type: element,
-              submissionTime: time
+              submissionTime: time,
             })
           );
           var isSubmitted = startedsubmittedList.includes(
@@ -313,7 +311,7 @@ export default {
               semester: sem,
               status: "submitted",
               type: element,
-              submissionTime: time
+              submissionTime: time,
             })
           );
 
@@ -324,7 +322,7 @@ export default {
               description: currentDescription,
               status: "started",
               semester: sem,
-              submissionTime: time
+              submissionTime: time,
             });
           }
           if (isSubmitted) {
@@ -334,7 +332,7 @@ export default {
               description: currentDescription,
               status: "submitted",
               semester: sem,
-              submissionTime: time
+              submissionTime: time,
             });
           }
           if (!isStarted && !isSubmitted) {
@@ -344,12 +342,38 @@ export default {
               description: currentDescription,
               status: "new",
               semester: sem,
-              submissionTime: time
+              submissionTime: time,
             });
           }
         }
       }
     });
+    let template = await this.retreiveApplicationTemplate(
+      "Employment Opportunities"
+    );
+    this.employmentOppStatus =
+      doc.data().employmentOpportunitiesSubmission.status;
+    let empTemplate = template["Ongoing"];
+    if (this.employmentOppStatus == "opt-out") {
+      tempList.push({
+        type: "Employment Opportunities",
+        deadline: "Ongoing",
+        description: empTemplate["description"],
+        status: "new",
+        semester: semList[semList.length - 1],
+        submissionTime: "test",
+      });
+    } else {
+      tempList.push({
+        type: "Employment Opportunities",
+        deadline: "Ongoing",
+        description: empTemplate["description"],
+        status: this.employmentOppStatus,
+        semester: semList[semList.length - 1],
+        submissionTime: "test",
+      });
+    }
+
     // let template = await this.retreiveApplicationTemplate(
     //   "Employment Opportunities"
     // );
@@ -375,7 +399,7 @@ export default {
     //   });
     // }
     this.information = tempList;
-  }
+  },
 };
 </script>
 <style scoped>
