@@ -36,10 +36,10 @@ function createFirestoreUser(user) {
       uid: user.uid,
       email: user.email,
       photoURL: user.photoURL,
-      applications: {},
-      employmentOpportunitiesSubmission: {
-        semester: "",
-        status: "new"
-      }
+      applications: {}
+      // employmentOpportunitiesSubmission: {
+      //   semester: "",
+      //   status: "new"
+      // }
     });
 }

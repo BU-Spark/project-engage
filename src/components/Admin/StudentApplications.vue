@@ -143,6 +143,7 @@
             item-key="test"
             show-select
             :search="search"
+            :sort="sort"
             class="elevation-1"
           >
             <template v-slot:item.firstname="{ item }">
@@ -274,7 +275,34 @@ export default {
         },
         {
           text: "Submisson Time",
-          value: "submissionTime"
+          value: "submissionTime",
+          sort: (d1, d2) => {
+            if (d1 == null) {
+              return 1;
+            }
+            if (d2 == null) {
+              return -1;
+            }
+            var da1 = new Date(d1);
+            var da2 = new Date(d2);
+            var date1 = Date.UTC(
+              da1.getUTCFullYear(),
+              da1.getUTCMonth(),
+              da1.getUTCDate(),
+              da1.getUTCHours(),
+              da1.getUTCMinutes(),
+              da1.getUTCSeconds()
+            );
+            var date2 = Date.UTC(
+              da2.getUTCFullYear(),
+              da2.getUTCMonth(),
+              da2.getUTCDate(),
+              da2.getUTCHours(),
+              da2.getUTCMinutes(),
+              da2.getUTCSeconds()
+            );
+            return date2 - date1;
+          }
         },
         {
           text: "Status",
