@@ -66,15 +66,6 @@
                 v-bind="attrs"
                 v-on="on"
                 style="background-color: #00A99E; color: white;"
-                v-if="
-                  status != 'submitted' || type == 'Employment Opportunities'
-                "
-              > -->
-              <v-btn
-                class="my-2"
-                v-bind="attrs"
-                v-on="on"
-                style="background-color: #00A99E; color: white;"
                 v-if="status != 'submitted'"
               >
                 Submit

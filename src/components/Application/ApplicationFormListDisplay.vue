@@ -51,9 +51,17 @@
 
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on"> Add Application </v-btn>
+        <v-btn v-bind="attrs" v-on="on" class="mx-2">
+          Add Application
+        </v-btn>
       </template>
-
+      <v-overlay v-if="submitting" :absolute="absolute" :value="overlay">
+        <v-progress-circular
+          indeterminate
+          size="64"
+          color="green"
+        ></v-progress-circular>
+      </v-overlay>
       <v-card>
         <v-card-title class="text-h5 lighten-2"> Add Application </v-card-title>
         <v-select
@@ -80,7 +88,54 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="cancel"> Cancel </v-btn>
-          <v-btn color="primary" text @click="submit"> Confirm </v-btn>
+          <v-btn color="primary" text @click="submit('app')"> Confirm </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="templateDialog" width="500">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn v-bind="attrs" v-on="on" class="mx-2">
+          Add Application Template
+        </v-btn>
+      </template>
+      <v-overlay v-if="submitting" :absolute="absolute" :value="overlay">
+        <v-progress-circular
+          indeterminate
+          size="64"
+          color="green"
+        ></v-progress-circular>
+      </v-overlay>
+      <v-card>
+        <v-card-title class="text-h5 lighten-2">
+          Add Application Template</v-card-title
+        >
+        <v-text-field
+          outlined
+          v-model="application"
+          label="New Application Template Name"
+          placeholder="for example: Best Internship"
+        ></v-text-field>
+
+        <!-- <v-select
+          :items="semList"
+          v-model="semester"
+          label="Choose a semester to duplicate template from"
+          outlined
+        ></v-select>  -->
+        <v-text-field
+          outlined
+          v-model="newSemester"
+          label="New Semester Name"
+          placeholder="for example: Spring 2021 / Fall 2021/ Template"
+        ></v-text-field>
+        <v-alert dark v-if="errorMsg"> {{ errorMsg }} </v-alert>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="cancel"> Cancel </v-btn>
+          <v-btn color="primary" text @click="submit('template')">
+            Confirm
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -104,7 +159,10 @@ export default {
       semList: [],
       newSemester: null,
       schema: null,
-      errorMsg: null
+      errorMsg: null,
+      programName: null,
+      templateDialog: false,
+      submitting: false
     };
   },
   computed: {},
@@ -145,39 +203,39 @@ export default {
       this.newSemester = null;
       this.schema = null;
       this.errorMsg = null;
+      this.templateDialog = false;
     },
-    async submit() {
-      if (
-        this.application == null ||
-        this.semester == null ||
-        this.newSemester == null
-      ) {
-        this.errorMsg = "Please enter all fields";
-      } else if (this.application == "Base") {
-        this.errorMsg = "Cannot duplicate Base Application";
-      } else {
-        for (
-          var i = 0;
-          i < this.programList[this.applicationIndex].data.length;
-          i++
+    async submit(type) {
+      //if adding to a new existing application - check previous schema
+      const template = db
+        .collection("applicationTemplate")
+        .doc(this.application);
+      if (type == "app") {
+        if (
+          this.application == null ||
+          this.semester == null ||
+          this.newSemester == null
         ) {
-          if (
-            this.programList[this.applicationIndex].data[i][0] == this.semester
+          this.errorMsg = "Please enter all fields";
+        } else if (this.application == "Base") {
+          this.errorMsg = "Cannot duplicate Base Application";
+        } else {
+          this.submitting = true;
+          for (
+            var i = 0;
+            i < this.programList[this.applicationIndex].data.length;
+            i++
           ) {
-            this.schema = this.programList[this.applicationIndex].data[
-              i
-            ][1].schema;
+            if (
+              this.programList[this.applicationIndex].data[i][0] ==
+              this.semester
+            ) {
+              this.schema = this.programList[this.applicationIndex].data[
+                i
+              ][1].schema;
+            }
           }
         }
-        // this.programList[this.applicationIndex].data.push([
-        //     this.newSemester, {
-        //         [`${this.newSemester}.schema`]: this.schema,
-        //         [`${this.newSemester}.deadline`]: ""
-        //     }
-        // ]);
-        const template = db
-          .collection("applicationTemplate")
-          .doc(this.application);
         await template
           .update({
             [`${this.newSemester}.schema`]: this.schema,
@@ -190,16 +248,38 @@ export default {
           .catch(error => {
             console.log(error);
           });
-        this.dialog = false;
-        this.application = null;
-        this.applicationIndex = null;
-        this.semester = null;
-        this.semList = [];
-        this.newSemester = null;
-        this.schema = null;
-        this.errorMsg = null;
-        location.reload();
       }
+      //adding a new progam application template
+      else {
+        if (this.application == null || this.newSemester == null) {
+          this.errorMsg = "Please enter all fields";
+        } else {
+          this.submitting = true;
+          this.schema = [{ label: "Section 1", name: "Section 1", type: "hr" }];
+        }
+        await template
+          .set({
+            [`${this.newSemester}`]: {
+              deadline: "",
+              description: "",
+              schema: this.schema
+            }
+          })
+          .then(() => {
+            console.log("submitted");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+      // this.programList[this.applicationIndex].data.push([
+      //     this.newSemester, {
+      //         [`${this.newSemester}.schema`]: this.schema,
+      //         [`${this.newSemester}.deadline`]: ""
+      //     }
+      // ]);
+
+      location.reload();
     }
   },
   async mounted() {
