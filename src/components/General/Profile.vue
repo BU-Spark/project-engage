@@ -1,31 +1,37 @@
+<!-- router: /profile -->
 <template>
-  <div v-if="steps[0] != 'Test'">
-    <v-stepper v-model="section" vertical>
-      <template v-for="(n, i) in steps">
-        <v-stepper-step
-          :key="`${n}-step`"
-          :complete="section > i"
-          :step="i"
-          editable
-          class="stepperColor"
-        >
-          {{ n }}
-        </v-stepper-step>
-        <v-stepper-content :key="`${n}-content`" :step="i">
-          <FormulateForm
-            class="form-wrapper"
-            v-model="values"
-            :schema="schemaList[i]"
-            @submit="submitProfile"
-          />
-          <v-row justify="center" style="margin-top: 20px">
-            <v-alert dense text type="success" v-if="message == true">
-              Saved profile!
-            </v-alert>
-          </v-row>
-        </v-stepper-content>
-      </template>
-    </v-stepper>
+  <div>
+    <AdminNavbar v-if="isAdmin" />
+    <StudentNavbar v-if="!isAdmin" />
+
+    <div v-if="steps[0] != 'Test'">
+      <v-stepper v-model="section" vertical>
+        <template v-for="(n, i) in steps">
+          <v-stepper-step
+            :key="`${n}-step`"
+            :complete="section > i"
+            :step="i"
+            editable
+            class="stepperColor"
+          >
+            {{ n }}
+          </v-stepper-step>
+          <v-stepper-content :key="`${n}-content`" :step="i">
+            <FormulateForm
+              class="form-wrapper"
+              v-model="values"
+              :schema="schemaList[i]"
+              @submit="submitProfile"
+            />
+            <v-row justify="center" style="margin-top: 20px">
+              <v-alert dense text type="success" v-if="message == true">
+                Saved profile!
+              </v-alert>
+            </v-row>
+          </v-stepper-content>
+        </template>
+      </v-stepper>
+    </div>
   </div>
 </template>
 
@@ -35,9 +41,14 @@ import "firebase/database";
 import "firebase/firestore";
 import "firebase/storage";
 import { db, storage } from "@/firebase/init.js";
+import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
+import StudentNavbar from "@/components/Student/StudentNavbar.vue";
 export default {
   name: "Profile",
-  components: {},
+  components: {
+    AdminNavbar,
+    StudentNavbar
+  },
   data() {
     return {
       schema: [],
@@ -55,6 +66,10 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    isAdmin() {
+      console.log(this.$store.state.isAdmin);
+      return this.$store.state.isAdmin;
     }
   },
   methods: {

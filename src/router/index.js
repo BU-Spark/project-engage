@@ -23,9 +23,45 @@ const routes = [
     }
   },
   {
-    path: "/applicationForm",
+    path: "/studentApplications", // admin navbar "application"
+    name: "studentApplications",
+    component: () => import("@/components/Admin/StudentApplications.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/studentApp", // admin
+    name: "studentApp",
+    component: () => import("@/components/Admin/StudentApplication.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/studentProfile", // admin
+    name: "studentProfile",
+    component: () => import("@/components/Admin/ViewStudentProfile.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/applicationForms", // admin navbar "programs"
+    name: "applicationForms",
+    component: () => import("@/components/Admin/ApplicationForms.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/applicationForm", // admin
     name: "applicationForm",
-    component: () => import("@/components/Application/ApplicationForm.vue"),
+    component: () => import("@/components/Admin/ApplicationForm.vue"),
     meta: {
       requiresAuth: true,
       isAdmin: true
@@ -36,32 +72,15 @@ const routes = [
     }
   },
   {
-    path: "/adminapplicationdashboard",
-    name: "adminapplicationdashboard",
-    component: () => import("@/views/AdminApplicationDashboard.vue"),
-    meta: {
-      requiresAuth: true,
-      isAdmin: true
-    }
-  },
-  {
-    path: "/studentProfile",
-    name: "studentProfile",
-    component: () => import("@/components/Admin/ViewStudentProfile.vue"),
+    path: "/profile", // admin navbar "USER_NAME", student navbar "USER_NAME"
+    name: "profile",
+    component: () => import("@/components/General/Profile.vue"),
     props: {
       header: true,
       content: true
     }
   },
-  {
-    path: "/studentApp",
-    name: "studentApp",
-    component: () => import("@/components/Admin/ViewStudentApplication.vue"),
-    props: {
-      header: true,
-      content: true
-    }
-  },
+
   // PLEASE MAKE SURE THAT THIS IS ALWAYS THE LAST ROUTE!!!
   {
     path: "*",
