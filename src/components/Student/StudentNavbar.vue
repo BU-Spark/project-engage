@@ -19,7 +19,11 @@
                 elevation="0"
                 class="nav-btn"
                 @click="changeRoutes('/home')"
-                :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
+                :class="
+                  this.$route.name == 'home'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Dashboard
               </v-btn>
@@ -82,7 +86,9 @@
                       class="nav-btn"
                       @click="changeRoutes('/home')"
                       :class="
-                        this.page == 0 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'home'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Dashboard
@@ -105,7 +111,7 @@
                       <v-icon
                         aria-hidden="false"
                         style="color: #00a99e; font-size:xx-large;"
-                        @click="updatePageBody(3)"
+                        @click="signOut()"
                       >
                         mdi-logout
                       </v-icon>
@@ -117,15 +123,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <ApplicationView v-if="page == 0" />
-
-    <Profile v-if="page == 1" />
-    <div v-if="page == 2">
-      <v-btn class="main-action" elevation="0" @click="signOut()">
-        Sign Out
-      </v-btn>
     </div>
   </div>
 </template>

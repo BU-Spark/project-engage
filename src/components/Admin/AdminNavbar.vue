@@ -19,7 +19,11 @@
                 elevation="0"
                 class="nav-btn"
                 @click="changeRoutes('/home')"
-                :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
+                :class="
+                  this.$route.name == 'home'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Dashboard
               </v-btn>
@@ -27,7 +31,11 @@
                 elevation="0"
                 class="nav-btn"
                 @click="changeRoutes('/studentApplications')"
-                :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
+                :class="
+                  this.$route.name == 'studentApplications'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Application
               </v-btn>
@@ -35,7 +43,11 @@
                 elevation="0"
                 class="nav-btn"
                 @click="changeRoutes('/applicationForms')"
-                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
+                :class="
+                  this.$route.name == 'applicationForms'
+                    ? 'primary--text text--darken-1'
+                    : ''
+                "
               >
                 Programs
               </v-btn>
@@ -100,7 +112,9 @@
                       class="nav-btn"
                       @click="changeRoutes('/home')"
                       :class="
-                        this.page == 0 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'home'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Dashboard
@@ -112,7 +126,9 @@
                       class="nav-btn"
                       @click="changeRoutes('/studentApplications')"
                       :class="
-                        this.page == 1 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'studentApplications'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Application
@@ -124,7 +140,9 @@
                       class="nav-btn"
                       @click="changeRoutes('/applicationForms')"
                       :class="
-                        this.page == 2 ? 'primary--text text--darken-1' : ''
+                        this.$route.name == 'applicationForms'
+                          ? 'primary--text text--darken-1'
+                          : ''
                       "
                     >
                       Programs
