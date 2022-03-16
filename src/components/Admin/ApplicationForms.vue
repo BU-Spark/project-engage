@@ -1,5 +1,8 @@
+<!-- router: /applicationForms -->
 <template>
   <div>
+    <AdminNavbar />
+
     <v-layout>
       <v-flex mt-3 mb-6 xs12 sm12>
         <v-card>
@@ -144,10 +147,13 @@
 
 <script>
 import { db } from "@/firebase/init";
+import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 
 export default {
-  name: "applicationFormListDisplay",
-  components: {},
+  name: "applicationForms",
+  components: {
+    AdminNavbar
+  },
   data() {
     return {
       programList: [],

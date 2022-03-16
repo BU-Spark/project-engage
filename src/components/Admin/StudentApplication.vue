@@ -49,7 +49,7 @@
 <script>
 import { db } from "@/firebase/init.js";
 export default {
-  name: "ViewStudentApplication",
+  name: "StudentApplication",
   props: ["item"],
   data() {
     return {
