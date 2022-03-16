@@ -105,7 +105,7 @@
 <script>
 import { db, storage } from "@/firebase/init.js";
 export default {
-  name: "StudentApplication",
+  name: "Application",
   props: ["type", "semester", "status"],
   data() {
     return {

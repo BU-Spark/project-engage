@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- navbar -->
-    <!-- 0: Dashboard, 1: Application, 2: Profile & Profile icon, 3: Notification icon -->
+    <!-- Dashboard: /home, Application: /studentApplications, Programs: /applicationForms, USER_NAME: /profile -->
     <!-- mainly for web display: if window > 1017 -->
     <div v-if="window > 1017">
       <div id="dashboard-container" class="flex-row align-center">
@@ -18,7 +18,7 @@
               <v-btn
                 elevation="0"
                 class="nav-btn"
-                @click="updatePageBody(0)"
+                @click="changeRoutes('/home')"
                 :class="this.page == 0 ? 'primary--text text--darken-1' : ''"
               >
                 Dashboard
@@ -26,32 +26,40 @@
               <v-btn
                 elevation="0"
                 class="nav-btn"
-                @click="updatePageBody(1)"
+                @click="changeRoutes('/studentApplications')"
                 :class="this.page == 1 ? 'primary--text text--darken-1' : ''"
               >
-                Profile
+                Application
+              </v-btn>
+              <v-btn
+                elevation="0"
+                class="nav-btn"
+                @click="changeRoutes('/applicationForms')"
+                :class="this.page == 2 ? 'primary--text text--darken-1' : ''"
+              >
+                Programs
               </v-btn>
             </div>
             <div id="dashboard-container3" class="pa-8 rounded-l-pill">
-              <v-btn class="main-action" elevation="0">
-                <v-icon
-                  aria-hidden="false"
-                  style="color: #00a99e"
-                  @click="updatePageBody(3)"
-                >
-                  mdi-bell
-                </v-icon>
-              </v-btn>
               <v-btn
                 class="main-action"
                 elevation="0"
-                @click="updatePageBody(2)"
+                @click="changeRoutes('/profile')"
               >
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
                 </v-icon>
-                &nbsp; &nbsp; {{ this.user.displayName }}
+                <div v-if="window > 847">
+                  &nbsp; &nbsp; {{ this.user.displayName }}
+                </div>
               </v-btn>
+              <v-icon
+                aria-hidden="false"
+                style="color: white; font-size:xx-large;"
+                @click="signOut()"
+              >
+                mdi-logout
+              </v-icon>
             </div>
           </div>
         </div>
@@ -90,7 +98,7 @@
                     <v-btn
                       elevation="0"
                       class="nav-btn"
-                      @click="updatePageBody(0)"
+                      @click="changeRoutes('/home')"
                       :class="
                         this.page == 0 ? 'primary--text text--darken-1' : ''
                       "
@@ -102,35 +110,49 @@
                     <v-btn
                       elevation="0"
                       class="nav-btn"
-                      @click="updatePageBody(1)"
+                      @click="changeRoutes('/studentApplications')"
                       :class="
                         this.page == 1 ? 'primary--text text--darken-1' : ''
                       "
                     >
-                      Profile
+                      Application
                     </v-btn>
                   </v-list-item>
                   <v-list-item>
-                    <v-btn class="main-action" elevation="0">
-                      <v-icon
-                        aria-hidden="false"
-                        style="color: #00a99e"
-                        @click="updatePageBody(3)"
-                      >
-                        mdi-bell
-                      </v-icon>
+                    <v-btn
+                      elevation="0"
+                      class="nav-btn"
+                      @click="changeRoutes('/applicationForms')"
+                      :class="
+                        this.page == 2 ? 'primary--text text--darken-1' : ''
+                      "
+                    >
+                      Programs
                     </v-btn>
                   </v-list-item>
                   <v-list-item>
                     <v-btn
                       class="main-action"
                       elevation="0"
-                      @click="updatePageBody(2)"
+                      @click="changeRoutes('/profile')"
                     >
                       <v-icon aria-hidden="false" style="color: #00a99e">
                         mdi-account-circle
                       </v-icon>
-                      &nbsp; &nbsp; {{ this.user.displayName }}
+                      <div v-if="window > 847">
+                        &nbsp; &nbsp; {{ this.user.displayName }}
+                      </div>
+                    </v-btn>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-btn class="main-action" elevation="0">
+                      <v-icon
+                        aria-hidden="false"
+                        style="color: #00a99e; font-size:xx-large;"
+                        @click="signOut()"
+                      >
+                        mdi-logout
+                      </v-icon>
                     </v-btn>
                   </v-list-item>
                 </v-list>
@@ -140,30 +162,15 @@
         </div>
       </div>
     </div>
-
-    <ApplicationView v-if="page == 0" />
-
-    <Profile v-if="page == 1" />
-    <div v-if="page == 2">
-      <v-btn class="main-action" elevation="0" @click="signOut()">
-        Sign Out
-      </v-btn>
-    </div>
   </div>
 </template>
 
 <script>
-import ApplicationView from "@/components/Student/ApplicationView.vue";
-import Profile from "@/components/Student/Profile.vue";
 export default {
-  name: "StudentHome",
-  components: {
-    Profile,
-    ApplicationView
-  },
+  name: "AdminNavbar",
+  components: {},
   data() {
     return {
-      page: 0,
       window
     };
   },
@@ -173,8 +180,9 @@ export default {
     }
   },
   methods: {
-    updatePageBody(index) {
-      this.page = index;
+    changeRoutes(route) {
+      console.log(route);
+      this.$router.push(route);
     },
     async signOut() {
       await this.$store.dispatch("logOut");

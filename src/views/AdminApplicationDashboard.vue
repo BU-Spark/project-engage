@@ -1,15 +1,15 @@
 <template>
-  <AdminApplicationDashboard />
+  <StudentApplications />
 </template>
 
 <script>
 // @ is an alias to /src
-import AdminApplicationDashboard from "@/components/Admin/AdminApplicationDashboard.vue";
+import StudentApplications from "@/components/Admin/StudentApplications.vue";
 
 export default {
-  name: "applicationFormList",
+  name: "studentApplications",
   components: {
-    AdminApplicationDashboard
+    StudentApplications
   }
 };
 </script>

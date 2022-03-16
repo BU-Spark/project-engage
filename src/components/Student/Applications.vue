@@ -80,7 +80,7 @@
         </v-stepper-items>
       </v-stepper>
       <div v-else>
-        <StudentApplication
+        <Application
           v-bind:type="type"
           v-bind:semester="semester"
           v-bind:status="statusInd"
@@ -101,10 +101,10 @@
 </template>
 <script>
 import { db } from "@/firebase/init.js";
-import StudentApplication from "@/components/Student/StudentApplication.vue";
+import Application from "@/components/Student/Application.vue";
 export default {
   components: {
-    StudentApplication
+    Application
   },
   computed: {
     user() {
