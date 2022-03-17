@@ -242,6 +242,37 @@ export default {
             }
           }
         }
+        this.addingApplication(template, type);
+      }
+      //adding a new progam application template
+      else {
+        if (this.application == null || this.newSemester == null) {
+          this.errorMsg = "Please enter all fields";
+        } else {
+          this.submitting = true;
+          this.schema = [{ label: "Section 1", name: "Section 1", type: "hr" }];
+        }
+        this.deadline = "";
+        this.description = "";
+        this.addingApplication(template, type);
+      }
+      // this.programList[this.applicationIndex].data.push([
+      //     this.newSemester, {
+      //         [`${this.newSemester}.schema`]: this.schema,
+      //         [`${this.newSemester}.deadline`]: ""
+      //     }
+      // ]);
+
+      this.applicationForm(
+        this.application,
+        this.newSemester,
+        this.schema,
+        this.deadline,
+        this.description
+      );
+    },
+    async addingApplication(template, type) {
+      if (type == "app") {
         await template
           .update({
             [`${this.newSemester}.schema`]: this.schema,
@@ -254,20 +285,12 @@ export default {
           .catch(error => {
             console.log(error);
           });
-      }
-      //adding a new progam application template
-      else {
-        if (this.application == null || this.newSemester == null) {
-          this.errorMsg = "Please enter all fields";
-        } else {
-          this.submitting = true;
-          this.schema = [{ label: "Section 1", name: "Section 1", type: "hr" }];
-        }
+      } else {
         await template
           .set({
             [`${this.newSemester}`]: {
-              deadline: "",
-              description: "",
+              deadline: this.deadline,
+              description: this.description,
               schema: this.schema
             }
           })
@@ -278,14 +301,6 @@ export default {
             console.log(error);
           });
       }
-      // this.programList[this.applicationIndex].data.push([
-      //     this.newSemester, {
-      //         [`${this.newSemester}.schema`]: this.schema,
-      //         [`${this.newSemester}.deadline`]: ""
-      //     }
-      // ]);
-
-      location.reload();
     }
   },
   async mounted() {
