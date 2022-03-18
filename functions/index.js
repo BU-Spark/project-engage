@@ -1,11 +1,15 @@
 const admin = require("firebase-admin");
+var serviceAccount = require("./serviceAccountKey.json");
 const glob = require("glob");
 const files = glob.sync("./**/*.function.js", {
   cwd: __dirname,
   ignore: "./node_modules/**"
 });
 
-admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://spark-project-engage.firebaseio.com"
+});
 
 // Deploys all the functions in the format separate_dir/thisfunc.function.js to Firebase
 files.forEach(file => {
