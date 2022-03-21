@@ -1,106 +1,96 @@
-<!-- route: /studentApplications -->
 <template>
-  <div>
-    <AdminNavbar />
+  <v-layout align-center justify-center>
+    <v-container>
+      <template>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <span v-if="editStatus" class="headline">Status</span>
+              <span v-else-if="editNotes" class="headline">Notes</span>
+            </v-card-title>
 
-    <v-layout align-center justify-center>
-      <v-container>
-        <template>
-          <v-dialog v-model="dialog" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <span v-if="editStatus" class="headline">Status</span>
-                <span v-else-if="editNotes" class="headline">Notes</span>
-              </v-card-title>
+            <v-card-text>
+              <v-container v-if="editStatus">
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-radio-group v-if="editItem" v-model="editItem.status">
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="orange" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio
+                            label="Under Review"
+                            value="Interviewing"
+                          ></v-radio>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="yellow" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio
+                            label="Interviewed"
+                            value="Interviewed"
+                          ></v-radio>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="green" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Accepted" value="Accepted"></v-radio>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">
+                          <svg height="30" width="50">
+                            <circle cx="20" cy="20" r="10" fill="red" />
+                          </svg>
+                        </td>
+                        <td class="text-center">
+                          <v-radio label="Rejected" value="Rejected"></v-radio>
+                        </td>
+                      </tr>
+                    </v-radio-group>
+                  </v-col>
+                </v-row>
+              </v-container>
 
-              <v-card-text>
-                <v-container v-if="editStatus">
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-radio-group v-if="editItem" v-model="editItem.status">
-                        <tr>
-                          <td class="text-center">
-                            <svg height="30" width="50">
-                              <circle cx="20" cy="20" r="10" fill="orange" />
-                            </svg>
-                          </td>
-                          <td class="text-center">
-                            <v-radio
-                              label="Under Review"
-                              value="Interviewing"
-                            ></v-radio>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-center">
-                            <svg height="30" width="50">
-                              <circle cx="20" cy="20" r="10" fill="yellow" />
-                            </svg>
-                          </td>
-                          <td class="text-center">
-                            <v-radio
-                              label="Interviewed"
-                              value="Interviewed"
-                            ></v-radio>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-center">
-                            <svg height="30" width="50">
-                              <circle cx="20" cy="20" r="10" fill="green" />
-                            </svg>
-                          </td>
-                          <td class="text-center">
-                            <v-radio
-                              label="Accepted"
-                              value="Accepted"
-                            ></v-radio>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-center">
-                            <svg height="30" width="50">
-                              <circle cx="20" cy="20" r="10" fill="red" />
-                            </svg>
-                          </td>
-                          <td class="text-center">
-                            <v-radio
-                              label="Rejected"
-                              value="Rejected"
-                            ></v-radio>
-                          </td>
-                        </tr>
-                      </v-radio-group>
-                    </v-col>
-                  </v-row>
-                </v-container>
+              <v-container v-else-if="editNotes">
+                <v-textarea v-model="editItem.adminNotes" />
+              </v-container>
+            </v-card-text>
 
-                <v-container v-else-if="editNotes">
-                  <v-textarea v-model="editItem.adminNotes" />
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-card-title>
-            Submitted Applications
-            <v-spacer></v-spacer>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-card-title>
-          <div>
-            <v-row>
-              <!-- <v-flex mx-1>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-card-title>
+          Submitted Applications
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <div>
+          <v-row>
+            <!-- <v-flex mx-1>
               <v-select
                 :items="positionList"
                 v-model="position"
@@ -108,82 +98,77 @@
                 multiple
               ></v-select>
             </v-flex> -->
-              <v-flex mx-1>
-                <v-select
-                  :items="semester"
-                  v-model="chosenSemester"
-                  label="Semester"
-                  multiple
-                ></v-select>
-              </v-flex>
-              <v-flex mx-1>
-                <v-select
-                  :items="programList"
-                  v-model="program"
-                  label="Program"
-                  multiple
-                ></v-select>
-              </v-flex>
-              <v-flex mx-1>
-                <v-select
-                  v-model="status"
-                  label="Status"
-                  :items="statusList"
-                  :menu-props="{ maxHeight: '400' }"
-                  multiple
-                ></v-select>
-              </v-flex>
-            </v-row>
-          </div>
-          <v-data-table
-            :headers="headers"
-            v-model="selected"
-            :items="applications"
-            :single-select="false"
-            item-key="test"
-            show-select
-            :search="search"
-            :sort="sort"
-            class="elevation-1"
-          >
-            <template v-slot:item.firstname="{ item }">
-              <button @click="viewProfile(item)" style="color: #00a99e">
-                {{ item.firstname }}
-              </button>
-            </template>
+            <v-flex mx-1>
+              <v-select
+                :items="semester"
+                v-model="chosenSemester"
+                label="Semester"
+                multiple
+              ></v-select>
+            </v-flex>
+            <v-flex mx-1>
+              <v-select
+                :items="programList"
+                v-model="program"
+                label="Program"
+                multiple
+              ></v-select>
+            </v-flex>
+            <v-flex mx-1>
+              <v-select
+                v-model="status"
+                label="Status"
+                :items="statusList"
+                :menu-props="{ maxHeight: '400' }"
+                multiple
+              ></v-select>
+            </v-flex>
+          </v-row>
+        </div>
+        <v-data-table
+          :headers="headers"
+          v-model="selected"
+          :items="applications"
+          :single-select="false"
+          item-key="test"
+          show-select
+          :search="search"
+          class="elevation-1"
+        >
+          <template v-slot:item.firstname="{ item }">
+            <button @click="viewProfile(item)" style="color: #00a99e">
+              {{ item.firstname }}
+            </button>
+          </template>
 
-            <template v-slot:item.program="{ item }">
-              <button @click="viewApplication(item)" style="color: #00a99e">
-                {{ item.program }}
-              </button>
-            </template>
+          <template v-slot:item.program="{ item }">
+            <button @click="viewApplication(item)" style="color: #00a99e">
+              {{ item.program }}
+            </button>
+          </template>
 
-            <template v-slot:item.status="{ item }">
-              <button @click="editApplication(item, 'status')">
-                {{ item.status }}
-              </button>
-            </template>
+          <template v-slot:item.status="{ item }">
+            <button @click="editApplication(item, 'status')">
+              {{ item.status }}
+            </button>
+          </template>
 
-            <template v-slot:item.adminNotes="{ item }">
-              <button @click="editApplication(item, 'notes')">
-                {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
-              </button>
-            </template>
-          </v-data-table>
-        </template>
-      </v-container>
-    </v-layout>
-  </div>
+          <template v-slot:item.adminNotes="{ item }">
+            <button @click="editApplication(item, 'notes')">
+              {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
+            </button>
+          </template>
+        </v-data-table>
+      </template>
+    </v-container>
+  </v-layout>
 </template>
 
 <script>
 import { db } from "@/firebase/init";
-import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 export default {
-  name: "StudentApplications",
-  components: {
-    AdminNavbar
-  },
+  name: "AdminApplicationDashboard",
+  components: {},
   data() {
     return {
       value: {},
@@ -275,34 +260,7 @@ export default {
         },
         {
           text: "Submisson Time",
-          value: "submissionTime",
-          sort: (d1, d2) => {
-            if (d1 == null) {
-              return 1;
-            }
-            if (d2 == null) {
-              return -1;
-            }
-            var da1 = new Date(d1);
-            var da2 = new Date(d2);
-            var date1 = Date.UTC(
-              da1.getUTCFullYear(),
-              da1.getUTCMonth(),
-              da1.getUTCDate(),
-              da1.getUTCHours(),
-              da1.getUTCMinutes(),
-              da1.getUTCSeconds()
-            );
-            var date2 = Date.UTC(
-              da2.getUTCFullYear(),
-              da2.getUTCMonth(),
-              da2.getUTCDate(),
-              da2.getUTCHours(),
-              da2.getUTCMinutes(),
-              da2.getUTCSeconds()
-            );
-            return date2 - date1;
-          }
+          value: "submissionTime"
         },
         {
           text: "Status",
@@ -334,7 +292,7 @@ export default {
       window.localStorage["params"] = JSON.stringify({
         item: item
       });
-      window.open(route.href, "_self");
+      window.open(route.href, "_blank");
       this.item = item;
     },
     viewApplication(item) {
@@ -344,7 +302,7 @@ export default {
       window.localStorage["params"] = JSON.stringify({
         item: item
       });
-      window.open(route.href, "_self");
+      window.open(route.href, "_blank");
       this.item = item;
     },
     editApplication(item, field) {
