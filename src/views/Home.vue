@@ -42,6 +42,9 @@ export default {
     };
   },
   methods: {},
-  async mounted() {}
+  async mounted() {
+    console.log("this.$store.state.isAdmin");
+    console.log(this.$store.state.isAdmin);
+  }
 };
 </script>

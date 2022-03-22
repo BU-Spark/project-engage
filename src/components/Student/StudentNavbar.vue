@@ -37,7 +37,7 @@
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
                 </v-icon>
-                &nbsp; &nbsp; {{ this.user.displayName }}
+                &nbsp; &nbsp; {{ this.user?.displayName }}
               </v-btn>
               <v-icon
                 aria-hidden="false"
@@ -103,7 +103,7 @@
                       <v-icon aria-hidden="false" style="color: #00a99e">
                         mdi-account-circle
                       </v-icon>
-                      &nbsp; &nbsp; {{ this.user.displayName }}
+                      &nbsp; &nbsp; {{ this.user?.displayName }}
                     </v-btn>
                   </v-list-item>
                   <v-list-item>

@@ -58,6 +58,7 @@ export default new Vuex.Store({
           });
       } else {
         console.log("here");
+        console.log(user);
         defaultSetup(user, context);
         context.commit("setUser", raid.data());
       }

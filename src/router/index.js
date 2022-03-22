@@ -16,11 +16,10 @@ const routes = [
   {
     path: "/home",
     name: "home",
-    props: true,
-    component: () => import("@/views/Home.vue"),
-    meta: {
-      requiresAuth: true
-    }
+    component: () => import("@/views/Home.vue")
+    // meta: {
+    //   requiresAuth: true
+    // }
   },
   {
     path: "/studentApplications", // admin navbar "application"

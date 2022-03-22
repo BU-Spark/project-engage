@@ -113,6 +113,8 @@
 
 <script>
 import { db, storage } from "@/firebase/init.js";
+import { functions } from "@/firebase/init";
+import "@firebase/functions";
 export default {
   name: "Application",
   props: ["type", "semester", "status"],
@@ -317,9 +319,40 @@ export default {
         //     }
         //   });
         // }
+
         await userRef.update({
           applications: applications
         });
+
+        // send confirmation email
+        let message = {
+          to: ["<" + this.$store.state.user.email + ">"],
+          subject: "Thank you for applying to Spark!",
+          message:
+            "<p>Hi " +
+            this.$store.state.user.displayName +
+            ",</p>\n<p>Thank you so much for applying to the " +
+            this.semester +
+            " " +
+            this.type +
+            " program at Spark!</p>",
+          cc: [],
+          bcc: [],
+          files: []
+        };
+        console.log(message);
+
+        await functions
+          .httpsCallable("sendEmail")(message)
+          .then(result => {
+            console.log(result);
+            this.success = true;
+          })
+          .catch(error => {
+            console.log(error);
+            this.fail = true;
+          });
+
         this.$router.go();
       }
     },

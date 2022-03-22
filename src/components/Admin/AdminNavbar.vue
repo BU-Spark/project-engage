@@ -62,7 +62,7 @@
                   mdi-account-circle
                 </v-icon>
                 <div v-if="window > 847">
-                  &nbsp; &nbsp; {{ this.user.displayName }}
+                  &nbsp; &nbsp; {{ this.user?.displayName }}
                 </div>
               </v-btn>
               <v-icon
@@ -158,7 +158,7 @@
                         mdi-account-circle
                       </v-icon>
                       <div v-if="window > 847">
-                        &nbsp; &nbsp; {{ this.user.displayName }}
+                        &nbsp; &nbsp; {{ this.user?.displayName }}
                       </div>
                     </v-btn>
                   </v-list-item>
