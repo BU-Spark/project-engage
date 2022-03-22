@@ -32,7 +32,7 @@ function createFirestoreUser(user) {
   db.collection("users")
     .doc(user.uid)
     .set({
-      displayName: user?.displayName,
+      displayName: user.displayName,
       uid: user.uid,
       email: user.email,
       photoURL: user.photoURL,
