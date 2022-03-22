@@ -66,9 +66,7 @@
                 v-bind="attrs"
                 v-on="on"
                 style="background-color: #00A99E; color: white;"
-                v-if="
-                  status != 'submitted' || type == 'Employment Opportunities'
-                "
+                v-if="status != 'submitted'"
               >
                 Submit
               </v-btn>

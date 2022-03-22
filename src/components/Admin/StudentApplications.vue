@@ -334,7 +334,7 @@ export default {
       window.localStorage["params"] = JSON.stringify({
         item: item
       });
-      window.open(route.href, "_blank");
+      window.open(route.href, "_self");
       this.item = item;
     },
     viewApplication(item) {
@@ -344,7 +344,7 @@ export default {
       window.localStorage["params"] = JSON.stringify({
         item: item
       });
-      window.open(route.href, "_blank");
+      window.open(route.href, "_self");
       this.item = item;
     },
     editApplication(item, field) {
@@ -396,7 +396,6 @@ export default {
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
-
       this.close();
     }
   },

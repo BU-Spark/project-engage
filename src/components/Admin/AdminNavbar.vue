@@ -62,7 +62,7 @@
                   mdi-account-circle
                 </v-icon>
                 <div v-if="window > 847">
-                  &nbsp; &nbsp; {{ this.user?.displayName }}
+                  &nbsp; &nbsp; {{ this.user.displayName }}
                 </div>
               </v-btn>
               <v-icon
@@ -92,7 +92,7 @@
               </v-img>
             </div>
             <div id="dashboard-container3" class="pa-8 rounded-l-pill">
-              <v-menu top :close-on-click="closeOnClick">
+              <v-menu top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                     large
@@ -158,7 +158,7 @@
                         mdi-account-circle
                       </v-icon>
                       <div v-if="window > 847">
-                        &nbsp; &nbsp; {{ this.user?.displayName }}
+                        &nbsp; &nbsp; {{ this.user.displayName }}
                       </div>
                     </v-btn>
                   </v-list-item>
@@ -209,6 +209,8 @@ export default {
   },
   async mounted() {
     this.window = window.innerWidth;
+    console.log("this.$store.state.user");
+    console.log(this.$store.state.user);
   }
 };
 </script>

@@ -37,7 +37,7 @@
                 <v-icon aria-hidden="false" style="color: #00a99e">
                   mdi-account-circle
                 </v-icon>
-                &nbsp; &nbsp; {{ this.user?.displayName }}
+                &nbsp; &nbsp; {{ this.user.displayName }}
               </v-btn>
               <v-icon
                 aria-hidden="false"
@@ -66,7 +66,7 @@
               </v-img>
             </div>
             <div id="dashboard-container3" class="pa-8 rounded-l-pill">
-              <v-menu top :close-on-click="closeOnClick">
+              <v-menu top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                     large
@@ -98,12 +98,11 @@
                     <v-btn
                       class="main-action"
                       elevation="0"
-                      @click="changeRoutes('/home')"
+                      @click="changeRoutes('/profile')"
                     >
                       <v-icon aria-hidden="false" style="color: #00a99e">
                         mdi-account-circle
                       </v-icon>
-                      &nbsp; &nbsp; {{ this.user?.displayName }}
                     </v-btn>
                   </v-list-item>
                   <v-list-item>
