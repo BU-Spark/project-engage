@@ -73,7 +73,7 @@ export default {
     checkEmail() {
       if (
         !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          this.addAdminEmail
+          this.email
         )
       ) {
         this.emailValidated = true;
@@ -123,11 +123,14 @@ export default {
       alert("changed role");
     },
     sendInviteEmail() {
-      functions.httpsCallable("sendEmail")({
-        to: this.addAdminEmail,
-        message: this.inviteMessage,
-        subject: "You are Invited to be a Spark Admin!"
+      console.log("send email function");
+      functions.httpsCallable("sendInviteEmail")({
+        email: this.addAdminEmail,
+        name: "Cici"
       });
+      // to: this.addAdminEmail,
+      //     message: this.inviteMessage,
+      //     subject: "You are Invited to be a Spark Admin!"
     }
   }
 };

@@ -1,0 +1,30 @@
+[debug] [2022-03-23T15:39:55.423Z] ----------------------------------------------------------------------
+[debug] [2022-03-23T15:39:55.425Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions:sendInviteEmails
+[debug] [2022-03-23T15:39:55.425Z] CLI Version:   10.2.1
+[debug] [2022-03-23T15:39:55.426Z] Platform:      darwin
+[debug] [2022-03-23T15:39:55.426Z] Node Version:  v14.17.1
+[debug] [2022-03-23T15:39:55.434Z] Time:          Wed Mar 23 2022 11:39:55 GMT-0400 (Eastern Daylight Time)
+[debug] [2022-03-23T15:39:55.434Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-23T15:39:55.438Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-03-23T15:39:55.525Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-23T15:39:55.526Z] > authorizing via signed-in user (iccchen@bu.edu)
+[debug] [2022-03-23T15:39:55.526Z] [iam] checking project spark-project-engage for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2022-03-23T15:39:55.526Z] > refreshing access token with scopes: []
+[debug] [2022-03-23T15:39:55.527Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2022-03-23T15:39:55.619Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Wed, 23 Mar 2022 15:39:55 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2022-03-23T15:39:55.666Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/spark-project-engage:testIamPermissions [none]
+[debug] [2022-03-23T15:39:55.667Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/spark-project-engage:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2022-03-23T15:39:55.709Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2022-03-23T15:39:55.709Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2022-03-23T15:39:56.068Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/spark-project-engage:testIamPermissions 200
+[debug] [2022-03-23T15:39:56.068Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/spark-project-engage:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2022-03-23T15:39:56.069Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/spark-project-engage/serviceAccounts/spark-project-engage@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2022-03-23T15:39:56.069Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/spark-project-engage/serviceAccounts/spark-project-engage@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2022-03-23T15:39:56.277Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/spark-project-engage/serviceAccounts/spark-project-engage@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2022-03-23T15:39:56.277Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/spark-project-engage/serviceAccounts/spark-project-engage@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'spark-project-engage'...
+[info] 
+[info] i  deploying functions 

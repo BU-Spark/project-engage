@@ -209,8 +209,6 @@ export default {
   },
   async mounted() {
     this.window = window.innerWidth;
-    console.log("this.$store.state.user");
-    console.log(this.$store.state.user);
   }
 };
 </script>
