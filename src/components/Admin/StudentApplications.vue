@@ -189,6 +189,7 @@ export default {
       value: {},
       semester1: "",
       semester2: "",
+      semester3: "",
       semester: "",
       schema: null,
       editStatus: false,
@@ -407,14 +408,17 @@ export default {
     if (month >= 7 && month <= 11) {
       this.semester1 = "Fall " + year;
       this.semester2 = "Spring " + (year + 1);
+      this.semester3 = "Summer " + (year + 1);
     } else if (month >= 0 && month <= 4) {
       this.semester1 = "Spring " + year;
       this.semester2 = "Summer " + year;
+      this.semester3 = "Fall " + year;
     } else {
       this.semester1 = "Summer " + year;
       this.semester2 = "Fall " + year;
+      this.semester3 = "Spring " + (year + 1);
     }
-    this.semester = [this.semester1, this.semester2];
+    this.semester = [this.semester1, this.semester2, this.semester3];
     for (let i = 0; i < this.semester.length; i++) {
       const ref = db.collection("applications").doc(this.semester[i]);
       const profileRef = db.collection("applications").doc("Base");
