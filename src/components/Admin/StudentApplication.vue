@@ -1,9 +1,10 @@
+<!-- This template display the selected student application on the admin side -->
 <template>
   <div>
     <div>
       <h3>Student Application</h3>
 
-      <!-- student info -->
+      <!-- student info (same as the student profile, might consider making one component)-->
       <v-data-table
         :headers="headers"
         :items="information"
@@ -110,7 +111,7 @@ export default {
   async mounted() {
     let params = JSON.parse(localStorage["params"]);
     this.item = params["item"];
-
+    //gather basic user information
     this.information = [
       {
         name: this.item.firstname + " " + this.item.lastname,
