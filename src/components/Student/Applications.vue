@@ -93,9 +93,7 @@
         Please fill out your Spark! Student Profile first before you can submit
         applications!
       </h2>
-      <h3>
-        (upper left hand corner)
-      </h3>
+      <h3>(upper left hand corner)</h3>
     </div>
   </div>
 </template>

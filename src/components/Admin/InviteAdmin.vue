@@ -124,13 +124,23 @@ export default {
     },
     sendInviteEmail() {
       console.log("send email function");
-      functions.httpsCallable("sendInviteEmail")({
-        email: this.addAdminEmail,
-        name: "Cici"
-      });
-      // to: this.addAdminEmail,
+      // functions.httpsCallable("sendEmail")({
+      //     to: this.addAdminEmail,
       //     message: this.inviteMessage,
       //     subject: "You are Invited to be a Spark Admin!"
+      // });
+      functions.httpsCallable("sendEmail")({
+        to: ["<" + this.addAdminEmail + ">"],
+        message: this.inviteMessage,
+        subject: "You are Invited to be a Spark Admin!",
+        cc: [],
+        bcc: [],
+        files: []
+      });
+      // functions.httpsCallable("sendInviteEmail")({
+      //     email: "cicichen0530@gmail.com",
+      //     name: "Cici"
+      // });
     }
   }
 };
