@@ -57,7 +57,6 @@ export default new Vuex.Store({
             router.push("/home");
           });
       } else {
-        console.log("here");
         defaultSetup(user, context);
         context.commit("setUser", raid.data());
       }

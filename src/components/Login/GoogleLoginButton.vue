@@ -65,6 +65,7 @@ export default {
           "validateAdmin",
           result.additionalUserInfo.profile.email
         );
+        console.log("this.adminValidation");
         console.log(this.adminValidation);
         if (
           this.adminValidation ||
