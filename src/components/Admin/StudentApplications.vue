@@ -397,7 +397,6 @@ export default {
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
       }
-
       this.close();
     }
   },

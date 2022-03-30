@@ -123,11 +123,24 @@ export default {
       alert("changed role");
     },
     sendInviteEmail() {
+      console.log("send email function");
+      // functions.httpsCallable("sendEmail")({
+      //     to: this.addAdminEmail,
+      //     message: this.inviteMessage,
+      //     subject: "You are Invited to be a Spark Admin!"
+      // });
       functions.httpsCallable("sendEmail")({
-        to: this.addAdminEmail,
+        to: ["<" + this.addAdminEmail + ">"],
         message: this.inviteMessage,
-        subject: "You are Invited to be a Spark Admin!"
+        subject: "You are Invited to be a Spark Admin!",
+        cc: [],
+        bcc: [],
+        files: []
       });
+      // functions.httpsCallable("sendInviteEmail")({
+      //     email: "cicichen0530@gmail.com",
+      //     name: "Cici"
+      // });
     }
   }
 };

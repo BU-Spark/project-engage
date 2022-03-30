@@ -119,7 +119,7 @@
               previewStyle="vertical"
               ref="toastuiEditor"
             />
-            <ul style="list-style-type: none">
+            <ul style="list-style-type:none">
               <li v-for="(item, index) in this.files" :key="item.name + index">
                 {{ item.name }}
                 <v-btn @click="deleteFile(index)">Delete</v-btn>
@@ -153,9 +153,9 @@
             </v-dialog> -->
             <!-- <img src="./desktop1.jpg"> -->
             <v-overlay v-if="dialog" absolute color="#036358">
-              <v-text v-if="success">Email Sent Successfully!</v-text>
-              <v-text v-else-if="fail">Unable To Send Email</v-text>
-              <v-text v-else>Sending Email ...</v-text>
+              <h4 v-if="success">Email Sent Successfully!</h4>
+              <h4 v-else-if="fail">Unable To Send Email</h4>
+              <h4 v-else>Sending Email ...</h4>
             </v-overlay>
           </v-form>
         </v-card-text>
@@ -179,7 +179,6 @@ function getBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
-
 export default {
   name: "EmailUI",
   components: {

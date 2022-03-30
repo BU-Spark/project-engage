@@ -1,6 +1,5 @@
 const { google } = require("googleapis");
 const functions = require("firebase-functions");
-
 const CLIENT_ID = functions.config().authinfo.id;
 const CLIENT_SECRET = functions.config().authinfo.secret;
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";

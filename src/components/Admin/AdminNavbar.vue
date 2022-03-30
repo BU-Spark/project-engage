@@ -92,7 +92,7 @@
               </v-img>
             </div>
             <div id="dashboard-container3" class="pa-8 rounded-l-pill">
-              <v-menu top :close-on-click="closeOnClick">
+              <v-menu top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                     large
