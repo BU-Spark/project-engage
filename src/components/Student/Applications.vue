@@ -196,7 +196,7 @@ export default {
     var year = date.getFullYear();
     const day = date.getDate();
     console.log(day);
-    var semList = [];
+    var semList = ["Ongoing"];
     if (month >= 10 || month <= 2) {
       // Spring application: Oct - Feb
       if (month == 10 || month == 11 || month == 12) {
@@ -282,13 +282,17 @@ export default {
         var monthTemp = month < 10 ? "0" + month : month;
         const currDate = year + "-" + monthTemp + "-" + day;
         if (
-          template[sem] &&
-          sem != "Template" &&
-          template[sem]["deadline"] >= currDate
+          (template[sem] &&
+            sem != "Template" &&
+            template[sem]["deadline"] >= currDate) ||
+          (template[sem] && sem == "Ongoing")
         ) {
           let currentDeadline = this.reformatDeadline(
             template[sem]["deadline"]
           );
+          currentDeadline = !currentDeadline.includes("undefined")
+            ? currentDeadline
+            : "";
           let currentDescription = template[sem]["description"];
           var time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;
@@ -348,30 +352,6 @@ export default {
         }
       }
     });
-    let template = await this.retreiveApplicationTemplate(
-      "Employment Opportunities"
-    );
-    this.employmentOppStatus = doc.data().employmentOpportunitiesSubmission.status;
-    let empTemplate = template["Ongoing"];
-    if (this.employmentOppStatus == "opt-out") {
-      tempList.push({
-        type: "Employment Opportunities",
-        deadline: "Ongoing",
-        description: empTemplate["description"],
-        status: "new",
-        semester: semList[semList.length - 1],
-        submissionTime: "test"
-      });
-    } else {
-      tempList.push({
-        type: "Employment Opportunities",
-        deadline: "Ongoing",
-        description: empTemplate["description"],
-        status: this.employmentOppStatus,
-        semester: semList[semList.length - 1],
-        submissionTime: "test"
-      });
-    }
 
     // let template = await this.retreiveApplicationTemplate(
     //   "Employment Opportunities"

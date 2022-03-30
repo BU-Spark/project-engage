@@ -376,7 +376,7 @@ export default {
       this.semester2 = "Fall " + year;
       this.semester3 = "Spring " + year;
     }
-    this.semester = [this.semester1, this.semester2, this.semester3];
+    this.semester = [this.semester1, this.semester2, this.semester3, "Ongoing"];
     for (let i = 0; i < this.semester.length; i++) {
       const ref = db.collection("applications").doc(this.semester[i]);
       const profileRef = db.collection("applications").doc("Base");
