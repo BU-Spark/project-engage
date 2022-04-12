@@ -209,12 +209,13 @@ export default {
       ],
       position: [],
       programList: [
+        "Civic Tech Co-Lab Interest Form",
         "Employment Opportunities",
         "Innovation Fellowship | Innovator",
         "Innovation Fellowship | Technical Teammate",
         "Innovation Fellowship | UX Designer",
-        "Justice Media Co-Lab",
-        "X-Lab"
+        "Internship Application",
+        "Justice Media Co-Lab"
       ],
       program: [],
       statusList: [
