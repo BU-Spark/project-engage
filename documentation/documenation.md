@@ -44,7 +44,8 @@
         ![Profile.vue](./images/10.png)
     - <span style="text-decoration:underline;">Login/</span>
       - <span style="text-decoration:underline;">admin.vue</span>
-        <div>![admin.vue](./images/11.png)</div>
+        <div></div>
+        ![admin.vue](./images/11.png)
       - <span style="text-decoration:underline;">AdminLoginForm.vue</span>
         ![AdminLoginForm.vue](./images/12.png)
       - <span style="text-decoration:underline;">GoogleLoginButton.vue</span>
