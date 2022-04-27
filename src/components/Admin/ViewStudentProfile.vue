@@ -1,3 +1,4 @@
+<!-- This component display the selected student profile on the admin side -->
 <template>
   <div>
     <div>
@@ -40,7 +41,6 @@
         </v-stepper>
       </div>
     </div>
-    <!-- <pdf src="this.item.resume[0].url"></pdf> -->
     <h2 v-if="this.schema.length == 0" style="margin: 10px;">
       This application is not valid
     </h2>
@@ -51,7 +51,6 @@
 import { db } from "@/firebase/init.js";
 export default {
   name: "ViewStudentProfile",
-  // props: ["item"],
   data() {
     return {
       item: null,
@@ -106,6 +105,7 @@ export default {
     }
   },
   methods: {
+    //this allow for component refresh, and not refresh the whole page
     goBack() {
       this.$emit("typeChange", null);
     },
@@ -114,6 +114,7 @@ export default {
     }
   },
   async mounted() {
+    //grab user profile information
     let params = JSON.parse(localStorage["params"]);
     this.item = params["item"];
     this.information = [
