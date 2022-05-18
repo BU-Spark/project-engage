@@ -76,6 +76,9 @@ To deploy a specific function,
 firebase deploy --only functions:(function name)
 ```
 
+## User Flow Arch
+![](/src/assets/userflow.png)
+
 ## Contributing
 
 To contribute to Project Engage, view our [contribution guide](https://github.com/BU-Spark/project-engage/blob/master/CONTRIBUTING.md).

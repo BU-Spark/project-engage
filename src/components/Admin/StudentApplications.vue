@@ -100,14 +100,6 @@
           </v-card-title>
           <div>
             <v-row>
-              <!-- <v-flex mx-1>
-              <v-select
-                :items="positionList"
-                v-model="position"
-                label="Position"
-                multiple
-              ></v-select>
-            </v-flex> -->
               <v-flex mx-1>
                 <v-select
                   :items="semester"
@@ -239,14 +231,6 @@ export default {
           text: "last Name",
           value: "lastname"
         },
-        // {
-        //   text: "Position",
-        //   value: "position",
-        //   filter: value => {
-        //     if (this.position.length == 0) return true;
-        //     return this.position.includes(value.toLowerCase());
-        //   }
-        // },
         {
           text: "Semester",
           value: "semester",
@@ -370,6 +354,8 @@ export default {
     },
     async save() {
       //might chage base on how the application is submitted on the student side.
+
+      //save admin notes on application
       if (this.editNotes) {
         console.log(this.editItem);
         const ref = db.collection("applications").doc(this.editItem.semester);
@@ -380,6 +366,7 @@ export default {
           adminNotes: this.editItem.adminNotes
         });
         Object.assign(this.applications[this.editIndex], this.editItem);
+        //save application status
       } else if (this.editStatus) {
         if (this.editItem.status) {
           const ref = await db.collection("users").doc(this.editItem.uid);
@@ -387,9 +374,9 @@ export default {
           applications = applications.data().applications[
             this.editItem.semester
           ];
-          for (let i = 0; i < applications.length; i++) {
-            if (applications[i].type == this.editItem.program) {
-              applications[i].status = this.editItem.status;
+          for (var app of applications) {
+            if (app.type == this.editItem.program) {
+              app.status = this.editItem.status;
             }
           }
           await ref.update({
@@ -401,10 +388,11 @@ export default {
       this.close();
     }
   },
-  async mounted() {
+  getSemesters() {
     const date = new Date();
     const month = date.getMonth();
     const year = date.getFullYear();
+    //checking for which semester to include on the application table, only display 3 semester at a time
     if (month >= 7 && month <= 11) {
       this.semester1 = "Fall " + year;
       this.semester2 = "Spring " + (year + 1);
@@ -419,9 +407,15 @@ export default {
       this.semester3 = "Spring " + (year + 1);
     }
     this.semester = [this.semester1, this.semester2, this.semester3, "Ongoing"];
-    for (let i = 0; i < this.semester.length; i++) {
-      const ref = db.collection("applications").doc(this.semester[i]);
+  },
+  async mounted() {
+    this.getSemesters();
+    //this function is a bit complex(prob need to clean it)
+    for (var sem of this.semester) {
+      const ref = db.collection("applications").doc(sem);
       const profileRef = db.collection("applications").doc("Base");
+
+      //go through every applications from all the program type from all chosen semesters
       for (let type of this.programList) {
         const subCol = await ref.collection(type).get();
         subCol.forEach(async element => {
@@ -429,23 +423,25 @@ export default {
             .collection("users")
             .doc(element.id)
             .get();
-          const applications = user.data().applications[this.semester[i]];
+          const applications = user.data().applications[sem];
           let submissionTime;
           let status;
           let result;
           if (applications) {
-            for (let i = 0; i < applications.length; i++) {
-              if (applications[i].type == type) {
-                submissionTime = applications[i].submissionTime;
+            for (var app of applications) {
+              //set submission type to be sortable
+              if (app.type == type) {
+                submissionTime = app.submissionTime;
                 submissionTime = new Date(
                   submissionTime.seconds * 1000
                 ).toLocaleString("en-US", {
                   timeZone: "America/New_York"
                 });
-                status = applications[i].status;
+                status = app.status;
               }
             }
           }
+          //find the profle applications for included applications users
           let profCol = await profileRef
             .collection("All")
             .doc(element.id)
@@ -459,7 +455,7 @@ export default {
               ...result,
               ...{
                 uid: element.id,
-                semester: this.semester[i],
+                semester: sem,
                 submissionTime: submissionTime,
                 status: status
               }
@@ -470,11 +466,12 @@ export default {
               ...element.data(),
               ...{
                 uid: element.id,
-                semester: this.semester[i],
+                semester: sem,
                 submissionTime: submissionTime,
                 status: status
               }
             };
+            //save all applications to an array to be be displayed on the datatable
             this.applications.push(result);
           }
         });

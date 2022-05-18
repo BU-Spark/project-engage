@@ -1,4 +1,4 @@
-<!-- route: /home -->
+<!-- route: /home thistemplate -->
 <template>
   <div>
     <AdminNavbar />
