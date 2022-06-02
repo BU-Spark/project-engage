@@ -20,7 +20,7 @@
   - <span style="text-decoration:underline;">package.json</span>
   - <span style="text-decoration:underline;">userSetUp/</span>:
     - <span style="text-decoration:underline;">processChangeRole.function.js</span>  
-      Function for updating user role in firebase. (for student -> admin)
+      Function for updating user role in firebase (for student -> admin)
     - <span style="text-decoration:underline;">processSignUp.function.js</span>  
       Function for checking:  
       if new user is invited as admin (as "invitee" in the "invites" Firestore collection), if yes, role = admin  
