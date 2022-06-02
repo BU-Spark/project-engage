@@ -83,10 +83,10 @@ export default {
     }
   },
   methods: {
+    // Combobox for Technical Skills
+    // input following formats of Beginner xxx, Intermediate xxx, Expert xxx
     onAutoCompleteSelection(inputs) {
       this.comboBoxDummyModel = inputs;
-      console.log(this.comboBoxDummyModel);
-      console.log("this.comboBoxDummyModel");
       if (this.comboBoxDummyModel != null) {
         var index = this.comboBoxDummyModel.length - 1;
         var item = this.comboBoxDummyModel[index];

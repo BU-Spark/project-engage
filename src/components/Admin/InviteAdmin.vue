@@ -20,7 +20,7 @@
     >
       Invite Admin
     </v-btn>
-    //Can change current student account to an admin account as well
+    <!-- Can change current student account to an admin account as well -->
     <v-alert dark v-if="this.adminExists">
       This email is currently registered as a student account, please click
       Change Role if you want to assign them admin permission
