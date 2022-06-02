@@ -9,19 +9,19 @@
 
 - <span style="text-decoration:underline;">functions/</span>: folder that supports firebase functions deployment
   - <span style="text-decoration:underline;">emailFunctions/</span>:
-    - <span style="text-decoration:underline;">sendEmail.function.js</span>
+    - <span style="text-decoration:underline;">sendEmail.function.js</span>  
       Function for admin to send out emails
       ![EmailUI.vue](./images/5.png)
-    - <span style="text-decoration:underline;">sendInviteEmails.function.js</span>
+    - <span style="text-decoration:underline;">sendInviteEmails.function.js</span>  
       Function for existing admin to send invite for other people to sign up as admin
       ![InviteAdmin.vue](./images/6.png)
   - <span style="text-decoration:underline;">functionDeploy.js</span>
   - <span style="text-decoration:underline;">index.js</span>
   - <span style="text-decoration:underline;">package.json</span>
   - <span style="text-decoration:underline;">userSetUp/</span>:
-    - <span style="text-decoration:underline;">processChangeRole.function.js</span>
+    - <span style="text-decoration:underline;">processChangeRole.function.js</span>  
       Function for updating user role in firebase. (for student -> admin)
-    - <span style="text-decoration:underline;">processSignUp.function.js</span>
+    - <span style="text-decoration:underline;">processSignUp.function.js</span>  
       Function for checking:  
       if new user is invited as admin (as "invitee" in the "invites" Firestore collection), if yes, role = admin  
       if new user's email ends with "@bu.edu", if yes, role = student  
