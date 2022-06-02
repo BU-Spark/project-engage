@@ -1,3 +1,7 @@
+<!-- BU email will be automatically logged in as student -->
+<!-- if BU email invited as admin, it will be an admin account  -->
+<!-- any new admin account creation requires another existing admin to invite them first -->
+
 <template>
   <div>
     <div v-if="hide == 'true'">
@@ -65,8 +69,6 @@ export default {
           "validateAdmin",
           result.additionalUserInfo.profile.email
         );
-        console.log("this.adminValidation");
-        console.log(this.adminValidation);
         if (
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"

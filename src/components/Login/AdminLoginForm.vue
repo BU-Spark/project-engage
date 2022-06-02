@@ -43,6 +43,8 @@ export default {
     }
   },
   methods: {
+    // check if user is invited by an existing admin,
+    // if yes, the email will be under "inviteeEmail" in the Firebase "invites" collection
     async checkEmail() {
       await store.dispatch("validateAdmin", this.emailEntered);
       if (this.emailEntered != null && this.emailEntered != "") {
@@ -64,6 +66,7 @@ export default {
 button {
   margin-top: 10px;
 }
+
 v-text-field {
   width: 200;
 }

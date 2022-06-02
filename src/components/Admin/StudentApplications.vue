@@ -295,7 +295,6 @@ export default {
           value: "status",
           filter: value => {
             if (this.status.length == 0) return true;
-            console.log(this.status);
             if (value) {
               return this.status.includes(value);
             }
@@ -386,27 +385,32 @@ export default {
         }
       }
       this.close();
+    },
+    getSemesters() {
+      const date = new Date();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      //checking for which semester to include on the application table, only display 3 semester at a time
+      if (month >= 7 && month <= 11) {
+        this.semester1 = "Fall " + year;
+        this.semester2 = "Spring " + (year + 1);
+        this.semester3 = "Summer " + (year + 1);
+      } else if (month >= 0 && month <= 4) {
+        this.semester1 = "Spring " + year;
+        this.semester2 = "Summer " + year;
+        this.semester3 = "Fall " + year;
+      } else {
+        this.semester1 = "Summer " + year;
+        this.semester2 = "Fall " + year;
+        this.semester3 = "Spring " + (year + 1);
+      }
+      this.semester = [
+        this.semester1,
+        this.semester2,
+        this.semester3,
+        "Ongoing"
+      ];
     }
-  },
-  getSemesters() {
-    const date = new Date();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    //checking for which semester to include on the application table, only display 3 semester at a time
-    if (month >= 7 && month <= 11) {
-      this.semester1 = "Fall " + year;
-      this.semester2 = "Spring " + (year + 1);
-      this.semester3 = "Summer " + (year + 1);
-    } else if (month >= 0 && month <= 4) {
-      this.semester1 = "Spring " + year;
-      this.semester2 = "Summer " + year;
-      this.semester3 = "Fall " + year;
-    } else {
-      this.semester1 = "Summer " + year;
-      this.semester2 = "Fall " + year;
-      this.semester3 = "Spring " + (year + 1);
-    }
-    this.semester = [this.semester1, this.semester2, this.semester3, "Ongoing"];
   },
   async mounted() {
     this.getSemesters();

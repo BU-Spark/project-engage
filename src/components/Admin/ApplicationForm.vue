@@ -144,7 +144,7 @@ export default {
       schemaList: [],
       search: null,
       valid: false,
-      steps: ["Test"], // set dummy value to allow first section to open automatically
+      steps: ["Test"], // set dummy value to allow first section to open automatically to fix weird bug
       section: 0,
       description: ""
     };
