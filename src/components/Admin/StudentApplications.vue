@@ -102,24 +102,27 @@
             <v-row>
               <v-flex mx-1>
                 <v-select
-                  :items="semester"
-                  v-model="chosenSemester"
                   label="Semester"
+                  :value="chosenSemester"
+                  @input="setChosenSemester"
+                  :items="semester"
                   multiple
                 ></v-select>
               </v-flex>
               <v-flex mx-1>
                 <v-select
-                  :items="programList"
-                  v-model="program"
                   label="Program"
+                  :value="chosenProgram"
+                  @input="setChosenProgram"
+                  :items="programList"
                   multiple
                 ></v-select>
               </v-flex>
               <v-flex mx-1>
                 <v-select
-                  v-model="status"
                   label="Status"
+                  :value="chosenStatus"
+                  @input="setChosenStatus"
                   :items="statusList"
                   :menu-props="{ maxHeight: '400' }"
                   multiple
@@ -176,6 +179,20 @@ export default {
   components: {
     AdminNavbar
   },
+  computed: {
+    chosenSemester() {
+      return this.$store.state.chosenSemester;
+    },
+    chosenProgram() {
+      return this.$store.state.chosenProgram;
+    },
+    chosenStatus() {
+      return this.$store.state.chosenStatus;
+    },
+    isChosenSemesterEmpty() {
+      return this.$store.getters.isChosenSemesterEmpty;
+    }
+  },
   data() {
     return {
       value: {},
@@ -191,7 +208,6 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
-      chosenSemester: [],
       viewStudentApplications: false,
       positionList: [
         "team lead",
@@ -209,7 +225,6 @@ export default {
         "Internship Application",
         "Justice Media Co-Lab"
       ],
-      program: [],
       statusList: [
         "started",
         "submitted",
@@ -220,7 +235,6 @@ export default {
         "rejcted",
         "declined"
       ],
-      status: [],
       search: "",
       headers: [
         {
@@ -228,7 +242,7 @@ export default {
           value: "firstname"
         },
         {
-          text: "last Name",
+          text: "Last Name",
           value: "lastname"
         },
         {
@@ -243,8 +257,8 @@ export default {
           text: "Program",
           value: "program",
           filter: value => {
-            if (this.program.length == 0) return true;
-            return this.program.includes(value);
+            if (this.chosenProgram.length == 0) return true;
+            return this.chosenProgram.includes(value);
           }
         },
         {
@@ -294,9 +308,9 @@ export default {
           text: "Status",
           value: "status",
           filter: value => {
-            if (this.status.length == 0) return true;
+            if (this.chosenStatus.length == 0) return true;
             if (value) {
-              return this.status.includes(value);
+              return this.chosenStatus.includes(value);
             }
           }
         },
@@ -309,6 +323,18 @@ export default {
     };
   },
   methods: {
+    setChosenSemester(val) {
+      this.$store.commit("setChosenSemester", val);
+      console.log(this.$store.state.chosenSemester);
+    },
+    setChosenProgram(val) {
+      this.$store.commit("setChosenProgram", val);
+      console.log(this.$store.state.chosenProgram);
+    },
+    setChosenStatus(val) {
+      this.$store.commit("setChosenStatus", val);
+      console.log(this.$store.state.chosenStatus);
+    },
     back() {
       this.$router.go(-1);
     },
