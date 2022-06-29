@@ -130,6 +130,8 @@
               </v-flex>
             </v-row>
           </div>
+
+          <!-- Table where all applications are displayed -->
           <v-data-table
             v-model="selected"
             :headers="headers"
