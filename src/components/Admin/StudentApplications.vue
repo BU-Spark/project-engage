@@ -327,15 +327,12 @@ export default {
   methods: {
     setChosenSemester(val) {
       this.$store.commit("setChosenSemester", val);
-      console.log(this.$store.state.chosenSemester);
     },
     setChosenProgram(val) {
       this.$store.commit("setChosenProgram", val);
-      console.log(this.$store.state.chosenProgram);
     },
     setChosenStatus(val) {
       this.$store.commit("setChosenStatus", val);
-      console.log(this.$store.state.chosenStatus);
     },
     back() {
       this.$router.go(-1);
