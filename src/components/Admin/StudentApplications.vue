@@ -199,7 +199,7 @@ export default {
       semester1: "",
       semester2: "",
       semester3: "",
-      semester: "",
+      semester: [],
       schema: null,
       editStatus: false,
       editNotes: false,
@@ -399,7 +399,7 @@ export default {
           applications = applications.data().applications[
             this.editItem.semester
           ];
-          for (var app of applications) {
+          for (let app of applications) {
             if (app.type == this.editItem.program) {
               app.status = this.editItem.status;
             }
@@ -416,7 +416,7 @@ export default {
       const date = new Date();
       const month = date.getMonth();
       const year = date.getFullYear();
-      //checking for which semester to include on the application table, only display 3 semester at a time
+      //checking for which semester to include on the application table. NOTE: Only display 3 semesters at a time
       if (month >= 7 && month <= 11) {
         this.semester1 = "Fall " + year;
         this.semester2 = "Spring " + (year + 1);
@@ -439,28 +439,32 @@ export default {
     }
   },
   async mounted() {
+    // Updated the chosen semesters
     this.getSemesters();
-    //this function is a bit complex(prob need to clean it)
-    for (var sem of this.semester) {
-      const ref = db.collection("applications").doc(sem);
-      const profileRef = db.collection("applications").doc("Base");
+    // Reference to the document "Base" which includes all user profiles
+    const profileRef = db.collection("applications").doc("Base");
 
-      //go through every applications from all the program type from all chosen semesters
-      for (let type of this.programList) {
-        const subCol = await ref.collection(type).get();
+    // Get all profiles and applications relevant to the chosen semesters in order to display them
+    for (let sem of this.semester) {
+      const semesterRef = db.collection("applications").doc(sem);
+
+      // Go through each of the programs offered in a semester
+      for (let program of this.programList) {
+        const subCol = await semesterRef.collection(program).get();
+        // Get applications for each user id found in the program subcollection
         subCol.forEach(async element => {
           const user = await db
             .collection("users")
             .doc(element.id)
             .get();
-          const applications = user.data().applications[sem];
+          const applications = await user.data().applications[sem];
           let submissionTime;
           let status;
           let result;
           if (applications) {
-            for (var app of applications) {
-              //set submission type to be sortable
-              if (app.type == type) {
+            for (let app of applications) {
+              // If statemnt is for optimization, so we dont go over the same application multiple times
+              if (app.type == program) {
                 submissionTime = app.submissionTime;
                 submissionTime = new Date(
                   submissionTime.seconds * 1000
@@ -476,34 +480,22 @@ export default {
             .collection("All")
             .doc(element.id)
             .get();
+
           if (profCol.data()) {
-            result = {
-              ...profCol.data(),
-              ...element.data()
-            };
-            result = {
-              ...result,
-              ...{
-                uid: element.id,
-                semester: sem,
-                submissionTime: submissionTime,
-                status: status
-              }
-            };
-            this.applications.push(result);
-          } else {
-            result = {
-              ...element.data(),
-              ...{
-                uid: element.id,
-                semester: sem,
-                submissionTime: submissionTime,
-                status: status
-              }
-            };
-            //save all applications to an array to be be displayed on the datatable
-            this.applications.push(result);
+            result = { ...profCol.data() };
           }
+          result = {
+            ...result,
+            ...element.data(),
+            ...{
+              uid: element.id,
+              semester: sem,
+              submissionTime: submissionTime,
+              status: status
+            }
+          };
+          //save all applications to an array to be be displayed on the datatable
+          this.applications.push(result);
         });
       }
     }
