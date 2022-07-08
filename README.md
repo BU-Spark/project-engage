@@ -13,6 +13,29 @@ To add yourself to the repository, open a PR modifying `COLLABORATORS`, entering
 npm install
 ```
 
+## Installing firebase emulator and importing data
+```bash
+npm install -g firebase-tools
+firebase login
+firebase projects:list
+firebase use spark-project-engage
+```
+
+Next export data from Cloud Firestore.
+Unzip file and put folder into local machine.
+- I named the folder "DevData" and put it in the functions directory
+- If you name it something else, make sure to put it into gitignore
+
+To start the emulators run:
+```bash
+firebase emulators:start --import=./functions/DevData
+```
+To start only the firestore emulator run:
+```bash
+firebase emulators:start --only firestore --import=./functions/DevData
+```
+
+
 ### Compiles and hot-reloads for development
 
 ```bash
