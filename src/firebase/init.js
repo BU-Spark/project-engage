@@ -21,6 +21,12 @@ const app = firebase.initializeApp(config);
 const auth = firebase.auth();
 const functions = firebase.functions();
 const db = firebase.firestore();
+
+// Emulator
+if (location.hostname === "localhost") {
+  db.useEmulator("localhost", 8080);
+}
+
 const storage = firebase.storage();
 firebase.performance();
 firebase.analytics();

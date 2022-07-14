@@ -64,10 +64,7 @@
                             </svg>
                           </td>
                           <td class="text-center">
-                            <v-radio
-                              label="Rejected"
-                              value="Rejected"
-                            ></v-radio>
+                            <v-radio label="ed" value="Rejected"></v-radio>
                           </td>
                         </tr>
                       </v-radio-group>
@@ -325,15 +322,12 @@ export default {
   methods: {
     setChosenSemester(val) {
       this.$store.commit("setChosenSemester", val);
-      console.log(this.$store.state.chosenSemester);
     },
     setChosenProgram(val) {
       this.$store.commit("setChosenProgram", val);
-      console.log(this.$store.state.chosenProgram);
     },
     setChosenStatus(val) {
       this.$store.commit("setChosenStatus", val);
-      console.log(this.$store.state.chosenStatus);
     },
     back() {
       this.$router.go(-1);
@@ -394,18 +388,18 @@ export default {
         //save application status
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = await db.collection("users").doc(this.editItem.uid);
-          let applications = await ref.get();
-          applications = applications.data().applications[
-            this.editItem.semester
-          ];
-          for (let app of applications) {
+          const userRef = await db.collection("users").doc(this.editItem.uid);
+          const userDoc = await userRef.get();
+          let apps = userDoc.data().applications;
+          let semGroup = apps[this.editItem.semester];
+          for (let app of semGroup) {
             if (app.type == this.editItem.program) {
               app.status = this.editItem.status;
+              break;
             }
           }
-          await ref.update({
-            applications: applications
+          await userRef.update({
+            applications: apps
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
