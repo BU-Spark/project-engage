@@ -127,13 +127,15 @@
               </v-flex>
             </v-row>
           </div>
+
+          <!-- Table where all applications are displayed -->
           <v-data-table
-            :headers="headers"
             v-model="selected"
+            :headers="headers"
             :items="applications"
-            :single-select="false"
-            item-key="test"
+            item-key="uid"
             show-select
+            :single-select="false"
             :search="search"
             :sort="sort"
             class="elevation-1"

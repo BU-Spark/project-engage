@@ -15,7 +15,7 @@ let defaultSetup = (user, context) => {
 
 // Persistent storage so state is retained on page reloads!
 const vuexLocal = new VuexPersistence({
-  storage: window.localStorage
+  storage: window.sessionStorage
 });
 
 export default new Vuex.Store({

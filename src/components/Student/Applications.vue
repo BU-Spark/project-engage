@@ -279,7 +279,7 @@ export default {
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-        var monthTemp = month < 10 ? "0" + month : month;
+        let monthTemp = month < 10 ? "0" + month : month;
         const currDate = year + "-" + monthTemp + "-" + day;
         if (
           (template[sem] &&
@@ -294,7 +294,7 @@ export default {
             ? currentDeadline
             : "";
           let currentDescription = template[sem]["description"];
-          var time = timeSubmitted.filter(function(v) {
+          let time = timeSubmitted.filter(function(v) {
             return v.semester == sem && v.type == element;
           });
           if (time.length > 0) {
@@ -302,7 +302,7 @@ export default {
           } else {
             time = "";
           }
-          var isStarted = startedsubmittedList.includes(
+          let isStarted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "started",
@@ -310,7 +310,7 @@ export default {
               submissionTime: time
             })
           );
-          var isSubmitted = startedsubmittedList.includes(
+          let isSubmitted = startedsubmittedList.includes(
             JSON.stringify({
               semester: sem,
               status: "submitted",
