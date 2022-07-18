@@ -188,6 +188,10 @@ export default {
       this.schemaList = this.schemaList.filter(e => e.length);
       this.steps.shift(); // delete the dummy value
     }
+
+    // Update the title after loaded
+    document.title =
+      this.item.firstname + " " + this.item.lastname + "-" + this.item.program;
   }
 };
 </script>
