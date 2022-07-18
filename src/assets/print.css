@@ -59,4 +59,12 @@
         min-height: 15em;
 
     }
+
+    option {
+        display: none;
+    }
+
+    option:checked {
+        display: block;
+    }
 }
