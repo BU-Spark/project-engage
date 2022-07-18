@@ -64,7 +64,7 @@
                             </svg>
                           </td>
                           <td class="text-center">
-                            <v-radio label="ed" value="Rejected"></v-radio>
+                            <v-radio label="Rejected" value="Rejected"></v-radio>
                           </td>
                         </tr>
                       </v-radio-group>
