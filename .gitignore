@@ -5,7 +5,7 @@ package-lock.json
 .runtimeconfig.json
 
 # Imported data for emulator
-*/DevData
+*DevData
 
 # local env files
 .env.local

@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
+        "start-emulator": "firebase emulators:start --import=./DevData",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint"
     },
@@ -12,7 +13,7 @@
         "core-js": "^3.10.0",
         "file-system": "^2.2.2",
         "firebase": "^8.3.2",
-        "firebase-functions": "^3.14.1",
+        "firebase-functions": "^3.22.0",
         "register-service-worker": "^1.7.1",
         "tui-editor": "^1.4.10",
         "vue": "^2.6.11",
