@@ -1,9 +1,20 @@
 const admin = require("firebase-admin");
-process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
+
+// If using emulator...
+// process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
+// admin.initializeApp({
+//   projectId: "spark-project-engage",
+//   credential: admin.credential.applicationDefault()
+// });
+
+// Staging Project
+var serviceAccount = require("./staging-credentials.json");
+
+// Production
+// var serviceAccount = require("./prod-credentials.json");
 
 admin.initializeApp({
-  projectId: "spark-project-engage",
-  credential: admin.credential.applicationDefault()
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
