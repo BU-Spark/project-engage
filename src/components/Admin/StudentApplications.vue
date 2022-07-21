@@ -64,7 +64,7 @@
                             </svg>
                           </td>
                           <td class="text-center">
-                            <v-radio label="ed" value="Rejected"></v-radio>
+                            <v-radio label="Rejected" value="Rejected"></v-radio>
                           </td>
                         </tr>
                       </v-radio-group>
@@ -127,13 +127,15 @@
               </v-flex>
             </v-row>
           </div>
+
+          <!-- Table where all applications are displayed -->
           <v-data-table
-            :headers="headers"
             v-model="selected"
+            :headers="headers"
             :items="applications"
-            :single-select="false"
-            item-key="test"
+            item-key="uid"
             show-select
+            :single-select="false"
             :search="search"
             :sort="sort"
             class="elevation-1"
