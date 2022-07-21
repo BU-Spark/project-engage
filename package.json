@@ -12,7 +12,7 @@
         "core-js": "^3.10.0",
         "file-system": "^2.2.2",
         "firebase": "^8.3.2",
-        "firebase-admin": "^11.0.0",
+        "firebase-admin": "^9.2.0",
         "firebase-functions": "^3.14.1",
         "register-service-worker": "^1.7.1",
         "tui-editor": "^1.4.10",
