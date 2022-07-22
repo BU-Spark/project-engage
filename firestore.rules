@@ -1,8 +1,44 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+
+    function isLoggedIn() {
+      return request.auth.uid != null;
     }
+
+    function isAuthor(uid) {
+      return uid == request.auth.uid;
+    }
+
+    function isAdmin() {
+      let email = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.email;
+      return exists(/databases/$(database)/documents/invites/$(email));
+    }
+
+    match /applicationTemplate/{document=**} {
+      allow read: if isLoggedIn();
+      allow write: if isLoggedIn() && isAdmin();
+    }
+
+    match /applications/Base/All/{uid} {
+      allow read, write: if isLoggedIn() && ( isAuthor(uid) || isAdmin() );
+    }
+
+    match /applications/{semester}/{program}/{uid} {
+      allow list: if isLoggedIn() && isAdmin();
+      allow get, create, write: if isLoggedIn() && ( isAuthor(uid) || isAdmin() );
+    }
+
+    match /invites/{document=**} {
+      allow read, write: if isLoggedIn() && isAdmin();
+    }
+
+    match /users/{uid} {
+      allow list: if isLoggedIn() && isAdmin();
+      allow get, create, write: if isLoggedIn() && ( isAuthor(uid) || isAdmin() );
+    }
+//    match /{document=**} {
+//      allow read, write;
+//    }
   }
 }

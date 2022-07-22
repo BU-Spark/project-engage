@@ -6,7 +6,8 @@ import "firebase/functions";
 import "firebase/performance";
 import "firebase/analytics";
 
-// Config for production database
+/* Production Config */
+
 const config = {
   apiKey: "AIzaSyB46JWorhyNJDzG20J0dujbIY46zNudibc",
   authDomain: "auth.buspark.app",
@@ -17,8 +18,9 @@ const config = {
   measurementId: "G-L9TYR85MP5"
 };
 
-// Config for staging database
-// const stagingConfig = {
+/* Staging Config */
+
+// const config = {
 //   apiKey: "AIzaSyCRAkouqVNtyTWclJmg90BxEDIynahqOtM",
 //   authDomain: "spark-project-engage-staging.firebaseapp.com",
 //   projectId: "spark-project-engage-staging",
@@ -32,11 +34,10 @@ const auth = firebase.auth();
 const functions = firebase.functions();
 const db = firebase.firestore();
 
-// If running on localhost, will automatically connect to emulator
-if (location.hostname === "localhost") {
-  db.useEmulator("localhost", 8081);
-}
-
+// Emulator
+// if (location.hostname === "localhost") {
+//   db.useEmulator("localhost", 8080);
+// }
 const storage = firebase.storage();
 firebase.performance();
 firebase.analytics();
