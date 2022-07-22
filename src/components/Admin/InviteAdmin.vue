@@ -88,9 +88,10 @@ export default {
       if (this.addAdminEmail != null) {
         await this.$store.dispatch("validateAdmin", this.addAdminEmail);
         if (!(await this.adminValidation)) {
+          // Use email as the key so that security rules can find it
           await db
             .collection("invites")
-            .doc()
+            .doc(this.addAdminEmail)
             .set({
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email

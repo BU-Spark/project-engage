@@ -56,6 +56,25 @@ db.collection("name-of-collection").doc("doc-identifier").action().then(data => 
 
 For more info on actions that can be performed, visit the official [Firebase Documentation](https://firebase.google.com/docs/firestore).
 
+## Switching between staging and production
+
+We have two projects on Firebase:
+
+- `spark-project-engage`: Production environment.
+- `spark-project-engage-staging`: Testing environment.
+
+To see which one is active for Firebase CLI, run
+```
+$ firebase use
+```
+
+To switch between these two projects, run
+```
+$ firebase use <PROJECT_ID or ALIAS> 
+```
+
+**ALWAYS RUN `firebase use` FIRST** before deploying!
+
 ## Deployment
 
 After running the buildscript, run the following command after installing the [Firebase CLI](https://firebase.google.com/docs/cli) to deploy the website as well as the functions.

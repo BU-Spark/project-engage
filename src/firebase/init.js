@@ -7,6 +7,8 @@ import "firebase/performance";
 import "firebase/analytics";
 // import "firebase/document";
 
+/* Production Config */
+
 const config = {
   apiKey: "AIzaSyB46JWorhyNJDzG20J0dujbIY46zNudibc",
   authDomain: "auth.buspark.app",
@@ -17,10 +19,24 @@ const config = {
   measurementId: "G-L9TYR85MP5"
 };
 
+/* Staging Config */
+
+// const config = {
+//   apiKey: "AIzaSyCRAkouqVNtyTWclJmg90BxEDIynahqOtM",
+//   authDomain: "spark-project-engage-staging.firebaseapp.com",
+//   projectId: "spark-project-engage-staging",
+//   storageBucket: "spark-project-engage-staging.appspot.com",
+//   messagingSenderId: "617899707305",
+//   appId: "1:617899707305:web:c98bef1def8c3734ed92b8"
+// };
+
 const app = firebase.initializeApp(config);
 const auth = firebase.auth();
 const functions = firebase.functions();
 const db = firebase.firestore();
+// if (location.hostname === "localhost") {
+//   db.useEmulator("localhost", 8080);
+// }
 const storage = firebase.storage();
 firebase.performance();
 firebase.analytics();
