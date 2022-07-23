@@ -5,7 +5,6 @@ import "firebase/storage";
 import "firebase/functions";
 import "firebase/performance";
 import "firebase/analytics";
-// import "firebase/document";
 
 /* Production Config */
 
@@ -34,6 +33,8 @@ const app = firebase.initializeApp(config);
 const auth = firebase.auth();
 const functions = firebase.functions();
 const db = firebase.firestore();
+
+// Emulator
 // if (location.hostname === "localhost") {
 //   db.useEmulator("localhost", 8080);
 // }
