@@ -38,6 +38,7 @@ const db = firebase.firestore();
 // if (location.hostname === "localhost") {
 //   db.useEmulator("localhost", 8080);
 // }
+
 const storage = firebase.storage();
 firebase.performance();
 firebase.analytics();
