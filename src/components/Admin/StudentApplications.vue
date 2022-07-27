@@ -64,10 +64,7 @@
                             </svg>
                           </td>
                           <td class="text-center">
-                            <v-radio
-                              label="Rejected"
-                              value="Rejected"
-                            ></v-radio>
+                            <v-radio label="Rejected" value="Rejected"></v-radio>
                           </td>
                         </tr>
                       </v-radio-group>
@@ -102,24 +99,27 @@
             <v-row>
               <v-flex mx-1>
                 <v-select
-                  :items="semester"
-                  v-model="chosenSemester"
                   label="Semester"
+                  :value="chosenSemester"
+                  @input="setChosenSemester"
+                  :items="semester"
                   multiple
                 ></v-select>
               </v-flex>
               <v-flex mx-1>
                 <v-select
-                  :items="programList"
-                  v-model="program"
                   label="Program"
+                  :value="chosenProgram"
+                  @input="setChosenProgram"
+                  :items="programList"
                   multiple
                 ></v-select>
               </v-flex>
               <v-flex mx-1>
                 <v-select
-                  v-model="status"
                   label="Status"
+                  :value="chosenStatus"
+                  @input="setChosenStatus"
                   :items="statusList"
                   :menu-props="{ maxHeight: '400' }"
                   multiple
@@ -127,13 +127,15 @@
               </v-flex>
             </v-row>
           </div>
+
+          <!-- Table where all applications are displayed -->
           <v-data-table
-            :headers="headers"
             v-model="selected"
+            :headers="headers"
             :items="applications"
-            :single-select="false"
-            item-key="test"
+            item-key="uid"
             show-select
+            :single-select="false"
             :search="search"
             :sort="sort"
             class="elevation-1"
@@ -176,13 +178,27 @@ export default {
   components: {
     AdminNavbar
   },
+  computed: {
+    chosenSemester() {
+      return this.$store.state.chosenSemester;
+    },
+    chosenProgram() {
+      return this.$store.state.chosenProgram;
+    },
+    chosenStatus() {
+      return this.$store.state.chosenStatus;
+    },
+    isChosenSemesterEmpty() {
+      return this.$store.getters.isChosenSemesterEmpty;
+    }
+  },
   data() {
     return {
       value: {},
       semester1: "",
       semester2: "",
       semester3: "",
-      semester: "",
+      semester: [],
       schema: null,
       editStatus: false,
       editNotes: false,
@@ -191,7 +207,6 @@ export default {
       dialog: false,
       applications: [],
       selected: null,
-      chosenSemester: [],
       viewStudentApplications: false,
       positionList: [
         "team lead",
@@ -209,7 +224,6 @@ export default {
         "Internship Application",
         "Justice Media Co-Lab"
       ],
-      program: [],
       statusList: [
         "started",
         "submitted",
@@ -220,7 +234,6 @@ export default {
         "rejcted",
         "declined"
       ],
-      status: [],
       search: "",
       headers: [
         {
@@ -228,7 +241,7 @@ export default {
           value: "firstname"
         },
         {
-          text: "last Name",
+          text: "Last Name",
           value: "lastname"
         },
         {
@@ -243,8 +256,8 @@ export default {
           text: "Program",
           value: "program",
           filter: value => {
-            if (this.program.length == 0) return true;
-            return this.program.includes(value);
+            if (this.chosenProgram.length == 0) return true;
+            return this.chosenProgram.includes(value);
           }
         },
         {
@@ -294,9 +307,9 @@ export default {
           text: "Status",
           value: "status",
           filter: value => {
-            if (this.status.length == 0) return true;
+            if (this.chosenStatus.length == 0) return true;
             if (value) {
-              return this.status.includes(value);
+              return this.chosenStatus.includes(value);
             }
           }
         },
@@ -309,6 +322,15 @@ export default {
     };
   },
   methods: {
+    setChosenSemester(val) {
+      this.$store.commit("setChosenSemester", val);
+    },
+    setChosenProgram(val) {
+      this.$store.commit("setChosenProgram", val);
+    },
+    setChosenStatus(val) {
+      this.$store.commit("setChosenStatus", val);
+    },
     back() {
       this.$router.go(-1);
     },
@@ -368,18 +390,18 @@ export default {
         //save application status
       } else if (this.editStatus) {
         if (this.editItem.status) {
-          const ref = await db.collection("users").doc(this.editItem.uid);
-          let applications = await ref.get();
-          applications = applications.data().applications[
-            this.editItem.semester
-          ];
-          for (var app of applications) {
+          const userRef = await db.collection("users").doc(this.editItem.uid);
+          const userDoc = await userRef.get();
+          let apps = userDoc.data().applications;
+          let semGroup = apps[this.editItem.semester];
+          for (let app of semGroup) {
             if (app.type == this.editItem.program) {
               app.status = this.editItem.status;
+              break;
             }
           }
-          await ref.update({
-            applications: applications
+          await userRef.update({
+            applications: apps
           });
           Object.assign(this.applications[this.editIndex], this.editItem);
         }
@@ -390,7 +412,7 @@ export default {
       const date = new Date();
       const month = date.getMonth();
       const year = date.getFullYear();
-      //checking for which semester to include on the application table, only display 3 semester at a time
+      //checking for which semester to include on the application table. NOTE: Only display 3 semesters at a time
       if (month >= 7 && month <= 11) {
         this.semester1 = "Fall " + year;
         this.semester2 = "Spring " + (year + 1);
@@ -413,28 +435,32 @@ export default {
     }
   },
   async mounted() {
+    // Updated the chosen semesters
     this.getSemesters();
-    //this function is a bit complex(prob need to clean it)
-    for (var sem of this.semester) {
-      const ref = db.collection("applications").doc(sem);
-      const profileRef = db.collection("applications").doc("Base");
+    // Reference to the document "Base" which includes all user profiles
+    const profileRef = db.collection("applications").doc("Base");
 
-      //go through every applications from all the program type from all chosen semesters
-      for (let type of this.programList) {
-        const subCol = await ref.collection(type).get();
+    // Get all profiles and applications relevant to the chosen semesters in order to display them
+    for (let sem of this.semester) {
+      const semesterRef = db.collection("applications").doc(sem);
+
+      // Go through each of the programs offered in a semester
+      for (let program of this.programList) {
+        const subCol = await semesterRef.collection(program).get();
+        // Get applications for each user id found in the program subcollection
         subCol.forEach(async element => {
           const user = await db
             .collection("users")
             .doc(element.id)
             .get();
-          const applications = user.data().applications[sem];
+          const applications = await user.data().applications[sem];
           let submissionTime;
           let status;
           let result;
           if (applications) {
-            for (var app of applications) {
-              //set submission type to be sortable
-              if (app.type == type) {
+            for (let app of applications) {
+              // If statemnt is for optimization, so we dont go over the same application multiple times
+              if (app.type == program) {
                 submissionTime = app.submissionTime;
                 submissionTime = new Date(
                   submissionTime.seconds * 1000
@@ -450,34 +476,22 @@ export default {
             .collection("All")
             .doc(element.id)
             .get();
+
           if (profCol.data()) {
-            result = {
-              ...profCol.data(),
-              ...element.data()
-            };
-            result = {
-              ...result,
-              ...{
-                uid: element.id,
-                semester: sem,
-                submissionTime: submissionTime,
-                status: status
-              }
-            };
-            this.applications.push(result);
-          } else {
-            result = {
-              ...element.data(),
-              ...{
-                uid: element.id,
-                semester: sem,
-                submissionTime: submissionTime,
-                status: status
-              }
-            };
-            //save all applications to an array to be be displayed on the datatable
-            this.applications.push(result);
+            result = { ...profCol.data() };
           }
+          result = {
+            ...result,
+            ...element.data(),
+            ...{
+              uid: element.id,
+              semester: sem,
+              submissionTime: submissionTime,
+              status: status
+            }
+          };
+          //save all applications to an array to be be displayed on the datatable
+          this.applications.push(result);
         });
       }
     }

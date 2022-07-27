@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "spark-project-engage"
-  }
+    "default": "spark-project-engage",
+    "staging": "spark-project-engage-staging"
+  },
+  "targets": {}
 }

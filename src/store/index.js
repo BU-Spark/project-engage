@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
 import router from "@/router";
 import { db, auth } from "@/firebase/init.js";
 
@@ -11,6 +12,12 @@ let defaultSetup = (user, context) => {
     context.commit("setAdminValidation", result.claims.admin);
   });
 };
+
+// Persistent storage so state is retained on page reloads!
+const vuexLocal = new VuexPersistence({
+  storage: window.sessionStorage
+});
+
 export default new Vuex.Store({
   state: {
     user: null,
@@ -18,7 +25,10 @@ export default new Vuex.Store({
     adminValidation: null,
     errorMsg: null,
     snapshot: null,
-    type: null
+    type: null,
+    chosenSemester: [],
+    chosenProgram: [],
+    chosenStatus: []
   },
   mutations: {
     setUser: (state, data) => {
@@ -38,6 +48,15 @@ export default new Vuex.Store({
     },
     setType: (state, data) => {
       state.type = data;
+    },
+    setChosenSemester(state, data) {
+      state.chosenSemester = data;
+    },
+    setChosenProgram(state, data) {
+      state.chosenProgram = data;
+    },
+    setChosenStatus(state, data) {
+      state.chosenStatus = data;
     }
   },
   actions: {
@@ -82,5 +101,6 @@ export default new Vuex.Store({
         .get();
       context.commit("setSnapshot", snap);
     }
-  }
+  },
+  plugins: [vuexLocal.plugin]
 });
