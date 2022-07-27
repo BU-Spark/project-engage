@@ -2,7 +2,21 @@
 <template>
   <div>
     <div>
-      <h3>Student Profile</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between"
+      >
+        <span></span>
+        <h3>Student Profile</h3>
+        <span>
+          <v-btn
+            color="primary"
+            @click="$router.push('/studentProfileExport')"
+            class="no-print"
+          >
+            Print / Save as PDF
+          </v-btn>
+        </span>
+      </div>
 
       <!-- student info -->
       <v-data-table

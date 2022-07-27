@@ -8,7 +8,11 @@
         <span></span>
         <h3>Student Application</h3>
         <span>
-          <v-btn color="primary" @click="showPrintWindow" class="no-print">
+          <v-btn
+            color="primary"
+            @click="$router.push('/studentAppExport')"
+            class="no-print"
+          >
             Print / Save as PDF
           </v-btn>
         </span>
