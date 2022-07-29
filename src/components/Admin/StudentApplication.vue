@@ -8,13 +8,9 @@
         <span></span>
         <h3>Student Application</h3>
         <span>
-          <v-btn
-            color="primary"
-            @click="$router.push('/studentAppExport')"
-            class="no-print"
-          >
+          <router-link to="/studentAppExport" target="_blank">
             Print / Save as PDF
-          </v-btn>
+          </router-link>
         </span>
       </div>
 

@@ -100,10 +100,7 @@
                           </div>
                         </template>
                       </div>
-                      <div
-                        v-else
-                        style="text-align: center; color: grey; font-style: italic;"
-                      >
+                      <div v-else style="color: grey; font-style: italic;">
                         N/A
                       </div>
                     </div>

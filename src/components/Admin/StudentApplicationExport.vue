@@ -81,15 +81,25 @@
                             values[schemaItem.name].length > 0
                         "
                       >
-                        <v-chip
-                          style="margin-left: 4px; margin-right: 4px;"
-                          v-for="item in values[schemaItem.name]"
-                          :key="item"
-                          color="indigo darken-3"
-                          outlined
-                        >
-                          {{ item }}
-                        </v-chip>
+                        <template v-for="item in values[schemaItem.name]">
+                          <v-chip
+                            v-if="typeof item === 'string'"
+                            :key="item"
+                            style="margin:4px; max-width: 90%; white-space: normal; height: auto;"
+                            color="indigo darken-3"
+                            outlined
+                          >
+                            {{ item }}
+                          </v-chip>
+                          <div
+                            v-else-if="typeof item === 'object'"
+                            :key="JSON.stringify(item)"
+                          >
+                            <a :href="item.url" target="_blank">
+                              {{ item.name }}
+                            </a>
+                          </div>
+                        </template>
                       </div>
                       <div v-else style="color: grey; font-style: italic;">
                         N/A
