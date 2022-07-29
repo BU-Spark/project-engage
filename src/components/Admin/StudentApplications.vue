@@ -3,8 +3,8 @@
   <div>
     <AdminNavbar />
 
-    <v-layout align-center justify-center>
-      <v-container>
+    <v-main>
+      <v-container fluid class="px-16 align-center">
         <template>
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
@@ -88,9 +88,11 @@
             </v-card>
           </v-dialog>
           <v-row>
-            <v-col cols="10" sm="6" md="10">
-              <v-card-title>
-                Submitted Applications
+            <v-col md="dataTableCols" class="red">
+              <v-row class="green">
+                <v-card-title>
+                  Submitted Applications
+                </v-card-title>
                 <v-spacer></v-spacer>
                 <v-text-field
                   v-model="search"
@@ -98,9 +100,11 @@
                   label="Search"
                   single-line
                   hide-details
+                  class="float-right pr-4"
                 ></v-text-field>
-              </v-card-title>
-              <v-row>
+              </v-row>
+
+              <v-row class="px-3">
                 <v-flex mx-1>
                   <v-select
                     label="Semester"
@@ -108,6 +112,8 @@
                     @input="setChosenSemester"
                     :items="semester"
                     multiple
+                    hide-details
+                    class="pt-0 pb-6"
                   ></v-select>
                 </v-flex>
                 <v-flex mx-1>
@@ -117,6 +123,8 @@
                     @input="setChosenProgram"
                     :items="programList"
                     multiple
+                    hide-details
+                    class="pt-0 pb-6"
                   ></v-select>
                 </v-flex>
                 <v-flex mx-1>
@@ -127,6 +135,8 @@
                     :items="statusList"
                     :menu-props="{ maxHeight: '400' }"
                     multiple
+                    hide-details
+                    class="pt-0 pb-6"
                   ></v-select>
                 </v-flex>
               </v-row>
@@ -177,15 +187,16 @@
                 </template>
               </v-data-table>
             </v-col>
-            <v-col cols="2" md="2">
+
+            <v-col md="3" class="blue" v-if="profileOpen">
               <v-card class="pa-2" outlined tile>
-                .col-6 .col-md-4
+                .test
               </v-card>
             </v-col>
           </v-row>
         </template>
       </v-container>
-    </v-layout>
+    </v-main>
   </div>
 </template>
 
@@ -254,6 +265,7 @@ export default {
         "declined"
       ],
       search: "",
+      dataTableCols: 12,
       profileOpen: false,
       selectedHeaders: [],
       headers: [
@@ -602,8 +614,10 @@ export default {
     profileOpen(val) {
       if (val) {
         this.selectedHeaders = this.reducedHeaders;
+        this.dataTableCols = 9;
       } else {
         this.selectedHeaders = this.headers;
+        this.dataTableCols = 12;
       }
     }
   },
@@ -612,3 +626,5 @@ export default {
   }
 };
 </script>
+
+<style scoped></style>
