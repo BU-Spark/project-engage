@@ -153,8 +153,8 @@
                 :single-select="false"
                 :search="search"
                 :sort="sort"
-                class="elevation-1"
-                @click:row="openProfile"
+                class="elevation-1 v-data-table-reduced"
+                @click:row="handleRowClick"
               >
                 <template v-slot:item.firstname="{ item }">
                   <button @click="viewProfile(item)" style="color: #00a99e">
@@ -190,7 +190,7 @@
 
             <v-col md="3" class="blue" v-if="profileOpen">
               <v-card class="pa-2" outlined tile>
-                .test
+                {{ storedProfile ? storedProfile : "Nothing" }}
               </v-card>
             </v-col>
           </v-row>
@@ -267,6 +267,7 @@ export default {
       search: "",
       dataTableCols: 12,
       profileOpen: false,
+      storedProfile: {},
       selectedHeaders: [],
       headers: [
         {
@@ -354,11 +355,13 @@ export default {
       reducedHeaders: [
         {
           text: "First Name",
-          value: "firstname"
+          value: "firstname",
+          width: "50px"
         },
         {
           text: "Last Name",
-          value: "lastname"
+          value: "lastname",
+          width: "50px"
         },
         {
           text: "Semester",
@@ -371,6 +374,7 @@ export default {
         {
           text: "Program",
           value: "program",
+          width: "150px",
           filter: value => {
             if (this.chosenProgram.length == 0) return true;
             return this.chosenProgram.includes(value);
@@ -445,8 +449,9 @@ export default {
     back() {
       this.$router.go(-1);
     },
-    openProfile() {
+    handleRowClick(row) {
       this.profileOpen = true;
+      this.storedProfile = row;
     },
     viewProfile(item) {
       let route = this.$router.resolve({
@@ -627,4 +632,29 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+.v-data-table-header th {
+  white-space: nowrap;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+.v-data-table-reduced td {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+.v-data-table__expand-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.v-simple-checkbox {
+  margin-right: 14px;
+}
+
+.v-data-table__wrapper {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+</style>
