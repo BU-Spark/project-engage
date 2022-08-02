@@ -66,9 +66,10 @@
                         "
                       >
                         <span v-if="isUrl(values[schemaItem.name])">
-                          <a :href="values[schemaItem.name]" target="_blank">{{
-                            values[schemaItem.name]
-                          }}</a>
+                          <!-- Make links clickable -->
+                          <a :href="values[schemaItem.name]" target="_blank">
+                            {{ values[schemaItem.name] }}
+                          </a>
                         </span>
                         <span v-else>
                           {{ values[schemaItem.name] }}
@@ -88,14 +89,16 @@
                             color="indigo darken-3"
                             outlined
                           >
+                            <!-- Dealing with multiple choices -->
                             {{ item }}
                           </v-chip>
                           <div
-                            v-else-if="typeof item === 'object'"
+                            v-else-if="typeof item === 'object' && item.url"
                             :key="JSON.stringify(item)"
                           >
+                            <!-- Dealing with files -->
                             <a :href="item.url" target="_blank">
-                              {{ item.name }}
+                              {{ item.name ? item.name : item.url }}
                             </a>
                           </div>
                         </template>
@@ -111,7 +114,7 @@
           </template>
         </div>
       </div>
-      <h2 v-if="this.schema.length == 0" style="margin: 10px;">
+      <h2 v-if="this.schema.length === 0" style="margin: 10px;">
         Loading data...
       </h2>
     </div>
@@ -232,14 +235,18 @@ export default {
         let label = this.schema[i]["label"];
         let name = this.schema[i]["name"];
         let files = this.values[this.schema[i]["name"]];
-        files = files.map(file => {
-          return {
-            label: label,
-            name: name,
-            type: "button",
-            "@click": () => this.openDocument(file.url)
-          };
-        });
+        if (files) {
+          files = files.map(file => {
+            return {
+              label: label,
+              name: name,
+              type: "button",
+              "@click": () => this.openDocument(file.url)
+            };
+          });
+        } else {
+          files = [];
+        }
         this.schema[i] = {
           type: "group",
           name: this.schema[i]["name"],
