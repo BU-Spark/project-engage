@@ -88,8 +88,8 @@
             </v-card>
           </v-dialog>
           <v-row>
-            <v-col md="dataTableCols" class="red">
-              <v-row class="green">
+            <v-col md="dataTableCols">
+              <v-row style="margin-top: 6px; margin-bottom: 6px;">
                 <v-card-title>
                   Submitted Applications
                 </v-card-title>
@@ -153,7 +153,7 @@
                 :single-select="false"
                 :search="search"
                 :sort="sort"
-                class="elevation-1 v-data-table-reduced"
+                class="elevation-1 v-data-table-reduced mt-3"
                 @click:row="handleRowClick"
               >
                 <template v-slot:item.firstname="{ item }">
@@ -182,15 +182,18 @@
 
                 <template v-slot:expanded-item="{ headers, item }">
                   <td :colspan="headers.length">
-                    {{ item.firstname }}'s Application
+                    <ExpandedApplication v-bind:item="item" />
                   </td>
+                  <!-- <td :colspan="headers.length">
+                    {{ item }}
+                  </td> -->
                 </template>
               </v-data-table>
             </v-col>
 
-            <v-col md="3" class="blue" v-if="profileOpen">
-              <v-card class="pa-2" outlined tile>
-                {{ storedProfile ? storedProfile : "Nothing" }}
+            <v-col md="3" v-if="profileOpen">
+              <v-card class="pa-2" style="background-color: #f1f8f3">
+                <ProfileSideView v-bind:profile="storedProfile" />
               </v-card>
             </v-col>
           </v-row>
@@ -203,12 +206,19 @@
 <script>
 import { db } from "@/firebase/init";
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
+import ProfileSideView from "./ProfileSideView.vue";
+import ExpandedApplication from "./ExpandedApplication.vue";
 export default {
   name: "StudentApplications",
   components: {
-    AdminNavbar
+    AdminNavbar,
+    ProfileSideView,
+    ExpandedApplication
   },
   computed: {
+    profileOpen() {
+      return this.$store.state.profileOpen;
+    },
     chosenSemester() {
       return this.$store.state.chosenSemester;
     },
@@ -266,7 +276,6 @@ export default {
       ],
       search: "",
       dataTableCols: 12,
-      profileOpen: false,
       storedProfile: {},
       selectedHeaders: [],
       headers: [
@@ -450,7 +459,7 @@ export default {
       this.$router.go(-1);
     },
     handleRowClick(row) {
-      this.profileOpen = true;
+      this.$store.commit("openProfile");
       this.storedProfile = row;
     },
     viewProfile(item) {
@@ -628,10 +637,12 @@ export default {
   },
   created() {
     this.selectedHeaders = this.headers;
+    this.$store.commit("closeProfile");
   }
 };
 </script>
 
+<!-- Global css (I needed to use this in order to make changes would otherwise be difficult) -->
 <style>
 .v-data-table-header th {
   white-space: nowrap;
