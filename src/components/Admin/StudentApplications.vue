@@ -3,8 +3,8 @@
   <div>
     <AdminNavbar />
 
-    <v-layout align-center justify-center>
-      <v-container>
+    <v-main>
+      <v-container fluid class="px-16 align-center">
         <template>
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
@@ -64,7 +64,10 @@
                             </svg>
                           </td>
                           <td class="text-center">
-                            <v-radio label="Rejected" value="Rejected"></v-radio>
+                            <v-radio
+                              label="Rejected"
+                              value="Rejected"
+                            ></v-radio>
                           </td>
                         </tr>
                       </v-radio-group>
@@ -84,101 +87,138 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-card-title>
-            Submitted Applications
-            <v-spacer></v-spacer>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-card-title>
-          <div>
-            <v-row>
-              <v-flex mx-1>
-                <v-select
-                  label="Semester"
-                  :value="chosenSemester"
-                  @input="setChosenSemester"
-                  :items="semester"
-                  multiple
-                ></v-select>
-              </v-flex>
-              <v-flex mx-1>
-                <v-select
-                  label="Program"
-                  :value="chosenProgram"
-                  @input="setChosenProgram"
-                  :items="programList"
-                  multiple
-                ></v-select>
-              </v-flex>
-              <v-flex mx-1>
-                <v-select
-                  label="Status"
-                  :value="chosenStatus"
-                  @input="setChosenStatus"
-                  :items="statusList"
-                  :menu-props="{ maxHeight: '400' }"
-                  multiple
-                ></v-select>
-              </v-flex>
-            </v-row>
-          </div>
+          <v-row>
+            <v-col md="dataTableCols">
+              <v-row style="margin-top: 6px; margin-bottom: 6px;">
+                <v-card-title>
+                  Submitted Applications
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Search"
+                  single-line
+                  hide-details
+                  class="float-right pr-4"
+                ></v-text-field>
+              </v-row>
 
-          <!-- Table where all applications are displayed -->
-          <v-data-table
-            v-model="selected"
-            :headers="headers"
-            :items="applications"
-            item-key="uid"
-            show-select
-            :single-select="false"
-            :search="search"
-            :sort="sort"
-            class="elevation-1"
-          >
-            <template v-slot:item.firstname="{ item }">
-              <button @click="viewProfile(item)" style="color: #00a99e">
-                {{ item.firstname }}
-              </button>
-            </template>
+              <v-row class="px-3">
+                <v-flex mx-1>
+                  <v-select
+                    label="Semester"
+                    :value="chosenSemester"
+                    @input="setChosenSemester"
+                    :items="semester"
+                    multiple
+                    hide-details
+                    class="pt-0 pb-6"
+                  ></v-select>
+                </v-flex>
+                <v-flex mx-1>
+                  <v-select
+                    label="Program"
+                    :value="chosenProgram"
+                    @input="setChosenProgram"
+                    :items="programList"
+                    multiple
+                    hide-details
+                    class="pt-0 pb-6"
+                  ></v-select>
+                </v-flex>
+                <v-flex mx-1>
+                  <v-select
+                    label="Status"
+                    :value="chosenStatus"
+                    @input="setChosenStatus"
+                    :items="statusList"
+                    :menu-props="{ maxHeight: '400' }"
+                    multiple
+                    hide-details
+                    class="pt-0 pb-6"
+                  ></v-select>
+                </v-flex>
+              </v-row>
 
-            <template v-slot:item.program="{ item }">
-              <button @click="viewApplication(item)" style="color: #00a99e">
-                {{ item.program }}
-              </button>
-            </template>
+              <!-- Table where all applications are displayed -->
+              <v-data-table
+                v-model="selected"
+                :headers="selectedHeaders"
+                :items="applications"
+                item-key="uid"
+                show-select
+                show-expand
+                :single-expand="true"
+                :single-select="false"
+                :search="search"
+                :sort="sort"
+                class="elevation-1 v-data-table-reduced mt-3"
+                @click:row="handleRowClick"
+              >
+                <template v-slot:item.firstname="{ item }">
+                  <button @click="viewProfile(item)" style="color: #00a99e">
+                    {{ item.firstname }}
+                  </button>
+                </template>
 
-            <template v-slot:item.status="{ item }">
-              <button @click="editApplication(item, 'status')">
-                {{ item.status }}
-              </button>
-            </template>
+                <template v-slot:item.program="{ item }">
+                  <button @click="viewApplication(item)" style="color: #00a99e">
+                    {{ item.program }}
+                  </button>
+                </template>
 
-            <template v-slot:item.adminNotes="{ item }">
-              <button @click="editApplication(item, 'notes')">
-                {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
-              </button>
-            </template>
-          </v-data-table>
+                <template v-slot:item.status="{ item }">
+                  <button @click="editApplication(item, 'status')">
+                    {{ item.status }}
+                  </button>
+                </template>
+
+                <template v-slot:item.adminNotes="{ item }">
+                  <button @click="editApplication(item, 'notes')">
+                    {{ item.adminNotes ? item.adminNotes : "Add Notes" }}
+                  </button>
+                </template>
+
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+                    <ExpandedApplication v-bind:item="item" />
+                  </td>
+                  <!-- <td :colspan="headers.length">
+                    {{ item }}
+                  </td> -->
+                </template>
+              </v-data-table>
+            </v-col>
+
+            <v-col md="3" v-if="profileOpen">
+              <v-card class="pa-2" style="background-color: #f1f8f3">
+                <ProfileSideView v-bind:profile="storedProfile" />
+              </v-card>
+            </v-col>
+          </v-row>
         </template>
       </v-container>
-    </v-layout>
+    </v-main>
   </div>
 </template>
 
 <script>
 import { db } from "@/firebase/init";
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
+import ProfileSideView from "./ProfileSideView.vue";
+import ExpandedApplication from "./ExpandedApplication.vue";
 export default {
   name: "StudentApplications",
   components: {
-    AdminNavbar
+    AdminNavbar,
+    ProfileSideView,
+    ExpandedApplication
   },
   computed: {
+    profileOpen() {
+      return this.$store.state.profileOpen;
+    },
     chosenSemester() {
       return this.$store.state.chosenSemester;
     },
@@ -235,6 +275,9 @@ export default {
         "declined"
       ],
       search: "",
+      dataTableCols: 12,
+      storedProfile: {},
+      selectedHeaders: [],
       headers: [
         {
           text: "First Name",
@@ -316,8 +359,89 @@ export default {
         {
           text: "Notes",
           value: "adminNotes"
+        }
+      ],
+      reducedHeaders: [
+        {
+          text: "First Name",
+          value: "firstname",
+          width: "50px"
         },
-        {}
+        {
+          text: "Last Name",
+          value: "lastname",
+          width: "50px"
+        },
+        {
+          text: "Semester",
+          value: "semester",
+          filter: value => {
+            if (this.chosenSemester.length == 0) return true;
+            return this.chosenSemester.includes(value);
+          }
+        },
+        {
+          text: "Program",
+          value: "program",
+          width: "150px",
+          filter: value => {
+            if (this.chosenProgram.length == 0) return true;
+            return this.chosenProgram.includes(value);
+          }
+        },
+        {
+          text: "Year",
+          value: "schoolYear"
+        },
+        {
+          text: "Gender",
+          value: "gender"
+        },
+        {
+          text: "Email",
+          value: "email"
+        },
+        {
+          text: "Submisson Time",
+          value: "submissionTime",
+          sort: (d1, d2) => {
+            if (d1 == null) {
+              return 1;
+            }
+            if (d2 == null) {
+              return -1;
+            }
+            var da1 = new Date(d1);
+            var da2 = new Date(d2);
+            var date1 = Date.UTC(
+              da1.getUTCFullYear(),
+              da1.getUTCMonth(),
+              da1.getUTCDate(),
+              da1.getUTCHours(),
+              da1.getUTCMinutes(),
+              da1.getUTCSeconds()
+            );
+            var date2 = Date.UTC(
+              da2.getUTCFullYear(),
+              da2.getUTCMonth(),
+              da2.getUTCDate(),
+              da2.getUTCHours(),
+              da2.getUTCMinutes(),
+              da2.getUTCSeconds()
+            );
+            return date2 - date1;
+          }
+        },
+        {
+          text: "Status",
+          value: "status",
+          filter: value => {
+            if (this.chosenStatus.length == 0) return true;
+            if (value) {
+              return this.chosenStatus.includes(value);
+            }
+          }
+        }
       ]
     };
   },
@@ -333,6 +457,10 @@ export default {
     },
     back() {
       this.$router.go(-1);
+    },
+    handleRowClick(row) {
+      this.$store.commit("openProfile");
+      this.storedProfile = row;
     },
     viewProfile(item) {
       let route = this.$router.resolve({
@@ -495,6 +623,49 @@ export default {
         });
       }
     }
+  },
+  watch: {
+    profileOpen(val) {
+      if (val) {
+        this.selectedHeaders = this.reducedHeaders;
+        this.dataTableCols = 9;
+      } else {
+        this.selectedHeaders = this.headers;
+        this.dataTableCols = 12;
+      }
+    }
+  },
+  created() {
+    this.selectedHeaders = this.headers;
+    this.$store.commit("closeProfile");
   }
 };
 </script>
+
+<!-- Global css (I needed to use this in order to make changes would otherwise be difficult) -->
+<style>
+.v-data-table-header th {
+  white-space: nowrap;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+.v-data-table-reduced td {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+.v-data-table__expand-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.v-simple-checkbox {
+  margin-right: 14px;
+}
+
+.v-data-table__wrapper {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+</style>
