@@ -28,7 +28,8 @@ export default new Vuex.Store({
     type: null,
     chosenSemester: [],
     chosenProgram: [],
-    chosenStatus: []
+    chosenStatus: [],
+    profileOpen: false
   },
   mutations: {
     setUser: (state, data) => {
@@ -57,6 +58,12 @@ export default new Vuex.Store({
     },
     setChosenStatus(state, data) {
       state.chosenStatus = data;
+    },
+    closeProfile(state) {
+      state.profileOpen = false;
+    },
+    openProfile(state) {
+      state.profileOpen = true;
     }
   },
   actions: {
