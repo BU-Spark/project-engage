@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueFormulate from "@braid/vue-formulate";
 import "./assets/formulate.css";
+import "./assets/print.css";
 import VueFormulateCombobox from "@/plugins/VueFormulateCombobox";
 Vue.component("VueFormulateCombobox", VueFormulateCombobox);
 import VueFormulateComboboxSpecial from "@/plugins/VueFormulateComboboxSpecial";

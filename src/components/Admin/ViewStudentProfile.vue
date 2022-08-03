@@ -2,7 +2,17 @@
 <template>
   <div>
     <div>
-      <h3>Student Profile</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between"
+      >
+        <span></span>
+        <h3>Student Profile</h3>
+        <span>
+          <router-link to="/studentProfileExport" target="_blank">
+            Print / Save as PDF
+          </router-link>
+        </span>
+      </div>
 
       <!-- student info -->
       <v-data-table
@@ -160,14 +170,18 @@ export default {
         let label = this.schema[i]["label"];
         let name = this.schema[i]["name"];
         let files = this.values[this.schema[i]["name"]];
-        files = files.map(file => {
-          return {
-            label: label,
-            name: name,
-            type: "button",
-            "@click": () => this.openDocument(file.url)
-          };
-        });
+        if (files) {
+          files = files.map(file => {
+            return {
+              label: label,
+              name: name,
+              type: "button",
+              "@click": () => this.openDocument(file.url)
+            };
+          });
+        } else {
+          files = [];
+        }
         this.schema[i] = {
           type: "group",
           name: this.schema[i]["name"],
