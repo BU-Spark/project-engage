@@ -1,0 +1,74 @@
+@media print {
+    @page {
+        size: 8.5in 11in;
+    }
+
+    .formulate-input {
+        flex: 100%;
+        margin-bottom: 1.5em;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol
+    }
+
+    .formulate-input .formulate-input-label {
+        display: flex;
+        line-height: 1.5;
+        font-size: .9em;
+        font-weight: 600;
+        margin-bottom: .1em;
+    }
+
+    .formulate-input .formulate-input-element {
+        display: flex;
+        /*max-width: 20em;*/
+        margin-bottom: .2em;
+        background-color: white;
+    }
+
+    .formulate-input .formulate-input-help {
+        display: flex;
+        color: #6d6d6d;
+        font-size: .7em;
+        font-weight: 400;
+        line-height: 1.5;
+        /*margin-bottom: .25em;*/
+        /*max-width: 20em;*/
+        margin-bottom: .2em
+    }
+
+    .formulate-input .formulate-input-errors {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        /*max-width: 20em;*/
+        margin-bottom: .2em
+    }
+
+    .formulate-input[data-classification=textarea] textarea {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: .3em;
+        border: 1px solid #cecece;
+        box-sizing: border-box;
+        background-color: transparent;
+        font-size: .9em;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+        padding: .75em;
+        display: block;
+        width: 100%;
+        font-weight: 400;
+        line-height: 1.2em;
+        margin: 0;
+        min-height: 15em;
+
+    }
+
+    option {
+        display: none;
+    }
+
+    option:checked {
+        display: block;
+    }
+}

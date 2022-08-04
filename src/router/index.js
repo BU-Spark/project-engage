@@ -41,9 +41,27 @@ const routes = [
     }
   },
   {
+    path: "/studentAppExport", // admin
+    name: "studentAppExport",
+    component: () => import("@/components/Admin/StudentApplicationExport.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
     path: "/studentProfile", // admin
     name: "studentProfile",
     component: () => import("@/components/Admin/ViewStudentProfile.vue"),
+    props: {
+      header: true,
+      content: true
+    }
+  },
+  {
+    path: "/studentProfileExport", // admin
+    name: "studentProfileExport",
+    component: () => import("@/components/Admin/StudentProfileExport.vue"),
     props: {
       header: true,
       content: true
