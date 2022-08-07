@@ -6,7 +6,7 @@
       <v-icon aria-hidden="false" style="color: #00a99e; padding-right: 10px">
         mdi-file-document-outline
       </v-icon>
-      Save application as PDF
+      Print / save as PDF
     </v-btn>
     <!-- {{ item }} -->
 

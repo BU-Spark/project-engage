@@ -18,7 +18,7 @@
       <v-icon aria-hidden="false" style="color: #00a99e; padding-right: 10px">
         mdi-file-document-outline
       </v-icon>
-      Save profile as PDF
+      Print / save as PDF
     </v-btn>
 
     <!-- application form display -->
