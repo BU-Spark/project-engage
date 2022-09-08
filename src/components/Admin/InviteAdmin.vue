@@ -137,6 +137,10 @@ export default {
         bcc: [],
         files: []
       });
+      // functions.httpsCallable("sendInviteEmail")({
+      //     email: "cicichen0530@gmail.com",
+      //     name: "Cici"
+      // });
     }
   }
 };
