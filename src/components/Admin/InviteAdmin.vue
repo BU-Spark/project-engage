@@ -1,3 +1,4 @@
+<!-- Template for inviting admins and sending them an email -->
 <template>
   <div>
     <v-text-field
@@ -19,6 +20,7 @@
     >
       Invite Admin
     </v-btn>
+    <!-- Can change current student account to an admin account as well -->
     <v-alert dark v-if="this.adminExists">
       This email is currently registered as a student account, please click
       Change Role if you want to assign them admin permission
@@ -82,16 +84,19 @@ export default {
       this.emailValidated = false;
     },
     async addAdmin() {
+      //add invitee email to the firebase collection
       if (this.addAdminEmail != null) {
         await this.$store.dispatch("validateAdmin", this.addAdminEmail);
         if (!(await this.adminValidation)) {
+          // Use email as the key so that security rules can find it
           await db
             .collection("invites")
-            .doc()
+            .doc(this.addAdminEmail)
             .set({
               inviteeEmail: this.addAdminEmail,
               invitorEmail: this.user.email
             });
+          //start changerole process on Firebase function
           await this.$store.dispatch("getSnapshot", [
             "users",
             "email",
@@ -124,11 +129,6 @@ export default {
     },
     sendInviteEmail() {
       console.log("send email function");
-      // functions.httpsCallable("sendEmail")({
-      //     to: this.addAdminEmail,
-      //     message: this.inviteMessage,
-      //     subject: "You are Invited to be a Spark Admin!"
-      // });
       functions.httpsCallable("sendEmail")({
         to: ["<" + this.addAdminEmail + ">"],
         message: this.inviteMessage,

@@ -1,9 +1,20 @@
+<!-- This template display the selected student application on the admin side -->
 <template>
   <div>
     <div>
-      <h3>Student Application</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between"
+      >
+        <span></span>
+        <h3>Student Application</h3>
+        <span>
+          <router-link to="/studentAppExport" target="_blank">
+            Print / Save as PDF
+          </router-link>
+        </span>
+      </div>
 
-      <!-- student info -->
+      <!-- student info (same as the student profile, might consider making one component)-->
       <v-data-table
         :headers="headers"
         :items="information"
@@ -48,6 +59,7 @@
 
 <script>
 import { db } from "@/firebase/init.js";
+// import "../../assets/print.css";
 export default {
   name: "StudentApplication",
   props: ["item"],
@@ -105,12 +117,15 @@ export default {
   methods: {
     goBack() {
       this.$emit("typeChange", null);
+    },
+    showPrintWindow() {
+      window.print();
     }
   },
   async mounted() {
     let params = JSON.parse(localStorage["params"]);
     this.item = params["item"];
-
+    //gather basic user information
     this.information = [
       {
         name: this.item.firstname + " " + this.item.lastname,
@@ -173,6 +188,10 @@ export default {
       this.schemaList = this.schemaList.filter(e => e.length);
       this.steps.shift(); // delete the dummy value
     }
+
+    // Update the title after loaded
+    document.title =
+      this.item.firstname + " " + this.item.lastname + "-" + this.item.program;
   }
 };
 </script>
@@ -237,5 +256,11 @@ div#rightSideDashboard {
 .stepperColor {
   background-color: #f1f8f3;
   border-radius: 2.5em;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
 }
 </style>
