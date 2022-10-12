@@ -37,6 +37,6 @@ jobs:
           path: dist
       - uses: w9jds/firebase-action@master
         with:
-          args: deploy
+          args: deploy --project=default --debug
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
