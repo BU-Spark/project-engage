@@ -26,7 +26,7 @@ const config = {
 //   projectId: "spark-project-engage-staging",
 //   storageBucket: "spark-project-engage-staging.appspot.com",
 //   messagingSenderId: "617899707305",
-//   appId: "1:617899707305:web:c98bef1def8c3734ed92b8"
+//   appId: "1:617899707305:web:c98bef1def8c3734ed92b8",
 // };
 
 const app = firebase.initializeApp(config);
@@ -37,6 +37,8 @@ const db = firebase.firestore();
 // Emulator
 // if (location.hostname === "localhost") {
 //   db.useEmulator("localhost", 8080);
+//   auth.useEmulator("localhost:9099");
+//   functions.useEmulator("localhost", "5001");
 // }
 
 const storage = firebase.storage();
