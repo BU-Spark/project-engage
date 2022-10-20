@@ -23,6 +23,9 @@
               :key="`${n}-content`"
               :step="n"
             >
+              <p style="padding: 1rem">
+                There are no open programs right now. Please check back soon!
+              </p>
               <v-row>
                 <v-col
                   cols="12"
