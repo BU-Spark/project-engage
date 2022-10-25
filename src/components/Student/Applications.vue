@@ -39,7 +39,7 @@
                   >
                     <v-row>
                       <v-card-title id="card-title">
-                        {{ value["type"] }}
+                        {{ value["name"] }}
                       </v-card-title>
                     </v-row>
                     <v-card-text id="card-date">
@@ -64,6 +64,7 @@
                             value['type'],
                             value['semester'],
                             value['status'],
+                            value['app_name'],
                             value['deadline'],
                             value['description']
                           )
@@ -126,7 +127,8 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
-      baseProfile: false
+      baseProfile: false,
+      name: ""
       // employmentOppStatus: null
     };
   },
@@ -150,10 +152,11 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type, semester, status) {
+    resumeApplication(type, semester, status, name) {
       this.type = type;
       this.semester = semester;
       this.statusInd = status;
+      this.name = name;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
@@ -282,6 +285,7 @@ export default {
     }
     const applicationTypes = await this.getListOfApplicationTemplateTypes();
     await applicationTypes.forEach(async element => {
+      console.log(element);
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
         if (!(sem in template)) {
@@ -300,6 +304,8 @@ export default {
           (template[sem] && sem != "Template") ||
           (template[sem] && sem == "Ongoing")
         ) {
+          let name =
+            "app_name" in template[sem] ? template[sem].app_name : element;
           let currentDeadline = template[sem]["deadline"];
           currentDeadline = !currentDeadline.includes("undefined")
             ? currentDeadline
@@ -317,7 +323,7 @@ export default {
             JSON.stringify({
               semester: sem,
               status: "started",
-              type: element,
+              type: name,
               submissionTime: time
             })
           );
@@ -325,7 +331,7 @@ export default {
             JSON.stringify({
               semester: sem,
               status: "submitted",
-              type: element,
+              type: name,
               submissionTime: time
             })
           );
@@ -333,6 +339,7 @@ export default {
           if (isStarted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "started",
@@ -343,6 +350,7 @@ export default {
           if (isSubmitted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "submitted",
@@ -353,6 +361,7 @@ export default {
           if (!isStarted && !isSubmitted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "new",
@@ -489,6 +498,8 @@ v-btn {
   text-align: center;
   word-break: normal;
   font-weight: bold;
+  padding-top: 2rem;
+  margin: 0 auto;
 }
 
 #card-date {
