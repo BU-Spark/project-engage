@@ -248,15 +248,7 @@ export default {
       selected: null,
       viewStudentApplications: false,
       position: [],
-      programList: [
-        "Civic Tech Co-Lab Interest Form",
-        "Employment Opportunities",
-        "Innovation Fellowship | Innovator",
-        "Innovation Fellowship | Technical Teammate",
-        "Innovation Fellowship | UX Designer",
-        "Internship Application",
-        "Justice Media Co-Lab"
-      ],
+      programList: [],
       statusList: [
         "started",
         "submitted",
