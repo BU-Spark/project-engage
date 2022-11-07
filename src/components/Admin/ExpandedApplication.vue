@@ -2,6 +2,12 @@
 <template>
   <div class="exp-app-container">
     <h3>Student Application</h3>
+    <v-btn @click="saveApplicationPDF" style="margin-top: 10px">
+      <v-icon aria-hidden="false" style="color: #00a99e; padding-right: 10px">
+        mdi-file-document-outline
+      </v-icon>
+      Print / save as PDF
+    </v-btn>
     <!-- {{ item }} -->
 
     <!-- application form display -->
@@ -71,6 +77,15 @@ export default {
   methods: {
     goBack() {
       this.$emit("typeChange", null);
+    },
+    saveApplicationPDF() {
+      let route = this.$router.resolve({
+        name: "studentAppExport"
+      });
+      window.localStorage["params"] = JSON.stringify({
+        item: this.item
+      });
+      window.open(route.href, "_blank");
     },
     async retrieveSchema() {
       //grab user application inputs

@@ -14,6 +14,13 @@
       <h4>Student Profile</h4>
     </v-row>
 
+    <v-btn @click="saveProfilePDF" style="margin-top: 10px">
+      <v-icon aria-hidden="false" style="color: #00a99e; padding-right: 10px">
+        mdi-file-document-outline
+      </v-icon>
+      Print / save as PDF
+    </v-btn>
+
     <!-- application form display -->
     <div v-if="this.schema.length != 0">
       <v-btn
@@ -46,7 +53,6 @@ export default {
   props: ["profile"],
   data() {
     return {
-      item: null,
       headers: [
         {
           text: "Name",
@@ -111,6 +117,15 @@ export default {
     },
     closeProfile() {
       this.$store.commit("closeProfile");
+    },
+    saveProfilePDF() {
+      let route = this.$router.resolve({
+        name: "studentProfileExport"
+      });
+      window.localStorage["params"] = JSON.stringify({
+        item: this.profile
+      });
+      window.open(route.href, "_blank");
     }
   },
   async mounted() {
