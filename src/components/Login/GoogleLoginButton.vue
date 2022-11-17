@@ -71,7 +71,7 @@ export default {
           result.additionalUserInfo.profile.email
         );
         if (
-          //can’t run functions from the computed() method
+          //can’t run functions from the computed method
           // needs () to run
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
