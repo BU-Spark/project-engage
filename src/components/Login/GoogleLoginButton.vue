@@ -46,6 +46,9 @@ export default {
     }
   },
   methods: {
+    // the bug starts here at the google log in when the view rediected to '/' instead of '/home' right after logging in
+    // a reroute could happen right before the google log in but even with adding a route the google log in still reroutes to '/' instead of '/home'
+    // it seems like theres another place where the google log in happens because even if the function is commented out or not in use, you are still prompted to log in with google
     async googleLogin() {
       var provider = new firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({
@@ -63,6 +66,9 @@ export default {
     }
   },
   async mounted() {
+    //this function checks the credentials of the user to check if they should be logged in or now
+    // there should be a check where the view changes to /home right before the user logs in and then if the creditials dont match, the user should be redirected to '/'
+    // this should help solve the bug of the double log in and the delayed loading time after logging in
     await auth.getRedirectResult().then(async result => {
       if (result.user != null) {
         await store.dispatch(
