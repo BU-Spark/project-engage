@@ -62,6 +62,7 @@ export default {
       auth.signInWithRedirect(provider);
     }
   },
+  //only called once at the initial rendering of the component
   async mounted() {
     await auth.getRedirectResult().then(async result => {
       if (result.user != null) {
@@ -70,6 +71,8 @@ export default {
           result.additionalUserInfo.profile.email
         );
         if (
+          //can’t run functions from the computed() method
+          // needs () to run
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {
