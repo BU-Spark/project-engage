@@ -347,6 +347,10 @@ export default {
           }
         },
         {
+          text: "Position Of Interest",
+          value: "positioninterest"
+        },
+        {
           text: "Status",
           value: "status",
           filter: value => {
@@ -431,6 +435,10 @@ export default {
             );
             return date2 - date1;
           }
+        },
+        {
+          text: "Position Of Interest",
+          value: "positioninterest"
         },
         {
           text: "Status",
