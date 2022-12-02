@@ -301,6 +301,10 @@ export default {
           value: "email"
         },
         {
+          text: "BUID",
+          value: "studentID"
+        },
+        {
           text: "Submission Time",
           value: "submissionTime",
           sort: (d1, d2) => {
