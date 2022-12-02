@@ -91,11 +91,6 @@ export default {
           value: "email"
         },
         {
-          text:
-            "What position are interested in being considered for? Click all that apply (hold the command key (mac) or option key (windows))",
-          value: "positioninterest"
-        },
-        {
           text: "Status",
           value: "status"
         },
@@ -139,7 +134,6 @@ export default {
         year: this.item.schoolYear,
         gender: this.item.gender,
         email: this.item.email,
-        positioninterest: this.item.positioninterest,
         status: this.item.status == 0 ? "Started" : "Submitted",
         notes: this.item.note
       }
