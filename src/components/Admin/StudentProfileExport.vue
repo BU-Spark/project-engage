@@ -154,6 +154,10 @@ export default {
           value: "email"
         },
         {
+          text: "BUID",
+          value: "buid"
+        },
+        {
           text: "Status",
           value: "status"
         },
@@ -200,6 +204,7 @@ export default {
         year: this.item.schoolYear,
         gender: this.item.gender,
         email: this.item.email,
+        buid: this.item.buid,
         status: this.item.status == 0 ? "Started" : "Submitted",
         notes: this.item.note
       }
