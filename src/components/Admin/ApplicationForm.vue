@@ -18,9 +18,9 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateFormatted"
+                v-model="date"
                 label="Deadline Date"
-                hint="MM/DD/YYYY format (if no deadline, leave the input blank or delete everything in the box)"
+                hint="YYYY-MM-DD format (if no deadline, leave the input blank or delete everything in the box)"
                 persistent-hint
                 prepend-icon="mdi-calendar"
                 v-bind="attrs"
@@ -44,7 +44,8 @@
       label="Description"
       v-model="description"
       style="outline-color: #00A99E;"
-    ></v-textarea>
+    >
+    </v-textarea>
 
     <!-- add / delete item selection -->
     <AddItem
@@ -68,8 +69,8 @@
     <v-btn
       v-if="!this.deleteItem && !this.addItem && !this.editItem"
       @click="changeDeleteItemState()"
-      >Delete Item</v-btn
-    >
+      >Delete Item
+    </v-btn>
 
     <EditItem
       v-if="this.editItem && !this.deleteItem && !this.addItem"
@@ -132,7 +133,6 @@ export default {
   data() {
     return {
       date: "",
-      dateFormatted: "",
       menu: false,
       addItem: false,
       deleteItem: false,
@@ -149,11 +149,7 @@ export default {
       description: ""
     };
   },
-  watch: {
-    date() {
-      this.dateFormatted = this.formatDate(this.date);
-    }
-  },
+  watch: {},
   computed: {
     user() {
       return this.$store.state.user;
@@ -246,13 +242,13 @@ export default {
       template
         .update({
           [`${this.semester}.schema`]: this.schema,
-          [`${this.semester}.deadline`]: this.date ? this.description : "",
+          [`${this.semester}.deadline`]: this.date ? this.date : "",
           [`${this.semester}.description`]: this.description
             ? this.description
             : ""
         })
         .then(() => {
-          console.log("submitted");
+          console.log("submitted!");
         })
         .catch(error => {
           console.log(error);

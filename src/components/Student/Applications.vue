@@ -36,7 +36,7 @@
                   >
                     <v-row>
                       <v-card-title id="card-title">
-                        {{ value["type"] }}
+                        {{ value["name"] }}
                       </v-card-title>
                     </v-row>
                     <v-card-text id="card-date">
@@ -61,6 +61,7 @@
                             value['type'],
                             value['semester'],
                             value['status'],
+                            value['app_name'],
                             value['deadline'],
                             value['description']
                           )
@@ -93,7 +94,7 @@
         Please fill out your Spark! Student Profile first before you can submit
         applications!
       </h2>
-      <h3>(upper left hand corner)</h3>
+      <h3>(upper right hand corner)</h3>
     </div>
   </div>
 </template>
@@ -123,7 +124,8 @@ export default {
       semester2: null,
       type: null,
       statusInd: null,
-      baseProfile: false
+      baseProfile: false,
+      name: ""
       // employmentOppStatus: null
     };
   },
@@ -147,10 +149,11 @@ export default {
         this.e1 = n + 1;
       }
     },
-    resumeApplication(type, semester, status) {
+    resumeApplication(type, semester, status, name) {
       this.type = type;
       this.semester = semester;
       this.statusInd = status;
+      this.name = name;
     },
     async retreiveApplicationTemplate(type) {
       //grab deadlines from templates
@@ -187,8 +190,19 @@ export default {
         "December"
       ];
       return months[month] + " " + day + ", " + year;
+    },
+    async getListOfApplicationTemplateTypes() {
+      var outputList = [];
+      const snapshot = await db.collection("applicationTemplate").get();
+      snapshot.forEach(doc => {
+        if (doc.id != "Base") {
+          outputList.push(doc.id);
+        }
+      });
+      return outputList;
     }
   },
+
   async mounted() {
     //get current semester - need confirm what is the date cycle for applications!!!
     const date = new Date();
@@ -266,30 +280,30 @@ export default {
         });
       });
     }
-    const applications = [
-      "Employment Opportunities",
-      "Innovation Fellowship | Innovator",
-      "Innovation Fellowship | Technical Teammate",
-      "Innovation Fellowship | UX Designer",
-      "Justice Media Co-Lab",
-      "Civic Tech Co-Lab Interest Form",
-      "Internship Application"
-    ];
-    await applications.forEach(async element => {
+    const applicationTypes = await this.getListOfApplicationTemplateTypes();
+    await applicationTypes.forEach(async element => {
+      console.log(element);
       let template = await this.retreiveApplicationTemplate(element);
       for (const sem of semList) {
-        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-        let monthTemp = month < 10 ? "0" + month : month;
-        const currDate = year + "-" + monthTemp + "-" + day;
+        if (!(sem in template)) {
+          // Skip because the semester is not in this template
+          continue;
+        }
+        if ("deadline" in template[sem]) {
+          if (template[sem]["deadline"] != "") {
+            if (Date.parse(template[sem]["deadline"]) < Date.now()) {
+              // Skip because application is closed
+              continue;
+            }
+          }
+        }
         if (
-          (template[sem] &&
-            sem != "Template" &&
-            template[sem]["deadline"] >= currDate) ||
+          (template[sem] && sem != "Template") ||
           (template[sem] && sem == "Ongoing")
         ) {
-          let currentDeadline = this.reformatDeadline(
-            template[sem]["deadline"]
-          );
+          let name =
+            "app_name" in template[sem] ? template[sem].app_name : element;
+          let currentDeadline = template[sem]["deadline"];
           currentDeadline = !currentDeadline.includes("undefined")
             ? currentDeadline
             : "";
@@ -306,7 +320,7 @@ export default {
             JSON.stringify({
               semester: sem,
               status: "started",
-              type: element,
+              type: name,
               submissionTime: time
             })
           );
@@ -314,7 +328,7 @@ export default {
             JSON.stringify({
               semester: sem,
               status: "submitted",
-              type: element,
+              type: name,
               submissionTime: time
             })
           );
@@ -322,6 +336,7 @@ export default {
           if (isStarted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "started",
@@ -332,6 +347,7 @@ export default {
           if (isSubmitted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "submitted",
@@ -342,6 +358,7 @@ export default {
           if (!isStarted && !isSubmitted) {
             tempList.push({
               type: element,
+              name: name,
               deadline: currentDeadline,
               description: currentDescription,
               status: "new",
@@ -478,6 +495,8 @@ v-btn {
   text-align: center;
   word-break: normal;
   font-weight: bold;
+  padding-top: 2rem;
+  margin: 0 auto;
 }
 
 #card-date {
