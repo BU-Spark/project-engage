@@ -196,6 +196,12 @@
               </v-card>
             </v-col>
           </v-row>
+
+          <show-expand>
+            <v-card class="pa-2" style="background-color: #f1f8f3">
+              <ProfileSideView v-bind:profile="storedProfile" />
+            </v-card>
+          </show-expand>
         </template>
       </v-container>
     </v-main>
