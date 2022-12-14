@@ -149,6 +149,7 @@
                 item-key="uid"
                 show-select
                 show-expand
+                @item-expanded="checkExpand"
                 :single-expand="true"
                 :single-select="false"
                 :search="search"
@@ -196,12 +197,6 @@
               </v-card>
             </v-col>
           </v-row>
-
-          <show-expand>
-            <v-card class="pa-2" style="background-color: #f1f8f3">
-              <ProfileSideView v-bind:profile="storedProfile" />
-            </v-card>
-          </show-expand>
         </template>
       </v-container>
     </v-main>
@@ -462,6 +457,15 @@ export default {
     handleRowClick(row) {
       this.$store.commit("openProfile");
       this.storedProfile = row;
+    },
+    checkExpand(item) {
+      // Check if the show-expand attribute is clicked
+      // (e.g., by checking if the expanded variable is true)
+      if (item.item != this.storedProfile) {
+        this.handleRowClick(item.item);
+      } else {
+        this.$store.commit("closeProfile");
+      }
     },
     viewProfile(item) {
       let route = this.$router.resolve({
