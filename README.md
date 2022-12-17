@@ -123,3 +123,8 @@ firebase deploy --only functions:(function name)
 ## Contributing
 
 To contribute to Project Engage, view our [contribution guide](https://github.com/BU-Spark/project-engage/blob/master/CONTRIBUTING.md).
+
+## Contributed
+Raquel and Abby fixed the expand error bug. The profile now matches the user when the application expand button is clicked and the profile closes when the expand button is double-clicked or when there is no application open. Comments have been added to the code to explain the logic. 
+
+
