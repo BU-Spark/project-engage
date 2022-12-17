@@ -123,3 +123,7 @@ firebase deploy --only functions:(function name)
 ## Contributing
 
 To contribute to Project Engage, view our [contribution guide](https://github.com/BU-Spark/project-engage/blob/master/CONTRIBUTING.md).
+
+## Contributed
+
+Azamat and John were able to implement functionality which would allow an administrator to download the student applications currently on screen, and represent them in CSV format. New dependencies were required, so they were placed in package.json.
