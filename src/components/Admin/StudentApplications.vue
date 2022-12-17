@@ -589,7 +589,6 @@ export default {
         dict["Notes"] = this.applications[i].adminNotes;
         this.toexport.push(dict);
       }
-      console.log(this.toexport);
     }
   },
   async mounted() {
@@ -651,11 +650,10 @@ export default {
           };
           //save all applications to an array to be be displayed on the datatable
           this.applications.push(result);
-
-          this.export_csv();
         });
       }
     }
+    this.export_csv();
   },
   watch: {
     profileOpen(val) {
