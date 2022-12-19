@@ -7,6 +7,12 @@ This project bridges the gap between a student's application to different Spark 
 
 Goal: This project has the potential to bring the website to fruition and become easy-to-navigate for both the students applying and admin receiving and reviewing the applications.
 
+Pull Requests Submitted by the Spark! Applicant Student Portal Group (Fall 2022 CS519):
+- Export CSV
+- Update README.md with bugs and overview of the Project
+- Expand button error 
+- Add comments to illustrate where the bug is and how we plan to fix it 
+
 To add yourself to the repository, open a PR modifying `COLLABORATORS`, entering your GitHub username in a newline.
 
 [![Actions Status](https://github.com/BU-Spark/project-engage/workflows/Build/badge.svg)](https://github.com/BU-Spark/project-engage/actions)
