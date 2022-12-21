@@ -152,7 +152,6 @@
                 :single-expand="true"
                 :single-select="false"
                 :search="search"
-                :sort="sort"
                 class="elevation-1 v-data-table-reduced mt-3"
                 @click:row="handleRowClick"
               >
@@ -248,22 +247,8 @@ export default {
       applications: [],
       selected: null,
       viewStudentApplications: false,
-      positionList: [
-        "team lead",
-        "ux designer",
-        "frontend developer",
-        "backend developer"
-      ],
       position: [],
-      programList: [
-        "Civic Tech Co-Lab Interest Form",
-        "Employment Opportunities",
-        "Innovation Fellowship | Innovator",
-        "Innovation Fellowship | Technical Teammate",
-        "Innovation Fellowship | UX Designer",
-        "Internship Application",
-        "Justice Media Co-Lab"
-      ],
+      programList: [],
       statusList: [
         "started",
         "submitted",
@@ -316,7 +301,7 @@ export default {
           value: "email"
         },
         {
-          text: "Submisson Time",
+          text: "Submission Time",
           value: "submissionTime",
           sort: (d1, d2) => {
             if (d1 == null) {
@@ -402,7 +387,7 @@ export default {
           value: "email"
         },
         {
-          text: "Submisson Time",
+          text: "Submission Time",
           value: "submissionTime",
           sort: (d1, d2) => {
             if (d1 == null) {
@@ -446,6 +431,16 @@ export default {
     };
   },
   methods: {
+    async getListOfApplicationTemplateTypes() {
+      var outputList = [];
+      const snapshot = await db.collection("applicationTemplate").get();
+      snapshot.forEach(doc => {
+        if (doc.id != "Base") {
+          outputList.push(doc.id);
+        }
+      });
+      return outputList;
+    },
     setChosenSemester(val) {
       this.$store.commit("setChosenSemester", val);
     },
@@ -567,6 +562,7 @@ export default {
     this.getSemesters();
     // Reference to the document "Base" which includes all user profiles
     const profileRef = db.collection("applications").doc("Base");
+    this.programList = await this.getListOfApplicationTemplateTypes();
 
     // Get all profiles and applications relevant to the chosen semesters in order to display them
     for (let sem of this.semester) {

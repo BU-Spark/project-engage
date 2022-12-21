@@ -4,7 +4,7 @@
       <!-- application questions and save application option -->
       <v-stepper v-model="section" vertical>
         <div class="project-card">
-          <div class="project-title">{{ this.type }}</div>
+          <div class="project-title">{{ this.name }}</div>
           <div class="project-deadline">Due {{ this.deadline }}</div>
           <div class="project-description">
             {{ this.description }}
@@ -128,7 +128,8 @@ export default {
       dialog: false,
       deadline: "",
       description: "",
-      empStatus: ""
+      empStatus: "",
+      name: ""
     };
   },
   computed: {
@@ -384,6 +385,10 @@ export default {
     var temp = [];
     this.deadline = this.reformatDeadline(template[this.semester]["deadline"]);
     this.description = template[this.semester]["description"];
+    this.name =
+      "app_name" in template[this.semester]
+        ? template[this.semester].app_name
+        : this.type;
     for (let i = 0; i < this.schema.length; i++) {
       if (this.schema[i]["type"] == "hr") {
         this.schemaList.push(temp);
