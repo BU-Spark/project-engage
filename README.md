@@ -148,3 +148,8 @@ Trello link: https://trello.com/c/GPWIkhRA , https://trello.com/c/TL3PCAQz
 
 Resume opening bug- Bug in which an admin sees a corrupted file in place of user's resume when viewing student's profile. Bug couldn't be reproduced. 
 Trello link: https://trello.com/c/xRw1nym1
+
+## Contributed
+Raquel and Abby fixed the expand error bug. The profile now matches the user when the application expand button is clicked and the profile closes when the expand button is double-clicked or when there is no application open. Comments have been added to the code to explain the logic. 
+
+

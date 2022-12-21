@@ -148,6 +148,7 @@
                 item-key="uid"
                 show-select
                 show-expand
+                @item-expanded="checkExpand"
                 :single-expand="true"
                 :single-select="false"
                 :search="search"
@@ -472,6 +473,15 @@ export default {
     handleRowClick(row) {
       this.$store.commit("openProfile");
       this.storedProfile = row;
+    },
+    checkExpand(item) {
+      // Check if the show-expand attribute is clicked
+      // (e.g., by checking if the expanded variable is true)
+      if (item.item != this.storedProfile) {
+        this.handleRowClick(item.item);
+      } else {
+        this.$store.commit("closeProfile");
+      }
     },
     viewProfile(item) {
       let route = this.$router.resolve({
