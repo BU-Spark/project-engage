@@ -135,6 +135,10 @@ firebase deploy --only functions:(function name)
 
 To contribute to Project Engage, view our [contribution guide](https://github.com/BU-Spark/project-engage/blob/master/CONTRIBUTING.md).
 
+## Contributed
+
+Azamat and John were able to implement functionality which would allow an administrator to download the student applications currently on screen, and represent them in CSV format. New dependencies were required, so they were placed in package.json.
+
 ## Quick overview of existing different bugs:
 Double Login Bug- Upon initial login, when logging in as a student, the user would be pushed back to the homepage after logging in, and would be prompted to login again.
 Trello link: https://trello.com/c/TL3PCAQz

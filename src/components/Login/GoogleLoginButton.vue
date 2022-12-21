@@ -65,6 +65,7 @@ export default {
       auth.signInWithRedirect(provider);
     }
   },
+  //only called once at the initial rendering of the component
   async mounted() {
     //this function checks the credentials of the user to check if they should be logged in or now
     // there should be a check where the view changes to /home right before the user logs in and then if the creditials dont match, the user should be redirected to '/'
@@ -76,6 +77,8 @@ export default {
           result.additionalUserInfo.profile.email
         );
         if (
+          //can’t run functions from the computed method
+          // needs () to run
           this.adminValidation ||
           result.additionalUserInfo.profile.hd == "bu.edu"
         ) {

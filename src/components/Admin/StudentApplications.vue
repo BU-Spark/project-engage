@@ -2,7 +2,6 @@
 <template>
   <div>
     <AdminNavbar />
-
     <v-main>
       <v-container fluid class="px-16 align-center">
         <template>
@@ -199,6 +198,16 @@
         </template>
       </v-container>
     </v-main>
+
+    <vue-blob-json-csv
+      tag-name="div"
+      file-type="csv"
+      file-name="sample"
+      title="Export as csv"
+      :data="this.toexport"
+    >
+      Export as csv
+    </vue-blob-json-csv>
   </div>
 </template>
 
@@ -207,6 +216,11 @@ import { db } from "@/firebase/init";
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 import ProfileSideView from "./ProfileSideView.vue";
 import ExpandedApplication from "./ExpandedApplication.vue";
+import VueBlobJsonCsv from "vue-blob-json-csv";
+import Vue from "vue";
+
+Vue.use(VueBlobJsonCsv);
+
 export default {
   name: "StudentApplications",
   components: {
@@ -244,7 +258,9 @@ export default {
       editIndex: null,
       editItem: null,
       dialog: false,
+      gridApi: null,
       applications: [],
+      toexport: [],
       selected: null,
       viewStudentApplications: false,
       position: [],
@@ -555,6 +571,24 @@ export default {
         this.semester3,
         "Ongoing"
       ];
+    },
+    export_csv() {
+      var count = Object.keys(this.applications).length;
+      this.toexport = [];
+      for (var i = 0; i < count; i++) {
+        var dict = {};
+        dict["First Name"] = this.applications[i].firstname;
+        dict["Last Name"] = this.applications[i].lastname;
+        dict["Semester"] = this.applications[i].semester;
+        dict["Program"] = this.applications[i].program;
+        dict["Year"] = this.applications[i].schoolYear;
+        dict["gender"] = this.applications[i].gender;
+        dict["email"] = this.applications[i].email;
+        dict["Submission time"] = this.applications[i].submissionTime;
+        dict["Status"] = this.applications[i].status;
+        dict["Notes"] = this.applications[i].adminNotes;
+        this.toexport.push(dict);
+      }
     }
   },
   async mounted() {
@@ -619,6 +653,7 @@ export default {
         });
       }
     }
+    this.export_csv();
   },
   watch: {
     profileOpen(val) {

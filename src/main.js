@@ -66,6 +66,9 @@ Vue.use(VueFormulate, {
   }
 });
 var app = null;
+//remove the auth.onAuthStateChanged() and implement another way that uses Vue framework to detect authentication.
+//Currently, the auth.onAuthStateChanged() creates new Vue instant every time the auth state changes.
+//instead of using Vue to render new components/pages.
 auth.onAuthStateChanged(async () => {
   if (!app) {
     await store.dispatch("getUser");
