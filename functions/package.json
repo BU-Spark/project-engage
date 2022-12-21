@@ -18,7 +18,7 @@
     "firebase-functions": "^3.24.1",
     "glob": "^7.1.6",
     "googleapis": "^68.0.0",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"
